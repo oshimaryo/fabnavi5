@@ -1,11 +1,4 @@
 DeviseTokenAuth.setup do |config|
-  case Rails.env
-  when "development"
-    config.persona_audience_url = 'http://192.168.33.10:3000'
-  else
-    config.persona_audience_url = 'http://webservice.fabnavi.org'
-  end
-
   # By default the authorization headers will change after each request. The
   # client is responsible for keeping track of the changing tokens. Change
   # this to false to prevent the Authorization header from changing after
@@ -25,7 +18,6 @@ DeviseTokenAuth.setup do |config|
   # This route will be the prefix for all oauth2 redirect callbacks. For
   # example, using the default '/omniauth', the github oauth2 provider will
   # redirect successful authentications to '/omniauth/github/callback'
-  #config.omniauth_prefix = "/omniauth"
 
   # By defult sending current password is not needed for the password update.
   # Uncomment to enforce current_password param to be checked before all

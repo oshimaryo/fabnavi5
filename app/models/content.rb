@@ -13,7 +13,7 @@ class Content < ActiveRecord::Base
       %i(id type)
     end
     def acceptable_attributes_for_update
-      %i(id description attachment_id) + [figures_attributes: Figure.acceptable_attributes]
+      %i(id description attachment_id _destroy) + [figures_attributes: Figure.acceptable_attributes]
     end
   end
 end

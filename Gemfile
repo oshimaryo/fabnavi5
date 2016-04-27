@@ -22,8 +22,8 @@ gem 'grape-swagger-rails'
 gem 'grape-jbuilder'
 gem 'grape-kaminari'
 gem 'devise'
-gem "devise_browserid_authenticatable"
-gem 'devise_token_auth', github: 'fabnavi/devise_token_auth', branch: 'persona'
+gem 'devise_token_auth'
+gem 'omniauth-github'
 gem 'rails-erd'
 gem 'kaminari'
 gem 'acts-as-taggable-on'
@@ -31,6 +31,7 @@ gem 'acts_as_votable'
 gem 'acts_as_list'
 gem 'aws-sdk'
 gem 'fog'
+gem 'unicorn'
 
 group :development, :test do
   gem 'pry-byebug'
@@ -49,5 +50,3 @@ group :development do
   gem 'capistrano-rbenv'
   gem 'capistrano-npm'
 end
-
-gem 'unicorn'

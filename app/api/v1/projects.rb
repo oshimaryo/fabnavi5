@@ -79,6 +79,11 @@ class V1::Projects < V1::Base
               optional :position, type: Integer
             end
           end
+          optional :sensor_infos_attributes, type: Array do
+            optional :id, type: Integer
+            optional :data, type: String
+            optional :_destroy, type: Boolean
+          end
         end
       end
       patch jbuilder: 'v1/projects/update' do

@@ -1,27 +1,39 @@
 // common
-$black : #231815;
+$black : white;
 $brown : #966432;
-$white : #EFEFEF;
+$white : #707070;
 $tp-black :rgba(54, 48, 48, 0.8);
 $tp-red :rgba(188, 2, 2, 0.8);
 $red : #FF1B00;
-$selected-color : #F5BE17;
-$hover-color:#E1B22B;
-$username-color : #3B6ACE;
+$selected-color : #FF8F8F;
+$hover-color:#FF8F8F;
+$username-color : #323232;
+$border-normal:#7d7d7d;
+$black_: #262626;
+$gray:#707070;
 @font-face{
-    font-family : "ArialRoundedMTBoldBold";
+    font-family : "NotoSansCJKjp-Medium";
     font-style: normal;
     font-weight: normal;
-    src:url("/fonts/ArialRoundedMTBoldBold.ttf") format('truetype');
+    src:url("/fonts/NotoSansCJKjp-Medium.otf") format('truetype');
   }
   @mixin base-font {
-    font-family : "ArialRoundedMTBoldBold";
+    font-family : "NotoSansCJKjp-Medium";
+}
+@font-face{
+    font-family : "NotoSansCJKjp-Light";
+    font-style: normal;
+    font-weight: normal;
+    src:url("/fonts/NotoSansCJKjp-Light.otf") format('truetype');
+  }
+  @mixin thin-font {
+    font-family : "NotoSansCJKjp-Light";
 }
 
 // project list
 
 $ct-width : 80%;
-$thumb-width : 200px;
+$thumb-width : 100%;
 $thumb-height: 200px * 0.7487;
 $belt-height : 28px;
 $action-height: ($thumb-height - 5px) / 5;

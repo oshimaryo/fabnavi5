@@ -1,10 +1,10 @@
+//Menuのデータとかはここにあるっぽい location.hash
 var EventEmitter = require('events');
 var machina = require('machina');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var ProjectListStore = require('../stores/ProjectListStore');
 
-
-var _selector  = {
+var _selector = {
 };
 var EventTypes = require('../constants/EventTypes');
 var ActionTypes = require('../constants/ActionTypes');
@@ -13,7 +13,7 @@ var ProjectActionCreator = require('../actions/ProjectActionCreator');
 
 
 var ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
-  init : function () {
+  init : function(){
     _selector = {
       index : 0,
       row   : 0,
@@ -23,15 +23,16 @@ var ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
     };
   },
 
-  setSelectorByIndex : function setSelectorByIndex( index ){
-   //validates selector
-   var projects = ProjectListStore.getProjectsAll();
-   if( index >= projects.length ) {
-    index = projects.length -1;
-   } else if( index < 0 ) {
-    index = 0;
-   };
-   ProjectSelectorStore.setSelectorIndex( index );
+  setSelectorByIndex : function setSelectorByIndex(index){
+    //validates selector
+    let _index = index;
+    var projects = ProjectListStore.getProjectsAll();
+    if( index >= projects.length ){
+      _index = projects.length - 1;
+    } else if( index < 0 ){
+      _index = 0;
+    };
+    ProjectSelectorStore.setSelectorIndex(_index);
   },
 
   explode : function(){
@@ -41,46 +42,80 @@ var ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
     switch(_selector.menuIndex){
       case 0:
         setTimeout(function(){
-       ProjectActionCreator.playProject( project );
-        },0);
-       _selector.openMenu = false;
-       _selector.menuIndex = 0;
-       break;  
+          ProjectActionCreator.playProject( project );
+        }, 0);
+        _selector.openMenu = false;
+        _selector.menuIndex = 0;
+        break;
       case 4:
         setTimeout(function(){
-       ProjectActionCreator.deleteProject( project );
-        },0);
-       _selector.openMenu = false;
-       _selector.menuIndex = 0;
-       break;  
+          ProjectActionCreator.deleteProject( project );
+        }, 0);
+        _selector.openMenu = false;
+        _selector.menuIndex = 0;
+        break;
+      default:
+        console.log("do nothing");
+        break;
     };
-  }, 
-  open : function () {
+  },
+  open : function (){
     _selector.openMenu = true;
     _selector.menuIndex = 0;
     ProjectSelectorStore.emitChange();
   },
 
-  close : function () {
+  close : function(){
     _selector.openMenu = false;
     ProjectSelectorStore.emitChange();
   },
 
-  up : function () {
-   this.setSelectorByIndex( _selector.index - 4 );
-  },  
+  up : function(){
+    this.setSelectorByIndex( _selector.index - 4 );
+    this.scrollUp();
+  },
 
-  down : function () {
-   this.setSelectorByIndex( _selector.index +4 );
-  },  
+  down : function(){
+    this.setSelectorByIndex( _selector.index + 4 );
+    this.scrollDown();
+  },
 
-  left : function () {
-   this.setSelectorByIndex( _selector.index -1 );
-  },  
+  left : function(){
+    this.setSelectorByIndex( _selector.index - 1 );
+    if((_selector.index + 1) % 4 == 0){
+      this.scrollUp();
+    }
+  },
 
-  right : function () {
-   this.setSelectorByIndex( _selector.index +1 );
-  },  
+  right : function(){
+    this.setSelectorByIndex( _selector.index + 1 );
+    if(_selector.index % 4 == 0){
+      this.scrollDown();
+    }
+  },
+//when press key up button , scroll up 380 height
+  scrollUp : function(){
+    var x = 0;
+    var animationTimer = setInterval(function(){
+      if(x >= 28){
+        clearInterval(animationTimer);
+      }
+      window.scrollBy(0, -x);
+      x += 1;
+    }, 5);
+    //window.scrollBy(0,-380);
+  },
+//when press key down button, scroll down 380 height
+  scrollDown : function (){
+    var x = 0;
+    var ani = setInterval(function(){
+      if(x >= 28){
+        clearInterval(ani);
+      }
+      window.scrollBy(0, x);
+      x += 1;
+    }, 5);
+  },
 
   nextAction : function(){
     _selector.menuIndex++;
@@ -98,14 +133,14 @@ var ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
     this.emitChange();
   },
 
-  setSelectorIndex : function ( index  ){
+  setSelectorIndex : function( index ){
     _selector.index = index;
-    _selector.col   = index % 4;
-    _selector.row   = Math.floor(index / 4);
+    _selector.col = index % 4;
+    _selector.row = Math.floor(index / 4);
     this.emitChange();
   },
 
-  getSelector : function (){
+  getSelector : function(){
     return _selector;
   },
 
@@ -113,11 +148,11 @@ var ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
     this.emit(EventTypes.PROJECT_SELECTOR_CHANGE);
   },
 
-  addChangeListener: function(callback) {
+  addChangeListener: function(callback){
     this.on(EventTypes.PROJECT_SELECTOR_CHANGE, callback);
   },
 
-  removeChangeListener: function(callback) {
+  removeChangeListener: function(callback){
     this.removeListener(EventTypes.PROJECT_SELECTOR_CHANGE, callback);
   },
 });

@@ -12,16 +12,16 @@ var ImageConverter = function(){
   function toBlob(img){
     var d = $.Deferred();
     var cvs = document.createElement('canvas');
-    cvs.width =  img.naturalWidth;
+    cvs.width = img.naturalWidth;
     cvs.height = img.naturalHeight;
-    ImageConverter.drawImage(img,cvs,ViewConfig.conf());
+    ImageConverter.drawImage(img, cvs, ViewConfig.conf());
     cvs.toBlob(function(blob){
-     d.resolve(blob);
+      d.resolve(blob);
     }, "image/jpeg", QUALITY);
     return d.promise();
   }
 
-  function projectImgToCanvas(img,cvs,conf){
+  function projectImgToCanvas(img, cvs, conf){
     var ctx = cvs.getContext('2d'),
         /* set cropping area on image  */
         sx = Number(conf.x) || 0,
@@ -29,62 +29,55 @@ var ImageConverter = function(){
         sw = Number(conf.w) || img.width,
         sh = Number(conf.h) || img.height,
 
-    /* set project area */ 
-    dx = 0,
-    dy = 0,
-    dw = cvs.width,
-    dh = cvs.height;
+        /* set project area */
+        dx = 0,
+        dy = 0,
+        dw = cvs.width,
+        dh = cvs.height;
 
-    ctx.fillStyle = "black"; 
+    ctx.fillStyle = "black";
 
     if(sy < 0){
-      var StoDh = dh/sh; 
-      dy = sy*StoDh;
+      let StoDh = dh / sh;
+      dy = sy * StoDh;
       dh += dy;
       sh += sy;
       sy = 0;
-      dy *=-1;
-      ctx.fillRect(0,0,cvs.width,dy);
-    } 
+      dy *= -1;
+      ctx.fillRect(0, 0, cvs.width, dy);
+    }
 
-    if(sx < 0){ 
-      var StoDw = dw/sw;
-      dx = sx*StoDw;
+    if(sx < 0){
+      let StoDw = dw / sw;
+      dx = sx * StoDw;
       dw += dx;
       sw += sx;
       sx = 0;
       dx *= -1;
-      ctx.fillRect(0,0,dx,cvs.height);
+      ctx.fillRect(0, 0, dx, cvs.height);
     }
 
     if(sx + sw > img.width){
-      var StoDw = dw/sw;
-      sw -= (sx + sw - img.width);
-      dw = sw*StoDw;
-      ctx.fillRect(dx+dw,0,cvs.width-dx-dw,cvs.height);
+      let StoDw = dw / sw;
+      sw -= sx + sw - img.width;
+      dw = sw * StoDw;
+      ctx.fillRect(dx + dw, 0, cvs.width - dx - dw, cvs.height);
     }
 
     if(sy + sh > img.height){
-      var StoDh = dh/sh;
-      sh -= (sy + sh - img.height);
-      dh = sh*StoDh;
-      ctx.fillRect(0,dy+dh,cvs.width,100);
+      let StoDh = dh / sh;
+      sh -= sy + sh - img.height;
+      dh = sh * StoDh;
+      ctx.fillRect(0, dy + dh, cvs.width, 100);
     }
-    /*
-    console.trace();
-    console.log("Resize Image----------------");
-    console.log("Source Image Size:              =>  w: "+img.naturalWidth+ ",  h: "+ img.naturalHeight);
-    console.log("Cropping Image Source Size      => sx: "+sx+", sy: "+sy+", sw: "+sw+", sh: "+sh);
-    console.log("Cropping Image Destination Size => dx: "+dx+", dy: "+dy+", dw: "+dw+", dh: "+dh);
-    */
-    ctx.drawImage(img,sx,sy,sw,sh,dx,dy,dw,dh);
+    ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh);
   }
 
   return {
     drawImage:projectImgToCanvas,
     toBlob : toBlob,
   };
-  }();
+}();
 
 global.getQ = getQ;
 global.setQ = setQ;

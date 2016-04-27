@@ -7,38 +7,38 @@ var SearchBar = React.createClass({
   propTypes : {
   },
 
-  getInitialState: function() {
-     return {
-     };
+  getInitialState: function(){
+    return {
+    };
   },
 
-  getDefaultProps: function() {
-     return {
-        
-     };
-   },
+  getDefaultProps: function(){
+    return {
+
+    };
+  },
 
   render : searchBar,
   handleChange: function ( event ){
-    NavigationViewActionCreator.search( event.target.value );
+    NavigationViewActionCreator.search( "", event.target.value );
   },
 
-  onclick : function() {
+  onclick : function(){
   },
 
-  componentWillMount : function() {
+  componentWillMount : function(){
   },
 
-  componentDidMount : function () {
+  componentDidMount : function(){
   },
 
-  componentWillUpdate : function() {
+  componentWillUpdate : function(){
   },
 
-  componentDidUpdate : function() {
+  componentDidUpdate : function(){
   },
 
-  componentWillUnmount : function() {
+  componentWillUnmount : function(){
   },
 
 });

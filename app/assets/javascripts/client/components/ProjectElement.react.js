@@ -1,3 +1,4 @@
+//こちらが、プロジェクトの部分かな
 var React = require('react');
 var jade = require('react-jade');
 var projectElement = jade.compileFile(__dirname + '/../templates/ProjectElement.jade');
@@ -8,19 +9,17 @@ var ProjectElement = React.createClass({
   propTypes : {
   },
 
-
-  getInitialState: function() {
+  getInitialState: function(){
     return null;
   },
 
-  getDefaultProps: function() {
-     return {
-        
-     };
-   },
+  getDefaultProps: function(){
+    return {
+    };
+  },
 
-  getThumbnailSrc: function () {
-    
+  getThumbnailSrc: function (){
+
     var src = null;
 
     if( this.props.project.hasOwnProperty("figure") ){
@@ -30,22 +29,16 @@ var ProjectElement = React.createClass({
       }
     }
 
-    if ( src == null || src == "" ) {
-      src = "/images/noimage.gif";
+    if( src == null || src == "" ){
+      src = "/images/kaffcop_icon/fab_samp.jpg";
     }
     return src;
   },
 
-  getUserIconSrc: function () {
+  getUserIconSrc: function (){
     var src = null;
-    /*
-    var maybeAvater = this.props.project.user.avatar;
-    if( maybeAvater != null && ( maybeAvater.url != null || maybeAvater.url != "" )) {
-      src = maybeAvater.url;
-    }
-    */
     if( src == null ){
-      src = "/images/user_icon.png";
+      src = "/images/kaffcop_icon/user_icon.png";
     }
     return src;
   },
@@ -55,26 +48,24 @@ var ProjectElement = React.createClass({
   handleChange: function ( event ){
   },
 
-  handleClick : function( event ) {
+  handleClick : function( event ){
     ProjectActionCreator.playProject( this.props.project );
   },
 
-  componentWillMount : function() {
+  componentWillMount : function(){
   },
 
-  componentDidMount : function () {
+  componentDidMount : function (){
   },
 
-  componentWillUpdate : function() {
+  componentWillUpdate : function(){
   },
 
-  componentDidUpdate : function() {
+  componentDidUpdate : function(){
   },
 
-  componentWillUnmount : function() {
+  componentWillUnmount : function(){
   },
-
 });
 
 module.exports = ProjectElement;
-

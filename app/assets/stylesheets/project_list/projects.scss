@@ -6,7 +6,6 @@
 @import "neat";
 
 body {
-
   @include base-font;
 }
 
@@ -22,27 +21,31 @@ body {
     @include outer-container;
     padding-top:130px;
    .box-title {
-      @include span-columns(6); 
+      @include span-columns(6);
       @include shift(3);
       font-size: 35pt;
    }
+/*
    .box-close {
-      @include span-columns(2); 
+      @include span-columns(2);
       font-size: 25pt;
       cursor:pointer;
    }
+
    .box-desc {
-      @include span-columns(6); 
-      @include shift(3);  
+      @include span-columns(6);
+      @include shift(3);
       font-size: 15pt;
    }
+
    .box-img{
       transform:rotateZ(180deg);
-      @include span-columns(6); 
-      @include shift(3);  
+      @include span-columns(6);
+      @include shift(3);
       margin-top:20px;
       margin-bottom:40px;
    }
+   */
  }
 }
 
@@ -50,12 +53,15 @@ body {
 .thumbnail {
   width: $thumb-width;
   height: $thumb-height;
-  margin: 10px auto;
+  margin: 0px auto;
+
+
 }
 
 .thumbnail img {
   transform: rotateZ(180deg);
   width: 100%;
+  border-radius: 0px 0px 5px 5px;
 }
 #status-icon {
     width:20%;
@@ -68,13 +74,18 @@ body {
  @include outer-container;
   margin:20px auto;
   width: $ct-width;
-  color: $black;
+  color: #323232;
 }
 .selected-project {
-  background-color: $selected-color;
+  //background-color: $selected-color;
+  border: solid 3px;
+  border-color: $hover-color;
+  box-shadow: 2px 3px 5px 2px #c8c8c8;
 }
 .project {
-  background-color: $white;
+  background-color: white;
+  border:solid 1px;
+  border-color: $border-normal
 }
 .project-box {
 
@@ -82,23 +93,39 @@ body {
   @include span-columns(3);
   @include omega(4n);
 
-  border-radius: 4px;
+  border-radius: 8px;
   margin-bottom: 20px;
   padding-bottom:20px;
   position:relative;
+  //固定幅
+  width:250px;
+  height:380px;
+  //animation
+  transition: 0.1s ease-in-out;
+  hr{
+    border: 0;
+    border-bottom: 1px dashed #ccc;
+    background: #fff;
+    width:90%;
+  }
 }
 .project-box:hover {
-  background-color: $hover-color;
+  //background-color: ;
+  border: solid 3px;
+  border-color: $hover-color;
+  box-shadow: 2px 3px 5px 2px #c8c8c8;
 }
 .project-name {
   font-size:17pt;
   margin-left:$thumb-pad;
   margin-bottom:5px;
+  margin-top: 35px;
 }
 .date {
-  width: 40%;
+  width: 50%;
   float: left;
-  margin-left:10%;
+  margin-left:0%;
+  margin-right: 40px;
 }
 .user-icon {
   float: left;
@@ -119,6 +146,15 @@ body {
   float: left;
   width: 50%;
 }
+.description{
+  //@include thin-font;
+  font-size:14px;
+  float: left;
+  margin-left:$thumb-pad;
+  //あまり良くない合わせ方
+  margin-right:20px;
+  color:$gray;
+}
 a:active,
 a:visited,
 a:link {
@@ -137,11 +173,12 @@ a:hover {
   text-align: right;
 }
 ul.actions {
+  border-radius: 0px 0px 5px 5px;
   position:absolute;
   top: 0px;
-  left:16px;
+  left:0px;
   padding:0px;
-  margin:10px;
+  margin:0px;
   width:$thumb-width;
   height:0px;
 
@@ -153,10 +190,12 @@ ul.actions {
       color:$white;
   }
   .action-box {
+
     background-color: $tp-black;
     list-style: none;
-    height: $action-height;
-    margin-bottom:1px;
+    //height: $action-height;
+    height:33.948px;
+    margin-bottom:0px;
     img {
       width:$action-height * 0.8;
       margin:  $action-height * 0.1;
@@ -174,4 +213,9 @@ ul.actions {
 }
 .hide {
   display: none;
+}
+
+.logo{
+  padding-top: 90px;
+  padding-left:40px;
 }

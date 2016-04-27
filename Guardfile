@@ -75,5 +75,5 @@ guard 'livereload' do
   watch(%r{public/.+\.(css|js|html)})
   watch(%r{config/locales/.+\.yml})
   watch(%r{app/assets/javascripts/dist/*})
-  watch(%r{(app|vendor)(/assets/\w+/(.+\.(css|html))).*}) { |m| "/assets/#{m[3]}" }
+  watch(%r{(app|vendor)(/assets/\w+/(.+\.(scss|css|html))).*}) { |m| "/assets/#{m[3]}" }
 end

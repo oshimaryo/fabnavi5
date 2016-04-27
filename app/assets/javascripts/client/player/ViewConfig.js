@@ -5,94 +5,93 @@ var ViewConfig = function(){
       addModeConfig = {},
       _conf = {},
       isCropped = true,
-      isConfigChanged = false
-  ;
+      isConfigChanged = false;
 
-function init(){
-  getLocalConfig();
-}
-
-function setLocalData(key,jsonData) {
-  var data = {};
-  if(!isCropped){
-    data["play"] = jsonData;
-    var res = getLocalData(key);
-    if(res && res.hasOwnProperty("add"))data["add"] = res.add;
-  } else {
-    data["add"] = jsonData;
-    var res = getLocalData(key);
-    if(res && res.hasOwnProperty("play"))data["play"] = res.play;
+  function init(){
+    getLocalConfig();
   }
-  var d = data.toSource();
-  localStorage.setItem(key,d);
-}
 
-function getLocalData(key) {
-  var data = localStorage.getItem(key);
-  return eval(data);
-}
-
-function getLocalConfig() {
-  var id = "ProjectId";
-  var res = getLocalData(id);
-  res = res || "";
-
-  if(!isCropped){
-    _conf = res.play || "";
+  function setLocalData(key, jsonData){
+    var data = {};
+    if(!isCropped){
+      data["play"] = jsonData;
+      let res = getLocalData(key);
+      if(res && res.hasOwnProperty("add"))data["add"] = res.add;
     } else {
-    _conf = res.add || "";
+      data["add"] = jsonData;
+      let res = getLocalData(key);
+      if(res && res.hasOwnProperty("play"))data["play"] = res.play;
+    }
+    var d = JSON.stringify(data);
+    localStorage.setItem(key, d);
   }
-}
 
-function setLocalConfig(id) {
-  if(_conf == ""){
-    alert("there is no config");
-    return false;
+  function getLocalData(key){
+    var data = localStorage.getItem(key);
+    return JSON.parse(data);
   }
-  setLocalData(id,_conf);
-}
 
-function getConfig(){
-  getLocalConfig();
-  return normalize(_conf);
-}
+  function getLocalConfig(){
+    var id = "ProjectId";
+    var res = getLocalData(id);
+    res = res || "";
 
-function saveConfig(){
-  setLocalConfig("ProjectId");
-}
+    if(!isCropped){
+      _conf = res.play || "";
+    } else {
+      _conf = res.add || "";
+    }
+  }
 
-function setConfig(conf){
-  _conf = normalize(conf);
-  setTimeout(function(){
-    ProjectActionCreator.updateCanvas();
-  },0);
-  
-}
+  function setLocalConfig(id){
+    if(_conf == ""){
+      alert("there is no config");
+      return false;
+    }
+    setLocalData(id, _conf);
+  }
 
-function normalize(conf){
-  var res = {};
-  for(c in conf){
-    if(isNaN(conf[c]))res[c] = 0;
-    else res[c] = Number(conf[c]);
-   }
-   return res;
-}
+  function getConfig(){
+    getLocalConfig();
+    return normalize(_conf);
+  }
 
-function getCropped( ) {
- return isCropped;
-}
-function setCropped( b ) {
-  isCropped = b;
-}
+  function saveConfig(){
+    setLocalConfig("ProjectId");
+  }
 
-return {
-  init : init,
-  conf:getConfig,
-  setConf:setConfig,
-  isCropped : getCropped,
-  save:saveConfig,
-  setCropped : setCropped,
-};
+  function setConfig(conf){
+    _conf = normalize(conf);
+    setTimeout(function(){
+      ProjectActionCreator.updateCanvas();
+    }, 0);
+  }
+
+  function normalize(conf){
+    var res = {};
+    for(c in conf){
+      if(isNaN(conf[c]))res[c] = 0;
+      else res[c] = Number(conf[c]);
+    }
+    return res;
+  }
+
+  function getCropped(){
+    return isCropped;
+  }
+
+  function setCropped(b){
+    isCropped = b;
+  }
+
+  return {
+    init : init,
+    conf:getConfig,
+    setConf:setConfig,
+    isCropped : getCropped,
+    save:saveConfig,
+    setCropped : setCropped,
+  };
 
 }();
 

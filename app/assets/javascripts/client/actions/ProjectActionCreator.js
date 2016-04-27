@@ -1,3 +1,7 @@
+//createProject.react.jsでつかわれている。
+//Player.react.js
+//ProjectElement.react.js
+//Projectの作成や編集など。
 var ActionTypes = require('../constants/ActionTypes');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var WebAPIUtils = require('../utils/WebAPIUtils');
@@ -5,18 +9,18 @@ var WebAPIUtils = require('../utils/WebAPIUtils');
 var ProjectActionCreator = {
 
   getAllProjects : function( ){
-    AppDispatcher.dispatch ({
+    AppDispatcher.dispatch({
       type : ActionTypes.PROJECTS_FETCH,
     });
     WebAPIUtils.getAllProjects();
-  }, 
+  },
 
   createProject : function( payload ){
     AppDispatcher.dispatch({
       type : ActionTypes.PROJECT_CREATE,
       payload : payload
     });
-    WebAPIUtils.createProject( payload.name, payload.contentAttributesType, payload.description );
+    WebAPIUtils.createProject(payload.name, payload.contentAttributesType, payload.description);
   },
 
   getProject : function( payload ){

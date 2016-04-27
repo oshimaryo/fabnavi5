@@ -2,59 +2,57 @@ var React = require('react');
 var ProjectListStore = require('../stores/ProjectListStore');
 var jade = require('react-jade');
 
-var Router = require('react-router'); 
+var Router = require('react-router');
 var DefaultRoute = Router.DefaultRoute;
 var Link = Router.Link;
 var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
 
 var projectDetail = jade.compileFile(__dirname + '/../templates/ProjectDetail.jade');
-var ProjectDetail= React.createClass({
+var ProjectDetail = React.createClass({
 
   contextTypes: {
-      router: React.PropTypes.func
+    router: React.PropTypes.func
   },
 
-  getStateFromStores : function getStateFromStores() {
+  getStateFromStores : function getStateFromStores(){
     return {
     };
   },
 
-  _onChange : function () {
+  _onChange : function (){
     this.setState(this.getStateFromStores());
   },
-  getInitialState: function() {
+  getInitialState: function(){
     return this.getStateFromStores();
   },
 
-  getDefaultProps: function() {
-     return {
-     };
-   },
+  getDefaultProps: function(){
+    return {
+    };
+  },
 
   render : projectDetail,
 
-  componentWillMount : function() {
+  componentWillMount : function(){
   },
 
-  componentDidMount : function () {
+  componentDidMount : function (){
     State.reload();
   },
 
-  componentWillUpdate : function() {
+  componentWillUpdate : function(){
     return {
     };
   },
 
-  componentDidUpdate : function() {
+  componentDidUpdate : function(){
     return {
     };
   },
 
-  componentWillUnmount : function() {
+  componentWillUnmount : function(){
   },
-
-
 });
 
 module.exports = ProjectDetail;

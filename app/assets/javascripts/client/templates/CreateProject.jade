@@ -1,9 +1,10 @@
+//新しいプロジェクトを作成するページ 
 h1.form-title CreateProject
 form.form-box
   .field
     label Project Name
     input.form-text(
-      onChange=this.handleNameChange 
+      onChange=this.handleNameChange 　
       value=this.state.name
       type="text"
       )
@@ -34,4 +35,3 @@ form.form-box
         value="CreateProject"
         onClick=this.handleSubmit
         )
-

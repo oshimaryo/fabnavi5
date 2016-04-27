@@ -1,16 +1,18 @@
-.header
-  time 
+
+//ログインされたら表示するアイコンを変える。
+//MenueIconのように他のjadeを関数みたいにできる？
+.header 
+  time
     = this.state.time
   a.logo(href="#/manager")
     img(src=this.props.headerSrc)
-  .menu  
+  .menu
     if this.state.account.email != ""
-      MenuIcon(act="MOVE_TOP" src="images/h_top.png")
-      MenuIcon(act="MOVE_MY_PROJECTS" src="images/h_myproject.png")
-      MenuIcon(act="MOVE_NEW_PROJECT" src="images/h_create.png")
-      MenuIcon(act="MOVE_CONFIG" src="images/h_config.png")
-      MenuIcon(act="SIGN_OUT" src="images/h_sign_out.png")
+      MenuIcon(act="MOVE_TOP" src="images/kaffcop_icon/fab_home.png")
+      MenuIcon(act="MOVE_MY_PROJECTS" src="images/kaffcop_icon/fab_mypro.png")
+      MenuIcon(act="MOVE_NEW_PROJECT" src="images/kaffcop_icon/fab_create.png")
+      MenuIcon(act="MOVE_CONFIG" src="images/kaffcop_icon/fab_conf.png")
+      MenuIcon(act="SIGN_OUT" src="images/kaffcop_icon/fab_out.png")
     else
-      MenuIcon(act="MOVE_TOP" src="images/h_top.png")
-      MenuIcon(act="SIGN_IN" src="images/h_signin.png")
-      
+      MenuIcon(act="MOVE_TOP" src="images/kaffcop_icon/fab_home.png")
+      MenuIcon(act="SIGN_IN" src="images/kaffcop_icon/fab_in.png")

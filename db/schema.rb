@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150925041437) do
+ActiveRecord::Schema.define(version: 20160417004443) do
 
   create_table "attachments", force: :cascade do |t|
     t.string   "type",            limit: 255
@@ -79,6 +79,15 @@ ActiveRecord::Schema.define(version: 20150925041437) do
   add_index "projects", ["figure_id"], name: "index_projects_on_figure_id", using: :btree
   add_index "projects", ["lisence_id"], name: "index_projects_on_lisence_id", using: :btree
   add_index "projects", ["user_id"], name: "index_projects_on_user_id", using: :btree
+
+  create_table "sensor_infos", force: :cascade do |t|
+    t.text     "data",       limit: 65535
+    t.integer  "project_id", limit: 4
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "sensor_infos", ["project_id"], name: "index_sensor_infos_on_project_id", using: :btree
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id",        limit: 4
@@ -152,4 +161,5 @@ ActiveRecord::Schema.define(version: 20150925041437) do
   add_foreign_key "projects", "figures"
   add_foreign_key "projects", "lisences"
   add_foreign_key "projects", "users"
+  add_foreign_key "sensor_infos", "projects"
 end

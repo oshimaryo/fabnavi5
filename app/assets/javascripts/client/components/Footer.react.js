@@ -1,43 +1,47 @@
 var React = require('react');
 var jade = require('react-jade');
 var footer = jade.compileFile(__dirname + '/../templates/Footer.jade');
+
+var Router = require('react-router');
+var Link = Router.Link;
+
 var Footer = React.createClass({
 
   propTypes : {
   },
 
-  getInitialState: function() {
-     return {
-     };
+  getInitialState: function(){
+    return {
+    };
   },
 
-  getDefaultProps: function() {
-     return {
-        
-     };
-   },
+  getDefaultProps: function(){
+    return {
+      footerText : "fabnavi",
+    };
+  },
 
   render : footer,
 
-  handleChange: function ( event ){
+  handleChange: function( event ){
   },
 
-  onclick : function() {
+  onclick : function(){
   },
 
-  componentWillMount : function() {
+  componentWillMount : function(){
   },
 
-  componentDidMount : function () {
+  componentDidMount : function(){
   },
 
-  componentWillUpdate : function() {
+  componentWillUpdate : function(){
   },
 
-  componentDidUpdate : function() {
+  componentDidUpdate : function(){
   },
 
-  componentWillUnmount : function() {
+  componentWillUnmount : function(){
   },
 
 });

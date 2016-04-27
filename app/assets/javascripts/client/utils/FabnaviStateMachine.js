@@ -6,15 +6,15 @@ var KeyAction = require('../constants/KeyActionTypes');
 var ProjectActionCreator = require('../actions/ProjectActionCreator');
 
 function consume( payload ){
-      if( this.keyMap.hasOwnProperty( payload.keyCode ) ){
-        var op = this.keyMap[payload.keyCode];
-        if( typeof(op) == "function" ){
-          payload.type = op();
-        } else {
-          payload.type = op;
-        }
-      }
-      return payload;
+  if( this.keyMap.hasOwnProperty( payload.keyCode ) ){
+    var op = this.keyMap[payload.keyCode];
+    if( typeof op == "function" ){
+      payload.type = op();
+    } else {
+      payload.type = op;
+    }
+  }
+  return payload;
 }
 
 function transitionl2( ){
@@ -26,11 +26,11 @@ function transitionl2( ){
 }
 
 var playerStateMachine = new machina.Fsm({
- initialize : function(){
+  initialize : function(){
     console.log("FSM initialize");
- },
- namespace : "playerKeyHandler",
- initialState : "play",
+  },
+  namespace : "playerKeyHandler",
+  initialState : "play",
   states : {
     "unInitialized" : {
       _onEnter : function(){
@@ -48,7 +48,10 @@ var playerStateMachine = new machina.Fsm({
         this.keyMap[27] = KeyAction.EXIT_PROJECT;
         this.keyMap[8] = KeyAction.TOGGLE_DELETE_FLAG;
         this.keyMap[83] = KeyAction.PROJECT_SAVE;
-        this.keyMap[67] = function(){this.transition("calibrateCenter");}.bind(this);
+
+        this.keyMap[67] = function(){
+          this.transition("calibrateCenter");
+        }.bind(this);
         ProjectActionCreator.updateCanvas();
       },
 
@@ -57,8 +60,8 @@ var playerStateMachine = new machina.Fsm({
       },
 
       consume : function(e){
-        var p = consume.call(this,e);
-        this.emit("actionFired",p);
+        var p = consume.call(this, e);
+        this.emit("actionFired", p);
       }
     },
 
@@ -74,8 +77,8 @@ var playerStateMachine = new machina.Fsm({
       },
 
       consume : function(e){
-        var p = consume.call(this,e);
-        this.emit("actionFired",p);
+        var p = consume.call(this, e);
+        this.emit("actionFired", p);
       }
     },
 
@@ -90,8 +93,8 @@ var playerStateMachine = new machina.Fsm({
       },
 
       consume : function(e){
-        var p = consume.call(this,e);
-        this.emit("actionFired",p);
+        var p = consume.call(this, e);
+        this.emit("actionFired", p);
       },
     },
 
@@ -104,7 +107,10 @@ var playerStateMachine = new machina.Fsm({
         this.keyMap[40] = KeyAction.CALIBRATE_MOVE_DOWN;
         this.keyMap[27] = KeyAction.EXIT_PROJECT;
         this.keyMap[38] = KeyAction.CALIBRATE_MOVE_UP;
-        this.keyMap[67] = function(){this.transition("calibrateScale");}.bind(this);
+
+        this.keyMap[67] = function(){
+          this.transition("calibrateScale");
+        }.bind(this);
         ProjectActionCreator.updateCanvas();
       },
 
@@ -113,8 +119,8 @@ var playerStateMachine = new machina.Fsm({
       },
 
       consume : function(e){
-        var p = consume.call(this,e);
-        this.emit("actionFired",p);
+        var p = consume.call(this, e);
+        this.emit("actionFired", p);
       },
     },
 
@@ -127,13 +133,16 @@ var playerStateMachine = new machina.Fsm({
         this.keyMap[40] = KeyAction.CALIBRATE_LONGER_VERTICAL;
         this.keyMap[38] = KeyAction.CALIBRATE_SHORTER_VERTICAL;
         this.keyMap[27] = KeyAction.EXIT_PROJECT;
-        this.keyMap[67] = function(){this.transition("play");}.bind(this);
+
+        this.keyMap[67] = function(){
+          this.transition("play");
+        }.bind(this);
         ProjectActionCreator.updateCanvas();
       },
 
       consume : function(e){
-        var p = consume.call(this,e);
-        this.emit("actionFired",p);
+        var p = consume.call(this, e);
+        this.emit("actionFired", p);
       },
 
       _onExit : function(){
@@ -150,70 +159,80 @@ playerStateMachine.on("consume", function(payload){
 });
 
 var ProjectSelectorStateMachine = new machina.Fsm({
-  initialize : function() {
+  initialize : function(){
   },
 
   initialState : "projects",
 
   states : {
-    
-   projects : {
-
-     _onEnter : function( ){
+    projects : {
+      _onEnter : function(){
         this.keyMap = [];
-       this.keyMap[38] = KeyAction.SELECT_PROJECT_UP;
-       this.keyMap[40] = KeyAction.SELECT_PROJECT_DOWN;
-       this.keyMap[39] = KeyAction.SELECT_PROJECT_RIGHT;
-       this.keyMap[37] = KeyAction.SELECT_PROJECT_LEFT;
-       this.keyMap[13] = function(){this.transition("actionMenu");return KeyAction.SELECT_PROJECT;}.bind(this);
-     },
+        this.keyMap[38] = KeyAction.SELECT_PROJECT_UP;
+        this.keyMap[40] = KeyAction.SELECT_PROJECT_DOWN;
+        this.keyMap[39] = KeyAction.SELECT_PROJECT_RIGHT;
+        this.keyMap[37] = KeyAction.SELECT_PROJECT_LEFT;
 
-     _onExit : function( ){
-      this.keyMap = [];
-     },
+        this.keyMap[13] = function(){
+          this.transition("actionMenu");
+          return KeyAction.SELECT_PROJECT;
+        }.bind(this);
+      },
+
+      _onExit : function( ){
+        this.keyMap = [];
+      },
 
       consume : function(e){
-        var p = consume.call(this,e);
-        this.emit("actionFired",p);
+        var p = consume.call(this, e);
+        this.emit("actionFired", p);
       },
-   },
+    },
 
     actionMenu: {
-     _onEnter : function( ){
-      this.keyMap = [];
-       this.keyMap[38] = KeyAction.SELECT_ACTION_UP;
-       this.keyMap[40] = KeyAction.SELECT_ACTION_DOWN;
-       this.keyMap[13] = function(){this.transition("projects");return KeyAction.SELECT_ACTION;}.bind(this);
-       this.keyMap[27] = function(){this.transition("projects");return KeyAction.DESELECT_ACTION;}.bind(this);
-     },
+      _onEnter : function( ){
+        this.keyMap = [];
+        this.keyMap[38] = KeyAction.SELECT_ACTION_UP;
+        this.keyMap[40] = KeyAction.SELECT_ACTION_DOWN;
 
-     _onExit : function( ){
-      this.keyMap = [];
-     },
+        this.keyMap[13] = function(){
+          this.transition("projects");
+          return KeyAction.SELECT_ACTION;
+        }.bind(this);
+
+        this.keyMap[27] = function(){
+          this.transition("projects");
+          return KeyAction.DESELECT_ACTION;
+        }.bind(this);
+      },
+
+      _onExit : function( ){
+        this.keyMap = [];
+      },
       consume : function(e){
-        var p = consume.call(this,e);
-        this.emit("actionFired",p);
+        var p = consume.call(this, e);
+        this.emit("actionFired", p);
       },
     },
 
     navigation : {
-     _onEnter : function( ){
-       this.keyMap = [];
-     },
-     _onExit : function( ){
-      this.keyMap = [];
-     },
+      _onEnter : function( ){
+        this.keyMap = [];
+      },
+      _onExit : function( ){
+        this.keyMap = [];
+      },
 
       consume : function(e){
-        var p = consume.call(this,e);
-        this.emit("actionFired",p);
+        var p = consume.call(this, e);
+        this.emit("actionFired", p);
       },
     },
   },
 });
 
 
-var managerStateMachine= new machina.Fsm({
+var managerStateMachine = new machina.Fsm({
   initialState : "index",
   states : {
     "index" : {
@@ -268,11 +287,11 @@ var FSM = new machina.Fsm({
     },
   },
   consume : function( payload ){
-    this.handle("consume",payload);
+    this.handle("consume", payload);
   },
 
   reload : function( loc ){
-    console.log("Nested Transition: ",location.hash.split("/"));
+    console.log("Nested Transition: ", location.hash.split("/"));
     this.transition(location.hash.split("/")[1]);
     this.handle("transitionl2");
   },

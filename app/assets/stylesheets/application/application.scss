@@ -29,7 +29,7 @@ header {
 
   background-color:#231815;
   width:100%;
-} 
+}
 .header {
   @include outer-container;
   width:100%;
@@ -47,7 +47,7 @@ header {
   @include span-columns(1.5 of 8);
   img {
     width:100%;
-    background-color:$white;
+    background-color:#ffffff;
   }
   border-radius: 20px;
 }
@@ -57,15 +57,16 @@ header {
     background-color:$selected-color;
   }
 }
-
+//20 $white 4px 20px
 .nav-action {
  img{
-    border:solid 4px $white;
-    border-radius: 20px;
+    border:solid 0px #7d7d7d;
+    border-radius: 0px;
    }
 }
+//4px $hover-color
 .nav-action :hover {
-  border:solid 4px $hover-color;
+  border:dashed 1px #7d7d7d;
 }
 .selected-nav-action {
  img{
@@ -112,8 +113,16 @@ header {
 
 .belt {
   @include outer-container(100%);
-  background-color: $brown;
-  padding-bottom: 20px;
+  background-color: white;
+  padding-bottom: 30px;
+  padding-top: 5px;
+  text-align:center;
+  hr{
+   border: 0;
+   border-bottom: 1px dashed #ccc;
+   background: #fff;
+  }
+
 }
 .search-bar {
   width: $ct-width;
@@ -126,20 +135,24 @@ header {
     position: absolute;
     right: 0;
     margin-right: (100% - $ct-width) / 8;
-    width: $ct-width / 3;
+    //width: $ct-width / 3;
+    width:240px;
     background-color: white;
     border-radius: 4px;
     box-shadow: none;
+    border:solid 1px;
 
     input {
       box-shadow: none;
-      line-height: $belt-height;
+      //line-height: $belt-height;
+      line-height:40px;
       background: none;
       border: none;
       width: 80%;
-      font-size:14pt;
+      font-size:12pt;
       float:right;
-      font-style:italic;
+      font-style:none;
+      color: $black_;
     }
     .search-icon {
       margin:5px 0;

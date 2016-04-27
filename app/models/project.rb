@@ -6,11 +6,12 @@ class Project < ActiveRecord::Base
   belongs_to :lisence
   belongs_to :figure
   has_one :content, dependent: :destroy
+  has_many :sensor_infos, dependent: :destroy
 
   validates :name, presence: true, length: {maximum: 64}, uniqueness: {scope: :user_id}
   validates :description, length: {maximum: 512}
 
-  accepts_nested_attributes_for :content
+  accepts_nested_attributes_for :content, :sensor_infos, allow_destroy: true
 
   after_commit :link_attachments!, on: :update
 
@@ -35,7 +36,10 @@ class Project < ActiveRecord::Base
     end
 
     def acceptable_attributes_for_update
-      %i(tag_list name description figure_id lisence_id) + [content_attributes: Content.acceptable_attributes_for_update]
+      %i(tag_list name description figure_id lisence_id) + [
+        content_attributes: Content.acceptable_attributes_for_update,
+        sensor_infos_attributes: SensorInfo.acceptable_attributes
+      ]
     end
   end
 end

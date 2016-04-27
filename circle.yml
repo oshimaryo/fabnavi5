@@ -4,6 +4,13 @@ machine:
   ruby:
     version: 2.2.3
 
+dependencies:
+  post:
+    - npm run build 
+
+test:
+  post:
+    - npm run lint
 deployment:
   production:
     branch: release

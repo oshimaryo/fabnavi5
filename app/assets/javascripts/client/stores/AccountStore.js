@@ -5,73 +5,71 @@ var ActionTypes = require('../constants/ActionTypes');
 var EventEmitter = require('events');
 var WebAPIUtils = require('../utils/WebAPIUtils');
 
-
 var AccountStore = Object.assign({}, EventEmitter.prototype, {
-  init : function () {
-    _accountInfo.email = (window.hasOwnProperty('CURRENT_USER') && window.CURRENT_USER) || "";
-  }, 
+  init : function(){
+    _accountInfo.email = window.hasOwnProperty('CURRENT_USER') && window.CURRENT_USER || "";
+  },
 
   emitChange : function(){
     this.emit(EventTypes.ACCOUNT_CHANGE);
   },
 
-  addChangeListener: function(callback) {
+  addChangeListener: function(callback){
     this.on(EventTypes.ACCOUNT_CHANGE, callback);
   },
 
-  removeChangeListener: function(callback) {
+  removeChangeListener: function(callback){
     this.removeListener(EventTypes.ACCOUNT_CHANGE, callback);
   },
 
-  getUserEmail : function () {
+  getUserEmail : function(){
     return _accountInfo.email
-  },  
-  
-  isSigningIn : function () {
+  },
+
+  isSigningIn : function(){
     return _accountInfo.email != "";
   },
 
-  setEmail : function ( email ) {
+  setEmail : function( email ){
     _accountInfo.email = email;
   },
 
-  getAccountInfo : function () {
+  getAccountInfo : function(){
     return _accountInfo;
   },
 
-  clearEmail : function () {
+  clearEmail : function(){
     _accountInfo.email = "";
   },
 
 });
 
 AccountStore.dispatchToken = AppDispatcher.register(function( action ){
-    switch( action.type ){
+  switch( action.type ){
+    case ActionTypes.SIGN_IN :
+      WebAPIUtils.signIn();
+      break;
 
-      case ActionTypes.SIGN_IN : 
-        WebAPIUtils.signIn();         
-        break; 
+    case ActionTypes.SIGN_IN_SUCCESS :
+      AccountStore.setEmail(action.email);
+      AccountStore.emitChange();
+      break;
 
-      case ActionTypes.SIGN_IN_SUCCESS : 
-        AccountStore.setEmail(action.email);
-        AccountStore.emitChange();
-        break; 
+    case ActionTypes.SIGN_OUT_SUCCESS :
+      AccountStore.clearEmail();
+      AccountStore.emitChange();
+      break;
 
-      case ActionTypes.SIGN_OUT_SUCCESS : 
-        AccountStore.clearEmail();
-        AccountStore.emitChange();
-        break; 
+    case ActionTypes.SIGN_OUT :
+      WebAPIUtils.signOut();
+      break;
 
-      case ActionTypes.SIGN_OUT :
-        WebAPIUtils.signOut();
-        break;
+    case ActionTypes.CONFIG :
+      break;
 
-      case ActionTypes.CONFIG :
-        break;
-
-      default :
-        break;
-    };
+    default :
+      break;
+  };
 
 });
 
