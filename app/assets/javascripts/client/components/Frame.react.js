@@ -1,11 +1,13 @@
-var React = require('react');
-var jade = require('react-jade');
-var Router = require('react-router');
-var Route = Router.Route;
-var Link = Router.Link;
-var RouteHandler = Router.RouteHandler;
-var frame = jade.compileFile(__dirname + '/../templates/Frame.jade');
-var Frame = React.createClass({
+const
+    React = require('react'),
+    jade = require('react-jade'),
+    Router = require('react-router'),
+    Route = Router.Route,
+    Link = Router.Link,
+    RouteHandler = Router.RouteHandler,
+    frame = jade.compileFile(__dirname + '/../templates/Frame.jade');
+
+const Frame = React.createClass({
   contextTypes: {
     router: React.PropTypes.func
   },

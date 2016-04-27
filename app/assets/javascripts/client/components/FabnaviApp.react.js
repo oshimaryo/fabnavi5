@@ -1,34 +1,34 @@
-var React = require('react');
-var jade = require('react-jade');
-var Router = require('react-router');
+const
+    React = require('react'),
+    jade = require('react-jade'),
 
-//他のreactファイル
-var Navigation = require('./Navigation.react');
-var SearchBar = require('./SearchBar.react');
-var ProjectList = require('./ProjectList.react');
-var ProjectManager = require('./ProjectManager.react');
-var Player = require('./Player.react.js');
-var Frame = require('./Frame.react.js');
-var Footer = require('./Footer.react.js');
-var CreateProject = require('./CreateProject.react.js');
-var EditProject = require('./EditProject.react.js');
-var ProjectDetail = require('./ProjectDetail.react.js');
-var ProjectStore = require('../stores/ProjectStore');
-var WebAPIUtils = require('../utils/WebAPIUtils');
-var ServerActionCreator = require('../actions/ServerActionCreator');
+    //他のreactファイル
+    Navigation = require('./Navigation.react'),
+    SearchBar = require('./SearchBar.react'),
+    ProjectList = require('./ProjectList.react'),
+    ProjectManager = require('./ProjectManager.react'),
+    Player = require('./Player.react.js'),
+    Frame = require('./Frame.react.js'),
+    Footer = require('./Footer.react.js'),
+    CreateProject = require('./CreateProject.react.js'),
+    EditProject = require('./EditProject.react.js'),
+    ProjectDetail = require('./ProjectDetail.react.js'),
+    ProjectStore = require('../stores/ProjectStore'),
+    WebAPIUtils = require('../utils/WebAPIUtils'),
+    ServerActionCreator = require('../actions/ServerActionCreator'),
 
 
-//ract-router
-var Router = require('react-router');
-var DefaultRoute = Router.DefaultRoute;
-var Link = Router.Link;
-var Route = Router.Route;
-var RouteHandler = Router.RouteHandler;
-var NotFoundRoute = Router.NotFoundRoute;
-var Redirect = Router.Redirect;
+    //ract-router
+    Router = require('react-router'),
+    DefaultRoute = Router.DefaultRoute,
+    Link = Router.Link,
+    Route = Router.Route,
+    RouteHandler = Router.RouteHandler,
+    NotFoundRoute = Router.NotFoundRoute,
+    Redirect = Router.Redirect;
 
  //フレーム
-var routes = React.createElement(Route, { handler: Frame, path: "/" },
+const routes = React.createElement(Route, { handler: Frame, path: "/" },
     //以下は、メニューバーがついたページの描画
   React.createElement(Route, { handler: ProjectManager, name: "manager" },
     React.createElement(Route, { handler: ProjectList, name: "index" }),
@@ -55,6 +55,6 @@ global.onload = function ( ){
     ServerActionCreator.signIn();
   }
   if(WebAPIUtils.SignOut()){
-     ServerActionCreator.signOut();
+    ServerActionCreator.signOut();
   }
 }

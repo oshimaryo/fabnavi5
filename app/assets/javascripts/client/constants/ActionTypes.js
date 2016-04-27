@@ -1,4 +1,4 @@
-var keyMirror = require('keymirror');
+const keyMirror = require('keymirror');
 module.exports = keyMirror({
   SIGN_OUT  :null,
   SIGN_IN   :null,

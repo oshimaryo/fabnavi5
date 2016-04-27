@@ -1,30 +1,32 @@
-var React = require('react');
-var jade = require('react-jade');
+const
+    React = require('react'),
+    jade = require('react-jade'),
 
-var ProjectStore = require('../stores/ProjectStore');
-var MainView = require('../player/MainView');
-var ViewConfig = require('../player/ViewConfig');
-var ProjectActionCreator = require('../actions/ProjectActionCreator');
+    ProjectStore = require('../stores/ProjectStore'),
+    MainView = require('../player/MainView'),
+    ViewConfig = require('../player/ViewConfig'),
+    ProjectActionCreator = require('../actions/ProjectActionCreator'),
 
-var Router = require('react-router');
-var DefaultRoute = Router.DefaultRoute;
-var Link = Router.Link;
-var Route = Router.Route;
-var RouteHandler = Router.RouteHandler;
+    Router = require('react-router'),
+    DefaultRoute = Router.DefaultRoute,
+    Link = Router.Link,
+    Route = Router.Route,
+    RouteHandler = Router.RouteHandler,
 
-var CalibrateController = require('../player/CalibrateController');
-var player = jade.compileFile(__dirname + '/../templates/Player.jade');
-var WebAPIUtils = require('../utils/WebAPIUtils');
-var State = require('../utils/FabnaviStateMachine');
+    CalibrateController = require('../player/CalibrateController'),
+    player = jade.compileFile(__dirname + '/../templates/Player.jade'),
+    WebAPIUtils = require('../utils/WebAPIUtils'),
+    State = require('../utils/FabnaviStateMachine');
 
-var currentFile = null;
-var _currentImage = null;
-var pageChanged = true;
-var lastPage = 0;
-var _lastState = "";
-var _currentState = "";
+let
+    currentFile = null,
+    _currentImage = null,
+    pageChanged = true,
+    lastPage = 0,
+    _lastState = "",
+    _currentState = "";
 
-var Player = React.createClass({
+const Player = React.createClass({
   render:  player,
 
   contextTypes: {
@@ -42,7 +44,7 @@ var Player = React.createClass({
   },
 
   getStateFromStores : function getStateFromStores(){
-    var project = ProjectStore.getProject();
+    const project = ProjectStore.getProject();
     if( project == null || this.context.router.getCurrentParams().projectId != project.id ){
       return {
         project : null,
@@ -113,7 +115,7 @@ var Player = React.createClass({
       return 0;
     }
 
-    var fig = this.state.project.content[this.state.page].figure;
+    const fig = this.state.project.content[this.state.page].figure;
     lastPage = this.state.page;
     if(fig.hasOwnProperty("clientContent") && fig.clientContent.hasOwnProperty("dfdImage")){
       fig.clientContent.dfdImage.then(function(img){
@@ -123,7 +125,7 @@ var Player = React.createClass({
         _currentImage = img;
       });
     } else {
-      var img = new Image();
+      const img = new Image();
       ViewConfig.setCropped(false);
       MainView.clear();
       MainView.showWaitMessage();

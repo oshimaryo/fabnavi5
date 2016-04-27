@@ -2,11 +2,12 @@
 //Player.react.js
 //ProjectElement.react.js
 //Projectの作成や編集など。
-var ActionTypes = require('../constants/ActionTypes');
-var AppDispatcher = require('../dispatcher/AppDispatcher');
-var WebAPIUtils = require('../utils/WebAPIUtils');
+const
+    ActionTypes = require('../constants/ActionTypes'),
+    AppDispatcher = require('../dispatcher/AppDispatcher'),
+    WebAPIUtils = require('../utils/WebAPIUtils');
 
-var ProjectActionCreator = {
+const ProjectActionCreator = {
 
   getAllProjects : function( ){
     AppDispatcher.dispatch({

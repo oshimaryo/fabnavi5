@@ -1,11 +1,12 @@
-var _accountInfo = {};
-var AppDispatcher = require('../dispatcher/AppDispatcher');
-var EventTypes = require('../constants/EventTypes');
-var ActionTypes = require('../constants/ActionTypes');
-var EventEmitter = require('events');
-var WebAPIUtils = require('../utils/WebAPIUtils');
+const
+    _accountInfo = {},
+    AppDispatcher = require('../dispatcher/AppDispatcher'),
+    EventTypes = require('../constants/EventTypes'),
+    ActionTypes = require('../constants/ActionTypes'),
+    EventEmitter = require('events'),
+    WebAPIUtils = require('../utils/WebAPIUtils');
 
-var AccountStore = Object.assign({}, EventEmitter.prototype, {
+const AccountStore = Object.assign({}, EventEmitter.prototype, {
   init : function(){
     _accountInfo.email = window.hasOwnProperty('CURRENT_USER') && window.CURRENT_USER || "";
   },

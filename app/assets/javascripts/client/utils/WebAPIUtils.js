@@ -5,14 +5,15 @@ const $ = require('jquery');
 let _accessToken = null,
     _client = null,
     _uid = null;
+
 const DEVELOPMENT = true;
 
 function setHeader(){
-    localStorage.setItem("header",JSON.stringify({
-      "Client"        : _client,
-      "Uid"           : _uid,
-      "AccessToken"  : _accessToken
-    }));
+  localStorage.setItem("header", JSON.stringify({
+    "Client"        : _client,
+    "Uid"           : _uid,
+    "AccessToken"  : _accessToken
+  }));
 }
 
 function clearHeader(){
@@ -20,34 +21,24 @@ function clearHeader(){
 }
 
 function loadHeader(){
-  var header = localStorage.getItem("header");
+  let header = localStorage.getItem("header");
+
   if( header == null || !DEVELOPMENT){
     return null;
-  } else {
-    try {
-      header = JSON.parse(header);
-      _client = header.Client;
-      _uid = header.Uid;
-      _accessToken = header.AccessToken;
-      setTimeout(function(){
-      ServerActionCreator.signIn(_uid);
-      },0);
-      return header;
-    }
-    catch(e) {
-      console.log("ERROR. JSON.parse failed");
-      return null;
-    }
   }
 
-  header = JSON.parse(header);
-  _client = header.Client;
-  _uid = header.Uid;
-  _accessToken = header.AccessToken;
-  setTimeout(function(){
-    ServerActionCreator.signIn(_uid);
-  }, 0);
-  return header;
+  try{
+    header = JSON.parse(header);
+    _client = header.Client;
+    _uid = header.Uid;
+    _accessToken = header.AccessToken;
+    setTimeout(function(){
+      ServerActionCreator.signIn(_uid);
+    }, 0);
+    return header;
+  } catch(e){
+    throw new Error("ERROR. JSON.parse failed");
+  }
 }
 
 function genHeader(){
@@ -63,7 +54,7 @@ function genHeader(){
   };
 }
 
-var WebAPIUtils = {
+const WebAPIUtils = {
 
   getProject : function( id ){
     console.log("getProject : ", id);
@@ -85,9 +76,11 @@ var WebAPIUtils = {
 
   getAllProjects : function( page, perPage, offset ){
     console.log("getProjects");
-    let _page = page || 0,
+    const
+        _page = page || 0,
         _perPage = perPage || 20,
         _offset = offset || 0;
+
     $.ajax({
       dataType : "json",
       data : {
@@ -109,12 +102,12 @@ var WebAPIUtils = {
   },
 
   isSigningIn : function(){
-    var url = window.location.href;
+    const url = window.location.href;
     if(url.contains("uid") && url.contains("client_id") && url.contains("auth_token")){
-      var token = url.match(/auth_token=([a-zA-Z0-9\-]*)/)[1];
-      var uid = url.match(/uid=([a-zA-Z0-9\-]*)/)[1];
-      var client_id = url.match(/client_id=([a-zA-Z0-9\-]*)/)[1];
-      WebAPIUtils.signedIn(token,uid,client_id);
+      const token = url.match(/auth_token=([a-zA-Z0-9\-]*)/)[1];
+      const uid = url.match(/uid=([a-zA-Z0-9\-]*)/)[1];
+      const client_id = url.match(/client_id=([a-zA-Z0-9\-]*)/)[1];
+      WebAPIUtils.signedIn(token, uid, client_id);
       window.location.href = window.location.href.split("/")[0] + "/#manager";
     }
     return !!loadHeader();
@@ -155,7 +148,7 @@ var WebAPIUtils = {
 
   setThumbnailLast : function( project ){
     if(project.content.length == 0) return;
-    var fd = new FormData();
+    const fd = new FormData();
     fd.append("project[name]", project.name);
     fd.append("project[figure_id]", project.content[project.content.length - 1].figure.figure_id);
     $.ajax({
@@ -178,13 +171,14 @@ var WebAPIUtils = {
 
   updateProject : function( project ){
     console.log("updateProject");
-    var fd = new FormData();
+    const fd = new FormData();
     fd.append("project[name]", project.name);
     fd.append("project[description]", project.description);
     fd.append("project[tag_list]", project.tag_list);
 
     console.log(project.content);
-    for(var i = 0; i < project.content.length; i++){
+    let i;
+    for(i = 0; i < project.content.length; i++){
 
       if( project.content[i].figure.hasOwnProperty("_destroy") &&
         project.content[i].figure._destroy == true &&
@@ -285,7 +279,7 @@ var WebAPIUtils = {
   uploadFile : function( file, name, sym ){
     console.log("uploadFile");
 
-    var fd = new FormData();
+    const fd = new FormData();
     fd.append("attachment[file]", file, name);
 
     $.ajax({
@@ -311,24 +305,19 @@ var WebAPIUtils = {
   },
 
   signIn : function(){
-    var url = window.location.href;
-    var host = url.substring(0,url.indexOf("/#/manager"));
+    const url = window.location.href;
+    const host = url.substring(0, url.indexOf("/#/manager"));
     window.location.href = host + "/auth/github?auth_origin_url=" + host;
   },
 
-  signOut : function () {
-    clearHeader();
-    window.location.reload();
-  },
-
-  signedIn : function(token,uid,client){
+  signedIn : function(token, uid, client){
     _accessToken = token;
     _uid = uid;
     _client = client;
     setHeader();
   },
 
-  signOut : function () {
+  signOut : function(){
     clearHeader();
     window.location.reload();
   }

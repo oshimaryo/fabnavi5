@@ -1,16 +1,17 @@
 //親はNavigation.react
 //メニューアイコンのクリックの反応について書いてる
 //actionはProjectSelectorStoreに送ってる
-var NavigationViewActionCreator = require('../actions/NavigationViewActionCreator');
-var React = require('react');
-var jade = require('react-jade');
-var Router = require('react-router');
-var Link = Router.Link;
-var Route = Router.Route;
+const
+    NavigationViewActionCreator = require('../actions/NavigationViewActionCreator'),
+    React = require('react'),
+    jade = require('react-jade'),
+    Router = require('react-router'),
+    Link = Router.Link,
+    Route = Router.Route,
 
-var menuIcon = jade.compileFile(__dirname + '/../templates/MenuIcon.jade');
+    menuIcon = jade.compileFile(__dirname + '/../templates/MenuIcon.jade');
 
-var MenuIcon = React.createClass({
+const MenuIcon = React.createClass({
 //Navigation.jadeにあるactとsrc
   propTypes : {
     act   : React.PropTypes.string.isRequired,

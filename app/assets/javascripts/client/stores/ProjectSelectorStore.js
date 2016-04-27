@@ -1,18 +1,19 @@
 //Menuのデータとかはここにあるっぽい location.hash
-var EventEmitter = require('events');
-var machina = require('machina');
-var AppDispatcher = require('../dispatcher/AppDispatcher');
-var ProjectListStore = require('../stores/ProjectListStore');
+const
+    EventEmitter = require('events'),
+    machina = require('machina'),
+    AppDispatcher = require('../dispatcher/AppDispatcher'),
+    ProjectListStore = require('../stores/ProjectListStore'),
+    EventTypes = require('../constants/EventTypes'),
+    ActionTypes = require('../constants/ActionTypes'),
+    KeyActionTypes = require('../constants/KeyActionTypes'),
+    ProjectActionCreator = require('../actions/ProjectActionCreator');
 
-var _selector = {
+let _selector = {
 };
-var EventTypes = require('../constants/EventTypes');
-var ActionTypes = require('../constants/ActionTypes');
-var KeyActionTypes = require('../constants/KeyActionTypes');
-var ProjectActionCreator = require('../actions/ProjectActionCreator');
 
 
-var ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
+const ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
   init : function(){
     _selector = {
       index : 0,
@@ -26,7 +27,7 @@ var ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
   setSelectorByIndex : function setSelectorByIndex(index){
     //validates selector
     let _index = index;
-    var projects = ProjectListStore.getProjectsAll();
+    const projects = ProjectListStore.getProjectsAll();
     if( index >= projects.length ){
       _index = projects.length - 1;
     } else if( index < 0 ){
@@ -37,8 +38,8 @@ var ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
 
   explode : function(){
     if(!_selector.openMenu)throw new Error("Ilegal Action");
-    var projects = ProjectListStore.getProjectsAll();
-    var project = projects[_selector.index];
+    const projects = ProjectListStore.getProjectsAll();
+    const project = projects[_selector.index];
     switch(_selector.menuIndex){
       case 0:
         setTimeout(function(){
@@ -95,8 +96,8 @@ var ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
   },
 //when press key up button , scroll up 380 height
   scrollUp : function(){
-    var x = 0;
-    var animationTimer = setInterval(function(){
+    let x = 0;
+    const animationTimer = setInterval(function(){
       if(x >= 28){
         clearInterval(animationTimer);
       }
@@ -107,10 +108,10 @@ var ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
   },
 //when press key down button, scroll down 380 height
   scrollDown : function (){
-    var x = 0;
-    var ani = setInterval(function(){
+    let x = 0;
+    const animationTimer = setInterval(function(){
       if(x >= 28){
-        clearInterval(ani);
+        clearInterval(animationTimer);
       }
       window.scrollBy(0, x);
       x += 1;

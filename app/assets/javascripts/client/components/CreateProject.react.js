@@ -1,19 +1,20 @@
 //Createのページview
-var React = require('react');
-var ProjectListStore = require('../stores/ProjectListStore');
-var jade = require('react-jade');
+const
+    React = require('react'),
+    ProjectListStore = require('../stores/ProjectListStore'),
+    jade = require('react-jade'),
 
-var Router = require('react-router');
-var DefaultRoute = Router.DefaultRoute;
-var Link = Router.Link;
-var Route = Router.Route;
-var RouteHandler = Router.RouteHandler;
+    Router = require('react-router'),
+    DefaultRoute = Router.DefaultRoute,
+    Link = Router.Link,
+    Route = Router.Route,
+    RouteHandler = Router.RouteHandler,
 
-var createProject = jade.compileFile(__dirname + '/../templates/CreateProject.jade');
-var ProjectActionCreator = require('../actions/ProjectActionCreator');
-var State = require('../utils/FabnaviStateMachine');
+    createProject = jade.compileFile(__dirname + '/../templates/CreateProject.jade'),
+    ProjectActionCreator = require('../actions/ProjectActionCreator'),
+    State = require('../utils/FabnaviStateMachine');
 
-var CreateProject = React.createClass({
+const CreateProject = React.createClass({
 
   _onChange : function(){
   },

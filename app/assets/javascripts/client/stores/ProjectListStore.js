@@ -1,13 +1,15 @@
-var AppDispatcher = require('../dispatcher/AppDispatcher');
-var EventEmitter = require('events');
-var _projects = [];
-var initProjects = [];
-var searchProjects = [];
-var EventTypes = require('../constants/EventTypes');
-var ActionTypes = require('../constants/ActionTypes');
-var ProjectActionCreator = require('../actions/ProjectActionCreator');
+const
+    AppDispatcher = require('../dispatcher/AppDispatcher'),
+    EventEmitter = require('events'),
+    EventTypes = require('../constants/EventTypes'),
+    ActionTypes = require('../constants/ActionTypes'),
+    ProjectActionCreator = require('../actions/ProjectActionCreator');
+let
+    _projects = [],
+    initProjects = [],
+    searchProjects = [];
 
-var ProjectListStore = Object.assign({}, EventEmitter.prototype, {
+const ProjectListStore = Object.assign({}, EventEmitter.prototype, {
   init : function(){
     _projects = [];
     ProjectActionCreator.getAllProjects();
@@ -33,7 +35,8 @@ var ProjectListStore = Object.assign({}, EventEmitter.prototype, {
   },
 
   removeProject : function( project ){
-    for( var i = 0; i < _projects.length; i++ ){
+    let i;
+    for( i = 0; i < _projects.length; i++ ){
       if( _projects[i].id == project.id ){
         _projects.splice(i, 1);
         this.emitChange();
@@ -43,12 +46,15 @@ var ProjectListStore = Object.assign({}, EventEmitter.prototype, {
   },
 
   searchProject : function( searchText ){
+    let _project = null;
+    const re = new RegExp(searchText, 'i');
     searchProjects = [];
-    var re = new RegExp(searchText, 'i');
+
     if(searchText === ""){
       _project = initProjects;
     } else {
-      for(var i = 0; i < initProjects.length; i++){
+      let i;
+      for(i = 0; i < initProjects.length; i++){
         if(re.test(initProjects[i].name) == true){
           searchProjects.push(initProjects[i]);
           _project = searchProjects;

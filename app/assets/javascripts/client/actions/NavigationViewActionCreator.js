@@ -1,9 +1,11 @@
  //MenuIcon.react.jsでつかわれている。
 //SearchBar.react.jsでつかわれている。
 //つまり、押されたかとか文字が入力されているかとか。
-var ActionTypes = require('../constants/ActionTypes');
-var AppDispatcher = require('../dispatcher/AppDispatcher');
-var NavigationViewActionCreator = {
+const
+    ActionTypes = require('../constants/ActionTypes'),
+    AppDispatcher = require('../dispatcher/AppDispatcher');
+
+const NavigationViewActionCreator = {
 
   search : function ( act, text ){
     AppDispatcher.dispatch({

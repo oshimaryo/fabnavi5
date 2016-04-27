@@ -1,9 +1,10 @@
 //component内にはない。
 //WebAPIUtils.jsが使用。サーバーからのaction.
-var ActionTypes = require('../constants/ActionTypes');
-var AppDispatcher = require('../dispatcher/AppDispatcher');
+const
+    ActionTypes = require('../constants/ActionTypes'),
+    AppDispatcher = require('../dispatcher/AppDispatcher');
 
-var ProjectServerActionCreator = {
+const ProjectServerActionCreator = {
   receiveProjects : function( projects ){
     AppDispatcher.dispatch({
       type : ActionTypes.PROJECTS_RECEIVE,

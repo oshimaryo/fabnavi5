@@ -1,20 +1,23 @@
-var AppDispatcher = require('../dispatcher/AppDispatcher');
-var EventEmitter = require('events');
-var EventTypes = require('../constants/EventTypes');
-var ActionTypes = require('../constants/ActionTypes');
-var KeyActionTypes = require('../constants/KeyActionTypes');
-var ProjectActionCreator = require('../actions/ProjectActionCreator');
-var Camera = require('../player/Camera');
-var ImageConverter = require('../player/ImageConverter');
-var CalibrateController = require('../player/CalibrateController');
+const
+    $ = require('jquery'),
+    AppDispatcher = require('../dispatcher/AppDispatcher'),
+    EventEmitter = require('events'),
+    EventTypes = require('../constants/EventTypes'),
+    ActionTypes = require('../constants/ActionTypes'),
+    KeyActionTypes = require('../constants/KeyActionTypes'),
+    ProjectActionCreator = require('../actions/ProjectActionCreator'),
+    Camera = require('../player/Camera'),
+    ImageConverter = require('../player/ImageConverter'),
+    CalibrateController = require('../player/CalibrateController');
 
-var _project = null;
-var _currentPage = 0;
-var _uploadQueue = [
-];
-var _shooting = false;
+let
+    STEP = 1,
+    _shooting = false,
+    _project = null,
+    _currentPage = 0,
+    _uploadQueue = [
+    ];
 
-var STEP = 1;
 
 function setStep( s ){
   STEP = s;
@@ -23,7 +26,7 @@ function getStep( ){
   console.log(STEP);
 }
 
-var ProjectStore = Object.assign({}, EventEmitter.prototype, {
+const ProjectStore = Object.assign({}, EventEmitter.prototype, {
   init : function(){
     _project = null;
     _currentPage = 0;
@@ -40,17 +43,19 @@ var ProjectStore = Object.assign({}, EventEmitter.prototype, {
     }
     ProjectStore.emitClearCanvas();
     Camera.shoot().then(function(url){
-      var fig = ProjectStore.newFigure();
+      const fig = ProjectStore.newFigure();
       ProjectStore.setImageToFigureFromCamera(fig, url);
       ProjectStore.pushFigure( fig );
       fig.figure.clientContent.dfdImage
         .then(ImageConverter.toBlob)
         .then(function(blob){
+          let _url;
+
           if( url.length > 1000 ){
-            let _url = url.slice(30, 40) + ".jpg";
+            _url = url.slice(30, 40) + ".jpg";
           }
 
-          var payload = {
+          const payload = {
             file : blob,
             name : _url.replace(/\?.*/, "").replace(/^.*\//, ""),
             sym : fig.figure.sym,
@@ -68,7 +73,8 @@ var ProjectStore = Object.assign({}, EventEmitter.prototype, {
   },
 
   uploadFinish : function( sym ){
-    for(var i = 0; i < _uploadQueue.length; i++){
+    let i;
+    for(i = 0; i < _uploadQueue.length; i++){
       if(_uploadQueue[i].sym == sym){
         _uploadQueue.splice(i, 1);
         ProjectStore.emitChange();
@@ -77,7 +83,8 @@ var ProjectStore = Object.assign({}, EventEmitter.prototype, {
   },
 
   uploadFailed : function( sym ){
-    for(var i = 0; i < _uploadQueue.length; i++){
+    let i;
+    for(i = 0; i < _uploadQueue.length; i++){
       if(_uploadQueue[i].sym == sym){
         _uploadQueue[i].status = "Error";
         ProjectStore.emitChange();
@@ -94,7 +101,7 @@ var ProjectStore = Object.assign({}, EventEmitter.prototype, {
   },
 
   setPage : function(page){
-    var _page = page;
+    let _page = page;
     if( !_project.hasOwnProperty("content") ){
       return;
     }
@@ -106,7 +113,7 @@ var ProjectStore = Object.assign({}, EventEmitter.prototype, {
       _page = 0;
     }
 
-    _current_page = _page;
+    _currentPage = _page;
     console.log("_page : ", _page);
     if(_project.content[_page].figure.hasOwnProperty("_destroy") &&
       _project.content[_page].figure._destroy){
@@ -126,7 +133,7 @@ var ProjectStore = Object.assign({}, EventEmitter.prototype, {
   },
 
   mergeUploadedFigure : function( fig ){
-    var dst = ProjectStore.findFigureBySymbol( fig.sym );
+    const dst = ProjectStore.findFigureBySymbol( fig.sym );
     dst.figure.id = fig.id;
     dst.figure.file = fig.file;
     ProjectStore.saveProject();
@@ -179,9 +186,10 @@ var ProjectStore = Object.assign({}, EventEmitter.prototype, {
   },
 
   mergeFigureId : function( project ){
-    var res = project.project;
-    for(var i = 0; i < res.content.length; i++){
-      for(var j = 0; j < _project.content.length; j++){
+    const res = project.project;
+    let i, j;
+    for(i = 0; i < res.content.length; i++){
+      for(j = 0; j < _project.content.length; j++){
         if(_project.content[j].figure.figure_id == null && _project.content[j].figure.id == res.content[i].figure.id ){
           _project.content[j].figure.figure_id = res.content[i].figure.figure_id;
         }
@@ -191,7 +199,7 @@ var ProjectStore = Object.assign({}, EventEmitter.prototype, {
   },
 
   setImageToFigureFromCamera : function( fig, url ){
-    var src = null;
+    let src = null;
     if( url ){
       src = url;
       fig.figure.file.file.url = url;
@@ -201,8 +209,8 @@ var ProjectStore = Object.assign({}, EventEmitter.prototype, {
       throw new Error("Figure url is not set");
     }
 
-    var img = new Image();
-    var d = $.Deferred();
+    const img = new Image();
+    const d = $.Deferred();
     img.src = src;
     img.crossOrigin = 'anonymous';
     img.onload = function(){
@@ -278,9 +286,10 @@ var ProjectStore = Object.assign({}, EventEmitter.prototype, {
   },
 
   findFigureBySymbol : function( sym ){
-    var cts = ProjectStore.getProject().content;
-    var fig = null;
-    for(var i = 0; i < cts.length; i++){
+    const cts = ProjectStore.getProject().content;
+    let fig = null;
+    let i;
+    for(i = 0; i < cts.length; i++){
       fig = cts[i];
       if( fig.figure.hasOwnProperty('sym') && fig.figure.sym == sym ) return fig;
     }

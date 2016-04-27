@@ -1,11 +1,11 @@
-var React = require('react');
-var jade = require('react-jade');
-var footer = jade.compileFile(__dirname + '/../templates/Footer.jade');
+const
+    React = require('react'),
+    jade = require('react-jade'),
+    footer = jade.compileFile(__dirname + '/../templates/Footer.jade'),
+    Router = require('react-router'),
+    Link = Router.Link;
 
-var Router = require('react-router');
-var Link = Router.Link;
-
-var Footer = React.createClass({
+const Footer = React.createClass({
 
   propTypes : {
   },

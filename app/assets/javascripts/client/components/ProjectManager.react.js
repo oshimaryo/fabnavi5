@@ -1,20 +1,21 @@
-var React = require('react');
+const
+    React = require('react'),
 
-var Navigation = require('./Navigation.react');
-var SearchBar = require('./SearchBar.react');
-var ProjectList = require('./ProjectList.react');
-var Player = require('./Player.react.js');
-var Frame = require('./Frame.react.js');
-var Footer = require('./Footer.react.js');
-var jade = require('react-jade');
+    Navigation = require('./Navigation.react'),
+    SearchBar = require('./SearchBar.react'),
+    ProjectList = require('./ProjectList.react'),
+    Player = require('./Player.react.js'),
+    Frame = require('./Frame.react.js'),
+    Footer = require('./Footer.react.js'),
+    jade = require('react-jade'),
 
-var Router = require('react-router');
-var Link = Router.Link;
-var RouteHandler = Router.RouteHandler;
-var State = require('../utils/FabnaviStateMachine');
-var projectManager = jade.compileFile(__dirname + '/../templates/ProjectManager.jade');
+    Router = require('react-router'),
+    Link = Router.Link,
+    RouteHandler = Router.RouteHandler,
+    State = require('../utils/FabnaviStateMachine'),
+    projectManager = jade.compileFile(__dirname + '/../templates/ProjectManager.jade');
 
-var ProjectManager = React.createClass({
+const ProjectManager = React.createClass({
   render: projectManager,
   componentDidMount : function(){
 

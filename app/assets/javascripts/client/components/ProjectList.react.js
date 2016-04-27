@@ -1,16 +1,17 @@
 //プロジェクトたちをリストにしている所？
 //最初のページとも言える
-var React = require('react');
-var ProjectListStore = require('../stores/ProjectListStore');
-var ProjectSelectorStore = require('../stores/ProjectSelectorStore');
-var ProjectElement = require('../components/ProjectElement.react');
-var jade = require('react-jade');
-var projectList = jade.compileFile(__dirname + '/../templates/ProjectList.jade');
-var ProjectActionCreator = require('../actions/ProjectActionCreator');
+const
+    React = require('react'),
+    ProjectListStore = require('../stores/ProjectListStore'),
+    ProjectSelectorStore = require('../stores/ProjectSelectorStore'),
+    ProjectElement = require('../components/ProjectElement.react'),
+    jade = require('react-jade'),
+    projectList = jade.compileFile(__dirname + '/../templates/ProjectList.jade'),
+    ProjectActionCreator = require('../actions/ProjectActionCreator'),
 
-var State = require('../utils/FabnaviStateMachine');
+    State = require('../utils/FabnaviStateMachine');
 
-var ProjectList = React.createClass({
+const ProjectList = React.createClass({
 
   propTypes : {
 

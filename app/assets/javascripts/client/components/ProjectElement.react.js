@@ -1,10 +1,11 @@
 //こちらが、プロジェクトの部分かな
-var React = require('react');
-var jade = require('react-jade');
-var projectElement = jade.compileFile(__dirname + '/../templates/ProjectElement.jade');
-var ProjectActionCreator = require('../actions/ProjectActionCreator');
+const
+    React = require('react'),
+    jade = require('react-jade'),
+    projectElement = jade.compileFile(__dirname + '/../templates/ProjectElement.jade'),
+    ProjectActionCreator = require('../actions/ProjectActionCreator');
 
-var ProjectElement = React.createClass({
+const ProjectElement = React.createClass({
 
   propTypes : {
   },
@@ -20,10 +21,10 @@ var ProjectElement = React.createClass({
 
   getThumbnailSrc: function (){
 
-    var src = null;
+    let src = null;
 
     if( this.props.project.hasOwnProperty("figure") ){
-      var thumb = this.props.project.figure;
+      const thumb = this.props.project.figure;
       if( thumb.hasOwnProperty("attachment") ){
         src = this.props.project.figure.attachment.file.thumb;
       }
@@ -36,7 +37,7 @@ var ProjectElement = React.createClass({
   },
 
   getUserIconSrc: function (){
-    var src = null;
+    let src = null;
     if( src == null ){
       src = "/images/kaffcop_icon/user_icon.png";
     }

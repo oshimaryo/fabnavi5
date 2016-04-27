@@ -1,13 +1,14 @@
 // Fabnavi Hierarchical Key Handling State Machine js
 // this is KeyBind Controller
 
-var machina = require('machina');
-var KeyAction = require('../constants/KeyActionTypes');
-var ProjectActionCreator = require('../actions/ProjectActionCreator');
+const
+    machina = require('machina'),
+    KeyAction = require('../constants/KeyActionTypes'),
+    ProjectActionCreator = require('../actions/ProjectActionCreator');
 
 function consume( payload ){
   if( this.keyMap.hasOwnProperty( payload.keyCode ) ){
-    var op = this.keyMap[payload.keyCode];
+    const op = this.keyMap[payload.keyCode];
     if( typeof op == "function" ){
       payload.type = op();
     } else {
@@ -18,14 +19,14 @@ function consume( payload ){
 }
 
 function transitionl2( ){
-  var dst = location.hash.split("/")[2];
+  let dst = location.hash.split("/")[2];
   if( dst == undefined ){
     dst = "index";
   }
   this.transition(dst);
 }
 
-var playerStateMachine = new machina.Fsm({
+const playerStateMachine = new machina.Fsm({
   initialize : function(){
     console.log("FSM initialize");
   },
@@ -60,7 +61,7 @@ var playerStateMachine = new machina.Fsm({
       },
 
       consume : function(e){
-        var p = consume.call(this, e);
+        const p = consume.call(this, e);
         this.emit("actionFired", p);
       }
     },
@@ -77,7 +78,7 @@ var playerStateMachine = new machina.Fsm({
       },
 
       consume : function(e){
-        var p = consume.call(this, e);
+        const p = consume.call(this, e);
         this.emit("actionFired", p);
       }
     },
@@ -93,7 +94,7 @@ var playerStateMachine = new machina.Fsm({
       },
 
       consume : function(e){
-        var p = consume.call(this, e);
+        const p = consume.call(this, e);
         this.emit("actionFired", p);
       },
     },
@@ -119,7 +120,7 @@ var playerStateMachine = new machina.Fsm({
       },
 
       consume : function(e){
-        var p = consume.call(this, e);
+        const p = consume.call(this, e);
         this.emit("actionFired", p);
       },
     },
@@ -141,7 +142,7 @@ var playerStateMachine = new machina.Fsm({
       },
 
       consume : function(e){
-        var p = consume.call(this, e);
+        const p = consume.call(this, e);
         this.emit("actionFired", p);
       },
 
@@ -158,7 +159,7 @@ playerStateMachine.on("consume", function(payload){
   console.log("consume firered-----------");
 });
 
-var ProjectSelectorStateMachine = new machina.Fsm({
+const ProjectSelectorStateMachine = new machina.Fsm({
   initialize : function(){
   },
 
@@ -184,7 +185,7 @@ var ProjectSelectorStateMachine = new machina.Fsm({
       },
 
       consume : function(e){
-        var p = consume.call(this, e);
+        const p = consume.call(this, e);
         this.emit("actionFired", p);
       },
     },
@@ -210,7 +211,7 @@ var ProjectSelectorStateMachine = new machina.Fsm({
         this.keyMap = [];
       },
       consume : function(e){
-        var p = consume.call(this, e);
+        const p = consume.call(this, e);
         this.emit("actionFired", p);
       },
     },
@@ -224,7 +225,7 @@ var ProjectSelectorStateMachine = new machina.Fsm({
       },
 
       consume : function(e){
-        var p = consume.call(this, e);
+        const p = consume.call(this, e);
         this.emit("actionFired", p);
       },
     },
@@ -232,7 +233,7 @@ var ProjectSelectorStateMachine = new machina.Fsm({
 });
 
 
-var managerStateMachine = new machina.Fsm({
+const managerStateMachine = new machina.Fsm({
   initialState : "index",
   states : {
     "index" : {
@@ -267,7 +268,7 @@ var managerStateMachine = new machina.Fsm({
 
 });
 
-var FSM = new machina.Fsm({
+const FSM = new machina.Fsm({
   namespace: "fabnavi",
   initialState : "player",
   states : {

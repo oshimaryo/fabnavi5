@@ -1,8 +1,10 @@
-var NavigationViewActionCreator = require('../actions/NavigationViewActionCreator');
-var React = require('react');
-var jade = require('react-jade');
-var searchBar = jade.compileFile(__dirname + '/../templates/SearchBar.jade');
-var SearchBar = React.createClass({
+const
+    NavigationViewActionCreator = require('../actions/NavigationViewActionCreator'),
+    React = require('react'),
+    jade = require('react-jade'),
+    searchBar = jade.compileFile(__dirname + '/../templates/SearchBar.jade');
+
+const SearchBar = React.createClass({
 
   propTypes : {
   },

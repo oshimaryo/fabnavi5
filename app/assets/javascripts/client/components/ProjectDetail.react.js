@@ -1,15 +1,18 @@
-var React = require('react');
-var ProjectListStore = require('../stores/ProjectListStore');
-var jade = require('react-jade');
+const
+    React = require('react'),
+    ProjectListStore = require('../stores/ProjectListStore'),
+    jade = require('react-jade'),
 
-var Router = require('react-router');
-var DefaultRoute = Router.DefaultRoute;
-var Link = Router.Link;
-var Route = Router.Route;
-var RouteHandler = Router.RouteHandler;
+    Router = require('react-router'),
+    DefaultRoute = Router.DefaultRoute,
+    Link = Router.Link,
+    Route = Router.Route,
+    RouteHandler = Router.RouteHandler,
+    State = require('../utils/FabnaviStateMachine'),
 
-var projectDetail = jade.compileFile(__dirname + '/../templates/ProjectDetail.jade');
-var ProjectDetail = React.createClass({
+    projectDetail = jade.compileFile(__dirname + '/../templates/ProjectDetail.jade');
+
+const ProjectDetail = React.createClass({
 
   contextTypes: {
     router: React.PropTypes.func
