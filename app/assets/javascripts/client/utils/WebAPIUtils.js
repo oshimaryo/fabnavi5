@@ -1,17 +1,18 @@
-var ProjectServerActionCreator = require('../actions/ProjectServerActionCreator');
-var ServerActionCreator = require('../actions/ServerActionCreator');
-var $ = require('jquery');
-var _accessToken = null;
-var _client = null;
-var _uid = null;
-var DEVELOPMENT = true;
+'use strict';
+const ProjectServerActionCreator = require('../actions/ProjectServerActionCreator');
+const ServerActionCreator = require('../actions/ServerActionCreator');
+const $ = require('jquery');
+let _accessToken = null,
+    _client = null,
+    _uid = null;
+const DEVELOPMENT = true;
 
-function setHeader(client, uid, accessToken){
-  localStorage.setItem("header", JSON.stringify({
-    "Client"        : _client,
-    "Uid"           : _uid,
-    "AccessToken"  : _accessToken
-  }));
+function setHeader(){
+    localStorage.setItem("header",JSON.stringify({
+      "Client"        : _client,
+      "Uid"           : _uid,
+      "AccessToken"  : _accessToken
+    }));
 }
 
 function clearHeader(){
@@ -22,6 +23,21 @@ function loadHeader(){
   var header = localStorage.getItem("header");
   if( header == null || !DEVELOPMENT){
     return null;
+  } else {
+    try {
+      header = JSON.parse(header);
+      _client = header.Client;
+      _uid = header.Uid;
+      _accessToken = header.AccessToken;
+      setTimeout(function(){
+      ServerActionCreator.signIn(_uid);
+      },0);
+      return header;
+    }
+    catch(e) {
+      console.log("ERROR. JSON.parse failed");
+      return null;
+    }
   }
 
   header = JSON.parse(header);
@@ -69,9 +85,9 @@ var WebAPIUtils = {
 
   getAllProjects : function( page, perPage, offset ){
     console.log("getProjects");
-    _page = page || 0;
-    _perPage = perPage || 20;
-    _offset = offset || 0;
+    let _page = page || 0,
+        _perPage = perPage || 20,
+        _offset = offset || 0;
     $.ajax({
       dataType : "json",
       data : {
@@ -90,6 +106,18 @@ var WebAPIUtils = {
       url : "/api/v1/projects.json"
 
     });
+  },
+
+  isSigningIn : function(){
+    var url = window.location.href;
+    if(url.contains("uid") && url.contains("client_id") && url.contains("auth_token")){
+      var token = url.match(/auth_token=([a-zA-Z0-9\-]*)/)[1];
+      var uid = url.match(/uid=([a-zA-Z0-9\-]*)/)[1];
+      var client_id = url.match(/client_id=([a-zA-Z0-9\-]*)/)[1];
+      WebAPIUtils.signedIn(token,uid,client_id);
+      window.location.href = window.location.href.split("/")[0] + "/#manager";
+    }
+    return !!loadHeader();
   },
 
   createProject : function( name, contentAttributesType, description){
@@ -283,53 +311,28 @@ var WebAPIUtils = {
   },
 
   signIn : function(){
-    WebAPIUtils.initPersona();
-    navigator.id.request();
+    var url = window.location.href;
+    var host = url.substring(0,url.indexOf("/#/manager"));
+    window.location.href = host + "/auth/github?auth_origin_url=" + host;
   },
 
-  signOut : function (){
-    WebAPIUtils.initPersona();
-    navigator.id.logout();
+  signOut : function () {
+    clearHeader();
+    window.location.reload();
   },
 
-  initPersona : function (){
-    navigator.id.watch({
-      onlogin: function(assertion){
-        $.ajax({
-          type:"POST",
-          url:"/api/v1/auth/sign_in",
-          data:{ assertion:assertion },
-          dataType:"json",
-          success: function(res, status, xhr){
-            _accessToken = xhr.getResponseHeader("Access-Token");
-            _uid = xhr.getResponseHeader("Uid");
-            _client = xhr.getResponseHeader("Client");
-            setHeader();
-            ServerActionCreator.signIn(res.email);
-          },
-          error: function(res, status, xhr){
-            console.log(res, status, xhr);
-            clearHeader();
-          }
-        });
-      },
+  signedIn : function(token,uid,client){
+    _accessToken = token;
+    _uid = uid;
+    _client = client;
+    setHeader();
+  },
 
-      onlogout: function(){
-        $.ajax({
-          type:"DELETE",
-          url:"/api/v1/auth/sign_out",
-          success: function(res, status, xhr){
-            ServerActionCreator.signOut(res);
-            clearHeader();
-          },
-          error: function(res, status, xhr){
-            console.log(res, status, xhr);
-            clearHeader();
-          }
-        });
-      }
-    });
+  signOut : function () {
+    clearHeader();
+    window.location.reload();
   }
+
 };
 
 

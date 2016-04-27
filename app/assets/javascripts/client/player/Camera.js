@@ -1,8 +1,9 @@
-var STUB = false;
-var Camera = function(){
+const STUB = false;
+const $ = require('jquery');
+const Camera = function(){
 
-  var connected = false,
-      heartbeat = null;
+  let
+    connected = false;
 
   function init(){
     if(document.sonycameracontroller == undefined){
@@ -15,7 +16,7 @@ var Camera = function(){
   }
 
   function zoomOnce(){
-    var d = $.Deferred();
+    const d = $.Deferred();
     document.sonycameracontroller.zoomIn(function(res){
       setTimeout(function(){
         d.resolve();
@@ -25,11 +26,11 @@ var Camera = function(){
   }
 
   function shoot (){
-    var d = $.Deferred();
+    const d = $.Deferred();
     if(STUB){
       console.log("Stub");
-      var cvs = document.createElement('canvas');
-      var ctx = cvs.getContext('2d');
+      const cvs = document.createElement('canvas');
+      const ctx = cvs.getContext('2d');
       cvs.width = 1366;
       cvs.height = 768;
       ctx.fillStyle = "green";
@@ -41,10 +42,10 @@ var Camera = function(){
       ctx.rotate(-Math.PI);
       d.resolve(cvs.toDataURL());
     } else {
-      var t = window.setTimeout(function(){
+      const t = window.setTimeout(function(){
         d.reject("Camera Not Respond");
       }, 3000);
-      var listener = function(url, res){
+      const listener = function(url, res){
         window.clearTimeout(t);
         setTimeout(function(){
           d.resolve(url);
@@ -56,10 +57,10 @@ var Camera = function(){
   }
 
   function ping(){
-    var d = $.Deferred();
+    const d = $.Deferred();
     try{
-      var r = new XMLHttpRequest();
-      var t = window.setTimeout(function(){
+      const r = new XMLHttpRequest();
+      const t = window.setTimeout(function(){
         r.abort();
         connected = false;
         d.reject(false);

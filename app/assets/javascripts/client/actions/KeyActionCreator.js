@@ -1,10 +1,10 @@
 //何が押されたかとか。こちらは常に動いているのでviewから呼び出されるものではない？
-var AppDispatcher = require('../dispatcher/AppDispatcher.js');
+const AppDispatcher = require('../dispatcher/AppDispatcher.js');
 //キー操作とかの変数名が入っている
-var ActionTypes = require('../constants/ActionTypes');
-var FSM = require('../utils/FabnaviStateMachine');
+const ActionTypes = require('../constants/ActionTypes');
+const FSM = require('../utils/FabnaviStateMachine');
 
-module.exports = KeyActionCreator = {
+const KeyActionCreator = {
   handleKeyDown : function ( event ){
     //if input element changed, 'handleKeyDown' does't handle keyEvent
     if( event.target.nodeName == "INPUT" || event.target.nodeName == "TEXTAREA") return;
@@ -13,7 +13,7 @@ module.exports = KeyActionCreator = {
     event.preventDefault();
     event.stopped = true;
 
-    var payload = {
+    const payload = {
       keyCode : event.keyCode,
       charCode: event.charCode,
       ctrl    : event.ctrlKey,
@@ -29,4 +29,5 @@ FSM.on("actionFired", function( payload ){
   AppDispatcher.dispatch( payload );
 });
 
+module.exports = KeyActionCreator;
 window.onkeydown = KeyActionCreator.handleKeyDown;

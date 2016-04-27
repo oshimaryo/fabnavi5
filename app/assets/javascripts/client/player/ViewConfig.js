@@ -1,39 +1,40 @@
-var ProjectActionCreator = require('../actions/ProjectActionCreator');
+const ProjectActionCreator = require('../actions/ProjectActionCreator');
 
-var ViewConfig = function(){
-  var playModeConfig = {},
-      addModeConfig = {},
+const ViewConfig = function(){
+  const
+      playModeConfig = {},
+      addModeConfig = {};
+  let
       _conf = {},
-      isCropped = true,
-      isConfigChanged = false;
+      isCropped = true;
 
   function init(){
     getLocalConfig();
   }
 
   function setLocalData(key, jsonData){
-    var data = {};
+    const data = {};
     if(!isCropped){
       data["play"] = jsonData;
-      let res = getLocalData(key);
+      const res = getLocalData(key);
       if(res && res.hasOwnProperty("add"))data["add"] = res.add;
     } else {
       data["add"] = jsonData;
-      let res = getLocalData(key);
+      const res = getLocalData(key);
       if(res && res.hasOwnProperty("play"))data["play"] = res.play;
     }
-    var d = JSON.stringify(data);
+    const d = JSON.stringify(data);
     localStorage.setItem(key, d);
   }
 
   function getLocalData(key){
-    var data = localStorage.getItem(key);
+    const data = localStorage.getItem(key);
     return JSON.parse(data);
   }
 
   function getLocalConfig(){
-    var id = "ProjectId";
-    var res = getLocalData(id);
+    const id = "ProjectId";
+    let res = getLocalData(id);
     res = res || "";
 
     if(!isCropped){
@@ -68,7 +69,8 @@ var ViewConfig = function(){
   }
 
   function normalize(conf){
-    var res = {};
+    const res = {};
+    let c;
     for(c in conf){
       if(isNaN(conf[c]))res[c] = 0;
       else res[c] = Number(conf[c]);

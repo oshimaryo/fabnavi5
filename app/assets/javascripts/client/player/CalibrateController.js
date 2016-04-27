@@ -1,8 +1,8 @@
-var ViewConfig = require('../player/ViewConfig');
-var getCurrentImage = null;
+const ViewConfig = require('../player/ViewConfig');
+let getCurrentImage = null;
 
-var CalibrateController = (function init(){
-  var x = 0,
+const CalibrateController = (function (){
+  let x = 0,
       y = 0,
       w = 1000,
       h = 1000,
@@ -35,7 +35,7 @@ var CalibrateController = (function init(){
   }
 
   function zoomIn(_shift){
-    var shift = _shift | 10;
+    const shift = _shift | 10;
     w -= shift;
     h -= shift * as;
     validateWH();
@@ -43,7 +43,7 @@ var CalibrateController = (function init(){
   }
 
   function zoomOut(_shift){
-    var shift = _shift | 10;
+    const shift = _shift | 10;
     w += shift;
     h += shift * as;
     validateWH();
@@ -85,7 +85,7 @@ var CalibrateController = (function init(){
   }
 
   function loadFromViewConfig(){
-    var conf = ViewConfig.conf();
+    const conf = ViewConfig.conf();
     x = conf.x || 0;
     y = conf.y || 0;
     w = conf.w || 1000;
@@ -128,12 +128,12 @@ var CalibrateController = (function init(){
     };
     cvs.onmousemove = function(e){
       if(drag){
-        var eX = e.clientX;
+        const eX = e.clientX;
         if(aspShift){
           changeAspectRatio(lx - eX);
           lx = eX;
         } else {
-          var eY = e.clientY;
+          const eY = e.clientY;
           moveRelatively(lx - eX, eY - ly);
           lx = eX;
           ly = eY;
@@ -172,8 +172,7 @@ var CalibrateController = (function init(){
   }
 
   function initConf(){
-    var c = "";
-    var cf = ViewConfig.conf();
+    const cf = ViewConfig.conf();
     if( cf.hasOwnProperty("w")){
       w = cf.w;
       h = cf.h;
@@ -187,7 +186,7 @@ var CalibrateController = (function init(){
     }
 
     if(getCurrentImage()){
-      let c = getCurrentImage();
+      const c = getCurrentImage();
       w = c.naturalWidth;
       h = c.naturalHeight;
       validateWH();

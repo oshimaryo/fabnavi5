@@ -1,15 +1,15 @@
-var ImageConverter = require('../player/ImageConverter');
-var ViewConfig = require('../player/ViewConfig');
-var CalibrateController = require('../player/CalibrateController');
+const ImageConverter = require('../player/ImageConverter');
+const ViewConfig = require('../player/ViewConfig');
+const CalibrateController = require('../player/CalibrateController');
 
-var MainView = function(){
-  var cvs,
+const MainView = function(){
+  let cvs,
       ctx,
       currentImage = null;
 
   function reset(){
     if(ctx != null)clear();
-    _currentImage = null;
+    currentImage = null;
     ctx = null;
     cvs = null;
   }
@@ -91,8 +91,10 @@ var MainView = function(){
   }
 
   function drawMessage(mes, X, Y){
-    x = X || 0;
-    y = Y || 20;
+    const
+        x = X || 0,
+        y = Y || 20;
+
     ctx.fillStyle = "green";
     ctx.font = "100px ArialRoundedMTBoldBold, serif";
     ctx.rotate(Math.PI);

@@ -14,9 +14,12 @@ var CreateProject = require('./CreateProject.react.js');
 var EditProject = require('./EditProject.react.js');
 var ProjectDetail = require('./ProjectDetail.react.js');
 var ProjectStore = require('../stores/ProjectStore');
+var WebAPIUtils = require('../utils/WebAPIUtils');
+var ServerActionCreator = require('../actions/ServerActionCreator');
 
 
 //ract-router
+var Router = require('react-router');
 var DefaultRoute = Router.DefaultRoute;
 var Link = Router.Link;
 var Route = Router.Route;
@@ -48,4 +51,10 @@ global.onload = function ( ){
   Router.run(routes, function(Handler){
     React.render(React.createElement(Handler, null), document.body);
   });
+  if(WebAPIUtils.isSigningIn()){
+    ServerActionCreator.signIn();
+  }
+  if(WebAPIUtils.SignOut()){
+     ServerActionCreator.signOut();
+  }
 }
