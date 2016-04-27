@@ -10,7 +10,6 @@ dependencies:
 
 test:
   post:
-    - npm run lint
 deployment:
   production:
     branch: release
