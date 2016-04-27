@@ -74,7 +74,7 @@ function watch(){
 }
 
 function build(){
-  var b = browserify(options);
+  var b = browserify(options).transform("babelify", {presets: ["es2015", "react"]});
   b.bundle()
   .on('log', gutil.log)
   .on('error',function(e){
@@ -86,6 +86,7 @@ function build(){
   })
   .pipe(source("bundle.js"))
   .pipe(buffer())
+  .pipe(uglify())
   .pipe(gulp.dest(DIST_CLIENT));
 
 }
