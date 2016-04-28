@@ -41,9 +41,11 @@
   "scripts": {
     "start": "gulp start",
     "build": "gulp build",
-    "lint": "eslint -c ./.eslintrc app/assets/javascripts/client/*"
+    "lint": "eslint -c ./.eslintrc app/assets/javascripts/client/*",
+    "doc": "esdoc -c esdoc.json"
   },
   "devDependencies": {
+    "esdoc": "^0.4.6",
     "eslint": "^2.5.1"
   }
 }
