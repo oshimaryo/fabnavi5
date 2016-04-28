@@ -2,7 +2,6 @@ const
     React = require('react'),
     jade = require('react-jade'),
 
-    //他のreactファイル
     Navigation = require('./Navigation.react'),
     SearchBar = require('./SearchBar.react'),
     ProjectList = require('./ProjectList.react'),
@@ -17,8 +16,6 @@ const
     WebAPIUtils = require('../utils/WebAPIUtils'),
     ServerActionCreator = require('../actions/ServerActionCreator'),
 
-
-    //ract-router
     Router = require('react-router'),
     DefaultRoute = Router.DefaultRoute,
     Link = Router.Link,
@@ -27,7 +24,6 @@ const
     NotFoundRoute = Router.NotFoundRoute,
     Redirect = Router.Redirect;
 
- //フレーム
 const routes = React.createElement(Route, { handler: Frame, path: "/" },
     //以下は、メニューバーがついたページの描画
   React.createElement(Route, { handler: ProjectManager, name: "manager" },
