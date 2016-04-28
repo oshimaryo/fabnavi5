@@ -1,75 +1,89 @@
-//Createのページview
-const
-    React = require('react'),
-    ProjectListStore = require('../stores/ProjectListStore'),
-    jade = require('react-jade'),
+import React from 'react';
+import ProjectListStore from '../stores/ProjectListStore';
+import Jade from 'react-jade';
 
-    Router = require('react-router'),
+import Router from 'react-router';
+import ProjectActionCreator from '../actions/ProjectActionCreator';
+import State from '../utils/FabnaviStateMachine';
+
+const 
     DefaultRoute = Router.DefaultRoute,
     Link = Router.Link,
     Route = Router.Route,
     RouteHandler = Router.RouteHandler,
+    createProject = Jade.compileFile(__dirname + '/../templates/CreateProject.jade');
 
-    createProject = jade.compileFile(__dirname + '/../templates/CreateProject.jade'),
-    ProjectActionCreator = require('../actions/ProjectActionCreator'),
-    State = require('../utils/FabnaviStateMachine');
+/**
+ *  CreateProjectがクリックされたときに呼び出されるView
+ *  フォームに入力された値を基にActionを投げる
+ */
+class CreateProject extends React.Component {
 
-const CreateProject = React.createClass({
+  constructor(props){
+    super(props)
+  }
 
-  _onChange : function(){
-  },
-  getInitialState: function(){
+  _onChange(){
+
+  }
+
+  getInitialState(){
     return {
       name : "",
       description : "",
     };
-  },
+  }
 
-  getDefaultProps: function(){
+  getDefaultProps(){
     return {
     };
-  },
+  }
 
-  handleChange : function( e ){
-  },
+  handleChange(e){
 
-  handleNameChange : function( e ){
-    this.setState({ name : e.target.value });
-  },
-  handleDescriptionChange : function( e ){
+  }
+
+  handleNameChange(e){
+        this.setState({ name : e.target.value });
+  }
+
+  handleDescriptionChange(e){
     this.setState({ description : e.target.value });
-  },
+  }
 
-  handleSubmit : function( e ){
+  handleSubmit(e){
     ProjectActionCreator.createProject({
       name : this.state.name,
       description : this.state.description,
       contentAttributesType : "Content::PhotoList"
     });
-  },
+  }
 
-  render : createProject,
+  render(){
+    return createProject()
+  }
 
-  componentWillMount : function(){
-  },
+  componentWillMount(){
 
-  componentDidMount : function (){
+  }
+
+  componentDidMount(){
     State.reload();
-  },
+  }
 
-  componentWillUpdate : function(){
+  componentWillUpdate(){
     return {
     };
-  },
+  }
 
-  componentDidUpdate : function(){
+  componentDidUpdate(){
     return {
     };
-  },
+  }
 
-  componentWillUnmount : function(){
-  },
+  componentWillUnmount(){
+  }
 
-});
+}
 
-module.exports = CreateProject;
+export default CreateProject;
