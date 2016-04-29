@@ -1,4 +1,4 @@
-const keyMirror = require('keymirror');
+const keyMirror = require('mirrorkey');
 module.exports = keyMirror({
   PROJECT_NEXT_PAGE : null,
   PROJECT_PREV_PAGE : null,
