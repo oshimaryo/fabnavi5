@@ -1,13 +1,10 @@
-const
-    React = require('react'),
-    MenuIcon = require('./MenuIcon.react.js'),
-    AccountStore = require('../stores/AccountStore'),
-    jade = require('react-jade'),
+import React from 'react';
+import MenuIcon from './MenuIcon.react.js';
+import AccountStore from '../stores/AccountStore';
 
-    Router = require('react-router'),
-    Link = Router.Link,
+import { Router, Link } from 'react-router';
 
-    navigation = jade.compileFile(__dirname + '/../templates/Navigation.jade');
+import navigation from '../templates/Navigation.jade';
 
 const Navigation = React.createClass({
 

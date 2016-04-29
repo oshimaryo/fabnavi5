@@ -1,19 +1,15 @@
-const
-    React = require('react'),
+import React from 'react';
 
-    Navigation = require('./Navigation.react'),
-    SearchBar = require('./SearchBar.react'),
-    ProjectList = require('./ProjectList.react'),
-    Player = require('./Player.react.js'),
-    Frame = require('./Frame.react.js'),
-    Footer = require('./Footer.react.js'),
-    jade = require('react-jade'),
+import Navigation from './Navigation.react';
+import SearchBar from './SearchBar.react';
+import ProjectList from './ProjectList.react';
+import Player from './Player.react.js';
+import Frame from './Frame.react.js';
+import Footer from './Footer.react.js';
 
-    Router = require('react-router'),
-    Link = Router.Link,
-    RouteHandler = Router.RouteHandler,
-    State = require('../utils/FabnaviStateMachine'),
-    projectManager = jade.compileFile(__dirname + '/../templates/ProjectManager.jade');
+import { Router, Route, RouteHandler, Link, DefaultRoute } from 'react-router';
+import State from '../utils/FabnaviStateMachine';
+import projectManager from '../templates/ProjectManager.jade';
 
 const ProjectManager = React.createClass({
   render: projectManager,

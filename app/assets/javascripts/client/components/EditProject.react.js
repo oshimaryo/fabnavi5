@@ -1,15 +1,8 @@
-const
-    React = require('react'),
-    ProjectListStore = require('../stores/ProjectListStore'),
-    jade = require('react-jade'),
-    Router = require('react-router'),
-    DefaultRoute = Router.DefaultRoute,
-    Link = Router.Link,
-    Route = Router.Route,
-    RouteHandler = Router.RouteHandler,
-
-    State = require('../utils/FabnaviStateMachine'),
-    editProject = jade.compileFile(__dirname + '/../templates/EditProject.jade');
+import React from 'react';
+import ProjectListStore from '../stores/ProjectListStore';
+import { Route, RouteHandler, Link, DefaultRoute } from 'react-router';
+import State from '../utils/FabnaviStateMachine';
+import editProject from '../templates/EditProject.jade';
 
 const EditProject = React.createClass({
 

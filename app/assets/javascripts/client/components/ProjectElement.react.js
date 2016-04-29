@@ -1,9 +1,7 @@
 //こちらが、プロジェクトの部分かな
-const
-    React = require('react'),
-    jade = require('react-jade'),
-    projectElement = jade.compileFile(__dirname + '/../templates/ProjectElement.jade'),
-    ProjectActionCreator = require('../actions/ProjectActionCreator');
+import React from 'react';
+import ProjectActionCreator from '../actions/ProjectActionCreator';
+import projectElement from '../templates/ProjectElement.jade';
 
 const ProjectElement = React.createClass({
 

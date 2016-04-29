@@ -1,28 +1,21 @@
-const
-    React = require('react'),
-    jade = require('react-jade'),
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {render } from 'react-dom';
 
-    Navigation = require('./Navigation.react'),
-    SearchBar = require('./SearchBar.react'),
-    ProjectList = require('./ProjectList.react'),
-    ProjectManager = require('./ProjectManager.react'),
-    Player = require('./Player.react.js'),
-    Frame = require('./Frame.react.js'),
-    Footer = require('./Footer.react.js'),
-    CreateProject = require('./CreateProject.react.js'),
-    EditProject = require('./EditProject.react.js'),
-    ProjectDetail = require('./ProjectDetail.react.js'),
-    ProjectStore = require('../stores/ProjectStore'),
-    WebAPIUtils = require('../utils/WebAPIUtils'),
-    ServerActionCreator = require('../actions/ServerActionCreator'),
-
-    Router = require('react-router'),
-    DefaultRoute = Router.DefaultRoute,
-    Link = Router.Link,
-    Route = Router.Route,
-    RouteHandler = Router.RouteHandler,
-    NotFoundRoute = Router.NotFoundRoute,
-    Redirect = Router.Redirect;
+import Navigation from './Navigation.react';
+import SearchBar  from './SearchBar.react';
+import ProjectList  from './ProjectList.react';
+import ProjectManager  from './ProjectManager.react';
+import Player  from './Player.react.js';
+import Frame  from './Frame.react.js';
+import Footer  from './Footer.react.js';
+import CreateProject  from './CreateProject.react.js';
+import EditProject  from './EditProject.react.js';
+import ProjectDetail  from './ProjectDetail.react.js';
+import ProjectStore  from '../stores/ProjectStore';
+import WebAPIUtils  from '../utils/WebAPIUtils';
+import ServerActionCreator from '../actions/ServerActionCreator';
+import { Router, Route, DefaultRoute, Link, RouteHandler, NotFoundRoute, Redirect } from 'react-router';
 
 const routes = React.createElement(Route, { handler: Frame, path: "/" },
     //以下は、メニューバーがついたページの描画
@@ -44,9 +37,10 @@ const routes = React.createElement(Route, { handler: Frame, path: "/" },
 global.onload = function ( ){
   console.log("Fabnavi boot");
   ProjectStore.init();
-  Router.run(routes, function(Handler){
-    React.render(React.createElement(Handler, null), document.body);
-  });
+//  Router.run(routes, function(Handler){
+//    React.render(React.createElement(Handler, null), document.body);
+//  });
+  render(routes,document.body);
   if(WebAPIUtils.isSigningIn()){
     ServerActionCreator.signIn();
   }
