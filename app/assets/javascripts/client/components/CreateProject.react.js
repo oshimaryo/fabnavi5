@@ -1,17 +1,9 @@
 import React from 'react';
 import ProjectListStore from '../stores/ProjectListStore';
-import Jade from 'react-jade';
-
-import Router from 'react-router';
 import ProjectActionCreator from '../actions/ProjectActionCreator';
 import State from '../utils/FabnaviStateMachine';
-
-const 
-    DefaultRoute = Router.DefaultRoute,
-    Link = Router.Link,
-    Route = Router.Route,
-    RouteHandler = Router.RouteHandler,
-    createProject = Jade.compileFile(__dirname + '/../templates/CreateProject.jade');
+import { Link, Route, RouteHandler} from 'react-router';
+import createProject from '../templates/CreateProject.jade';
 
 /**
  *  CreateProjectがクリックされたときに呼び出されるView

@@ -1,11 +1,6 @@
-const
-    React = require('react'),
-    jade = require('react-jade'),
-    Router = require('react-router'),
-    Route = Router.Route,
-    Link = Router.Link,
-    RouteHandler = Router.RouteHandler,
-    frame = jade.compileFile(__dirname + '/../templates/Frame.jade');
+import React from 'react';
+import { Route, Link, RouteHandler } from 'react-router';
+import frame from '../templates/Frame.jade';
 
 const Frame = React.createClass({
   contextTypes: {

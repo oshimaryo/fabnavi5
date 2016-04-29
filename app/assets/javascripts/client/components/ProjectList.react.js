@@ -1,15 +1,13 @@
 //プロジェクトたちをリストにしている所？
 //最初のページとも言える
-const
-    React = require('react'),
-    ProjectListStore = require('../stores/ProjectListStore'),
-    ProjectSelectorStore = require('../stores/ProjectSelectorStore'),
-    ProjectElement = require('../components/ProjectElement.react'),
-    jade = require('react-jade'),
-    projectList = jade.compileFile(__dirname + '/../templates/ProjectList.jade'),
-    ProjectActionCreator = require('../actions/ProjectActionCreator'),
+import React from 'react';
+import ProjectListStore from '../stores/ProjectListStore';
+import ProjectSelectorStore from '../stores/ProjectSelectorStore';
+import ProjectElement from '../components/ProjectElement.react';
+import ProjectActionCreator from '../actions/ProjectActionCreator';
+import projectList from '../templates/ProjectList.jade';
 
-    State = require('../utils/FabnaviStateMachine');
+import State from '../utils/FabnaviStateMachine';
 
 const ProjectList = React.createClass({
 

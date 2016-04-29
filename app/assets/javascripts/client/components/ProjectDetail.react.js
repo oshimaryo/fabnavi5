@@ -1,16 +1,10 @@
-const
-    React = require('react'),
-    ProjectListStore = require('../stores/ProjectListStore'),
-    jade = require('react-jade'),
+import React from 'react';
+import ProjectListStore from '../stores/ProjectListStore';
 
-    Router = require('react-router'),
-    DefaultRoute = Router.DefaultRoute,
-    Link = Router.Link,
-    Route = Router.Route,
-    RouteHandler = Router.RouteHandler,
-    State = require('../utils/FabnaviStateMachine'),
+import { Route, RouteHandler, Link, DefaultRoute } from 'react-router';
+import State from '../utils/FabnaviStateMachine';
 
-    projectDetail = jade.compileFile(__dirname + '/../templates/ProjectDetail.jade');
+import projectDetail from '../templates/ProjectDetail.jade';
 
 const ProjectDetail = React.createClass({
 

@@ -1,22 +1,16 @@
-const
-    React = require('react'),
-    jade = require('react-jade'),
+import React from 'react';
 
-    ProjectStore = require('../stores/ProjectStore'),
-    MainView = require('../player/MainView'),
-    ViewConfig = require('../player/ViewConfig'),
-    ProjectActionCreator = require('../actions/ProjectActionCreator'),
+import ProjectStore from '../stores/ProjectStore';
+import MainView from '../player/MainView';
+import ViewConfig from '../player/ViewConfig';
+import ProjectActionCreator from '../actions/ProjectActionCreator';
 
-    Router = require('react-router'),
-    DefaultRoute = Router.DefaultRoute,
-    Link = Router.Link,
-    Route = Router.Route,
-    RouteHandler = Router.RouteHandler,
+import { Route, RouteHandler, Link, DefaultRoute } from 'react-router';
 
-    CalibrateController = require('../player/CalibrateController'),
-    player = jade.compileFile(__dirname + '/../templates/Player.jade'),
-    WebAPIUtils = require('../utils/WebAPIUtils'),
-    State = require('../utils/FabnaviStateMachine');
+import CalibrateController from '../player/CalibrateController';
+import WebAPIUtils from '../utils/WebAPIUtils';
+import State from '../utils/FabnaviStateMachine';
+import player from '../templates/Player.jade';
 
 let
     currentFile = null,

@@ -1,9 +1,6 @@
-const
-    React = require('react'),
-    Router = require('react-router');
-
 global.$ = global.jQuery = require('jquery');
 require('jquery-ujs');
+require('./components/FabnaviApp.react.js');
 
 global.gensym = function(){
   let sym = "";
