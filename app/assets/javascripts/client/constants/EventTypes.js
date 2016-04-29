@@ -1,4 +1,4 @@
-const keyMirror = require('keymirror');
+const keyMirror = require('mirrorkey');
 module.exports = keyMirror({
   ACCOUNT_CHANGE : null,
   PROJECT_LIST_CHANGE : null,
