@@ -7,7 +7,6 @@ import SearchBar  from './SearchBar.react';
 import ProjectList  from './ProjectList.react';
 import ProjectManager  from './ProjectManager.react';
 import Player  from './Player.react.js';
-import Frame  from './Frame.react.js';
 import Footer  from './Footer.react.js';
 import CreateProject  from './CreateProject.react.js';
 import EditProject  from './EditProject.react.js';
@@ -15,32 +14,37 @@ import ProjectDetail  from './ProjectDetail.react.js';
 import ProjectStore  from '../stores/ProjectStore';
 import WebAPIUtils  from '../utils/WebAPIUtils';
 import ServerActionCreator from '../actions/ServerActionCreator';
-import { Router, Route, DefaultRoute, Link, RouteHandler, NotFoundRoute, Redirect } from 'react-router';
+import { Router, Route, DefaultRoute, Link, RouteHandler, NotFoundRoute, Redirect, hashHistory } from 'react-router';
 
-const routes = React.createElement(Route, { handler: Frame, path: "/" },
-    //以下は、メニューバーがついたページの描画
-  React.createElement(Route, { handler: ProjectManager, name: "manager" },
-    React.createElement(Route, { handler: ProjectList, name: "index" }),
-    React.createElement(Route, { handler: CreateProject, name: "create" }),
-    React.createElement(Route, { handler: EditProject, name: "edit", path: "edit/:projectId" }),
-    React.createElement(Route, { handler: ProjectDetail, name: "project", path:"project/:projectId" }),
-    React.createElement(DefaultRoute, { handler: ProjectList }),
-    React.createElement(NotFoundRoute, { handler: ProjectList })
-  ),
-  //以下は、プレイヤーのページの描画
-  React.createElement(Route, { handler: Player, name: "player", path:"project/play/:projectId" }),
-  React.createElement(Redirect, { from: "/", to:"/manager" }),
-  React.createElement(NotFoundRoute, { handler: ProjectManager })
+const routes = (
+  <Router history={hashHistory}>
+      <Route components={ProjectManager} path="/" />
+  </Router>
 );
 
+/*
+React.createElement(Router, {history: hashHistory},
+  React.createElement(Route, { component: Frame, path: "/" },
+    React.createElement(Route, { component: ProjectManager, name: "manager" },
+      React.createElement(Route, { component: ProjectList, name: "index" }),
+      React.createElement(Route, { component: CreateProject, name: "create" }),
+      React.createElement(Route, { component: EditProject, name: "edit", path: "edit/:projectId" }),
+      React.createElement(Route, { component: ProjectDetail, name: "project", path:"project/:projectId" }),
+      React.createElement(DefaultRoute, { component: ProjectList }),
+      React.createElement(NotFoundRoute, { component: ProjectList })
+    ),
+    React.createElement(Route, { component: Player, name: "player", path:"project/play/:projectId" }),
+    React.createElement(Redirect, { from: "/", to:"/manager" }),
+    React.createElement(NotFoundRoute, { component: ProjectManager })));
+
+    */
 //ProjectStoreのinitと, 上で定義されたroutesを基に, Reactをdocument.body以下に展開する
 global.onload = function ( ){
-  console.log("Fabnavi boot");
   ProjectStore.init();
 //  Router.run(routes, function(Handler){
 //    React.render(React.createElement(Handler, null), document.body);
 //  });
-  render(routes,document.body);
+  render(routes, document.body);
   if(WebAPIUtils.isSigningIn()){
     ServerActionCreator.signIn();
   }
