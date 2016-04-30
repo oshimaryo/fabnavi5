@@ -17,7 +17,7 @@ module.exports = {
       exclude: /(node_modules|bower_components)/,
       query: {
         cacheDirectory: true,
-        presets: ["es2015"]
+        presets: ["es2015", "react"]
       }
     },{ 
      test: /\.css$/, 
