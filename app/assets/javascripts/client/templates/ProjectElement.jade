@@ -1,6 +1,6 @@
-//画像に表示されるメニュー 
+//画像に表示されるメニュー
 div(
-  className="project-box " + (this.props.isSelected  ? "selected-project" : "project") 
+  className="project-box " + (this.props.isSelected  ? "selected-project" : "project")
   onClick=this.handleClick
   )
   .thumbnail
@@ -12,14 +12,13 @@ div(
     img.user-icon(src=this.getUserIconSrc())
     .username
       = this.props.project.user.email.replace(/@.*$/,"")
-      // = this.props.project.user.email.replace(/[a-zA-Z0-9]*/,"")
     .date
       //= this.props.isOpenMenu.toString()
       = this.props.project.created_at.replace(/T.*$/,"").replace(/-/g," / ")
-    
+
     p.description
-      = this.props.project.description   
-    
+      = this.props.project.description
+
 
   - if( this.props.isOpenMenu )
     ul.actions
@@ -38,4 +37,3 @@ div(
       li(className="action-box "+(this.props.menuIndex == 4 ? "selected-action" : "action"))
         img(src="/images/p_delete.png")
         | Delete
-   
