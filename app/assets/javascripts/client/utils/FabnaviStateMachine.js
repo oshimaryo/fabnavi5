@@ -242,7 +242,7 @@ const managerStateMachine = new machina.Fsm({
   states : {
     "index" : {
       _onEnter : function(){
-        console.log("entering index");
+        console.log("move to /");
       },
       transitionl2 : function(){
         transitionl2.call(this);
@@ -251,18 +251,27 @@ const managerStateMachine = new machina.Fsm({
     },
 
     "create" : {
+      _onEnter : function(){
+        console.log("move to /create");
+      },
       transitionl2 : function(){
         transitionl2.call(this);
       },
     },
 
     "config" : {
+      _onEnter : function(){
+        console.log("move to /config");
+      },
       transitionl2 : function(){
         transitionl2.call(this);
       },
     },
 
     "edit" : {
+      _onEnter : function(){
+        console.log("move to /edit");
+      },
       transitionl2 : function(){
         transitionl2.call(this);
       },

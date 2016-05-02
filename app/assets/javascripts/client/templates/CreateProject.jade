@@ -4,19 +4,18 @@ form.form-box
   .field
     label Project Name
     input.form-text(
-      onChange=this.handleNameChange 　
-      value=this.state.name
+      onChange=handleNameChange 　
+      value=state.name
       type="text"
       )
   .field
     label Project description
     textarea.form-text(
-     onChange=this.handleDescriptionChange 
-     value=this.state.description 
+     onChange=handleDescriptionChange 
+     value=state.description 
      rows=10
      )
     center You need calibration sheet and Fixfox Addon !!
-      br 
       | Please print this PDF and install the Addon.
     a.pdf(
       href="https://drive.google.com/folderview?id=0B9k4M70SGKlAQ0xtTTNnOWgwOXM&usp=sharing" 
@@ -33,5 +32,5 @@ form.form-box
       input(
         type="submit"
         value="CreateProject"
-        onClick=this.handleSubmit
+        onClick=handleSubmit
         )
