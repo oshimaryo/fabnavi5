@@ -296,8 +296,9 @@ const FSM = new machina.Fsm({
   },
 
   reload : function( loc ){
-    console.log("Nested Transition: ", location.hash.split("/"));
-    this.transition(location.hash.split("/")[1]);
+    const url = location.hash.replace(/\?.*/,"").split("/");
+    console.log("Nested Transition: ", url);
+    this.transition(url[1]);
     this.handle("transitionl2");
   },
 });
