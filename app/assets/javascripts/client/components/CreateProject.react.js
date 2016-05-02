@@ -2,7 +2,7 @@ import React from 'react';
 import ProjectListStore from '../stores/ProjectListStore';
 import ProjectActionCreator from '../actions/ProjectActionCreator';
 import State from '../utils/FabnaviStateMachine';
-import { Link, Route, RouteHandler} from 'react-router';
+import { Route} from 'react-router';
 import createProject from '../templates/CreateProject.jade';
 
 /**
@@ -12,27 +12,12 @@ import createProject from '../templates/CreateProject.jade';
 class CreateProject extends React.Component {
 
   constructor(props){
-    super(props)
-  }
-
-  _onChange(){
-
-  }
-
-  getInitialState(){
-    return {
-      name : "",
-      description : "",
-    };
-  }
-
-  getDefaultProps(){
-    return {
-    };
-  }
-
-  handleChange(e){
-
+    super(props);
+    this.props = {};
+    this.state = {name : "", description: ""};
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleDescriptionChange = this.handleDescriptionChange(this);
+    this.handleSubmit = this.handleSubmit(this);
   }
 
   handleNameChange(e){

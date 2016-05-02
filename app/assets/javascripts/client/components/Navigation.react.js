@@ -6,49 +6,48 @@ import { Router, Link } from 'react-router';
 
 import navigation from '../templates/Navigation.jade';
 
-const Navigation = React.createClass({
+class Navigation extends React.Component {
 
-  getStateFromStores : function getStateFromStores(){
-    return {
-      account : AccountStore.getAccountInfo()
-    };
-  },
+  constructor(props){
+    super(props);
+    this.props = {headerSrc : "images/fav_logo_3.png"};
+    this.state = {account: AccountStore.getAccountInfo()};
+    this._onChange = this._onChange.bind(this);
+  }
 
-  _onChange : function (){
-    this.setState(this.getStateFromStores());
-  },
-  getInitialState: function(){
-    return this.getStateFromStores();
-  },
+  _onChange(){
+    this.setState({account: AccountStore.getAccountInfo()});
+  }
 
-  getDefaultProps: function(){
-    return {
-      headerSrc : "images/fav_logo_3.png",
-    };
-  },
+  render(){
+    return navigation(Object.assign(
+      this,
+      this.state,
+      this.props,
+      {MenuIcon: React.createFactory(MenuIcon)}
+    ));
+  }
 
-  render : navigation,
+  componentWillMount(){
+  }
 
-  componentWillMount : function(){
-  },
-
-  componentDidMount : function (){
+  componentDidMount(){
     AccountStore.addChangeListener(this._onChange);
-  },
+  }
 
-  componentWillUpdate : function(){
+  componentWillUpdate(){
     return {
     };
-  },
+  }
 
-  componentDidUpdate : function(){
+  componentDidUpdate(){
     return {
     };
-  },
+  }
 
-  componentWillUnmount : function(){
+  componentWillUnmount(){
     AccountStore.removeChangeListener(this._onChange);
-  },
-});
+  }
+}
 
-module.exports = Navigation;
+export default Navigation;

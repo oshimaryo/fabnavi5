@@ -9,65 +9,61 @@ import projectList from '../templates/ProjectList.jade';
 
 import State from '../utils/FabnaviStateMachine';
 
-const ProjectList = React.createClass({
+class ProjectList extends React.Component{
 
-  propTypes : {
+  constructor(props){
+    super(props);
+    this.getStateFromStores = this.getStateFromStores.bind(this);
+    this.state = this.getStateFromStores();
+    this.props = {};
+    this._onChange = this._onChange.bind(this);
+  }
 
-  },
-
-  getStateFromStores : function (){
+  getStateFromStores(){
     return {
       projects : ProjectListStore.getProjectsAll(),
       selected : ProjectSelectorStore.getSelector(),
     };
-  },
+  }
 
-  _onChange : function (){
+  _onChange(){
     this.setState(this.getStateFromStores());
-  },
+  }
 
-  getInitialState: function(){
-    return this.getStateFromStores();
-  },
+  render(){
+    return projectList(Object.assign(
+      this,
+      this.state,
+      this.props,
+      {ProjectElement: React.createFactory(ProjectElement)}
+    ));
+  }
 
-  getDefaultProps: function(){
-    return {
-    };
-  },
-
-  render : projectList,
-
-  handleChange: function( event ){
-  },
-
-  onclick : function(){
-  },
-
-  componentWillMount : function(){
+  componentWillMount(){
     ProjectActionCreator.getAllProjects();
-  },
+  }
 
-  componentDidMount : function(){
+  componentDidMount(){
     ProjectListStore.addChangeListener(this._onChange);
     ProjectSelectorStore.addChangeListener(this._onChange);
     State.reload();
-  },
+  }
 
-  componentWillUpdate : function(){
-  },
+  componentWillUpdate(){
+  }
 
 
-  componentDidUpdate : function(){
-  },
+  componentDidUpdate(){
+  }
 
-  componentWillReceiveProps : function(){
-  },
+  componentWillReceiveProps(){
+  }
 
-  componentWillUnmount : function(){
+  componentWillUnmount(){
     ProjectListStore.removeChangeListener(this._onChange);
     ProjectSelectorStore.removeChangeListener(this._onChange);
-  },
+  }
 
-});
+}
 
-module.exports = ProjectList;
+export default ProjectList;
