@@ -320,8 +320,12 @@ const WebAPIUtils = {
   signOut : function(){
     clearHeader();
     window.location.reload();
-  }
+    signedOut();
+  },
 
+  signedOut : function(){
+    ServerActionCreator.signOut();
+  }
 };
 
 
