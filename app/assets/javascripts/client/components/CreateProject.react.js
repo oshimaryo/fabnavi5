@@ -16,12 +16,12 @@ class CreateProject extends React.Component {
     this.props = {};
     this.state = {name : "", description: ""};
     this.handleNameChange = this.handleNameChange.bind(this);
-    this.handleDescriptionChange = this.handleDescriptionChange(this);
-    this.handleSubmit = this.handleSubmit(this);
+    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleNameChange(e){
-        this.setState({ name : e.target.value });
+    this.setState({ name : e.target.value });
   }
 
   handleDescriptionChange(e){
@@ -37,7 +37,10 @@ class CreateProject extends React.Component {
   }
 
   render(){
-    return createProject()
+    return createProject(Object.assign(
+      this,
+      this.state,
+      this.props));
   }
 
   componentWillMount(){

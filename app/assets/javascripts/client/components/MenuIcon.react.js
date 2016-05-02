@@ -24,10 +24,9 @@ class MenuIcon extends React.Component {
 
   render(){
     return menuIcon(Object.assign(
-          this,
-          this.props,
-          this.state
-          ));
+      this,
+      this.props,
+      this.state));
   }
 
   onclick(){

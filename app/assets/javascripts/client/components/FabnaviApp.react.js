@@ -8,6 +8,7 @@ import ProjectList  from './ProjectList.react';
 import ProjectManager  from './ProjectManager.react';
 import Player  from './Player.react.js';
 import Footer  from './Footer.react.js';
+import Frame from './Frame.react.js';
 import CreateProject  from './CreateProject.react.js';
 import EditProject  from './EditProject.react.js';
 import ProjectDetail  from './ProjectDetail.react.js';
@@ -18,15 +19,16 @@ import { Router, Route, IndexRoute, Redirect, hashHistory } from 'react-router';
 
 const routes = (
   <Router history={hashHistory}>
-      <Route components={ProjectManager} path="/manager" >
-        <IndexRoute component={ProjectList} />
-        <Route component={ProjectList} path="*" />
-        <Route component={CreateProject} path="create"/>
-        <Route component={EditProject} path="edit/:projectId" />
-        <Route component={ProjectDetail} path="project/:projectId" />
+      <Route components={Frame} path="/">
+        <IndexRoute component={ProjectManager} />
+        <Route components={ProjectManager} path="manager" >
+          <IndexRoute component={ProjectList} />
+          <Route component={CreateProject} path="create"/>
+          <Route component={EditProject} path="edit/:projectId" />
+          <Route component={ProjectDetail} path="project/:projectId" />
+        </Route>
+        <Route components={Player} path="project/play/:projectId" />
       </Route>
-      <Route components={Player} path="project/play/:projectId" />
-      <Redirect from="/" to="/manager" />
   </Router>
 );
 
