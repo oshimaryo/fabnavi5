@@ -16,21 +16,18 @@ class MenuIcon extends React.Component {
   },
 */
   constructor(props){
-    super(props)
-  }
-
-  getInitialState(){
-    return {
-    };
-  }
-
-  getDefaultProps(){
-    return {
-    };
+    super(props);
+    this.state = {};
+    this.props = {};
+    this.onclick = this.onclick.bind(this);
   }
 
   render(){
-    return menuIcon();
+    return menuIcon(Object.assign(
+          this,
+          this.props,
+          this.state
+          ));
   }
 
   onclick(){

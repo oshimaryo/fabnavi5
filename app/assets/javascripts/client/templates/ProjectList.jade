@@ -1,8 +1,8 @@
 -  var projects = [];
 .projects
-  - for (var i in this.state.projects )
+  - for (var i in state.projects )
    ProjectElement(
-    project=this.state.projects[i] 
-    isSelected=this.state.selected.index == i 
-    isOpenMenu=this.state.selected.index == i && this.state.selected.openMenu
-    menuIndex=this.state.selected.menuIndex)
+    project=state.projects[i] 
+    isSelected=state.selected.index == i 
+    isOpenMenu=state.selected.index == i && state.selected.openMenu
+    menuIndex=state.selected.menuIndex)

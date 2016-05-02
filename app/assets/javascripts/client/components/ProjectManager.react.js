@@ -7,25 +7,39 @@ import Player from './Player.react.js';
 import Frame from './Frame.react.js';
 import Footer from './Footer.react.js';
 
-import { Router, Route, RouteHandler, Link, DefaultRoute } from 'react-router';
+import { Router, Route, DefaultRoute } from 'react-router';
 import State from '../utils/FabnaviStateMachine';
 import projectManager from '../templates/ProjectManager.jade';
 
-const ProjectManager = React.createClass({
-  render: projectManager,
-  componentDidMount : function(){
+class ProjectManager extends React.Component {
 
-  },
 
-  componentWillUpdate : function(){
-  },
+  constructor(props){
+    super(props);
+    this.state = {};
+  }
 
-  componentDidUpdate : function(){
-  },
+  render(){
+   return projectManager(Object.assign(
+         this,
+         this.state,
+         this.props,
+         {Navigation: React.createFactory(Navigation)},
+         {ProjectList: React.createFactory(ProjectList)},
+         {SearchBar: React.createFactory(SearchBar)},
+         {Footer: React.createFactory(Footer)}));
+  }
+  componentDidMount(){
+  }
 
-  componentWillUnmount : function(){
-  },
+  componentWillUpdate(){
+  }
 
-});
+  componentDidUpdate(){
+  }
 
-module.exports = ProjectManager;
+  componentWillUnmount(){
+  }
+}
+
+export default ProjectManager;
