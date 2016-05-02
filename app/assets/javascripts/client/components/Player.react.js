@@ -20,14 +20,37 @@ let
     _lastState = "",
     _currentState = "";
 
-const Player = React.createClass({
-  render:  player,
+class Player extends React.Component {
 
+  render(){
+    player(Object.assign(
+
+    ));
+  }
+
+  /*
   contextTypes: {
     router: React.PropTypes.func
-  },
+  }
+  */
 
-  reset : function(){
+  constructor(props){
+    super(props);
+    this._onChange = this._onChange.bind(this);
+    this._onCanvasUpdate = this._onCanvasUpdate.bind(this);
+    this._onCanvasClear = this._onCanvasClear.bind(this);
+    
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleFile = this.handleFile.bind(this);
+    this.clearCanvas = this.clearCanvas.bind(this);
+    this.updateCanvas = this.updateCanvas.bind(this);
+    this.reset = this.reset.bind(this);
+    this.getStateFromStores = this.getStateFromStores.bind(this);
+    this.state = this.getStateFromStores();
+    this.props = {};
+  }
+
+  reset(){
     currentFile = null;
     _currentImage = null;
     pageChanged = true;
@@ -35,8 +58,9 @@ const Player = React.createClass({
     _lastState = "";
     _currentState = "";
     MainView.reset();
-  },
-  getStateFromStores : function getStateFromStores(){
+  }
+
+  getStateFromStores(){
     const project = ProjectStore.getProject();
     if( project == null || this.context.router.getCurrentParams().projectId != project.id ){
       return {
@@ -53,39 +77,31 @@ const Player = React.createClass({
       uploadQueue : ProjectStore.getUploadQueue(),
       shooting : ProjectStore.isShooting(),
     };
-  },
+  }
 
-  _onChange : function (){
+  _onChange(){
     this.setState(this.getStateFromStores());
-  },
+  }
 
-  _onCanvasUpdate : function(){
+  _onCanvasUpdate(){
     this.updateCanvas();
-  },
+  }
 
-  _onCanvasClear : function(){
+  _onCanvasClear(){
     this.clearCanvas();
-  },
+  }
 
-  getInitialState: function(){
-    return this.getStateFromStores();
-  },
 
-  getDefaultProps: function(){
-    return {
-    };
-  },
-
-  handleSubmit : function( event ){
+  handleSubmit( event ){
     if( currentFile == null ) return;
     WebAPIUtils.uploadFile( currentFile );
-  },
+  }
 
-  handleFile : function( event ){
+  handleFile( event ){
     currentFile = event.target.files[0];
-  },
+  }
 
-  updateCanvas : function(){
+  updateCanvas(){
 
     if(this.state.project == null){
       return 0;
@@ -139,43 +155,43 @@ const Player = React.createClass({
     if( _currentState.contains("calibrate") ){
       MainView.showCalibrateLine();
     }
-  },
+  }
 
-  clearCanvas : function( ){
+  clearCanvas(){
     MainView.clear();
-  },
+  }
 
-  componentWillMount : function(){
+  componentWillMount(){
     ProjectActionCreator.getProject({ id:this.context.router.getCurrentParams().projectId });
-  },
+  }
 
-  componentDidMount : function (){
+  componentDidMount(){
     MainView.init( React.findDOMNode(this.refs.mainCanvas));
     ProjectStore.addChangeListener(this._onChange);
     ProjectStore.addCanvasRequestListener(this._onCanvasUpdate);
     ProjectStore.addCanvasClearListener(this._onCanvasClear);
 
     State.transition("player");
-  },
+  }
 
-  componentWillUpdate : function(){
+  componentWillUpdate(){
     return {
     };
-  },
+  }
 
-  componentDidUpdate : function(){
+  componentDidUpdate(){
     this.updateCanvas();
-  },
+  }
 
-  componentWillUnmount : function(){
+  componentWillUnmount(){
     ProjectStore.init();
     ProjectStore.emitChange();
     this.reset();
     ProjectStore.removeChangeListener(this._onChange);
     ProjectStore.removeCanvasRequestListener(this._onCanvasUpdate);
     ProjectStore.removeCanvasClearListener(this._onCanvasClear);
-  },
+  }
 
-});
+}
 
-module.exports = Player;
+export default Player;
