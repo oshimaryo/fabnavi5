@@ -57,14 +57,14 @@ header {
     background-color:$selected-color;
   }
 }
-//20 $white 4px 20px
+
 .nav-action {
  img{
     border:solid 0px #7d7d7d;
     border-radius: 0px;
    }
 }
-//4px $hover-color
+
 .nav-action :hover {
   border:dashed 1px #7d7d7d;
 }
@@ -78,14 +78,12 @@ header {
 .logo {
   @include span-columns(3);
 }
-// User edit
 
+// User edit
 .avatar {
   max-width:400px;
   max-height:400px;
 }
-
-//nav
 
 .nav {
   margin-top:30px;
@@ -135,7 +133,6 @@ header {
     position: absolute;
     right: 0;
     margin-right: (100% - $ct-width) / 8;
-    //width: $ct-width / 3;
     width:240px;
     background-color: white;
     border-radius: 4px;
@@ -144,7 +141,6 @@ header {
 
     input {
       box-shadow: none;
-      //line-height: $belt-height;
       line-height:40px;
       background: none;
       border: none;

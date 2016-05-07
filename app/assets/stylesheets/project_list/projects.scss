@@ -75,17 +75,19 @@ body {
   margin:20px auto;
   width: $ct-width;
   color: #323232;
+  h1{
+    font-size: 18px;
+  }
 }
 .selected-project {
-  //background-color: $selected-color;
-  border: solid 3px;
+  width:252px;
+  height:382px;
   border-color: $hover-color;
-  box-shadow: 2px 3px 5px 2px #c8c8c8;
+  box-shadow: 0 0 0 3px #FF8F8F
 }
 .project {
   background-color: white;
-  border:solid 1px;
-  border-color: $border-normal
+  box-shadow: 0 0 0 1px #c8c8c8
 }
 .project-box {
 
@@ -99,7 +101,7 @@ body {
   position:relative;
   //固定幅
   width:250px;
-  height:380px;
+  height:400px;
   //animation
   transition: 0.1s ease-in-out;
   hr{
@@ -110,22 +112,22 @@ body {
   }
 }
 .project-box:hover {
-  //background-color: ;
-  border: solid 3px;
-  border-color: $hover-color;
-  box-shadow: 2px 3px 5px 2px #c8c8c8;
+  box-shadow: 0 0 0 3px #FF8F8F
 }
 .project-name {
   font-size:17pt;
   margin-left:$thumb-pad;
   margin-bottom:5px;
   margin-top: 35px;
+  height:54px;
 }
 .date {
   width: 50%;
   float: left;
   margin-left:0%;
-  margin-right: 40px;
+  margin-bottom: 4px;
+  font-size: 12px;
+  margin-right: 12px;
 }
 .user-icon {
   float: left;
@@ -133,6 +135,7 @@ body {
   height:$avatar-length;
   margin-left:$thumb-pad;
   margin-right:5px;
+  border-radius: 100%;
 }
 .username {
   float: left;
@@ -141,6 +144,8 @@ body {
   overflow: auto;
   white-space: nowrap;
   text-overflow: ellipsis;
+  font-size: 12px;
+  padding-top:4px;
 }
 .user {
   float: left;
@@ -153,7 +158,9 @@ body {
   margin-left:$thumb-pad;
   //あまり良くない合わせ方
   margin-right:20px;
+  margin-top: 8px;
   color:$gray;
+  word-break: break-all;
 }
 a:active,
 a:visited,
@@ -193,7 +200,6 @@ ul.actions {
 
     background-color: $tp-black;
     list-style: none;
-    //height: $action-height;
     height:33.948px;
     margin-bottom:0px;
     img {
