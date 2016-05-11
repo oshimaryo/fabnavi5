@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160417004443) do
+ActiveRecord::Schema.define(version: 20160511194622) do
 
   create_table "attachments", force: :cascade do |t|
     t.string   "type",            limit: 255
@@ -158,7 +158,6 @@ ActiveRecord::Schema.define(version: 20160417004443) do
   add_foreign_key "calibrations", "users"
   add_foreign_key "contents", "projects"
   add_foreign_key "figures", "contents"
-  add_foreign_key "projects", "figures"
   add_foreign_key "projects", "lisences"
   add_foreign_key "projects", "users"
   add_foreign_key "sensor_infos", "projects"
