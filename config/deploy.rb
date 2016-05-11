@@ -38,7 +38,7 @@ set :default_env, {
 }
 
 # Default value for keep_releases is 5
-# set :keep_releases, 5
+set :keep_releases, 1
 
 set :unicorn_pid, "#{shared_path}/tmp/pids/unicorn.pid"
 set :unicorn_rack_env, fetch(:stage) || "production"
