@@ -6,7 +6,7 @@
   a.logo(href="#/manager")
     img(src=this.props.headerSrc)
   .menu
-    if this.state.account.email != ""
+    if this.state.account.uid != ""
       MenuIcon(act="MOVE_TOP" src="images/kaffcop_icon/fab_home.png")
       MenuIcon(act="MOVE_MY_PROJECTS" src="images/kaffcop_icon/fab_mypro.png")
       MenuIcon(act="MOVE_NEW_PROJECT" src="images/kaffcop_icon/fab_create.png")

@@ -52,6 +52,7 @@ global.onload = function ( ){
     React.render(React.createElement(Handler, null), document.body);
   });
   if(WebAPIUtils.isSigningIn()){
-    ServerActionCreator.signIn();
+    const uid = WebAPIUtils.isSigningIn.uid;
+    ServerActionCreator.signIn(uid);
   }
 }

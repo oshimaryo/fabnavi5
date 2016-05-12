@@ -4,10 +4,10 @@ const
     AppDispatcher = require('../dispatcher/AppDispatcher');
 
 const ServerActionCreator = {
-  signIn: function( email ){
+  signIn: function( uid ){
     AppDispatcher.dispatch({
       type : ActionTypes.SIGN_IN_SUCCESS,
-      email : email
+      uid : uid
     });
   },
 

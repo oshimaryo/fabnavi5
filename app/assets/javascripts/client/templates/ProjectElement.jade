@@ -11,7 +11,7 @@ div(
   .box
     img.user-icon(src=this.getUserIconSrc())
     .username
-      = this.props.project.user.email.replace(/@.*$/,"")
+      = this.props.project.user.nickname
     .date
       //= this.props.isOpenMenu.toString()
       = this.props.project.created_at.replace(/T.*$/,"").replace(/-/g," / ")

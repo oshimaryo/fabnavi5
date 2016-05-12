@@ -317,14 +317,14 @@ const WebAPIUtils = {
     setHeader();
   },
 
+  signedOut : function(){
+    ServerActionCreator.signOut();
+  },
+
   signOut : function(){
     clearHeader();
     window.location.reload();
     signedOut();
-  },
-
-  signedOut : function(){
-    ServerActionCreator.signOut();
   }
 };
 

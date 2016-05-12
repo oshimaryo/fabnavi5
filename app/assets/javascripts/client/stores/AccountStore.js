@@ -8,7 +8,7 @@ const
 
 const AccountStore = Object.assign({}, EventEmitter.prototype, {
   init : function(){
-    _accountInfo.email = window.hasOwnProperty('CURRENT_USER') && window.CURRENT_USER || "";
+    _accountInfo.uid = window.hasOwnProperty('CURRENT_USER') && window.CURRENT_USER || "";
   },
 
   emitChange : function(){
@@ -23,24 +23,24 @@ const AccountStore = Object.assign({}, EventEmitter.prototype, {
     this.removeListener(EventTypes.ACCOUNT_CHANGE, callback);
   },
 
-  getUserEmail : function(){
-    return _accountInfo.email
+  getUserID : function(){
+    return _accountInfo.uid
   },
 
   isSigningIn : function(){
-    return _accountInfo.email != "";
+    return _accountInfo.uid != "";
   },
 
-  setEmail : function( email ){
-    _accountInfo.email = email;
+  setUserID : function( uid ){
+    _accountInfo.uid = uid;
   },
 
   getAccountInfo : function(){
     return _accountInfo;
   },
 
-  clearEmail : function(){
-    _accountInfo.email = "";
+  clearUserID : function(){
+    _accountInfo.uid = "";
   },
 
 });
@@ -52,12 +52,12 @@ AccountStore.dispatchToken = AppDispatcher.register(function( action ){
       break;
 
     case ActionTypes.SIGN_IN_SUCCESS :
-      AccountStore.setEmail(action.email);
+      AccountStore.setUserID(action.uid);
       AccountStore.emitChange();
       break;
 
     case ActionTypes.SIGN_OUT_SUCCESS :
-      AccountStore.clearEmail();
+      AccountStore.clearUserID();
       AccountStore.emitChange();
       break;
 
