@@ -56,8 +56,11 @@ class V1::Projects < V1::Base
     resource ':id' do
       desc 'Describe a project', {headers: AUTH_HEADERS}
       get jbuilder: 'v1/projects/show' do
-        authenticate_user!
-        @project = Project.showable_for(current_user).find params[:id]
+        @project = if signed_in?
+          Project.showable_for(current_user).find params[:id]
+        else
+          Project.public_projects.find params[:id]
+        end
       end
 
       desc 'Update a project', {headers: AUTH_HEADERS}

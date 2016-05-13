@@ -1,13 +1,13 @@
 class V1::Base < Grape::API
   AUTH_HEADERS = {
     "Client" => {
-      required: true
+      required: false
     },
     "Access-Token" => {
-      required: true
+      required: false
     },
     "Uid" => {
-      required: true
+      required: false
     }
   }
 end
