@@ -17,6 +17,7 @@ const MainView = function(){
   function init (canvasElement){
     reset();
     initCanvas(canvasElement);
+
     CalibrateController.init( canvasElement, getCurrentImage );
     ViewConfig.init();
     clear();
@@ -49,22 +50,22 @@ const MainView = function(){
   }
 
   function drawWaitingMessage(){
-    ctx.fillStyle = "green";
-    ctx.font = "100px ArialRoundedMTBoldBold, serif";
+    ctx.fillStyle = "#FFFFFF";
+    ctx.font = "100px NotoSansCJKjp-Medium, sans-serif";
     ctx.rotate(Math.PI);
-    ctx.translate(-1500, -800);
-    ctx.fillText("Now loading...", 400, 400);
-    ctx.translate(1500, 800);
+    ctx.translate(-(cvs.width/2+300), -(cvs.height/2));
+    ctx.fillText("Now Loading...", 0,0);
+    ctx.translate(cvs.width/2+300, cvs.height/2);
     ctx.rotate(-Math.PI);
   }
 
   function drawShootingMessage(){
-    ctx.fillStyle = "green";
-    ctx.font = "100px ArialRoundedMTBoldBold, serif";
+    ctx.fillStyle = "#343434";
+    ctx.font =  "100px NotoSansCJKjp-Medium, sans-serif";
     ctx.rotate(Math.PI);
-    ctx.translate(-1500, -800);
-    ctx.fillText("Taking picture...", 400, 400);
-    ctx.translate(1500, 800);
+    ctx.translate(-(cvs.width/2+300), -(cvs.height/2));
+    ctx.fillText("Taking picture...", 0, 0);
+    ctx.translate(cvs.width/2+300, cvs.height/2);
     ctx.rotate(-Math.PI);
   }
 

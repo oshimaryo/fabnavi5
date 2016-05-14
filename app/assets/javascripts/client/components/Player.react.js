@@ -127,7 +127,7 @@ const Player = React.createClass({
     } else {
       const img = new Image();
       ViewConfig.setCropped(false);
-      MainView.clear();
+      MainView.redraw();
       MainView.showWaitMessage();
       img.src = fig.file.file.url;
       img.onload = function(aImg){
