@@ -53,6 +53,18 @@ const ProjectElement = React.createClass({
     ProjectActionCreator.playProject( this.props.project );
   },
 
+  getUploadDate : function(){
+    return this.props.project.created_at.replace(/T.*$/,"").replace(/-/g," / ");
+  },
+
+  getDescription: function(){
+    if( this.props.project.description.length>=100 ){
+      return this.props.project.description.substr(0,100) + " . . ." ;
+    }else{
+      return this.props.project.description;
+    }
+  },
+
   componentWillMount : function(){
   },
 

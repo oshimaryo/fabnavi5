@@ -24,5 +24,18 @@ class V1::Users < V1::Base
         @user = User.find params[:id]
       end
     end
+
+    resource ':id/projects' do
+      desc 'Get all projects of a user'
+      get jbuilder: 'v1/users/projects' do
+        query = Project.where(user_id: params[:id])
+        if signed_in?
+          query = query.showable_for current_user
+        else
+          query = query.public_projects
+        end
+        @projects = paginate query.order(id: :desc)
+      end
+    end
   end
 end

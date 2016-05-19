@@ -4,7 +4,7 @@ div(
   onClick=this.handleClick
   )
   .thumbnail
-    img(src=this.getThumbnailSrc())
+    img(src=this.getThumbnailSrc()) 
   h1.project-name
     = this.props.project.name
   hr
@@ -13,11 +13,9 @@ div(
     .username
       = this.props.project.user.nickname
     .date
-      //= this.props.isOpenMenu.toString()
-      = this.props.project.created_at.replace(/T.*$/,"").replace(/-/g," / ")
-
+      = this.getUploadDate()
     .description
-      = this.props.project.description
+      = this.getDescription()
 
 
   - if( this.props.isOpenMenu )

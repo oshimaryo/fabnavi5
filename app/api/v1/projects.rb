@@ -20,12 +20,7 @@ class V1::Projects < V1::Base
       optional :q, type: String
     end
     get jbuilder: 'v1/projects/index' do
-      query = Project
-      if signed_in?
-        query = query.showable_for current_user
-      else
-        query = query.public_projects
-      end
+      query = Project.public_projects
       if params[:q].present?
         q = "%#{params[:q]}%"
         query = paginate query.joins(:user, {:taggings => :tag})

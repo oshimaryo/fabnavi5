@@ -15,7 +15,7 @@ $gray:#707070;
     font-family : "NotoSansCJKjp-Medium";
     font-style: normal;
     font-weight: normal;
-    src:url("/fonts/NotoSansCJKjp-Medium.otf") format('truetype');
+    src:url("/fonts/NotoSansCJKjp-Medium.otf") format('opentype');
   }
   @mixin base-font {
     font-family : "NotoSansCJKjp-Medium";
@@ -24,7 +24,7 @@ $gray:#707070;
     font-family : "NotoSansCJKjp-Light";
     font-style: normal;
     font-weight: normal;
-    src:url("/fonts/NotoSansCJKjp-Light.otf") format('truetype');
+    src:url("/fonts/NotoSansCJKjp-Light.otf") format('opentype');
   }
   @mixin thin-font {
     font-family : "NotoSansCJKjp-Light";
