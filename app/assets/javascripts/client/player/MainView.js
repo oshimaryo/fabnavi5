@@ -51,7 +51,7 @@ const MainView = function(){
 
   function drawWaitingMessage(){
     ctx.fillStyle = "#FFFFFF";
-    ctx.font = "100px NotoSansCJKjp-Medium, sans-serif";
+    ctx.font = "100px NotoSans-Regular, sans-serif";
     ctx.rotate(Math.PI);
     ctx.translate(-(cvs.width/2+300), -(cvs.height/2));
     ctx.fillText("Now Loading...", 0,0);
@@ -61,7 +61,7 @@ const MainView = function(){
 
   function drawShootingMessage(){
     ctx.fillStyle = "#343434";
-    ctx.font =  "100px NotoSansCJKjp-Medium, sans-serif";
+    ctx.font =  "100px NotoSans-Regular, sans-serif";
     ctx.rotate(Math.PI);
     ctx.translate(-(cvs.width/2+300), -(cvs.height/2));
     ctx.fillText("Taking picture...", 0, 0);
