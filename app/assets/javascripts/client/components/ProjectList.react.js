@@ -46,7 +46,7 @@ const ProjectList = React.createClass({
   },
 
   componentWillMount : function(){
-    ProjectActionCreator.getAllProjects();
+    ProjectListStore.loadProjects();
   },
 
   componentDidMount : function(){

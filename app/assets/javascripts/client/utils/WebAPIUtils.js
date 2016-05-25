@@ -18,6 +18,7 @@ function setHeader(){
 
 function clearHeader(){
   localStorage.removeItem("header");
+  localStorage.removeItem("currentuser");
 }
 
 function loadHeader(){
@@ -56,6 +57,26 @@ function genHeader(){
 
 const WebAPIUtils = {
 
+  getCurrentUserID : function(){
+    console.log("getCurrentUserID");
+    let current_id;
+
+    $.ajax({
+      dataType : "json",
+      type : "GET",
+      success : function(res){
+        current_id = res.id;
+        localStorage.setItem("currentuser", current_id);
+      },
+      error : function(err){
+        console.log("Error from getCurrentUserID");
+        console.log(err);
+      },
+      headers : genHeader(),
+      url : "/api/v1/current_user.json"
+    });
+  },
+
   getProject : function( id ){
     console.log("getProject : ", id);
 
@@ -71,6 +92,24 @@ const WebAPIUtils = {
       },
       headers : genHeader(),
       url : "/api/v1/projects/" + id + ".json"
+    });
+  },
+
+  getOwnProjects : function( uid ){
+    console.log("getOwnProjects : ", uid);
+
+    $.ajax({
+      dataType : "json",
+      type : "GET",
+      success : function(res){
+        ProjectServerActionCreator.receiveProjects( res );
+      },
+      error : function(err){
+        console.log("Error from getOwnProjects");
+        console.log(err);
+      },
+      headers : genHeader(),
+      url : "/api/v1/users/" + uid + "/projects.json"
     });
   },
 

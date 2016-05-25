@@ -27,11 +27,17 @@ const
     NotFoundRoute = Router.NotFoundRoute,
     Redirect = Router.Redirect;
 
+const transit = React.createClass({
+  render : function(){return null}
+});
+
  //フレーム
 const routes = React.createElement(Route, { handler: Frame, path: "/" },
     //以下は、メニューバーがついたページの描画
   React.createElement(Route, { handler: ProjectManager, name: "manager" },
     React.createElement(Route, { handler: ProjectList, name: "index" }),
+    React.createElement(Route, { handler: transit, name: "transit" }),
+    React.createElement(Route, { handler: ProjectList, name: "myprojects", path: "myprojects" }),
     React.createElement(Route, { handler: CreateProject, name: "create" }),
     React.createElement(Route, { handler: EditProject, name: "edit", path: "edit/:projectId" }),
     React.createElement(Route, { handler: ProjectDetail, name: "project", path:"project/:projectId" }),
