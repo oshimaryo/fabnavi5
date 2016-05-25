@@ -29,6 +29,7 @@ class V1 < Grape::API
   mount V1::Calibrations
   mount V1::Attachments
   mount V1::Users
+  mount V1::CurrentUser
   add_swagger_documentation(
     base_path: "/api/v1",
     hide_documentation_path: true

@@ -42,7 +42,6 @@ const Player = React.createClass({
     _currentState = "";
     MainView.reset();
   },
-
   getStateFromStores : function getStateFromStores(){
     const project = ProjectStore.getProject();
     if( project == null || this.context.router.getCurrentParams().projectId != project.id ){

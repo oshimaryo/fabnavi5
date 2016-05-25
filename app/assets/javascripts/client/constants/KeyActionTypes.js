@@ -4,6 +4,9 @@ module.exports = keyMirror({
   PROJECT_PREV_PAGE : null,
   PROJECT_SHOOT : null,
 
+  CALIBRATE_ZOOMIN :null,
+  CALIBRATE_ZOOMOUT : null,
+
   CALIBRATE_MOVE_RIGHT : null,
   CALIBRATE_MOVE_LEFT: null,
   CALIBRATE_MOVE_DOWN : null,
@@ -34,4 +37,3 @@ module.exports = keyMirror({
   TOGGLE_DELETE_FLAG : null,
   PROJECT_SAVE : null,
 });
-

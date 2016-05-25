@@ -32,13 +32,15 @@ header {
 }
 .header {
   @include outer-container;
-  width:100%;
+  margin-top: 30px;
+  width:$solid-width;
 
 }
 
 .menu {
    margin-top:20px;
   @include span-columns(8);
+  float:right;
 }
 
 
@@ -62,6 +64,7 @@ header {
  img{
     border:solid 0px #7d7d7d;
     border-radius: 0px;
+
    }
 }
 
@@ -76,7 +79,7 @@ header {
 }
 
 .logo {
-  @include span-columns(3);
+  @include span-columns(2);
 }
 
 
@@ -110,7 +113,7 @@ header {
 }
 
 .belt {
-  @include outer-container(100%);
+  @include outer-container;
   background-color: white;
   padding-bottom: 30px;
   padding-top: 5px;
@@ -123,7 +126,7 @@ header {
 
 }
 .search-bar {
-  width: $ct-width;
+  width: $solid-width;
   position: relative;
   margin-left: auto;
   margin-right: auto;
@@ -132,12 +135,13 @@ header {
   form {
     position: absolute;
     right: 0;
-    margin-right: (100% - $ct-width) / 8;
+    margin-right: 125px;
     width:240px;
     background-color: white;
     border-radius: 4px;
     box-shadow: none;
     border:solid 1px;
+    color:#CECECE;
 
     input {
       box-shadow: none;

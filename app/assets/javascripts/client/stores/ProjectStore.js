@@ -11,7 +11,7 @@ const
     CalibrateController = require('../player/CalibrateController');
 
 let
-    STEP = 1,
+    STEP = 10,
     _shooting = false,
     _project = null,
     _currentPage = 0,
@@ -318,10 +318,10 @@ ProjectStore.dispatchToken = AppDispatcher.register(function( action ){
       CalibrateController.moveRegionCB(-STEP, 0)();
       break;
     case KeyActionTypes.CALIBRATE_MOVE_DOWN:
-      CalibrateController.moveRegionCB(0, STEP)();
+      CalibrateController.moveRegionCB(0, -STEP)();
       break;
     case KeyActionTypes.CALIBRATE_MOVE_UP:
-      CalibrateController.moveRegionCB(0, -STEP)();
+      CalibrateController.moveRegionCB(0, STEP)();
       break;
 
     case KeyActionTypes.PROJECT_SAVE:
@@ -343,6 +343,15 @@ ProjectStore.dispatchToken = AppDispatcher.register(function( action ){
     case KeyActionTypes.PROJECT_PREV_PAGE:
       ProjectStore.prev();
       break
+
+    case KeyActionTypes.CALIBRATE_ZOOMOUT:
+      CalibrateController.zoomIOCB(1.01, 1.01)();
+      break
+    case KeyActionTypes.CALIBRATE_ZOOMIN:
+      CalibrateController.zoomIOCB(0.99, 0.99)();
+      break
+
+
 
     case KeyActionTypes.EXIT_PROJECT:
       location.hash = "#/manager";

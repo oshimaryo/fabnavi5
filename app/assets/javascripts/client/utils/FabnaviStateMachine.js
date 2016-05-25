@@ -43,12 +43,16 @@ const playerStateMachine = new machina.Fsm({
       _onEnter : function (){
         console.log("enter play mode");
         this.keyMap = [];
-        this.keyMap[13] = KeyAction.PROJECT_SHOOT;
+        // this.keyMap[13] = KeyAction.PROJECT_SHOOT;
         this.keyMap[39] = KeyAction.PROJECT_NEXT_PAGE;
         this.keyMap[37] = KeyAction.PROJECT_PREV_PAGE;
         this.keyMap[27] = KeyAction.EXIT_PROJECT;
         this.keyMap[8] = KeyAction.TOGGLE_DELETE_FLAG;
         this.keyMap[83] = KeyAction.PROJECT_SAVE;
+
+        //Playの時に画像を上下キーで拡大縮小
+        this.keyMap[38] = KeyAction.CALIBRATE_ZOOMIN;
+        this.keyMap[40] = KeyAction.CALIBRATE_ZOOMOUT;
 
         this.keyMap[67] = function(){
           this.transition("calibrateCenter");
