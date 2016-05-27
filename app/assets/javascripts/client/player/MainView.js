@@ -50,23 +50,21 @@ const MainView = function(){
   }
 
   function drawWaitingMessage(){
-    ctx.fillStyle = "#FFFFFF";
     ctx.font = "100px NotoSans-Regular, sans-serif";
-    ctx.rotate(Math.PI);
-    ctx.translate(-(cvs.width/2+300), -(cvs.height/2));
-    ctx.fillText("Now Loading...", 0,0);
-    ctx.translate(cvs.width/2+300, cvs.height/2);
-    ctx.rotate(-Math.PI);
+    ctx.textBaseline = 'top';
+    ctx.lineWidth = 10.0;
+    ctx.strokeStyle = "#777777";
+    ctx.strokeText("Now Loading...", cvs.width/2-300,cvs.height/2);
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillText("Now Loading...", cvs.width/2-300,cvs.height/2);
   }
 
   function drawShootingMessage(){
     ctx.fillStyle = "#343434";
     ctx.font =  "100px NotoSans-Regular, sans-serif";
-    ctx.rotate(Math.PI);
     ctx.translate(-(cvs.width/2+300), -(cvs.height/2));
     ctx.fillText("Taking picture...", 0, 0);
     ctx.translate(cvs.width/2+300, cvs.height/2);
-    ctx.rotate(-Math.PI);
   }
 
   function draw(image){
