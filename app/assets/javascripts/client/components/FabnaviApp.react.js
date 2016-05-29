@@ -40,7 +40,7 @@ const routes = React.createElement(Route, { handler: Frame, path: "/" },
     React.createElement(Route, { handler: ProjectList, name: "myprojects", path: "myprojects" }),
     React.createElement(Route, { handler: CreateProject, name: "create" }),
     React.createElement(Route, { handler: EditProject, name: "edit", path: "edit/:projectId" }),
-    React.createElement(Route, { handler: ProjectDetail, name: "project", path:"project/:projectId" }),
+    React.createElement(Route, { handler: ProjectDetail, name: "detail", path:"detail/:projectId" }),
     React.createElement(DefaultRoute, { handler: ProjectList }),
     React.createElement(NotFoundRoute, { handler: ProjectList })
   ),

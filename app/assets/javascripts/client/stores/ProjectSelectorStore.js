@@ -7,6 +7,7 @@ const
     EventTypes = require('../constants/EventTypes'),
     ActionTypes = require('../constants/ActionTypes'),
     KeyActionTypes = require('../constants/KeyActionTypes'),
+    NavigationViewActionCreator = require('../actions/NavigationViewActionCreator'),
     ProjectActionCreator = require('../actions/ProjectActionCreator');
 
 let _selector = {
@@ -45,6 +46,13 @@ const ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
         setTimeout(function(){
           ProjectActionCreator.playProject( project );
         }, 0);
+        _selector.openMenu = false;
+        _selector.menuIndex = 0;
+        break;
+      case 1:
+        setTimeout(function(){
+          ProjectActionCreator.detailProject( project );
+        },0);
         _selector.openMenu = false;
         _selector.menuIndex = 0;
         break;

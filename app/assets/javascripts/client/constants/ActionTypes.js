@@ -25,6 +25,7 @@ module.exports = keyMirror({
   PROJECT_UPDATE : null,
   PROJECT_UPDATE_SUCCESS : null,
   PROJECT_UPDATE_FAILED: null,
+  PROJECT_DETAIL: null,
 
   MOVE_TOP :null,
   MOVE_MY_PROJECTS :null,

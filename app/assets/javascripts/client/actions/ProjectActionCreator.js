@@ -43,7 +43,7 @@ const ProjectActionCreator = {
 
   playProject : function( payload ){
     AppDispatcher.dispatch({
-      type : ActionTypes.PROJECT_PLAY,
+      type : ActionTypes.PROJECT_PLAY,　
       id   : payload.id
     });
   },
@@ -77,6 +77,13 @@ const ProjectActionCreator = {
   updateCanvas : function( ){
     AppDispatcher.dispatch({
       type : ActionTypes.UPDATE_CANVAS
+    });
+  },
+
+  detailProject : function( payload ){
+    AppDispatcher.dispatch({
+      type : ActionTypes.PROJECT_DETAIL,　
+      id   : payload.id
     });
   },
 

@@ -5,7 +5,7 @@ const
     projectElement = jade.compileFile(__dirname + '/../templates/ProjectElement.jade'),
     ProjectActionCreator = require('../actions/ProjectActionCreator');
 
-const ProjectElement = React.createClass({
+const ProjectElement = React.createClass({　
 
   propTypes : {
   },
