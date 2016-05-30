@@ -7,7 +7,8 @@ const
 let
     _projects = [],
     initProjects = [],
-    searchProjects = [];
+    searchProjects = [],
+    projectsType = "";
 
 const ProjectListStore = Object.assign({}, EventEmitter.prototype, {
   init : function(){
@@ -22,6 +23,18 @@ const ProjectListStore = Object.assign({}, EventEmitter.prototype, {
     }else{
       ProjectActionCreator.getAllProjects();
     }
+  },
+
+  setProjectsType : function(){
+    if(location.hash=="#/manager/myprojects"){
+      projectsType = "myProjects";
+    }else{
+      projectsType = "allProjects";
+    }
+  },
+
+  getProjectsType : function(){
+    return projectsType;
   },
 
   getProjectsAll : function(){
@@ -40,6 +53,7 @@ const ProjectListStore = Object.assign({}, EventEmitter.prototype, {
   setProjects : function( projects ){
     _projects = projects;
     this.emitChange();
+    this.setProjectsType();
   },
 
   removeProject : function( project ){

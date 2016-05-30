@@ -20,6 +20,7 @@ const ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
       index : 0,
       row   : 0,
       col   : 0,
+      menuType : "allProjects",
       openMenu : false,
       menuIndex : 0,
     };
@@ -149,6 +150,23 @@ const ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
     this.emitChange();
   },
 
+  changeProjectsType : function(projectsType){
+    _selector.menuType = projectsType;
+    if(projectsType == "allProjects"){
+      setTimeout(function(){
+        ProjectActionCreator.getAllProjects();
+      }, 0);
+    }else{
+      setTimeout(function(){
+        ProjectActionCreator.getOwnProjects();
+      }, 0);
+    }
+    _selector.openMenu = false;
+    FSM.states.manager._child.instance.states.index._child.instance.transition("projects");
+    _selector.menuIndex = 0;
+    _selector.index = 0;
+  },
+
   getSelector : function(){
     return _selector;
   },
@@ -196,16 +214,12 @@ ProjectSelectorStore.dispatchToken = AppDispatcher.register(function( action ){
       ProjectSelectorStore.nextAction();
       break;
     case ActionTypes.MOVE_TOP:
-      location.hash = "#/manager/transit"
-      setTimeout(function(){
-        location.hash = "#/manager"
-      },0);
+      location.hash = "#/manager"
+      ProjectSelectorStore.changeProjectsType("allProjects");
       break;
     case ActionTypes.MOVE_MY_PROJECTS:
-      location.hash = "#/manager/transit"
-      setTimeout(function(){
-        location.hash = "#/manager/myprojects"
-      },0);
+      location.hash = "#/manager/myprojects"
+      ProjectSelectorStore.changeProjectsType("myprojects");
       break;
     case ActionTypes.MOVE_CONFIG:
       location.hash = "#/manager/transit"

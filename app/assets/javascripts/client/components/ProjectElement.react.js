@@ -31,7 +31,7 @@ const ProjectElement = React.createClass({　
     }
 
     if( src == null || src == "" ){
-      src = "/images/kaffcop_icon/fab_samp.jpg";
+      src = "/images/kaffcop_icon/no_thumbnail.png";
     }
     return src;
   },
