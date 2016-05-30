@@ -48,6 +48,13 @@ const ProjectActionCreator = {
     });
   },
 
+  editProject : function( payload ){
+    AppDispatcher.dispatch({
+      type : ActionTypes.PROJECT_EDIT,
+      id   : payload.id
+    });
+  },
+
   updateProject : function( payload ){
     AppDispatcher.dispatch({
       type : ActionTypes.PROJECT_UPDATE,
@@ -77,6 +84,14 @@ const ProjectActionCreator = {
   updateCanvas : function( ){
     AppDispatcher.dispatch({
       type : ActionTypes.UPDATE_CANVAS
+    });
+  },
+
+  editContent : function( project,content_array ){
+    AppDispatcher.dispatch({
+      type : ActionTypes.EDIT_CONTENT,
+      project : project,
+      content_array : content_array
     });
   },
 

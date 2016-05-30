@@ -61,7 +61,7 @@ const ProjectDetail = React.createClass({
       src = this.state.projects[a].content[this.state.projects[a].content.length-1].figure.file.file.thumb.url;
     }
     if( src == null || src == "" ){
-      src = "/images/kaffcop_icon/fab_samp.jpg";
+      src = "/images/kaffcop_icon/no_thumbnail.png";
     }
     return src;
   },
@@ -78,7 +78,7 @@ const ProjectDetail = React.createClass({
 
   componentWillMount : function(){
     console.log("load detail page");
-    ProjectActionCreator.getAllProjects();　
+    ProjectActionCreator.getAllProjects();
   },
 
   componentDidMount : function (){

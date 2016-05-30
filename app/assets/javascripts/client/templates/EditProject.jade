@@ -1,2 +1,15 @@
-h1 EditProject
-= this.context.router.getCurrentParams().projectId
+- var selected_num = String(this.props.id_array.length);
+div.editproject
+  h1 EditProject 
+  button.btn(type ="submit" onClick = this.onclick) D E L E T E
+  
+  hr
+  - var contents = this.getImage();
+  div.edit-pic
+    - for(var i in contents.content_array) 
+      EditContent(
+        id=contents.figure_id[i]
+        src=contents.figure[i]
+        id_array = this.props.id_array ) 
+    
+      

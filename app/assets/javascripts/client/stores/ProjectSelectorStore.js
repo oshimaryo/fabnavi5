@@ -130,8 +130,10 @@ const ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
 
   nextAction : function(){
     _selector.menuIndex++;
+
     if(_selector.menuIndex > menuIndexSize){
       _selector.menuIndex = menuIndexSize;
+
     }
     this.emitChange();
   },

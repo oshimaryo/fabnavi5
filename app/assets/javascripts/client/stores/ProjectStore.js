@@ -14,6 +14,7 @@ let
     STEP = 10,
     _shooting = false,
     _project = null,
+    _delContent = [],
     _currentPage = 0,
     _uploadQueue = [
     ];
@@ -154,6 +155,22 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
       _project.content[_currentPage].figure._destroy = !_project.content[_currentPage].figure._destroy;
     } else {
       _project.content[_currentPage].figure["_destroy"] = true;
+    }
+    this.emitChange();
+  },
+
+  toggleDestroyContent:function(){
+    console.log("toggletoggle");
+    console.log(_project.content.length);
+    console.log(_delContent.length);
+    for(let i =0; i<_project.content.length;i++){
+      for(let j =0; j<_delContent.length;j++){
+        if(_project.content[i].figure.figure_id == _delContent[j]){
+          console.log(_project.content[i].figure.file.file.thumb.url);
+          _project.content[i].figure["_destroy"] = true;
+          console.log(_project.content[i].figure["_destroy"]);
+        }
+      }
     }
     this.emitChange();
   },
@@ -384,6 +401,22 @@ ProjectStore.dispatchToken = AppDispatcher.register(function( action ){
     case ActionTypes.PROJECT_DETAIL:
       console.log("PROJECT_DETAIL");
       location.hash = "#/manager/detail/" + action.id;
+      break;
+    case ActionTypes.PROJECT_EDIT:
+      location.hash = "#/manager/edit/" + action.id;
+      break;
+    case ActionTypes.EDIT_CONTENT:
+      _project = action.project;
+      _delContent = action.content_array;
+      console.log("action edit content:")
+      console.log(_project);
+      console.log(_delContent);
+      ProjectStore.toggleDestroyContent();
+      setTimeout(function(){
+        ProjectActionCreator.updateProject({
+          project:ProjectStore.getProject()
+        });
+      }, 0);
       break;
     default :
       break;

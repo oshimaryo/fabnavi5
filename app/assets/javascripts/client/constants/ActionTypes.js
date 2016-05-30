@@ -25,7 +25,10 @@ module.exports = keyMirror({
   PROJECT_UPDATE : null,
   PROJECT_UPDATE_SUCCESS : null,
   PROJECT_UPDATE_FAILED: null,
+
+  PROJECT_EDIT: null,
   PROJECT_DETAIL: null,
+
 
   MOVE_TOP :null,
   MOVE_MY_PROJECTS :null,
@@ -39,4 +42,6 @@ module.exports = keyMirror({
   UPDATE_CANVAS: null,
 
   PROJECT_SEARCH: null,
+
+  EDIT_CONTENT: null,
 });
