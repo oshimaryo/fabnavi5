@@ -12,6 +12,7 @@ const
 
 let _selector = {
 };
+let menuIndexSize = 1;
 
 
 const ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
@@ -57,7 +58,7 @@ const ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
         _selector.openMenu = false;
         _selector.menuIndex = 0;
         break;
-      case 4:
+      case 3:
         setTimeout(function(){
           ProjectActionCreator.deleteProject( project );
         }, 0);
@@ -129,8 +130,8 @@ const ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
 
   nextAction : function(){
     _selector.menuIndex++;
-    if(_selector.menuIndex > 2){
-      _selector.menuIndex = 2;
+    if(_selector.menuIndex > menuIndexSize){
+      _selector.menuIndex = menuIndexSize;
     }
     this.emitChange();
   },
@@ -153,10 +154,12 @@ const ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
   changeProjectsType : function(projectsType){
     _selector.menuType = projectsType;
     if(projectsType == "allProjects"){
+      menuIndexSize = 1;
       setTimeout(function(){
         ProjectActionCreator.getAllProjects();
       }, 0);
     }else{
+      menuIndexSize = 3;
       setTimeout(function(){
         ProjectActionCreator.getOwnProjects();
       }, 0);

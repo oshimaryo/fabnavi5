@@ -22,14 +22,17 @@ const ProjectElement = React.createClass({　
   getThumbnailSrc: function (){
 
     let src = null;
-
+    if(this.props.project.content.length>=1){
+      src = this.props.project.content[this.props.project.content.length-1].figure.file.file.thumb.url;
+    }
+/*
     if( this.props.project.hasOwnProperty("figure") ){
       const thumb = this.props.project.figure;
       if( thumb.hasOwnProperty("attachment") ){
         src = this.props.project.figure.attachment.file.thumb;
       }
     }
-
+*/
     if( src == null || src == "" ){
       src = "/images/kaffcop_icon/no_thumbnail.png";
     }

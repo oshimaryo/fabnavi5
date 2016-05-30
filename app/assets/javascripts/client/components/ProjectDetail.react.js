@@ -57,11 +57,8 @@ const ProjectDetail = React.createClass({
 
   getThumbnailSrc: function (a){
     let src = null;
-    if( this.state.projects[a].hasOwnProperty("figure") ){
-      const thumb = this.state.projects[a].figure;
-      if( thumb.hasOwnProperty("attachment") ){
-        src = this.state.projects[a].figure.attachment.file.thumb;
-      }
+    if(this.state.projects[a].content.length>=1){
+      src = this.state.projects[a].content[this.state.projects[a].content.length-1].figure.file.file.thumb.url;
     }
     if( src == null || src == "" ){
       src = "/images/kaffcop_icon/fab_samp.jpg";
