@@ -58,6 +58,13 @@ const ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
         _selector.openMenu = false;
         _selector.menuIndex = 0;
         break;
+      case 2:
+        setTimeout(function(){
+          ProjectActionCreator.editProject( project );
+        },0);
+        _selector.openMenu = false;
+        _selector.menuIndex = 0;
+        break;
       case 3:
         setTimeout(function(){
           ProjectActionCreator.deleteProject( project );
