@@ -107,14 +107,14 @@ const playerStateMachine = new machina.Fsm({
       _onEnter : function (){
         console.log("enter calibrate center mode");
         this.keyMap = [];
-        this.keyMap[39] = KeyAction.CALIBRATE_MOVE_RIGHT;
-        this.keyMap[37] = KeyAction.CALIBRATE_MOVE_LEFT;
-        this.keyMap[40] = KeyAction.CALIBRATE_MOVE_DOWN;
+        this.keyMap[37] = KeyAction.CALIBRATE_MOVE_RIGHT;
+        this.keyMap[39] = KeyAction.CALIBRATE_MOVE_LEFT;
+        this.keyMap[38] = KeyAction.CALIBRATE_MOVE_DOWN;
         this.keyMap[27] = KeyAction.EXIT_PROJECT;
-        this.keyMap[38] = KeyAction.CALIBRATE_MOVE_UP;
+        this.keyMap[40] = KeyAction.CALIBRATE_MOVE_UP;
 
         this.keyMap[67] = function(){
-          this.transition("calibrateScale");
+          this.transition("play");
         }.bind(this);
         ProjectActionCreator.updateCanvas();
       },

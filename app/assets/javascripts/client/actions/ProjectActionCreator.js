@@ -94,6 +94,14 @@ const ProjectActionCreator = {
       content_array : content_array
     });
   },
+  editTitle : function( project,name,description ){
+    AppDispatcher.dispatch({
+      type : ActionTypes.EDIT_TITLE,
+      project : project,
+      name : name,
+      description : description
+    });
+  },
 
   detailProject : function( payload ){
     AppDispatcher.dispatch({

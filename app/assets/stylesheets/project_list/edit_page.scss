@@ -19,8 +19,15 @@
   h1{
     font-size: 24px;
     color: #323232;
+    .subtitle{
+      font-size:20px;
+    }
   }
 
+}
+
+p.edit{
+  margin-bottom:2px;
 }
 
 .btn{
@@ -68,10 +75,10 @@ input {
 
 }
 
-.form-box {
-  font-size : 20pt;
-  width:$ct-width * 0.7;
-  margin: 0 auto;
+.form-box-edit {
+  //font-size : 20pt;
+  //width:$ct-width * 0.7;
+  //margin: 0 auto;
 }
 
 .form-title {
@@ -80,10 +87,10 @@ input {
   font-size:30pt;
 }
 
-.form-text {
-  width:100%;
-  font-size:100%;
-  margin-top:10px;
+.form-edit {
+  @include base-font;
+  width:60%;
+  font-size:14px;
 }
 
 .form-select {
@@ -91,8 +98,8 @@ input {
   @include base-font;
 }
 
-.field {
-  margin-bottom : 30px;
+.field_edit {
+  margin-bottom : 0px;
 }
 
 .actions  {

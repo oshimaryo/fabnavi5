@@ -40,8 +40,9 @@ const MainView = function(){
   }
 
   function drawCalibrateLine(){
-    ctx.strokeStyle = ViewConfig.isCropped() ? "#00ff00" : "#0000ff";
+    ctx.strokeStyle = "#539ECD";
     ctx.beginPath();
+    ctx.lineWidth = 3.0;
     ctx.moveTo(0, cvs.height / 2);
     ctx.lineTo(cvs.width, cvs.height / 2);
     ctx.moveTo(cvs.width / 2, 0);
@@ -52,11 +53,46 @@ const MainView = function(){
   function drawWaitingMessage(){
     ctx.font = "100px NotoSans-Regular, sans-serif";
     ctx.textBaseline = 'top';
-    ctx.lineWidth = 10.0;
-    ctx.strokeStyle = "#777777";
+    ctx.lineWidth = 5.0;
+    ctx.strokeStyle = "#343434";
     ctx.strokeText("Now Loading...", cvs.width/2-300,cvs.height/2);
     ctx.fillStyle = "#FFFFFF";
     ctx.fillText("Now Loading...", cvs.width/2-300,cvs.height/2);
+  }
+
+  function drawInstructionMessage(){
+    ctx.font = "40px NotoSans-Regular, sans-serif";
+    ctx.textBaseline = 'top';
+    ctx.lineWidth = 5.0;
+    ctx.strokeStyle = "#343434";
+    ctx.strokeText(" c : Calibration Mode", cvs.width/8,cvs.height/8);
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillText(" c : Calibration Mode", cvs.width/8,cvs.height/8);
+    ctx.strokeStyle = "#343434";
+    ctx.strokeText(" ↑  : Zoom In", cvs.width/8,cvs.height/8+70);
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillText(" ↑  : Zoom In", cvs.width/8,cvs.height/8+70);
+    ctx.strokeStyle = "#343434";
+    ctx.strokeText(" ↓  : Zoom Out", cvs.width/8,cvs.height/8+140);
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillText(" ↓  : Zoom Out", cvs.width/8,cvs.height/8+140);
+    ctx.strokeStyle = "#343434";
+    ctx.strokeText("← : To Privious Page", cvs.width/8,cvs.height/8+210);
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillText("← : To Privious Page", cvs.width/8,cvs.height/8+210);
+    ctx.strokeStyle = "#343434";
+    ctx.strokeText("→ : To Next Page", cvs.width/8,cvs.height/8+280);
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillText("→ : To Next Page", cvs.width/8,cvs.height/8+280);
+    ctx.strokeStyle = "#343434";
+    ctx.strokeText("→ : To Next Page", cvs.width/8,cvs.height/8+350);
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillText("→ : To Next Page", cvs.width/8,cvs.height/8+350);
+    ctx.strokeStyle = "#343434";
+    ctx.strokeText("esc : Back To Home", cvs.width/8,cvs.height/8+420);
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillText("esc : Back To Home", cvs.width/8,cvs.height/8+420);
+
   }
 
   function drawShootingMessage(){
@@ -107,6 +143,7 @@ const MainView = function(){
     init:init,
     draw:draw,
     showWaitMessage:drawWaitingMessage,
+    showInstructionMessage:drawInstructionMessage,
     showCalibrateLine:drawCalibrateLine,
     clear:clear,
     redraw:redraw,

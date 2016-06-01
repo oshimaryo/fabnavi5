@@ -44,4 +44,5 @@ module.exports = keyMirror({
   PROJECT_SEARCH: null,
 
   EDIT_CONTENT: null,
+  EDIT_TITLE: null,
 });

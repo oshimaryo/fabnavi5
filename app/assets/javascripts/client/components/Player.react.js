@@ -132,6 +132,9 @@ const Player = React.createClass({
       img.onload = function(aImg){
         MainView.clear();
         MainView.draw(img);
+        if(lastPage <= 0){
+          MainView.showInstructionMessage();
+        }
         _currentImage = img;
         if( _currentState.contains("calibrate") ){
           MainView.showCalibrateLine();
