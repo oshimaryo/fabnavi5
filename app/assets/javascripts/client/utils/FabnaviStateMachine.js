@@ -107,6 +107,7 @@ const playerStateMachine = new machina.Fsm({
       _onEnter : function (){
         console.log("enter calibrate center mode");
         this.keyMap = [];
+
         this.keyMap[37] = KeyAction.CALIBRATE_MOVE_RIGHT;
         this.keyMap[39] = KeyAction.CALIBRATE_MOVE_LEFT;
         this.keyMap[38] = KeyAction.CALIBRATE_MOVE_DOWN;
@@ -114,7 +115,7 @@ const playerStateMachine = new machina.Fsm({
         this.keyMap[40] = KeyAction.CALIBRATE_MOVE_UP;
 
         this.keyMap[67] = function(){
-          this.transition("play");
+          this.transition("calibrateScale");
         }.bind(this);
         ProjectActionCreator.updateCanvas();
       },
@@ -133,12 +134,15 @@ const playerStateMachine = new machina.Fsm({
       _onEnter : function (){
         console.log("enter calibrate scale mode");
         this.keyMap = [];
+        /*
         this.keyMap[39] = KeyAction.CALIBRATE_LONGER_HORIZONTAL;
         this.keyMap[37] = KeyAction.CALIBRATE_SHORTER_HORIZONTAL;
         this.keyMap[40] = KeyAction.CALIBRATE_LONGER_VERTICAL;
         this.keyMap[38] = KeyAction.CALIBRATE_SHORTER_VERTICAL;
         this.keyMap[27] = KeyAction.EXIT_PROJECT;
-
+        */
+        this.keyMap[38] = KeyAction.CALIBRATE_ZOOMIN;
+        this.keyMap[40] = KeyAction.CALIBRATE_ZOOMOUT;
         this.keyMap[67] = function(){
           this.transition("play");
         }.bind(this);
