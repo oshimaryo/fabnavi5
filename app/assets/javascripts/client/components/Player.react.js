@@ -109,11 +109,15 @@ const Player = React.createClass({
 
     if( lastPage == this.state.page && _currentImage != null ){
       MainView.draw(_currentImage);
-      if(ProjectStore.getCurrentPage() == 0){
+      if(lastPage <= 0){
         MainView.showInstructionMessage();
       }
-      if( _currentState.contains("calibrate") ){
-        MainView.showCalibrateLine();
+      if( _currentState.contains("calibrateCenter") ){
+        MainView.showCalibrateCenterLine();
+        MainView.showCenterInstruction();
+      }else if(_currentState.contains("calibrateScale") ){
+        MainView.showCalibrateScaleLine();
+        MainView.showScaleInstruction();
       }
       return 0;
     }
@@ -132,19 +136,23 @@ const Player = React.createClass({
       ViewConfig.setCropped(false);
       MainView.redraw();
       MainView.showWaitMessage();
-      if(ProjectStore.getCurrentPage() == 0){
+      if(lastPage <= 0){
         MainView.showInstructionMessage();
       }
       img.src = fig.file.file.url;
       img.onload = function(aImg){
         MainView.clear();
         MainView.draw(img);
-        if(ProjectStore.getCurrentPage() <= 0){
+        if(lastPage <= 0){
           MainView.showInstructionMessage();
         }
         _currentImage = img;
-        if( _currentState.contains("calibrate") ){
-          MainView.showCalibrateLine();
+        if( _currentState.contains("calibrateCenter") ){
+          MainView.showCalibrateCenterLine();
+          MainView.showCenterInstruction();
+        }else if(_currentState.contains("calibrateScale") ){
+          MainView.showCalibrateScaleLine();
+          MainView.showScaleInstruction();
         }
       }
       img.onerror = function(err){
@@ -152,8 +160,12 @@ const Player = React.createClass({
         throw new Error(err);
       }
     }
-    if( _currentState.contains("calibrate") ){
-      MainView.showCalibrateLine();
+    if( _currentState.contains("calibrateCenter") ){
+      MainView.showCalibrateCenterLine();
+      MainView.showCenterInstruction();
+    }else if(_currentState.contains("calibrateScale") ){
+      MainView.showCalibrateScaleLine();
+      MainView.showScaleInstruction();
     }
   },
 

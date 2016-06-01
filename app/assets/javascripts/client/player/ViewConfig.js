@@ -1,5 +1,4 @@
 const ProjectActionCreator = require('../actions/ProjectActionCreator');
-
 const ViewConfig = function(){
   const
       playModeConfig = {},

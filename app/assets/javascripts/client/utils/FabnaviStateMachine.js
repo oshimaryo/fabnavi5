@@ -4,6 +4,7 @@
 const
     machina = require('machina'),
     KeyAction = require('../constants/KeyActionTypes'),
+    ProjectStore = require('../stores/ProjectStore'),
     ProjectActionCreator = require('../actions/ProjectActionCreator');
 
 function consume( payload ){
@@ -41,6 +42,7 @@ const playerStateMachine = new machina.Fsm({
 
     "play" : {
       _onEnter : function (){
+
         console.log("enter play mode");
         this.keyMap = [];
         // this.keyMap[13] = KeyAction.PROJECT_SHOOT;
@@ -50,14 +52,20 @@ const playerStateMachine = new machina.Fsm({
         this.keyMap[8] = KeyAction.TOGGLE_DELETE_FLAG;
         this.keyMap[83] = KeyAction.PROJECT_SAVE;
 
-        //Playの時に画像を上下キーで拡大縮小
-        this.keyMap[38] = KeyAction.CALIBRATE_ZOOMIN;
-        this.keyMap[40] = KeyAction.CALIBRATE_ZOOMOUT;
 
-        this.keyMap[67] = function(){
-          this.transition("calibrateCenter");
-        }.bind(this);
-        ProjectActionCreator.updateCanvas();
+          this.keyMap[67] = function(){
+            if(ProjectStore.getCurrentPage() == 0){
+              setTimeout(function(){
+                ProjectActionCreator.updateCanvas();
+              }, 0);
+              this.transition("calibrateCenter");
+            }else{
+              this.transition("play");
+            }
+          }.bind(this);
+          setTimeout(function(){
+            ProjectActionCreator.updateCanvas();
+          }, 0);
       },
 
       _onExit : function(){
@@ -110,13 +118,17 @@ const playerStateMachine = new machina.Fsm({
         this.keyMap[37] = KeyAction.CALIBRATE_MOVE_RIGHT;
         this.keyMap[39] = KeyAction.CALIBRATE_MOVE_LEFT;
         this.keyMap[38] = KeyAction.CALIBRATE_MOVE_DOWN;
-        this.keyMap[27] = KeyAction.EXIT_PROJECT;
         this.keyMap[40] = KeyAction.CALIBRATE_MOVE_UP;
 
         this.keyMap[67] = function(){
-          this.transition("play");
+          setTimeout(function(){
+            ProjectActionCreator.updateCanvas();
+          }, 0);
+          this.transition("calibrateScale");
         }.bind(this);
-        ProjectActionCreator.updateCanvas();
+        setTimeout(function(){
+          ProjectActionCreator.updateCanvas();
+        }, 0);
       },
 
       _onExit : function(){
@@ -133,16 +145,17 @@ const playerStateMachine = new machina.Fsm({
       _onEnter : function (){
         console.log("enter calibrate scale mode");
         this.keyMap = [];
-        this.keyMap[39] = KeyAction.CALIBRATE_LONGER_HORIZONTAL;
-        this.keyMap[37] = KeyAction.CALIBRATE_SHORTER_HORIZONTAL;
-        this.keyMap[40] = KeyAction.CALIBRATE_LONGER_VERTICAL;
-        this.keyMap[38] = KeyAction.CALIBRATE_SHORTER_VERTICAL;
-        this.keyMap[27] = KeyAction.EXIT_PROJECT;
-
+        this.keyMap[38] = KeyAction.CALIBRATE_ZOOMIN;
+        this.keyMap[40] = KeyAction.CALIBRATE_ZOOMOUT;
         this.keyMap[67] = function(){
+          setTimeout(function(){
+            ProjectActionCreator.updateCanvas();
+          }, 0);
           this.transition("play");
         }.bind(this);
-        ProjectActionCreator.updateCanvas();
+        setTimeout(function(){
+            ProjectActionCreator.updateCanvas();
+          }, 0);
       },
 
       consume : function(e){
