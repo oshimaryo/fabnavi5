@@ -50,9 +50,6 @@ const playerStateMachine = new machina.Fsm({
         this.keyMap[8] = KeyAction.TOGGLE_DELETE_FLAG;
         this.keyMap[83] = KeyAction.PROJECT_SAVE;
 
-        //Playの時に画像を上下キーで拡大縮小
-        this.keyMap[38] = KeyAction.CALIBRATE_ZOOMIN;
-        this.keyMap[40] = KeyAction.CALIBRATE_ZOOMOUT;
 
         this.keyMap[67] = function(){
           this.transition("calibrateCenter");
@@ -111,7 +108,6 @@ const playerStateMachine = new machina.Fsm({
         this.keyMap[37] = KeyAction.CALIBRATE_MOVE_RIGHT;
         this.keyMap[39] = KeyAction.CALIBRATE_MOVE_LEFT;
         this.keyMap[38] = KeyAction.CALIBRATE_MOVE_DOWN;
-        this.keyMap[27] = KeyAction.EXIT_PROJECT;
         this.keyMap[40] = KeyAction.CALIBRATE_MOVE_UP;
 
         this.keyMap[67] = function(){
