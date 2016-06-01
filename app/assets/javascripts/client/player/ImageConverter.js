@@ -27,7 +27,7 @@ const ImageConverter = function(){
   function projectImgToCanvas(img, cvs, conf){
     const ctx = cvs.getContext('2d');
         /* set cropping area on image  */
-        
+
     let sx = Number(conf.x) || 0,
         sy = Number(conf.y) || 0,
         sw = Number(conf.w) || img.width,
