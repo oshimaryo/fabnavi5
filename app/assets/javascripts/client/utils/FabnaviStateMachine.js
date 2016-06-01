@@ -55,13 +55,17 @@ const playerStateMachine = new machina.Fsm({
 
           this.keyMap[67] = function(){
             if(ProjectStore.getCurrentPage() == 0){
-              ProjectActionCreator.updateCanvas();
+              setTimeout(function(){
+                ProjectActionCreator.updateCanvas();
+              }, 0);
               this.transition("calibrateCenter");
             }else{
               this.transition("play");
             }
           }.bind(this);
-        ProjectActionCreator.updateCanvas();
+          setTimeout(function(){
+            ProjectActionCreator.updateCanvas();
+          }, 0);
       },
 
       _onExit : function(){
@@ -117,10 +121,14 @@ const playerStateMachine = new machina.Fsm({
         this.keyMap[40] = KeyAction.CALIBRATE_MOVE_UP;
 
         this.keyMap[67] = function(){
-          ProjectActionCreator.updateCanvas();
+          setTimeout(function(){
+            ProjectActionCreator.updateCanvas();
+          }, 0);
           this.transition("calibrateScale");
         }.bind(this);
-        ProjectActionCreator.updateCanvas();
+        setTimeout(function(){
+          ProjectActionCreator.updateCanvas();
+        }, 0);
       },
 
       _onExit : function(){
@@ -140,10 +148,14 @@ const playerStateMachine = new machina.Fsm({
         this.keyMap[38] = KeyAction.CALIBRATE_ZOOMIN;
         this.keyMap[40] = KeyAction.CALIBRATE_ZOOMOUT;
         this.keyMap[67] = function(){
-          ProjectActionCreator.updateCanvas();
+          setTimeout(function(){
+            ProjectActionCreator.updateCanvas();
+          }, 0);
           this.transition("play");
         }.bind(this);
-        ProjectActionCreator.updateCanvas();
+        setTimeout(function(){
+            ProjectActionCreator.updateCanvas();
+          }, 0);
       },
 
       consume : function(e){
