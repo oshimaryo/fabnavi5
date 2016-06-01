@@ -23,6 +23,7 @@ let
     _currentImage = null,
     pageChanged = true,
     lastPage = 0,
+    _lastPage = 0,
     _lastState = "",
     _currentState = "";
 
@@ -108,10 +109,15 @@ const Player = React.createClass({
 
     if( lastPage == this.state.page && _currentImage != null ){
       MainView.draw(_currentImage);
+      if(lastPage <= 0){
+        MainView.showInstructionMessage();
+      }
       if( _currentState.contains("calibrateCenter") ){
+        MainView.redraw();
         MainView.showCalibrateCenterLine();
         MainView.showCenterInstruction();
       }else if(_currentState.contains("calibrateScale") ){
+        MainView.redraw();
         MainView.showCalibrateScaleLine();
         MainView.showScaleInstruction();
       }
@@ -132,18 +138,23 @@ const Player = React.createClass({
       ViewConfig.setCropped(false);
       MainView.redraw();
       MainView.showWaitMessage();
+      if(lastPage <= 0){
+        MainView.showInstructionMessage();
+      }
       img.src = fig.file.file.url;
       img.onload = function(aImg){
         MainView.clear();
         MainView.draw(img);
-        if(lastPage <= 0 && _currentState.contains("play")){
+        if(lastPage <= 0){
           MainView.showInstructionMessage();
         }
         _currentImage = img;
         if( _currentState.contains("calibrateCenter") ){
+          MainView.redraw();
           MainView.showCalibrateCenterLine();
           MainView.showCenterInstruction();
         }else if(_currentState.contains("calibrateScale") ){
+          MainView.redraw();
           MainView.showCalibrateScaleLine();
           MainView.showScaleInstruction();
         }
@@ -154,9 +165,11 @@ const Player = React.createClass({
       }
     }
     if( _currentState.contains("calibrateCenter") ){
+      MainView.redraw();
       MainView.showCalibrateCenterLine();
       MainView.showCenterInstruction();
     }else if(_currentState.contains("calibrateScale") ){
+      MainView.redraw();
       MainView.showCalibrateScaleLine();
       MainView.showScaleInstruction();
     }

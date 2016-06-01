@@ -134,13 +134,6 @@ const playerStateMachine = new machina.Fsm({
       _onEnter : function (){
         console.log("enter calibrate scale mode");
         this.keyMap = [];
-        /*
-        this.keyMap[39] = KeyAction.CALIBRATE_LONGER_HORIZONTAL;
-        this.keyMap[37] = KeyAction.CALIBRATE_SHORTER_HORIZONTAL;
-        this.keyMap[40] = KeyAction.CALIBRATE_LONGER_VERTICAL;
-        this.keyMap[38] = KeyAction.CALIBRATE_SHORTER_VERTICAL;
-        this.keyMap[27] = KeyAction.EXIT_PROJECT;
-        */
         this.keyMap[38] = KeyAction.CALIBRATE_ZOOMIN;
         this.keyMap[40] = KeyAction.CALIBRATE_ZOOMOUT;
         this.keyMap[67] = function(){
