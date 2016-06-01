@@ -101,6 +101,14 @@ const MainView = function(){
   }
 
   function drawCenterInstruction(){
+    ctx.font = "30px NotoSans-Regular, sans-serif";
+    ctx.textBaseline = 'top';
+    ctx.lineWidth = 3.0;
+    ctx.strokeStyle = "#343434";
+    ctx.strokeText("CalibrateCenter Mode", cvs.width/8,cvs.height/8-50);
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillText("CalibrateCenter Mode", cvs.width/8,cvs.height/8-50);
+
     ctx.font = "20px NotoSans-Regular, sans-serif";
     ctx.textBaseline = 'top';
     ctx.lineWidth = 3.0;
@@ -127,6 +135,14 @@ const MainView = function(){
   }
 
   function drawScaleInstruction(){
+    ctx.font = "30px NotoSans-Regular, sans-serif";
+    ctx.textBaseline = 'top';
+    ctx.lineWidth = 3.0;
+    ctx.strokeStyle = "#343434";
+    ctx.strokeText("CalibrateScale Mode", cvs.width/8,cvs.height/8-50);
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillText("CalibrateScale Mode", cvs.width/8,cvs.height/8-50);
+
     ctx.font = "20px NotoSans-Regular, sans-serif";
     ctx.textBaseline = 'top';
     ctx.lineWidth = 3.0;
