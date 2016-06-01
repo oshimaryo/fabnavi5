@@ -1,5 +1,5 @@
 const ProjectActionCreator = require('../actions/ProjectActionCreator');
-
+//const pid = `${Math.random()}`;
 const ViewConfig = function(){
   const
       playModeConfig = {},

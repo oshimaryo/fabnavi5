@@ -40,6 +40,7 @@ const MainView = function(){
   }
 
   function drawCalibrateCenterLine(){
+    redraw();
     ctx.strokeStyle = "#539ECD";
     ctx.beginPath();
     ctx.lineWidth = 3.0;
@@ -51,6 +52,7 @@ const MainView = function(){
   }
 
   function drawCalibrateScaleLine(){
+    redraw();
     ctx.strokeStyle = "#DC5536";
     ctx.beginPath();
     ctx.lineWidth = 3.0;

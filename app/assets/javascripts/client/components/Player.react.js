@@ -113,11 +113,9 @@ const Player = React.createClass({
         MainView.showInstructionMessage();
       }
       if( _currentState.contains("calibrateCenter") ){
-        MainView.redraw();
         MainView.showCalibrateCenterLine();
         MainView.showCenterInstruction();
       }else if(_currentState.contains("calibrateScale") ){
-        MainView.redraw();
         MainView.showCalibrateScaleLine();
         MainView.showScaleInstruction();
       }
@@ -150,11 +148,9 @@ const Player = React.createClass({
         }
         _currentImage = img;
         if( _currentState.contains("calibrateCenter") ){
-          MainView.redraw();
           MainView.showCalibrateCenterLine();
           MainView.showCenterInstruction();
         }else if(_currentState.contains("calibrateScale") ){
-          MainView.redraw();
           MainView.showCalibrateScaleLine();
           MainView.showScaleInstruction();
         }
@@ -165,11 +161,9 @@ const Player = React.createClass({
       }
     }
     if( _currentState.contains("calibrateCenter") ){
-      MainView.redraw();
       MainView.showCalibrateCenterLine();
       MainView.showCenterInstruction();
     }else if(_currentState.contains("calibrateScale") ){
-      MainView.redraw();
       MainView.showCalibrateScaleLine();
       MainView.showScaleInstruction();
     }

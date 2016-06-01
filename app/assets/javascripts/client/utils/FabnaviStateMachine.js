@@ -4,6 +4,7 @@
 const
     machina = require('machina'),
     KeyAction = require('../constants/KeyActionTypes'),
+    ProjectStore = require('../stores/ProjectStore'),
     ProjectActionCreator = require('../actions/ProjectActionCreator');
 
 function consume( payload ){
@@ -41,6 +42,7 @@ const playerStateMachine = new machina.Fsm({
 
     "play" : {
       _onEnter : function (){
+
         console.log("enter play mode");
         this.keyMap = [];
         // this.keyMap[13] = KeyAction.PROJECT_SHOOT;
@@ -51,9 +53,14 @@ const playerStateMachine = new machina.Fsm({
         this.keyMap[83] = KeyAction.PROJECT_SAVE;
 
 
-        this.keyMap[67] = function(){
-          this.transition("calibrateCenter");
-        }.bind(this);
+          this.keyMap[67] = function(){
+            if(ProjectStore.getCurrentPage() == 0){
+              ProjectActionCreator.updateCanvas();
+              this.transition("calibrateCenter");
+            }else{
+              this.transition("play");
+            }
+          }.bind(this);
         ProjectActionCreator.updateCanvas();
       },
 
@@ -104,13 +111,13 @@ const playerStateMachine = new machina.Fsm({
       _onEnter : function (){
         console.log("enter calibrate center mode");
         this.keyMap = [];
-
         this.keyMap[37] = KeyAction.CALIBRATE_MOVE_RIGHT;
         this.keyMap[39] = KeyAction.CALIBRATE_MOVE_LEFT;
         this.keyMap[38] = KeyAction.CALIBRATE_MOVE_DOWN;
         this.keyMap[40] = KeyAction.CALIBRATE_MOVE_UP;
 
         this.keyMap[67] = function(){
+          ProjectActionCreator.updateCanvas();
           this.transition("calibrateScale");
         }.bind(this);
         ProjectActionCreator.updateCanvas();
@@ -133,6 +140,7 @@ const playerStateMachine = new machina.Fsm({
         this.keyMap[38] = KeyAction.CALIBRATE_ZOOMIN;
         this.keyMap[40] = KeyAction.CALIBRATE_ZOOMOUT;
         this.keyMap[67] = function(){
+          ProjectActionCreator.updateCanvas();
           this.transition("play");
         }.bind(this);
         ProjectActionCreator.updateCanvas();
