@@ -176,14 +176,14 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
         }
       }
     }
-    this.emitChange();
+    ProjectStore.emitChange();
   },
 
   changeTitle:function(){
     _project.name = _name;
     _project.description = _description;
     _project._edited = true;
-    this.emitChange();
+    ProjectStore.emitChange();
   },
 
   newFigure : function( ){
