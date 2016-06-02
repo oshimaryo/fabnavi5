@@ -240,11 +240,6 @@ const WebAPIUtils = {
         project.content[i].figure.figure_id != null ){
 
         console.log("Delete photo", project.content[i]);
-        if( !confirm("delete photo , index:  " + i)){
-          alert("Rollback");
-          project.content[i].figure._destroy = false;
-          return -1;
-        }
         fd.append("project[content_attributes][figures_attributes][][type]", "Figure::Photo");
         fd.append("project[content_attributes][figures_attributes][][attachment_id]", project.content[i].figure.id);
         fd.append("project[content_attributes][figures_attributes][][id]", project.content[i].figure.figure_id);
