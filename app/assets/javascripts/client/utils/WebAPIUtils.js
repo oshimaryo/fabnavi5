@@ -232,9 +232,6 @@ const WebAPIUtils = {
     fd.append("project[tag_list]", project.tag_list);
 
     console.log(project.content);
-    if(project.hasOwnProperty("_edited")){
-      alert("edited");
-    }
     let i;
     for(i = 0; i < project.content.length; i++){
 

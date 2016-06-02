@@ -444,13 +444,15 @@ ProjectStore.dispatchToken = AppDispatcher.register(function( action ){
       _description = action.description;
       console.log("ProjectStore: " + _name);
       ProjectStore.changeTitle();
-      if(confirm('Ok?')){
-        setTimeout(function(){
-          ProjectActionCreator.updateProject({
-            project:ProjectStore.getProject()
-          });
-        }, 0);
-      }
+      setTimeout(function(){
+        ProjectActionCreator.updateProject({
+          project:ProjectStore.getProject()
+        });
+      }, 0);
+      setTimeout(function(){
+        location.hash = "#/manager/myprojects";
+      },0);
+
       break;
     default :
       break;
