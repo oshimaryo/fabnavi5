@@ -1,4 +1,4 @@
-//画像に表示されるメニュー 
+//画像に表示されるメニュー
 div(
   className="project-box " + (this.props.isSelected  ? "selected-project" : "project")
   onClick=this.handleClick
@@ -22,7 +22,7 @@ div(
     ul.actions
       if this.props.menuType == "allProjects"
         li(className="action-box "+(this.props.menuIndex == 0 ? "selected-action" : "action"),style="border-radius: 5px 5px 0px 0px;")
-          .menu3
+          .menu2
             img(src="/images/p_play.png")
             | Play
         li(className="action-box "+(this.props.menuIndex == 1 ? "selected-action" : "action"))

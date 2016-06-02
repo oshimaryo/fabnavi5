@@ -17,8 +17,8 @@ function setHeader(){
 }
 
 function clearHeader(){
-  localStorage.removeItem("header");
-  localStorage.removeItem("currentuser");
+  localStorage.removeItem('header');
+  localStorage.removeItem("currentUserInfo");
 }
 
 function loadHeader(){
@@ -57,16 +57,17 @@ function genHeader(){
 
 const WebAPIUtils = {
 
-  getCurrentUserID : function(){
-    console.log("getCurrentUserID");
-    let current_id;
+  getCurrentUserInfo : function(){
+    console.log("getCurrentUserInfo");
 
     $.ajax({
       dataType : "json",
       type : "GET",
       success : function(res){
-        current_id = res.id;
-        localStorage.setItem("currentuser", current_id);
+        localStorage.setItem("currentUserInfo", JSON.stringify({
+          "Id"        : res.id,
+          "Uid"           : res.uid
+        }));
       },
       error : function(err){
         console.log("Error from getCurrentUserID");
@@ -75,6 +76,21 @@ const WebAPIUtils = {
       headers : genHeader(),
       url : "/api/v1/current_user.json"
     });
+  },
+
+  loadCurrentUserInfo : function(){
+    let currentUser = localStorage.getItem("currentUserInfo");
+    if( currentUser == null || !DEVELOPMENT){
+      return null;
+    }
+
+    try{
+      currentUser = JSON.parse(currentUser);
+      const uid = currentUser.Id;
+      return uid;
+    } catch(e){
+      throw new Error("ERROR. JSON.parse failed");
+    }
   },
 
   getProject : function( id ){
@@ -359,14 +375,12 @@ const WebAPIUtils = {
     setHeader();
   },
 
-  signedOut : function(){
-    ServerActionCreator.signOut();
-  },
-
   signOut : function(){
     clearHeader();
     window.location.reload();
-    signedOut();
+    setTimeout(function(){
+      ServerActionCreator.signOut();
+    }, 0);
   }
 };
 
