@@ -3,7 +3,8 @@ const
     EventEmitter = require('events'),
     EventTypes = require('../constants/EventTypes'),
     ActionTypes = require('../constants/ActionTypes'),
-    ProjectActionCreator = require('../actions/ProjectActionCreator');
+    ProjectActionCreator = require('../actions/ProjectActionCreator'),
+    WebAPIUtils = require('../utils/WebAPIUtils');
 let
     _projects = [],
     initProjects = [],
@@ -13,6 +14,7 @@ let
 const ProjectListStore = Object.assign({}, EventEmitter.prototype, {
   init : function(){
     _projects = [];
+    WebAPIUtils.getCurrentUserInfo();
     this.loadProjects();
     this.emitChange();
   },

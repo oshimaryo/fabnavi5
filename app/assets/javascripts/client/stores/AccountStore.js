@@ -62,6 +62,7 @@ AccountStore.dispatchToken = AppDispatcher.register(function( action ){
       break;
 
     case ActionTypes.SIGN_OUT :
+      location.hash = "#/manager"
       WebAPIUtils.signOut();
       break;
 
