@@ -186,6 +186,17 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
     ProjectStore.emitChange();
   },
 
+  backToHome:function(){
+    if(location.hash.contains("#/manager/detail")){
+      location.hash = "#/manager";
+    }else if(location.hash.contains("#/manager/edit")){
+      location.hash = "#/mamager/myprojects";
+    }else{
+      location.hash = "#/manager";
+    }
+  },
+
+
   newFigure : function( ){
     return {
       figure : {
@@ -364,26 +375,24 @@ ProjectStore.dispatchToken = AppDispatcher.register(function( action ){
       break;
     case KeyActionTypes.PROJECT_SHOOT:
       ProjectStore.shoot();
-      break
+      break;
     case KeyActionTypes.PROJECT_NEXT_PAGE:
       ProjectStore.next();
-      break
+      break;
     case KeyActionTypes.PROJECT_PREV_PAGE:
       ProjectStore.prev();
-      break
+      break;
 
     case KeyActionTypes.CALIBRATE_ZOOMOUT:
       CalibrateController.zoomIOCB(1.01, 1.01)();
-      break
+      break;
     case KeyActionTypes.CALIBRATE_ZOOMIN:
       CalibrateController.zoomIOCB(0.99, 0.99)();
-      break
-
-
+      break;
 
     case KeyActionTypes.EXIT_PROJECT:
       location.hash = "#/manager";
-      break
+      break;
 
     case ActionTypes.PROJECT_RECEIVE:
       ProjectStore.setProject( action.project );

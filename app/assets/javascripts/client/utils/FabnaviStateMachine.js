@@ -27,6 +27,36 @@ function transitionl2( ){
   this.transition(dst);
 }
 
+const pagesStateMachine = new machina.Fsm({
+  initialize : function(){
+    console.log("FSM initialize");
+  },
+  namespace : "pageKeyHandler",
+  initialState : "page",
+  states : {
+    "unInitialized" : {
+      _onEnter : function(){
+        this.keyMap = [];
+      },
+    },
+    "page" : {
+      _onEnter : function (){
+        console.log("enter play mode");
+        this.keyMap = [];
+        this.keyMap[27] = KeyAction.EXIT_PROJECT;
+      },
+      _onExit : function(){
+        console.log("exit play mode");
+      },
+
+      consume : function(e){
+        const p = consume.call(this, e);
+        this.emit("actionFired", p);
+      }
+    },
+  },
+});
+
 const playerStateMachine = new machina.Fsm({
   initialize : function(){
     console.log("FSM initialize");
@@ -303,6 +333,13 @@ const FSM = new machina.Fsm({
       },
       _child : managerStateMachine,
     },
+    pages : {
+      _onEnter : function(){
+      },
+      _child : pagesStateMachine,
+      _onExit : function(){
+      },
+    }
   },
   consume : function( payload ){
     this.handle("consume", payload);

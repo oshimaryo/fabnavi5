@@ -12,7 +12,8 @@ const
     RouteHandler = Router.RouteHandler,
     State = require('../utils/FabnaviStateMachine'),
 
-    projectDetail = jade.compileFile(__dirname + '/../templates/ProjectDetail.jade');
+    projectDetail = jade.compileFile(__dirname + '/../templates/ProjectDetail.jade'),
+    State = require('../utils/FabnaviStateMachine');
 
 const ProjectDetail = React.createClass({
 
@@ -82,7 +83,7 @@ const ProjectDetail = React.createClass({
   },
 
   componentDidMount : function (){
-    State.reload();
+    State.transition("pages"); 
   },
 
   componentWillUpdate : function(){
