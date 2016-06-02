@@ -83,19 +83,15 @@ const playerStateMachine = new machina.Fsm({
         this.keyMap[83] = KeyAction.PROJECT_SAVE;
 
 
-          this.keyMap[67] = function(){
-            if(ProjectStore.getCurrentPage() == 0){
-              setTimeout(function(){
-                ProjectActionCreator.updateCanvas();
-              }, 0);
-              this.transition("calibrateCenter");
-            }else{
-              this.transition("play");
-            }
-          }.bind(this);
+        this.keyMap[67] = function(){
           setTimeout(function(){
             ProjectActionCreator.updateCanvas();
           }, 0);
+          this.transition("calibrateCenter");
+        }.bind(this);
+        setTimeout(function(){
+          ProjectActionCreator.updateCanvas();
+        }, 0);
       },
 
       _onExit : function(){
