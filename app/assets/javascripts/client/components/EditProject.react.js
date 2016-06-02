@@ -101,7 +101,7 @@ const EditProject = React.createClass({
   },
 
   componentDidMount : function (){
-    State.reload();
+    State.transition("pages"); 
   },
 
   componentWillUpdate : function(){
