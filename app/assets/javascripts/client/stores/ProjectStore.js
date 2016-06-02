@@ -6,6 +6,7 @@ const
     ActionTypes = require('../constants/ActionTypes'),
     KeyActionTypes = require('../constants/KeyActionTypes'),
     ProjectActionCreator = require('../actions/ProjectActionCreator'),
+    ProjectSelectorStore = require('../stores/ProjectSelectorStore'),
     Camera = require('../player/Camera'),
     ImageConverter = require('../player/ImageConverter'),
     CalibrateController = require('../player/CalibrateController');
@@ -187,12 +188,19 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
   },
 
   backToHome:function(){
+    /*
     if(location.hash.contains("#/manager/detail")){
       location.hash = "#/manager";
     }else if(location.hash.contains("#/manager/edit")){
       location.hash = "#/mamager/myprojects";
     }else{
       location.hash = "#/manager";
+    }
+    */
+    if(ProjectSelectorStore.getSelector().menuType =="allProjects"){
+      location.hash ="#/manager";
+    }else{
+      location.hash ="#/manager/myprojects";
     }
   },
 
@@ -391,7 +399,8 @@ ProjectStore.dispatchToken = AppDispatcher.register(function( action ){
       break;
 
     case KeyActionTypes.EXIT_PROJECT:
-      location.hash = "#/manager";
+      ProjectStore.backToHome();
+      //location.hash = "#/manager";
       break;
 
     case ActionTypes.PROJECT_RECEIVE:
