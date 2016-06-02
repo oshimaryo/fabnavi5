@@ -34,11 +34,13 @@ p.edit{
   font-size: 12px;
   font-weight:bold;
   margin-top:10px;
+  margin-bottom: 30px;
   padding:10px 30px;
   background-color: $white;
   border-radius: 3px;
   color:#fff;
   border-style: none;
+
 }
 .btn:hover{
   background-color: $hover-color;

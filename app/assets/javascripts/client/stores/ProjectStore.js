@@ -105,6 +105,7 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
 
   setPage : function(page){
     let _page = page;
+    _currentPage = _page;
     if( !_project.hasOwnProperty("content") ){
       return;
     }
@@ -115,8 +116,9 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
     if( _page < 0 ){
       _page = 0;
     }
-
     _currentPage = _page;
+
+
     console.log("_page : ", _page);
     if(_project.content[_page].figure.hasOwnProperty("_destroy") &&
       _project.content[_page].figure._destroy){
@@ -174,14 +176,14 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
         }
       }
     }
-    this.emitChange();
+    ProjectStore.emitChange();
   },
 
   changeTitle:function(){
     _project.name = _name;
     _project.description = _description;
     _project._edited = true;
-    this.emitChange();
+    ProjectStore.emitChange();
   },
 
   newFigure : function( ){
