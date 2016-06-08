@@ -1,5 +1,10 @@
 class BaseUploader < CarrierWave::Uploader::Base
-  storage (Rails.env.production? ? :fog : :file)
+  case Rails.env
+  when "production", "staging"
+    storage :fog
+  else
+    storage :file
+  end
 
   def base_dir
     if Rails.env.production?
