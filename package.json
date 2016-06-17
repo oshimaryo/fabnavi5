@@ -10,6 +10,19 @@
     "url": "https://github.com/fabnavi/fabnavi5/issues"
   },
   "dependencies": {
+    "flux": "^2.1.1",
+    "jquery": "^3.0.0",
+    "jquery-ujs": "^1.2.1",
+    "keymirror": "^0.1.1",
+    "machina": "^2.0.0-1",
+    "react": "^0.14.8",
+    "react-router": "^2.4.0"
+  },
+  "devDependencies": {
+    "react-jade": "git://github.com/edgemethod/react-jade.git#19db22e",
+    "react-jade-loader": "git://github.com/fabnavi/react-jade-loader.git#adb23dc",
+    "webpack": "^1.13.0",
+    "webpack-dev-server": "^1.14.1",
     "babel-core": "^6.7.7",
     "babel-loader": "^6.2.4",
     "babel-plugin-dev-expression": "^0.2.1",
@@ -21,12 +34,8 @@
     "bower-webpack-plugin": "^0.1.9",
     "json-loader": "^0.5.4",
     "node-sass": "^3.6.0",
-    "react": "^0.14.8",
-    "react-jade": "2.5.0",
-    "react-jade-loader": "^0.1.0",
-    "react-router": "^2.4.0",
-    "webpack": "^1.13.0",
-    "webpack-dev-server": "^1.14.1"
+    "esdoc": "^0.4.6",
+    "eslint": "^2.5.1"
   },
   "license": "MIT",
   "engines": {
@@ -37,9 +46,5 @@
     "build": "webpack",
     "lint": "eslint -c ./.eslintrc app/assets/javascripts/client/*",
     "doc": "esdoc -c esdoc.json"
-  },
-  "devDependencies": {
-    "esdoc": "^0.4.6",
-    "eslint": "^2.5.1"
   }
 }
