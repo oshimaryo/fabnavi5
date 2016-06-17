@@ -187,9 +187,9 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
   },
 
   backToHome:function(){
-    if(location.hash.contains("#/manager/detail")){
+    if(location.hash.includes("#/manager/detail")){
       location.hash = "#/manager";
-    }else if(location.hash.contains("#/manager/edit")){
+    }else if(location.hash.includes("#/manager/edit")){
       location.hash = "#/mamager/myprojects";
     }else{
       location.hash = "#/manager";

@@ -121,10 +121,10 @@ class Player extends React.Component {
       if(lastPage <= 0){
         MainView.showInstructionMessage();
       }
-      if( _currentState.contains("calibrateCenter") ){
+      if( _currentState.includes("calibrateCenter") ){
         MainView.showCalibrateCenterLine();
         MainView.showCenterInstruction();
-      }else if(_currentState.contains("calibrateScale") ){
+      }else if(_currentState.includes("calibrateScale") ){
         MainView.showCalibrateScaleLine();
         MainView.showScaleInstruction();
       }
@@ -156,10 +156,10 @@ class Player extends React.Component {
           MainView.showInstructionMessage();
         }
         _currentImage = img;
-        if( _currentState.contains("calibrateCenter") ){
+        if( _currentState.includes("calibrateCenter") ){
           MainView.showCalibrateCenterLine();
           MainView.showCenterInstruction();
-        }else if(_currentState.contains("calibrateScale") ){
+        }else if(_currentState.includes("calibrateScale") ){
           MainView.showCalibrateScaleLine();
           MainView.showScaleInstruction();
         }
@@ -169,10 +169,10 @@ class Player extends React.Component {
         throw new Error(err);
       }
     }
-    if( _currentState.contains("calibrateCenter") ){
+    if( _currentState.includes("calibrateCenter") ){
       MainView.showCalibrateCenterLine();
       MainView.showCenterInstruction();
-    }else if(_currentState.contains("calibrateScale") ){
+    }else if(_currentState.includes("calibrateScale") ){
       MainView.showCalibrateScaleLine();
       MainView.showScaleInstruction();
     }
