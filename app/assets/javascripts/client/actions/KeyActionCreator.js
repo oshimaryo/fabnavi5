@@ -30,4 +30,3 @@ FSM.on("actionFired", function( payload ){
 });
 
 module.exports = KeyActionCreator;
-window.onkeydown = KeyActionCreator.handleKeyDown;
