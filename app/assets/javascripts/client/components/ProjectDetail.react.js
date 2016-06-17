@@ -6,25 +6,6 @@ import State from '../utils/FabnaviStateMachine';
 
 import projectDetail from '../templates/ProjectDetail.jade';
 
-/* //XXX
-const
-    React = require('react'),
-    ProjectListStore = require('../stores/ProjectListStore'),
-    ProjectStore = require('../stores/ProjectStore'),
-    ProjectActionCreator = require('../actions/ProjectActionCreator'),
-    jade = require('react-jade'),
-
-    Router = require('react-router'),
-    DefaultRoute = Router.DefaultRoute,
-    Link = Router.Link,
-    Route = Router.Route,
-    RouteHandler = Router.RouteHandler,
-    State = require('../utils/FabnaviStateMachine'),
-
-    projectDetail = jade.compileFile(__dirname + '/../templates/ProjectDetail.jade'),
-    State = require('../utils/FabnaviStateMachine');
-*/
-
 const ProjectDetail = React.createClass({
 
   contextTypes: {

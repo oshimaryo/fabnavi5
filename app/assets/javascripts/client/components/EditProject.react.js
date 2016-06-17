@@ -3,25 +3,6 @@ import ProjectListStore from '../stores/ProjectListStore';
 import { Route, RouteHandler, Link, DefaultRoute } from 'react-router';
 import State from '../utils/FabnaviStateMachine';
 import editProject from '../templates/EditProject.jade';
-/* XXX
-const
-    React = require('react'),
-    EditContent = require('./EditContent.react.js'),
-    EditTitle = require('./EditTitle.react.js'),
-    ProjectListStore = require('../stores/ProjectListStore'),
-    ProjectStore = require('../stores/ProjectStore'),
-    ProjectActionCreator = require('../actions/ProjectActionCreator'),
-    jade = require('react-jade'),
-    Router = require('react-router'),
-    DefaultRoute = Router.DefaultRoute,
-    Link = Router.Link,
-    Route = Router.Route,
-    RouteHandler = Router.RouteHandler,
-
-
-    State = require('../utils/FabnaviStateMachine'),
-    editProject = jade.compileFile(__dirname + '/../templates/EditProject.jade');
-    */
 
 const EditProject = React.createClass({
 

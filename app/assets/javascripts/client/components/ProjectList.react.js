@@ -41,8 +41,7 @@ class ProjectList extends React.Component{
   }
 
   componentWillMount(){
-    ProjectActionCreator.getAllProjects();
-    ProjectListStore.loadProjects(); // XXX
+    ProjectListStore.loadProjects();
   }
 
   componentDidMount(){
