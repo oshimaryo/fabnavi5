@@ -1,16 +1,16 @@
-import React from 'react';
+import React from'react';
 
-import ProjectStore from '../stores/ProjectStore';
-import MainView from '../player/MainView';
-import ViewConfig from '../player/ViewConfig';
-import ProjectActionCreator from '../actions/ProjectActionCreator';
+import ProjectStore from'../stores/ProjectStore';
+import MainView from'../player/MainView';
+import ViewConfig from'../player/ViewConfig';
+import ProjectActionCreator from'../actions/ProjectActionCreator';
 
-import { Route, RouteHandler, Link, DefaultRoute } from 'react-router';
+import{ Route, RouteHandler, Link, DefaultRoute }from'react-router';
 
-import CalibrateController from '../player/CalibrateController';
-import WebAPIUtils from '../utils/WebAPIUtils';
-import State from '../utils/FabnaviStateMachine';
-import player from '../templates/Player.jade';
+import CalibrateController from'../player/CalibrateController';
+import WebAPIUtils from'../utils/WebAPIUtils';
+import State from'../utils/FabnaviStateMachine';
+import player from'../templates/Player.jade';
 
 let
     currentFile = null,
@@ -21,7 +21,7 @@ let
     _lastState = "",
     _currentState = "";
 
-class Player extends React.Component {
+class Player extends React.Component{
 
   render(){
     return player(Object.assign(
@@ -41,7 +41,7 @@ class Player extends React.Component {
     this._onChange = this._onChange.bind(this);
     this._onCanvasUpdate = this._onCanvasUpdate.bind(this);
     this._onCanvasClear = this._onCanvasClear.bind(this);
-    
+
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleFile = this.handleFile.bind(this);
     this.clearCanvas = this.clearCanvas.bind(this);
@@ -125,7 +125,7 @@ class Player extends React.Component {
       if( _currentState.includes("calibrateCenter") ){
         MainView.showCalibrateCenterLine();
         MainView.showCenterInstruction();
-      }else if(_currentState.includes("calibrateScale") ){
+      } else if(_currentState.includes("calibrateScale") ){
         MainView.showCalibrateScaleLine();
         MainView.showScaleInstruction();
       }
@@ -160,7 +160,7 @@ class Player extends React.Component {
         if( _currentState.includes("calibrateCenter") ){
           MainView.showCalibrateCenterLine();
           MainView.showCenterInstruction();
-        }else if(_currentState.includes("calibrateScale") ){
+        } else if(_currentState.includes("calibrateScale") ){
           MainView.showCalibrateScaleLine();
           MainView.showScaleInstruction();
         }
@@ -173,7 +173,7 @@ class Player extends React.Component {
     if( _currentState.includes("calibrateCenter") ){
       MainView.showCalibrateCenterLine();
       MainView.showCenterInstruction();
-    }else if(_currentState.includes("calibrateScale") ){
+    } else if(_currentState.includes("calibrateScale") ){
       MainView.showCalibrateScaleLine();
       MainView.showScaleInstruction();
     }

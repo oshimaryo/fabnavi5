@@ -1,22 +1,22 @@
-import React from 'react';
-import MenuIcon from './MenuIcon.react.js';
-import AccountStore from '../stores/AccountStore';
+import React from'react';
+import MenuIcon from'./MenuIcon.react.js';
+import AccountStore from'../stores/AccountStore';
 
-import { Router, Link } from 'react-router';
+import{ Router, Link }from'react-router';
 
-import navigation from '../templates/Navigation.jade';
+import navigation from'../templates/Navigation.jade';
 
-class Navigation extends React.Component {
+class Navigation extends React.Component{
 
   constructor(props){
     super(props);
-    this.props = {headerSrc : "images/fav_logo_3.png"};
-    this.state = {account: AccountStore.getAccountInfo()};
+    this.props = { headerSrc : "images/fav_logo_3.png" };
+    this.state = { account: AccountStore.getAccountInfo() };
     this._onChange = this._onChange.bind(this);
   }
 
   _onChange(){
-    this.setState({account: AccountStore.getAccountInfo()});
+    this.setState({ account: AccountStore.getAccountInfo() });
   }
 
   render(){
@@ -24,7 +24,7 @@ class Navigation extends React.Component {
       this,
       this.state,
       this.props,
-      {MenuIcon: React.createFactory(MenuIcon)}
+      { MenuIcon: React.createFactory(MenuIcon) }
     ));
   }
 

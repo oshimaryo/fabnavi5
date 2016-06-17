@@ -1,9 +1,9 @@
 //こちらが、プロジェクトの部分かな
-import React from 'react';
-import ProjectActionCreator from '../actions/ProjectActionCreator';
-import projectElement from '../templates/ProjectElement.jade';
+import React from'react';
+import ProjectActionCreator from'../actions/ProjectActionCreator';
+import projectElement from'../templates/ProjectElement.jade';
 
-const ProjectElement = React.createClass({　
+const ProjectElement = React.createClass({
 
   propTypes : {
   },
@@ -20,8 +20,8 @@ const ProjectElement = React.createClass({　
   getThumbnailSrc: function (){
 
     let src = null;
-    if(this.props.project.content.length>=1){
-      src = this.props.project.content[this.props.project.content.length-1].figure.file.file.thumb.url;
+    if(this.props.project.content.length >= 1){
+      src = this.props.project.content[this.props.project.content.length - 1].figure.file.file.thumb.url;
     }
 /*
     if( this.props.project.hasOwnProperty("figure") ){
@@ -42,7 +42,7 @@ const ProjectElement = React.createClass({　
     if( src == null ){
       src = this.props.project.user.image;
     }
-  return src;
+    return src;
   },
 
   render : projectElement,
@@ -55,13 +55,13 @@ const ProjectElement = React.createClass({　
   },
 
   getUploadDate : function(){
-    return this.props.project.created_at.replace(/T.*$/,"").replace(/-/g," / ");
+    return this.props.project.created_at.replace(/T.*$/, "").replace(/-/g, " / ");
   },
 
   getDescription: function(){
-    if( this.props.project.description.length>=100 ){
-      return this.props.project.description.substr(0,100) + " . . ." ;
-    }else{
+    if( this.props.project.description.length >= 100 ){
+      return this.props.project.description.substr(0, 100) + " . . .";
+    } else {
       return this.props.project.description;
     }
   },

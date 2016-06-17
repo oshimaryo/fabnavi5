@@ -1,13 +1,13 @@
 //プロジェクトたちをリストにしている所？
 //最初のページとも言える
-import React from 'react';
-import ProjectListStore from '../stores/ProjectListStore';
-import ProjectSelectorStore from '../stores/ProjectSelectorStore';
-import ProjectElement from '../components/ProjectElement.react';
-import ProjectActionCreator from '../actions/ProjectActionCreator';
-import projectList from '../templates/ProjectList.jade';
+import React from'react';
+import ProjectListStore from'../stores/ProjectListStore';
+import ProjectSelectorStore from'../stores/ProjectSelectorStore';
+import ProjectElement from'../components/ProjectElement.react';
+import ProjectActionCreator from'../actions/ProjectActionCreator';
+import projectList from'../templates/ProjectList.jade';
 
-import State from '../utils/FabnaviStateMachine';
+import State from'../utils/FabnaviStateMachine';
 
 class ProjectList extends React.Component{
 
@@ -36,7 +36,7 @@ class ProjectList extends React.Component{
       this,
       this.state,
       this.props,
-      {ProjectElement: React.createFactory(ProjectElement)}
+      { ProjectElement: React.createFactory(ProjectElement) }
     ));
   }
 

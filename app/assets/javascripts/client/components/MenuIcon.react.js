@@ -1,13 +1,13 @@
 //親はNavigation.react
 //メニューアイコンのクリックの反応について書いてる
 //actionはProjectSelectorStoreに送ってる
-import NavigationViewActionCreator from '../actions/NavigationViewActionCreator';
-import React from 'react';
+import NavigationViewActionCreator from'../actions/NavigationViewActionCreator';
+import React from'react';
 
 console.log(React);
-import menuIcon from '../templates/MenuIcon.jade';
+import menuIcon from'../templates/MenuIcon.jade';
 
-class MenuIcon extends React.Component {
+class MenuIcon extends React.Component{
 //Navigation.jadeにあるactとsrc
 /*
   propTypes : {

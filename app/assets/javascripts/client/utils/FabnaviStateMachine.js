@@ -180,8 +180,8 @@ const playerStateMachine = new machina.Fsm({
           this.transition("play");
         }.bind(this);
         setTimeout(function(){
-            ProjectActionCreator.updateCanvas();
-          }, 0);
+          ProjectActionCreator.updateCanvas();
+        }, 0);
       },
 
       consume : function(e){
@@ -351,7 +351,7 @@ const FSM = new machina.Fsm({
   },
 
   reload : function( loc ){
-    const url = location.hash.replace(/\?.*/,"").split("/");
+    const url = location.hash.replace(/\?.*/, "").split("/");
     console.log("Nested Transition: ", url);
     this.transition(url[1]);
     this.handle("transitionl2");

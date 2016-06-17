@@ -1,6 +1,6 @@
-import React from 'react';
-import footer from '../templates/Footer.jade';
-import { Link } from 'react-router';
+import React from'react';
+import footer from'../templates/Footer.jade';
+import{ Link }from'react-router';
 
 const Footer = React.createClass({
 
