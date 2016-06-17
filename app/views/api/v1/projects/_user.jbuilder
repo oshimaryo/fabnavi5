@@ -1,3 +1,4 @@
-json.name user.name
+json.id user.id
+json.uid user.uid
 json.nickname user.nickname
 json.image user.image

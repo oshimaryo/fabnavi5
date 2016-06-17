@@ -1,6 +1,7 @@
 sc = Rails.application.secrets
 CarrierWave.configure do |config|
-  if Rails.env.production?
+  case Rails.env
+  when "production", "staging"
     config.fog_credentials = {
       provider:              'AWS',                        # required
       aws_access_key_id:     sc.aws_access_key_id,     # required

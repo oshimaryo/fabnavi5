@@ -1,2 +1,21 @@
-h1 EditProject
-= this.context.router.getCurrentParams().projectId
+- var contents = this.getImage();
+div.editproject
+  h1 EditProject
+  hr
+  EditTitle(
+    id_name = contents.project_id.name
+    id_description = contents.project_id.description
+    id_project = contents.project_id
+    )
+  hr
+  h1.subtitle Delete Contents
+  button.btn(type ="submit" onClick = this.onclick) D E L E T E
+
+  div.edit-pic
+    - for(var i in contents.content_array) 
+      EditContent(
+        id=contents.figure_id[i]
+        src=contents.figure[i]
+        id_array = this.props.id_array )  
+    
+      

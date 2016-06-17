@@ -17,7 +17,8 @@ function setHeader(){
 }
 
 function clearHeader(){
-  localStorage.removeItem("header");
+  localStorage.removeItem('header');
+  localStorage.removeItem("currentUserInfo");
 }
 
 function loadHeader(){
@@ -56,6 +57,42 @@ function genHeader(){
 
 const WebAPIUtils = {
 
+  getCurrentUserInfo : function(){
+    console.log("getCurrentUserInfo");
+
+    $.ajax({
+      dataType : "json",
+      type : "GET",
+      success : function(res){
+        localStorage.setItem("currentUserInfo", JSON.stringify({
+          "Id"        : res.id,
+          "Uid"           : res.uid
+        }));
+      },
+      error : function(err){
+        console.log("Error from getCurrentUserID");
+        console.log(err);
+      },
+      headers : genHeader(),
+      url : "/api/v1/current_user.json"
+    });
+  },
+
+  loadCurrentUserInfo : function(){
+    let currentUser = localStorage.getItem("currentUserInfo");
+    if( currentUser == null || !DEVELOPMENT){
+      return null;
+    }
+
+    try{
+      currentUser = JSON.parse(currentUser);
+      const uid = currentUser.Id;
+      return uid;
+    } catch(e){
+      throw new Error("ERROR. JSON.parse failed");
+    }
+  },
+
   getProject : function( id ){
     console.log("getProject : ", id);
 
@@ -71,6 +108,24 @@ const WebAPIUtils = {
       },
       headers : genHeader(),
       url : "/api/v1/projects/" + id + ".json"
+    });
+  },
+
+  getOwnProjects : function( uid ){
+    console.log("getOwnProjects : ", uid);
+
+    $.ajax({
+      dataType : "json",
+      type : "GET",
+      success : function(res){
+        ProjectServerActionCreator.receiveProjects( res );
+      },
+      error : function(err){
+        console.log("Error from getOwnProjects");
+        console.log(err);
+      },
+      headers : genHeader(),
+      url : "/api/v1/users/" + uid + "/projects.json"
     });
   },
 
@@ -185,11 +240,6 @@ const WebAPIUtils = {
         project.content[i].figure.figure_id != null ){
 
         console.log("Delete photo", project.content[i]);
-        if( !confirm("delete photo , index:  " + i)){
-          alert("Rollback");
-          project.content[i].figure._destroy = false;
-          return -1;
-        }
         fd.append("project[content_attributes][figures_attributes][][type]", "Figure::Photo");
         fd.append("project[content_attributes][figures_attributes][][attachment_id]", project.content[i].figure.id);
         fd.append("project[content_attributes][figures_attributes][][id]", project.content[i].figure.figure_id);
@@ -317,14 +367,12 @@ const WebAPIUtils = {
     setHeader();
   },
 
-  signedOut : function(){
-    ServerActionCreator.signOut();
-  },
-
   signOut : function(){
     clearHeader();
     window.location.reload();
-    signedOut();
+    setTimeout(function(){
+      ServerActionCreator.signOut();
+    }, 0);
   }
 };
 

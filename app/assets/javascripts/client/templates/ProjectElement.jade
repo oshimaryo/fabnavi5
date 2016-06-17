@@ -4,7 +4,7 @@ div(
   onClick=this.handleClick
   )
   .thumbnail
-    img(src=this.getThumbnailSrc()) 
+    img(src=this.getThumbnailSrc())
   h1.project-name
     = this.props.project.name
   hr
@@ -15,23 +15,37 @@ div(
     .date
       = this.getUploadDate()
     .description
-      = this.getDescription()
+      = this.getDescription()　
 
 
-  - if( this.props.isOpenMenu ) 
+  - if( this.props.isOpenMenu )
     ul.actions
-      li(className="action-box "+(this.props.menuIndex == 0 ? "selected-action" : "action"))
-        img(src="/images/p_play.png")
-        | Play
-      //li(className="action-box "+(this.props.menuIndex == 1 ? "selected-action" : "action"))
-      //  img(src="/images/p_record.png")
-      //  | Record
-      li(className="action-box "+(this.props.menuIndex == 1 ? "selected-action" : "action"))
-        img(src="/images/p_detail.png")
-        | Detail
-      //li(className="action-box "+(this.props.menuIndex == 3 ? "selected-action" : "action"))
-      //  img(src="/images/p_edit.png")
-      //  | Edit
-      li(className="action-box "+(this.props.menuIndex == 2 ? "selected-action" : "action"))
-        img(src="/images/p_delete.png")
-        | Delete
+      if this.props.menuType == "allProjects"
+        li(className="action-box "+(this.props.menuIndex == 0 ? "selected-action" : "action"),style="border-radius: 5px 5px 0px 0px;")
+          .menu2
+            img(src="/images/p_play.png")
+            | Play
+        li(className="action-box "+(this.props.menuIndex == 1 ? "selected-action" : "action"))
+          .menu2
+            img(src="/images/p_detail.png")
+            | Detail
+      else
+        li(className="action-box "+(this.props.menuIndex == 0 ? "selected-action" : "action"))
+          .menu5
+            img(src="/images/p_play.png")
+            | Play
+        //li(className="action-box "+(this.props.menuIndex == 1 ? "selected-action" : "action"))
+        //  img(src="/images/p_record.png")
+        //  | Record
+        li(className="action-box "+(this.props.menuIndex == 1 ? "selected-action" : "action"))
+          .menu5
+            img(src="/images/p_detail.png")
+            | Detail
+        li(className="action-box "+(this.props.menuIndex == 2 ? "selected-action" : "action"))
+          .menu5
+            img(src="/images/p_edit.png")
+            | Edit
+        li(className="action-box "+(this.props.menuIndex == 3 ? "selected-action" : "action"))
+          .menu4
+            img(src="/images/p_delete.png")
+            | Delete

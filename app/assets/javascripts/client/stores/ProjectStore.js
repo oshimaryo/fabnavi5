@@ -14,6 +14,9 @@ let
     STEP = 10,
     _shooting = false,
     _project = null,
+    _name = null,
+    _description = null,
+    _delContent = [],
     _currentPage = 0,
     _uploadQueue = [
     ];
@@ -102,6 +105,7 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
 
   setPage : function(page){
     let _page = page;
+    _currentPage = _page;
     if( !_project.hasOwnProperty("content") ){
       return;
     }
@@ -112,8 +116,9 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
     if( _page < 0 ){
       _page = 0;
     }
-
     _currentPage = _page;
+
+
     console.log("_page : ", _page);
     if(_project.content[_page].figure.hasOwnProperty("_destroy") &&
       _project.content[_page].figure._destroy){
@@ -157,6 +162,40 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
     }
     this.emitChange();
   },
+
+  toggleDestroyContent:function(){
+    console.log("toggletoggle");
+    console.log(_project.content.length);
+    console.log(_delContent.length);
+    for(let i =0; i<_project.content.length;i++){
+      for(let j =0; j<_delContent.length;j++){
+        if(_project.content[i].figure.figure_id == _delContent[j]){
+          console.log(_project.content[i].figure.file.file.thumb.url);
+          _project.content[i].figure["_destroy"] = true;
+          console.log(_project.content[i].figure["_destroy"]);
+        }
+      }
+    }
+    ProjectStore.emitChange();
+  },
+
+  changeTitle:function(){
+    _project.name = _name;
+    _project.description = _description;
+    _project._edited = true;
+    ProjectStore.emitChange();
+  },
+
+  backToHome:function(){
+    if(location.hash.contains("#/manager/detail")){
+      location.hash = "#/manager";
+    }else if(location.hash.contains("#/manager/edit")){
+      location.hash = "#/mamager/myprojects";
+    }else{
+      location.hash = "#/manager";
+    }
+  },
+
 
   newFigure : function( ){
     return {
@@ -336,26 +375,24 @@ ProjectStore.dispatchToken = AppDispatcher.register(function( action ){
       break;
     case KeyActionTypes.PROJECT_SHOOT:
       ProjectStore.shoot();
-      break
+      break;
     case KeyActionTypes.PROJECT_NEXT_PAGE:
       ProjectStore.next();
-      break
+      break;
     case KeyActionTypes.PROJECT_PREV_PAGE:
       ProjectStore.prev();
-      break
+      break;
 
     case KeyActionTypes.CALIBRATE_ZOOMOUT:
       CalibrateController.zoomIOCB(1.01, 1.01)();
-      break
+      break;
     case KeyActionTypes.CALIBRATE_ZOOMIN:
       CalibrateController.zoomIOCB(0.99, 0.99)();
-      break
-
-
+      break;
 
     case KeyActionTypes.EXIT_PROJECT:
       location.hash = "#/manager";
-      break
+      break;
 
     case ActionTypes.PROJECT_RECEIVE:
       ProjectStore.setProject( action.project );
@@ -380,6 +417,45 @@ ProjectStore.dispatchToken = AppDispatcher.register(function( action ){
       break;
     case ActionTypes.UPLOAD_ATTACHMENT_FAILED:
       ProjectStore.uploadFailed( action.result.sym );
+      break;
+    case ActionTypes.PROJECT_DETAIL:
+      console.log("PROJECT_DETAIL");
+      location.hash = "#/manager/detail/" + action.id;
+      break;
+    case ActionTypes.PROJECT_EDIT:
+      location.hash = "#/manager/edit/" + action.id;
+      break;
+    case ActionTypes.EDIT_CONTENT:
+      _project = action.project;
+      _delContent = action.content_array;
+      console.log("action edit content:");
+      console.log(_project);
+      console.log(_delContent);
+      ProjectStore.toggleDestroyContent();
+      setTimeout(function(){
+        ProjectActionCreator.updateProject({
+          project:ProjectStore.getProject()
+        });
+      }, 0);
+      setTimeout(function(){
+        location.hash = "#/manager/myprojects";
+      },0); 
+      break;
+    case ActionTypes.EDIT_TITLE:
+      _project = action.project;
+      _name = action.name;
+      _description = action.description;
+      console.log("ProjectStore: " + _name);
+      ProjectStore.changeTitle();
+      setTimeout(function(){
+        ProjectActionCreator.updateProject({
+          project:ProjectStore.getProject()
+        });
+      }, 0);
+      setTimeout(function(){
+        location.hash = "#/manager/myprojects";
+      },0);
+
       break;
     default :
       break;

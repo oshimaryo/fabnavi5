@@ -59,10 +59,9 @@ body {
 }
 
 .thumbnail img {
-  transform: rotateZ(180deg);
-  width: 100%;
-  height:100%;
-  border-radius: 0px 0px 5px 5px;
+  width: $thumb-width;
+  height:$thumb-height;
+  border-radius: 7px 7px 0px 0px;
 }
 #status-icon {
     width:20%;
@@ -201,9 +200,22 @@ ul.actions {
 
     background-color: $tp-black;
     list-style: none;
-    height:$thumb-height/3;
-    margin-bottom:0px;
+
+    margin-bottom: 0px;
     padding-top: 8px;
+    .menu2 {
+      height: $thumb-height/2;
+    }
+    .menu3 {
+      height: $thumb-height/3;
+    }
+    .menu4 {
+      height: $thumb-height/4;
+    }
+    .menu5 {
+      height: $thumb-height/5;
+    }
+
     img {
       width:$action-height * 0.8;
       margin:  $action-height * 0.1;

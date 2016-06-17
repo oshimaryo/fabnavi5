@@ -23,6 +23,7 @@ class ProjectList extends React.Component{
     return {
       projects : ProjectListStore.getProjectsAll(),
       selected : ProjectSelectorStore.getSelector(),
+      projectsType : ProjectListStore.getProjectsType(),
     };
   }
 
@@ -41,6 +42,7 @@ class ProjectList extends React.Component{
 
   componentWillMount(){
     ProjectActionCreator.getAllProjects();
+    ProjectListStore.loadProjects(); // XXX
   }
 
   componentDidMount(){

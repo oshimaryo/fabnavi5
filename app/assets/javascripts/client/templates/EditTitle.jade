@@ -1,0 +1,17 @@
+h1.subtitle Edit Name and Description
+form.form-box-edit
+  .field_edit
+    p.edit Name
+    input.form-edit( 
+      onChange=this.handleNameChange 　
+      value=this.state.name
+      type="text"
+      ) 
+  .field_edit
+    p.edit Description
+    textarea.form-edit(
+     onChange=this.handleDescriptionChange 
+     value=this.state.description
+     rows=10
+     )
+button.btn(type ="submit" onClick = this.onclick) S A V E

@@ -7,10 +7,12 @@ const
     EventTypes = require('../constants/EventTypes'),
     ActionTypes = require('../constants/ActionTypes'),
     KeyActionTypes = require('../constants/KeyActionTypes'),
+    NavigationViewActionCreator = require('../actions/NavigationViewActionCreator'),
     ProjectActionCreator = require('../actions/ProjectActionCreator');
 
 let _selector = {
 };
+let menuIndexSize = 1;
 
 
 const ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
@@ -19,6 +21,7 @@ const ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
       index : 0,
       row   : 0,
       col   : 0,
+      menuType : "allProjects",
       openMenu : false,
       menuIndex : 0,
     };
@@ -48,7 +51,21 @@ const ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
         _selector.openMenu = false;
         _selector.menuIndex = 0;
         break;
-      case 4:
+      case 1:
+        setTimeout(function(){
+          ProjectActionCreator.detailProject( project );
+        },0);
+        _selector.openMenu = false;
+        _selector.menuIndex = 0;
+        break;
+      case 2:
+        setTimeout(function(){
+          ProjectActionCreator.editProject( project );
+        },0);
+        _selector.openMenu = false;
+        _selector.menuIndex = 0;
+        break;
+      case 3:
         setTimeout(function(){
           ProjectActionCreator.deleteProject( project );
         }, 0);
@@ -120,8 +137,10 @@ const ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
 
   nextAction : function(){
     _selector.menuIndex++;
-    if(_selector.menuIndex > 2){
-      _selector.menuIndex = 2;
+
+    if(_selector.menuIndex > menuIndexSize){
+      _selector.menuIndex = menuIndexSize;
+
     }
     this.emitChange();
   },
@@ -139,6 +158,25 @@ const ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
     _selector.col = index % 4;
     _selector.row = Math.floor(index / 4);
     this.emitChange();
+  },
+
+  changeProjectsType : function(projectsType){
+    _selector.menuType = projectsType;
+    if(projectsType == "allProjects"){
+      menuIndexSize = 1;
+      setTimeout(function(){
+        ProjectActionCreator.getAllProjects();
+      }, 0);
+    }else{
+      menuIndexSize = 3;
+      setTimeout(function(){
+        ProjectActionCreator.getOwnProjects();
+      }, 0);
+    }
+    _selector.openMenu = false;
+    FSM.states.manager._child.instance.states.index._child.instance.transition("projects");
+    _selector.menuIndex = 0;
+    _selector.index = 0;
   },
 
   getSelector : function(){
@@ -189,12 +227,17 @@ ProjectSelectorStore.dispatchToken = AppDispatcher.register(function( action ){
       break;
     case ActionTypes.MOVE_TOP:
       location.hash = "#/manager"
+      ProjectSelectorStore.changeProjectsType("allProjects");
       break;
     case ActionTypes.MOVE_MY_PROJECTS:
-      location.hash = "#/manager"
+      location.hash = "#/manager/myprojects"
+      ProjectSelectorStore.changeProjectsType("myprojects");
       break;
     case ActionTypes.MOVE_CONFIG:
-      location.hash = "#/manager"
+      location.hash = "#/manager/transit"
+      setTimeout(function(){
+        location.hash = "#/manager/"
+      },0);
       break;
     case ActionTypes.MOVE_NEW_PROJECT:
       location.hash = "#/manager/create"

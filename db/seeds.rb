@@ -32,7 +32,6 @@ tokens.each_with_index do |tok, i|
   # User
   u = User.create!(
     provider: "persona",
-    uid: "user#{i}@example.com",
     email: "user#{i}@example.com",
     password: "password",
     tokens: tok,

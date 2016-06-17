@@ -3,17 +3,40 @@ const
     EventEmitter = require('events'),
     EventTypes = require('../constants/EventTypes'),
     ActionTypes = require('../constants/ActionTypes'),
-    ProjectActionCreator = require('../actions/ProjectActionCreator');
+    ProjectActionCreator = require('../actions/ProjectActionCreator'),
+    WebAPIUtils = require('../utils/WebAPIUtils');
 let
     _projects = [],
     initProjects = [],
-    searchProjects = [];
+    searchProjects = [],
+    projectsType = "";
 
 const ProjectListStore = Object.assign({}, EventEmitter.prototype, {
   init : function(){
     _projects = [];
-    ProjectActionCreator.getAllProjects();
+    WebAPIUtils.getCurrentUserInfo();
+    this.loadProjects();
     this.emitChange();
+  },
+
+  loadProjects : function(){
+    if(location.hash=="#/manager/myprojects"){
+      ProjectActionCreator.getOwnProjects();
+    }else{
+      ProjectActionCreator.getAllProjects();
+    }
+  },
+
+  setProjectsType : function(){
+    if(location.hash=="#/manager/myprojects"){
+      projectsType = "myProjects";
+    }else{
+      projectsType = "allProjects";
+    }
+  },
+
+  getProjectsType : function(){
+    return projectsType;
   },
 
   getProjectsAll : function(){
@@ -32,6 +55,7 @@ const ProjectListStore = Object.assign({}, EventEmitter.prototype, {
   setProjects : function( projects ){
     _projects = projects;
     this.emitChange();
+    this.setProjectsType();
   },
 
   removeProject : function( project ){
