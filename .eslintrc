@@ -9,6 +9,9 @@
     "jsx": true
   },
   "parser": null,
+  "parserOptions": {
+    "sourceType": "module"
+  },
   "rules": {
     "keyword-spacing": [
       2,
