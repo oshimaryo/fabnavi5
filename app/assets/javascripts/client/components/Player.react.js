@@ -91,7 +91,6 @@ class Player extends React.Component {
     this.clearCanvas();
   }
 
-
   handleSubmit( event ){
     if( currentFile == null ) return;
     WebAPIUtils.uploadFile( currentFile );
