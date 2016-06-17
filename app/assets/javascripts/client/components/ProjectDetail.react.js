@@ -53,7 +53,7 @@ const ProjectDetail = React.createClass({
   getProjectDetail: function(){
     let project ={};
     for(var i in this.state.projects){
-      if(this.state.projects[i].id == this.context.router.getCurrentParams().projectId){
+      if(this.state.projects[i].id == this.props.params.projectId){
         project.description = this.state.projects[i].description;
         project.name = this.state.projects[i].name
         console.log(this.state.projects[i].user);

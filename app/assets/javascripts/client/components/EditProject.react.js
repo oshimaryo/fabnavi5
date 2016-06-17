@@ -66,7 +66,7 @@ const EditProject = React.createClass({
   project.project_id = null;
 
   for(var i in this.state.projects){
-    if(this.state.projects[i].id == this.context.router.getCurrentParams().projectId){
+    if(this.state.projects[i].id == this.props.params.projectId){
       project.project_id = this.state.projects[i];
       project.content_array = this.state.projects[i].content;
     }

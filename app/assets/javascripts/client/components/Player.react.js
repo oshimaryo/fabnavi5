@@ -24,8 +24,9 @@ let
 class Player extends React.Component {
 
   render(){
-    player(Object.assign(
-
+    return player(Object.assign(
+      this,
+      this.state
     ));
   }
 
@@ -63,7 +64,7 @@ class Player extends React.Component {
 
   getStateFromStores(){
     const project = ProjectStore.getProject();
-    if( project == null || this.context.router.getCurrentParams().projectId != project.id ){
+    if( project == null || this.props.params.projectId != project.id ){
       return {
         project : null,
         page : 0,
@@ -183,7 +184,8 @@ class Player extends React.Component {
   }
 
   componentWillMount(){
-    ProjectActionCreator.getProject({ id:this.context.router.getCurrentParams().projectId });
+    console.log(this.props);
+    ProjectActionCreator.getProject({ id:this.props.params.projectId });
   }
 
   componentDidMount(){
