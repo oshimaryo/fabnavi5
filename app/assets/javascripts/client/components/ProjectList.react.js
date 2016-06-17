@@ -1,76 +1,70 @@
 //プロジェクトたちをリストにしている所？
 //最初のページとも言える
-const
-    React = require('react'),
-    ProjectListStore = require('../stores/ProjectListStore'),
-    ProjectSelectorStore = require('../stores/ProjectSelectorStore'),
-    ProjectElement = require('../components/ProjectElement.react'),
-    jade = require('react-jade'),
-    projectList = jade.compileFile(__dirname + '/../templates/ProjectList.jade'),
-    ProjectActionCreator = require('../actions/ProjectActionCreator'),
+import React from'react';
+import ProjectListStore from'../stores/ProjectListStore';
+import ProjectSelectorStore from'../stores/ProjectSelectorStore';
+import ProjectElement from'../components/ProjectElement.react';
+import ProjectActionCreator from'../actions/ProjectActionCreator';
+import projectList from'../templates/ProjectList.jade';
 
-    State = require('../utils/FabnaviStateMachine');
+import State from'../utils/FabnaviStateMachine';
 
-const ProjectList = React.createClass({
+class ProjectList extends React.Component{
 
-  propTypes : {
+  constructor(props){
+    super(props);
+    this.getStateFromStores = this.getStateFromStores.bind(this);
+    this.state = this.getStateFromStores();
+    this.props = {};
+    this._onChange = this._onChange.bind(this);
+  }
 
-  },
-
-  getStateFromStores : function (){
+  getStateFromStores(){
     return {
       projects : ProjectListStore.getProjectsAll(),
       selected : ProjectSelectorStore.getSelector(),
       projectsType : ProjectListStore.getProjectsType(),
     };
-  },
+  }
 
-  _onChange : function (){
+  _onChange(){
     this.setState(this.getStateFromStores());
-  },
+  }
 
-  getInitialState: function(){
-    return this.getStateFromStores();
-  },
+  render(){
+    return projectList(Object.assign(
+      this,
+      this.state,
+      this.props,
+      { ProjectElement: React.createFactory(ProjectElement) }
+    ));
+  }
 
-  getDefaultProps: function(){
-    return {
-    };
-  },
-
-  render : projectList,
-
-  handleChange: function( event ){
-  },
-
-  onclick : function(){
-  },
-
-  componentWillMount : function(){
+  componentWillMount(){
     ProjectListStore.loadProjects();
-  },
+  }
 
-  componentDidMount : function(){
+  componentDidMount(){
     ProjectListStore.addChangeListener(this._onChange);
     ProjectSelectorStore.addChangeListener(this._onChange);
     State.reload();
-  },
+  }
 
-  componentWillUpdate : function(){
-  },
+  componentWillUpdate(){
+  }
 
 
-  componentDidUpdate : function(){
-  },
+  componentDidUpdate(){
+  }
 
-  componentWillReceiveProps : function(){
-  },
+  componentWillReceiveProps(){
+  }
 
-  componentWillUnmount : function(){
+  componentWillUnmount(){
     ProjectListStore.removeChangeListener(this._onChange);
     ProjectSelectorStore.removeChangeListener(this._onChange);
-  },
+  }
 
-});
+}
 
-module.exports = ProjectList;
+export default ProjectList;

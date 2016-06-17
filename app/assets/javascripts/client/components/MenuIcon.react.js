@@ -1,63 +1,62 @@
 //親はNavigation.react
 //メニューアイコンのクリックの反応について書いてる
 //actionはProjectSelectorStoreに送ってる
-const
-    NavigationViewActionCreator = require('../actions/NavigationViewActionCreator'),
-    React = require('react'),
-    jade = require('react-jade'),
-    Router = require('react-router'),
-    Link = Router.Link,
-    Route = Router.Route,
+import NavigationViewActionCreator from'../actions/NavigationViewActionCreator';
+import React from'react';
 
-    menuIcon = jade.compileFile(__dirname + '/../templates/MenuIcon.jade');
+console.log(React);
+import menuIcon from'../templates/MenuIcon.jade';
 
-const MenuIcon = React.createClass({
+class MenuIcon extends React.Component{
 //Navigation.jadeにあるactとsrc
+/*
   propTypes : {
     act   : React.PropTypes.string.isRequired,
     src   : React.PropTypes.string.isRequired,
   },
+*/
+  constructor(props){
+    super(props);
+    this.state = {};
+    this.props = {};
+    this.onclick = this.onclick.bind(this);
+  }
 
-  getInitialState: function(){
-    return {
-    };
-  },
+  render(){
+    return menuIcon(Object.assign(
+      this,
+      this.props,
+      this.state));
+  }
 
-  getDefaultProps: function(){
-    return {
-    };
-  },
-
-  render : menuIcon,
-
-  onclick : function(){
+  onclick(){
     NavigationViewActionCreator.menuSelect(this.props.act);
-  },
+  }
 
-  componentWillMount : function(){
+  componentWillMount(){
     return {
     };
-  },
+  }
 
-  componentDidMount : function (){
+  componentDidMount(){
 
-  },
+  }
 
-  componentWillUpdate : function(){
+  componentWillUpdate(){
     return {
     };
-  },
+  }
 
-  componentDidUpdate : function(){
+  componentDidUpdate(){
     return {
     };
-  },
+  }
 
-  componentWillUnmount : function(){
+  componentWillUnmount(){
     return {
     };
-  },
+  }
 
-});
+}
 
-module.exports = MenuIcon;
+export default MenuIcon;

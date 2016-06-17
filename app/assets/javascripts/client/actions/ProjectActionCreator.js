@@ -43,7 +43,7 @@ const ProjectActionCreator = {
 
   playProject : function( payload ){
     AppDispatcher.dispatch({
-      type : ActionTypes.PROJECT_PLAY,　
+      type : ActionTypes.PROJECT_PLAY,
       id   : payload.id
     });
   },
@@ -87,14 +87,14 @@ const ProjectActionCreator = {
     });
   },
 
-  editContent : function( project,content_array ){
+  editContent : function( project, content_array ){
     AppDispatcher.dispatch({
       type : ActionTypes.EDIT_CONTENT,
       project : project,
       content_array : content_array
     });
   },
-  editTitle : function( project,name,description ){
+  editTitle : function( project, name, description ){
     AppDispatcher.dispatch({
       type : ActionTypes.EDIT_TITLE,
       project : project,
@@ -105,7 +105,7 @@ const ProjectActionCreator = {
 
   detailProject : function( payload ){
     AppDispatcher.dispatch({
-      type : ActionTypes.PROJECT_DETAIL,　
+      type : ActionTypes.PROJECT_DETAIL,
       id   : payload.id
     });
   },

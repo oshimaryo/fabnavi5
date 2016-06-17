@@ -29,7 +29,7 @@ const EditContent = React.createClass({
 
   onclick : function(){
     this.registId(this.props.id);
-    this.setState({flag:!this.state.flag});
+    this.setState({ flag:!this.state.flag });
     this.getSrc();
     //console.log("click picture : "+ this.props.id);
     console.log(this.state.flag);
@@ -38,9 +38,9 @@ const EditContent = React.createClass({
 
   getSrc: function(){
     if(this.state.flag){
-      this.setState({src:this.props.src});
-    }else{
-      this.setState({src:"/images/kaffcop_icon/delete_content.png"});
+      this.setState({ src:this.props.src });
+    } else {
+      this.setState({ src:"/images/kaffcop_icon/delete_content.png" });
     }
     return;
   },
@@ -48,9 +48,9 @@ const EditContent = React.createClass({
   registId: function(id){
     let flag = true;
     console.log("click picture : " + id);
-    for(var i=0;i<this.props.id_array.length;i++){
-      if(this.props.id_array[i]==id){
-        this.props.id_array.splice(i,1);
+    for(var i = 0; i < this.props.id_array.length; i++){
+      if(this.props.id_array[i] == id){
+        this.props.id_array.splice(i, 1);
         flag = !flag;
       }
     }
