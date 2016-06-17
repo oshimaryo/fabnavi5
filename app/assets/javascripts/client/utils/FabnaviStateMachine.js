@@ -180,8 +180,8 @@ const playerStateMachine = new machina.Fsm({
           this.transition("play");
         }.bind(this);
         setTimeout(function(){
-            ProjectActionCreator.updateCanvas();
-          }, 0);
+          ProjectActionCreator.updateCanvas();
+        }, 0);
       },
 
       consume : function(e){
@@ -281,7 +281,7 @@ const managerStateMachine = new machina.Fsm({
   states : {
     "index" : {
       _onEnter : function(){
-        console.log("entering index");
+        console.log("move to /");
       },
       transitionl2 : function(){
         transitionl2.call(this);
@@ -290,18 +290,27 @@ const managerStateMachine = new machina.Fsm({
     },
 
     "create" : {
+      _onEnter : function(){
+        console.log("move to /create");
+      },
       transitionl2 : function(){
         transitionl2.call(this);
       },
     },
 
     "config" : {
+      _onEnter : function(){
+        console.log("move to /config");
+      },
       transitionl2 : function(){
         transitionl2.call(this);
       },
     },
 
     "edit" : {
+      _onEnter : function(){
+        console.log("move to /edit");
+      },
       transitionl2 : function(){
         transitionl2.call(this);
       },
@@ -342,8 +351,9 @@ const FSM = new machina.Fsm({
   },
 
   reload : function( loc ){
-    console.log("Nested Transition: ", location.hash.split("/"));
-    this.transition(location.hash.split("/")[1]);
+    const url = location.hash.replace(/\?.*/, "").split("/");
+    console.log("Nested Transition: ", url);
+    this.transition(url[1]);
     this.handle("transitionl2");
   },
 });

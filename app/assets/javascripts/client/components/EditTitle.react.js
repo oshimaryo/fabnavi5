@@ -29,14 +29,14 @@ const EditTitle = React.createClass({
   onclick : function(){
     console.log("this is title changed fucntion :" + this.state.name);
     console.log(this.props.id_project);
-    ProjectActionCreator.editTitle(this.props.id_project,this.state.name,this.state.description);
+    ProjectActionCreator.editTitle(this.props.id_project, this.state.name, this.state.description);
     return;
   },
 
   handleNameChange : function( e ){
     this.setState({ name : e.target.value });
     //this.props.id_name = this.state.name;
-    console.log("oioi"+this.props.id_name);
+    console.log("oioi" + this.props.id_name);
   },
   handleDescriptionChange : function( e ){
     this.setState({ description : e.target.value });

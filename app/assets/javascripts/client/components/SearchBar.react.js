@@ -1,8 +1,6 @@
-const
-    NavigationViewActionCreator = require('../actions/NavigationViewActionCreator'),
-    React = require('react'),
-    jade = require('react-jade'),
-    searchBar = jade.compileFile(__dirname + '/../templates/SearchBar.jade');
+import NavigationViewActionCreator from'../actions/NavigationViewActionCreator';
+import React from'react';
+import searchBar from'../templates/SearchBar.jade';
 
 const SearchBar = React.createClass({
 

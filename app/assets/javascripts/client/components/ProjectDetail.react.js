@@ -1,19 +1,10 @@
-const
-    React = require('react'),
-    ProjectListStore = require('../stores/ProjectListStore'),
-    ProjectStore = require('../stores/ProjectStore'),
-    ProjectActionCreator = require('../actions/ProjectActionCreator'),
-    jade = require('react-jade'),
+import React from'react';
+import ProjectListStore from'../stores/ProjectListStore';
 
-    Router = require('react-router'),
-    DefaultRoute = Router.DefaultRoute,
-    Link = Router.Link,
-    Route = Router.Route,
-    RouteHandler = Router.RouteHandler,
-    State = require('../utils/FabnaviStateMachine'),
+import{ Route, RouteHandler, Link, DefaultRoute }from'react-router';
+import State from'../utils/FabnaviStateMachine';
 
-    projectDetail = jade.compileFile(__dirname + '/../templates/ProjectDetail.jade'),
-    State = require('../utils/FabnaviStateMachine');
+import projectDetail from'../templates/ProjectDetail.jade';
 
 const ProjectDetail = React.createClass({
 
@@ -41,15 +32,15 @@ const ProjectDetail = React.createClass({
   },
 
   getProjectDetail: function(){
-    let project ={};
+    let project = {};
     for(var i in this.state.projects){
-      if(this.state.projects[i].id == this.context.router.getCurrentParams().projectId){
+      if(this.state.projects[i].id == this.props.params.projectId){
         project.description = this.state.projects[i].description;
         project.name = this.state.projects[i].name
         console.log(this.state.projects[i].user);
         project.username = this.state.projects[i].user.nickname;
         project.usericon = this.state.projects[i].user.image;
-        project.date = this.state.projects[i].created_at.replace(/T.*$/,"").replace(/-/g," / ");
+        project.date = this.state.projects[i].created_at.replace(/T.*$/, "").replace(/-/g, " / ");
         project.thumb = this.getThumbnailSrc(i);
       }
     }
@@ -58,8 +49,8 @@ const ProjectDetail = React.createClass({
 
   getThumbnailSrc: function (a){
     let src = null;
-    if(this.state.projects[a].content.length>=1){
-      src = this.state.projects[a].content[this.state.projects[a].content.length-1].figure.file.file.thumb.url;
+    if(this.state.projects[a].content.length >= 1){
+      src = this.state.projects[a].content[this.state.projects[a].content.length - 1].figure.file.file.thumb.url;
     }
     if( src == null || src == "" ){
       src = "/images/kaffcop_icon/no_thumbnail.png";
@@ -72,7 +63,7 @@ const ProjectDetail = React.createClass({
     if( src == null ){
       src = this.props.project.user.image;
     }
-  return src;
+    return src;
   },
 
   render : projectDetail,
@@ -83,7 +74,7 @@ const ProjectDetail = React.createClass({
   },
 
   componentDidMount : function (){
-    State.transition("pages"); 
+    State.transition("pages");
   },
 
   componentWillUpdate : function(){

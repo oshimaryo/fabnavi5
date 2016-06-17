@@ -1,9 +1,6 @@
-const
-    React = require('react'),
-    jade = require('react-jade'),
-    footer = jade.compileFile(__dirname + '/../templates/Footer.jade'),
-    Router = require('react-router'),
-    Link = Router.Link;
+import React from'react';
+import footer from'../templates/Footer.jade';
+import{ Link }from'react-router';
 
 const Footer = React.createClass({
 

@@ -69,8 +69,8 @@ const CalibrateController = (function (){
 
   function zoomIOCB(_w, _h){
     return function(){
-      w = w*_w;
-      h = h*_h;
+      w = w * _w;
+      h = h * _h;
       validateWH();
       update();
       updateXYFromWH();

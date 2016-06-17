@@ -54,14 +54,14 @@ const ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
       case 1:
         setTimeout(function(){
           ProjectActionCreator.detailProject( project );
-        },0);
+        }, 0);
         _selector.openMenu = false;
         _selector.menuIndex = 0;
         break;
       case 2:
         setTimeout(function(){
           ProjectActionCreator.editProject( project );
-        },0);
+        }, 0);
         _selector.openMenu = false;
         _selector.menuIndex = 0;
         break;
@@ -167,7 +167,7 @@ const ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
       setTimeout(function(){
         ProjectActionCreator.getAllProjects();
       }, 0);
-    }else{
+    } else {
       menuIndexSize = 3;
       setTimeout(function(){
         ProjectActionCreator.getOwnProjects();
@@ -237,7 +237,7 @@ ProjectSelectorStore.dispatchToken = AppDispatcher.register(function( action ){
       location.hash = "#/manager/transit"
       setTimeout(function(){
         location.hash = "#/manager/"
-      },0);
+      }, 0);
       break;
     case ActionTypes.MOVE_NEW_PROJECT:
       location.hash = "#/manager/create"

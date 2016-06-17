@@ -1,75 +1,69 @@
-//Createのページview
-const
-    React = require('react'),
-    ProjectListStore = require('../stores/ProjectListStore'),
-    jade = require('react-jade'),
+import React from'react';
+import ProjectListStore from'../stores/ProjectListStore';
+import ProjectActionCreator from'../actions/ProjectActionCreator';
+import State from'../utils/FabnaviStateMachine';
+import{ Route }from'react-router';
+import createProject from'../templates/CreateProject.jade';
 
-    Router = require('react-router'),
-    DefaultRoute = Router.DefaultRoute,
-    Link = Router.Link,
-    Route = Router.Route,
-    RouteHandler = Router.RouteHandler,
+/**
+ *  CreateProjectがクリックされたときに呼び出されるView
+ *  フォームに入力された値を基にActionを投げる
+ */
+class CreateProject extends React.Component{
 
-    createProject = jade.compileFile(__dirname + '/../templates/CreateProject.jade'),
-    ProjectActionCreator = require('../actions/ProjectActionCreator'),
-    State = require('../utils/FabnaviStateMachine');
+  constructor(props){
+    super(props);
+    this.props = {};
+    this.state = { name : "", description: "" };
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-const CreateProject = React.createClass({
-
-  _onChange : function(){
-  },
-  getInitialState: function(){
-    return {
-      name : "",
-      description : "",
-    };
-  },
-
-  getDefaultProps: function(){
-    return {
-    };
-  },
-
-  handleChange : function( e ){
-  },
-
-  handleNameChange : function( e ){
+  handleNameChange(e){
     this.setState({ name : e.target.value });
-  },
-  handleDescriptionChange : function( e ){
-    this.setState({ description : e.target.value });
-  },
+  }
 
-  handleSubmit : function( e ){
+  handleDescriptionChange(e){
+    this.setState({ description : e.target.value });
+  }
+
+  handleSubmit(e){
     ProjectActionCreator.createProject({
       name : this.state.name,
       description : this.state.description,
       contentAttributesType : "Content::PhotoList"
     });
-  },
+  }
 
-  render : createProject,
+  render(){
+    return createProject(Object.assign(
+      this,
+      this.state,
+      this.props));
+  }
 
-  componentWillMount : function(){
-  },
+  componentWillMount(){
 
-  componentDidMount : function (){
+  }
+
+  componentDidMount(){
     State.reload();
-  },
+  }
 
-  componentWillUpdate : function(){
+  componentWillUpdate(){
     return {
     };
-  },
+  }
 
-  componentDidUpdate : function(){
+  componentDidUpdate(){
     return {
     };
-  },
+  }
 
-  componentWillUnmount : function(){
-  },
+  componentWillUnmount(){
+  }
 
-});
+}
 
-module.exports = CreateProject;
+export default CreateProject;
