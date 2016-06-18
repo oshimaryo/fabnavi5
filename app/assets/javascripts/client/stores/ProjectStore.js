@@ -6,7 +6,6 @@ const
     ActionTypes = require('../constants/ActionTypes'),
     KeyActionTypes = require('../constants/KeyActionTypes'),
     ProjectActionCreator = require('../actions/ProjectActionCreator'),
-    Camera = require('../player/Camera'),
     ImageConverter = require('../player/ImageConverter'),
     CalibrateController = require('../player/CalibrateController');
 
@@ -35,39 +34,6 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
     _currentPage = 0;
     _uploadQueue = [];
     _shooting = false;
-    Camera.init();
-  },
-
-  shoot : function(){
-    console.log("shoot");
-    if(_shooting){
-      console.log("shooting now.");
-      return;
-    }
-    ProjectStore.emitClearCanvas();
-    Camera.shoot().then(function(url){
-      const fig = ProjectStore.newFigure();
-      ProjectStore.setImageToFigureFromCamera(fig, url);
-      ProjectStore.pushFigure( fig );
-      fig.figure.clientContent.dfdImage
-        .then(ImageConverter.toBlob)
-        .then(function(blob){
-          let _url;
-
-          if( url.length > 1000 ){
-            _url = url.slice(30, 40) + ".jpg";
-          }
-
-          const payload = {
-            file : blob,
-            name : _url.replace(/\?.*/, "").replace(/^.*\//, ""),
-            sym : fig.figure.sym,
-          };
-          ProjectActionCreator.uploadAttachment(payload);
-          payload.status = "Uploading";
-          ProjectStore.pushUploadQueue(payload);
-        });
-    });
   },
 
   pushUploadQueue : function( payload ){
