@@ -50,6 +50,7 @@ class Player extends React.Component{
     this.getStateFromStores = this.getStateFromStores.bind(this);
     this.state = this.getStateFromStores();
     this.props = {};
+    this.video = document.createElement("video");
   }
 
   reset(){
@@ -111,6 +112,18 @@ class Player extends React.Component{
     if( this.state.project.content.length == 0){
       return 0;
     }
+
+    if( this.state.project.type === "movie") {
+      this.video.width = window.screen.width;
+      this.video.height = window.screen.height;
+      this.video.src = this.state.project.content[0].figure.file.file.url
+      this.video.play();
+      setInterval(() => {
+        MainView.render(this.video);
+      }, 100);
+      return;
+    }
+
     _currentState = State.compositeState();
     if( _currentState != _lastState ){
       MainView.clear();

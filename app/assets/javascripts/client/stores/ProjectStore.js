@@ -95,6 +95,11 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
 
   setProject : function( project ){
     _project = project;
+    if( _project.content.length > 0  && _project.content[0].type === "Figure::Frame" ){
+      _project["type"] = "movie";
+    } else {
+      _project["type"] = "photo";
+    }
     this.emitChange();
   },
 
