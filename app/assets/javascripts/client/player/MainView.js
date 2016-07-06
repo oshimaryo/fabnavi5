@@ -173,6 +173,10 @@ const MainView = function(){
     currentImage = image;
   }
 
+  function render(video){
+    ImageConverter.drawImage(video, cvs, ViewConfig.conf());
+  }
+
   function redraw(){
     clear();
     if(currentImage)draw(currentImage);
@@ -207,6 +211,7 @@ const MainView = function(){
   return {
     init:init,
     draw:draw,
+    render:render,
     showWaitMessage:drawWaitingMessage,
     showInstructionMessage:drawInstructionMessage,
     showCalibrateCenterLine:drawCalibrateCenterLine,
