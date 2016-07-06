@@ -158,7 +158,7 @@ const WebAPIUtils = {
 
   isSigningIn : function(){
     const url = window.location.href;
-    if(url.contains("uid") && url.contains("client_id") && url.contains("auth_token")){
+    if(url.includes("uid") && url.includes("client_id") && url.includes("auth_token")){
       const token = url.match(/auth_token=([a-zA-Z0-9\-]*)/)[1];
       const uid = url.match(/uid=([a-zA-Z0-9\-]*)/)[1];
       const client_id = url.match(/client_id=([a-zA-Z0-9\-]*)/)[1];

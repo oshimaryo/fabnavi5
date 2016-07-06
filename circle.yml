@@ -6,12 +6,17 @@ machine:
 
 dependencies:
   post:
-    - npm run build 
+    - npm run build
 
 test:
   post:
+
 deployment:
   production:
     branch: release
     commands:
       - bundle exec cap production deploy
+  staging:
+    branch: staging
+    commands:
+      - bundle exec cap staging deploy

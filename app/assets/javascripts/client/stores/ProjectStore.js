@@ -6,7 +6,6 @@ const
     ActionTypes = require('../constants/ActionTypes'),
     KeyActionTypes = require('../constants/KeyActionTypes'),
     ProjectActionCreator = require('../actions/ProjectActionCreator'),
-    Camera = require('../player/Camera'),
     ImageConverter = require('../player/ImageConverter'),
     CalibrateController = require('../player/CalibrateController');
 
@@ -35,39 +34,6 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
     _currentPage = 0;
     _uploadQueue = [];
     _shooting = false;
-    Camera.init();
-  },
-
-  shoot : function(){
-    console.log("shoot");
-    if(_shooting){
-      console.log("shooting now.");
-      return;
-    }
-    ProjectStore.emitClearCanvas();
-    Camera.shoot().then(function(url){
-      const fig = ProjectStore.newFigure();
-      ProjectStore.setImageToFigureFromCamera(fig, url);
-      ProjectStore.pushFigure( fig );
-      fig.figure.clientContent.dfdImage
-        .then(ImageConverter.toBlob)
-        .then(function(blob){
-          let _url;
-
-          if( url.length > 1000 ){
-            _url = url.slice(30, 40) + ".jpg";
-          }
-
-          const payload = {
-            file : blob,
-            name : _url.replace(/\?.*/, "").replace(/^.*\//, ""),
-            sym : fig.figure.sym,
-          };
-          ProjectActionCreator.uploadAttachment(payload);
-          payload.status = "Uploading";
-          ProjectStore.pushUploadQueue(payload);
-        });
-    });
   },
 
   pushUploadQueue : function( payload ){
@@ -167,8 +133,8 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
     console.log("toggletoggle");
     console.log(_project.content.length);
     console.log(_delContent.length);
-    for(let i =0; i<_project.content.length;i++){
-      for(let j =0; j<_delContent.length;j++){
+    for(let i = 0; i < _project.content.length; i++){
+      for(let j = 0; j < _delContent.length; j++){
         if(_project.content[i].figure.figure_id == _delContent[j]){
           console.log(_project.content[i].figure.file.file.thumb.url);
           _project.content[i].figure["_destroy"] = true;
@@ -187,11 +153,11 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
   },
 
   backToHome:function(){
-    if(location.hash.contains("#/manager/detail")){
+    if(location.hash.includes("#/manager/detail")){
       location.hash = "#/manager";
-    }else if(location.hash.contains("#/manager/edit")){
+    } else if(location.hash.includes("#/manager/edit")){
       location.hash = "#/mamager/myprojects";
-    }else{
+    } else {
       location.hash = "#/manager";
     }
   },
@@ -439,7 +405,7 @@ ProjectStore.dispatchToken = AppDispatcher.register(function( action ){
       }, 0);
       setTimeout(function(){
         location.hash = "#/manager/myprojects";
-      },0); 
+      }, 0);
       break;
     case ActionTypes.EDIT_TITLE:
       _project = action.project;
@@ -454,7 +420,7 @@ ProjectStore.dispatchToken = AppDispatcher.register(function( action ){
       }, 0);
       setTimeout(function(){
         location.hash = "#/manager/myprojects";
-      },0);
+      }, 0);
 
       break;
     default :

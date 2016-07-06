@@ -1,22 +1,16 @@
-const
-    React = require('react'),
-    jade = require('react-jade'),
+import React from'react';
 
-    ProjectStore = require('../stores/ProjectStore'),
-    MainView = require('../player/MainView'),
-    ViewConfig = require('../player/ViewConfig'),
-    ProjectActionCreator = require('../actions/ProjectActionCreator'),
+import ProjectStore from'../stores/ProjectStore';
+import MainView from'../player/MainView';
+import ViewConfig from'../player/ViewConfig';
+import ProjectActionCreator from'../actions/ProjectActionCreator';
 
-    Router = require('react-router'),
-    DefaultRoute = Router.DefaultRoute,
-    Link = Router.Link,
-    Route = Router.Route,
-    RouteHandler = Router.RouteHandler,
+import{ Route, RouteHandler, Link, DefaultRoute }from'react-router';
 
-    CalibrateController = require('../player/CalibrateController'),
-    player = jade.compileFile(__dirname + '/../templates/Player.jade'),
-    WebAPIUtils = require('../utils/WebAPIUtils'),
-    State = require('../utils/FabnaviStateMachine');
+import CalibrateController from'../player/CalibrateController';
+import WebAPIUtils from'../utils/WebAPIUtils';
+import State from'../utils/FabnaviStateMachine';
+import player from'../templates/Player.jade';
 
 let
     currentFile = null,
@@ -27,14 +21,38 @@ let
     _lastState = "",
     _currentState = "";
 
-const Player = React.createClass({
-  render:  player,
+class Player extends React.Component{
 
+  render(){
+    return player(Object.assign(
+      this,
+      this.state
+    ));
+  }
+
+  /*
   contextTypes: {
     router: React.PropTypes.func
-  },
+  }
+  */
 
-  reset : function(){
+  constructor(props){
+    super(props);
+    this._onChange = this._onChange.bind(this);
+    this._onCanvasUpdate = this._onCanvasUpdate.bind(this);
+    this._onCanvasClear = this._onCanvasClear.bind(this);
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleFile = this.handleFile.bind(this);
+    this.clearCanvas = this.clearCanvas.bind(this);
+    this.updateCanvas = this.updateCanvas.bind(this);
+    this.reset = this.reset.bind(this);
+    this.getStateFromStores = this.getStateFromStores.bind(this);
+    this.state = this.getStateFromStores();
+    this.props = {};
+  }
+
+  reset(){
     currentFile = null;
     _currentImage = null;
     pageChanged = true;
@@ -42,10 +60,11 @@ const Player = React.createClass({
     _lastState = "";
     _currentState = "";
     MainView.reset();
-  },
-  getStateFromStores : function getStateFromStores(){
+  }
+
+  getStateFromStores(){
     const project = ProjectStore.getProject();
-    if( project == null || this.context.router.getCurrentParams().projectId != project.id ){
+    if( project == null || this.props.params.projectId != project.id ){
       return {
         project : null,
         page : 0,
@@ -60,39 +79,30 @@ const Player = React.createClass({
       uploadQueue : ProjectStore.getUploadQueue(),
       shooting : ProjectStore.isShooting(),
     };
-  },
+  }
 
-  _onChange : function (){
+  _onChange(){
     this.setState(this.getStateFromStores());
-  },
+  }
 
-  _onCanvasUpdate : function(){
+  _onCanvasUpdate(){
     this.updateCanvas();
-  },
+  }
 
-  _onCanvasClear : function(){
+  _onCanvasClear(){
     this.clearCanvas();
-  },
+  }
 
-  getInitialState: function(){
-    return this.getStateFromStores();
-  },
-
-  getDefaultProps: function(){
-    return {
-    };
-  },
-
-  handleSubmit : function( event ){
+  handleSubmit( event ){
     if( currentFile == null ) return;
     WebAPIUtils.uploadFile( currentFile );
-  },
+  }
 
-  handleFile : function( event ){
+  handleFile( event ){
     currentFile = event.target.files[0];
-  },
+  }
 
-  updateCanvas : function(){
+  updateCanvas(){
 
     if(this.state.project == null){
       return 0;
@@ -112,10 +122,10 @@ const Player = React.createClass({
       if(lastPage <= 0){
         MainView.showInstructionMessage();
       }
-      if( _currentState.contains("calibrateCenter") ){
+      if( _currentState.includes("calibrateCenter") ){
         MainView.showCalibrateCenterLine();
         MainView.showCenterInstruction();
-      }else if(_currentState.contains("calibrateScale") ){
+      } else if(_currentState.includes("calibrateScale") ){
         MainView.showCalibrateScaleLine();
         MainView.showScaleInstruction();
       }
@@ -147,10 +157,10 @@ const Player = React.createClass({
           MainView.showInstructionMessage();
         }
         _currentImage = img;
-        if( _currentState.contains("calibrateCenter") ){
+        if( _currentState.includes("calibrateCenter") ){
           MainView.showCalibrateCenterLine();
           MainView.showCenterInstruction();
-        }else if(_currentState.contains("calibrateScale") ){
+        } else if(_currentState.includes("calibrateScale") ){
           MainView.showCalibrateScaleLine();
           MainView.showScaleInstruction();
         }
@@ -160,50 +170,51 @@ const Player = React.createClass({
         throw new Error(err);
       }
     }
-    if( _currentState.contains("calibrateCenter") ){
+    if( _currentState.includes("calibrateCenter") ){
       MainView.showCalibrateCenterLine();
       MainView.showCenterInstruction();
-    }else if(_currentState.contains("calibrateScale") ){
+    } else if(_currentState.includes("calibrateScale") ){
       MainView.showCalibrateScaleLine();
       MainView.showScaleInstruction();
     }
-  },
+  }
 
-  clearCanvas : function( ){
+  clearCanvas(){
     MainView.clear();
-  },
+  }
 
-  componentWillMount : function(){
-    ProjectActionCreator.getProject({ id:this.context.router.getCurrentParams().projectId });
-  },
+  componentWillMount(){
+    console.log(this.props);
+    ProjectActionCreator.getProject({ id:this.props.params.projectId });
+  }
 
-  componentDidMount : function (){
+  componentDidMount(){
     MainView.init( React.findDOMNode(this.refs.mainCanvas));
     ProjectStore.addChangeListener(this._onChange);
     ProjectStore.addCanvasRequestListener(this._onCanvasUpdate);
     ProjectStore.addCanvasClearListener(this._onCanvasClear);
 
     State.transition("player");
-  },
+  }
 
-  componentWillUpdate : function(){
+  componentWillUpdate(){
     return {
     };
-  },
+  }
 
-  componentDidUpdate : function(){
+  componentDidUpdate(){
     this.updateCanvas();
-  },
+  }
 
-  componentWillUnmount : function(){
+  componentWillUnmount(){
     ProjectStore.init();
     ProjectStore.emitChange();
     this.reset();
     ProjectStore.removeChangeListener(this._onChange);
     ProjectStore.removeCanvasRequestListener(this._onCanvasUpdate);
     ProjectStore.removeCanvasClearListener(this._onCanvasClear);
-  },
+  }
 
-});
+}
 
-module.exports = Player;
+export default Player;

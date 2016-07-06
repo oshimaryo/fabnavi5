@@ -20,17 +20,17 @@ const ProjectListStore = Object.assign({}, EventEmitter.prototype, {
   },
 
   loadProjects : function(){
-    if(location.hash=="#/manager/myprojects"){
+    if(location.hash == "#/manager/myprojects"){
       ProjectActionCreator.getOwnProjects();
-    }else{
+    } else {
       ProjectActionCreator.getAllProjects();
     }
   },
 
   setProjectsType : function(){
-    if(location.hash=="#/manager/myprojects"){
+    if(location.hash == "#/manager/myprojects"){
       projectsType = "myProjects";
-    }else{
+    } else {
       projectsType = "allProjects";
     }
   },

@@ -68,9 +68,9 @@ const MainView = function(){
     ctx.textBaseline = 'top';
     ctx.lineWidth = 5.0;
     ctx.strokeStyle = "#343434";
-    ctx.strokeText("Now Loading...", cvs.width/2-300,cvs.height/2);
+    ctx.strokeText("Now Loading...", cvs.width / 2 - 300, cvs.height / 2);
     ctx.fillStyle = "#FFFFFF";
-    ctx.fillText("Now Loading...", cvs.width/2-300,cvs.height/2);
+    ctx.fillText("Now Loading...", cvs.width / 2 - 300, cvs.height / 2);
   }
 
   function drawInstructionMessage(){
@@ -78,25 +78,25 @@ const MainView = function(){
     ctx.textBaseline = 'top';
     ctx.lineWidth = 3.0;
     ctx.strokeStyle = "#343434";
-    ctx.strokeText(" C : Calibration Mode", cvs.width/8,cvs.height/8);
+    ctx.strokeText(" C : Calibration Mode", cvs.width / 8, cvs.height / 8);
     ctx.fillStyle = "#FFFFFF";
-    ctx.fillText(" C : Calibration Mode", cvs.width/8,cvs.height/8);
+    ctx.fillText(" C : Calibration Mode", cvs.width / 8, cvs.height / 8);
     ctx.strokeStyle = "#343434";
-    ctx.strokeText("← : To Privious Page", cvs.width/8,cvs.height/8+30);
+    ctx.strokeText("← : To Privious Page", cvs.width / 8, cvs.height / 8 + 30);
     ctx.fillStyle = "#FFFFFF";
-    ctx.fillText("← : To Privious Page", cvs.width/8,cvs.height/8+30);
+    ctx.fillText("← : To Privious Page", cvs.width / 8, cvs.height / 8 + 30);
     ctx.strokeStyle = "#343434";
-    ctx.strokeText("→ : To Next Page", cvs.width/8,cvs.height/8+60);
+    ctx.strokeText("→ : To Next Page", cvs.width / 8, cvs.height / 8 + 60);
     ctx.fillStyle = "#FFFFFF";
-    ctx.fillText("→ : To Next Page", cvs.width/8,cvs.height/8+60);
+    ctx.fillText("→ : To Next Page", cvs.width / 8, cvs.height / 8 + 60);
     ctx.strokeStyle = "#343434";
-    ctx.strokeText("→ : To Next Page", cvs.width/8,cvs.height/8+90);
+    ctx.strokeText("→ : To Next Page", cvs.width / 8, cvs.height / 8 + 90);
     ctx.fillStyle = "#FFFFFF";
-    ctx.fillText("→ : To Next Page", cvs.width/8,cvs.height/8+90);
+    ctx.fillText("→ : To Next Page", cvs.width / 8, cvs.height / 8 + 90);
     ctx.strokeStyle = "#343434";
-    ctx.strokeText("esc : Back To Home", cvs.width/8,cvs.height/8+120);
+    ctx.strokeText("esc : Back To Home", cvs.width / 8, cvs.height / 8 + 120);
     ctx.fillStyle = "#FFFFFF";
-    ctx.fillText("esc : Back To Home", cvs.width/8,cvs.height/8+120);
+    ctx.fillText("esc : Back To Home", cvs.width / 8, cvs.height / 8 + 120);
 
   }
 
@@ -105,33 +105,33 @@ const MainView = function(){
     ctx.textBaseline = 'top';
     ctx.lineWidth = 3.0;
     ctx.strokeStyle = "#343434";
-    ctx.strokeText("CalibrateCenter Mode", cvs.width/8,cvs.height/8-50);
+    ctx.strokeText("CalibrateCenter Mode", cvs.width / 8, cvs.height / 8 - 50);
     ctx.fillStyle = "#FFFFFF";
-    ctx.fillText("CalibrateCenter Mode", cvs.width/8,cvs.height/8-50);
+    ctx.fillText("CalibrateCenter Mode", cvs.width / 8, cvs.height / 8 - 50);
 
     ctx.font = "20px NotoSans-Regular, sans-serif";
     ctx.textBaseline = 'top';
     ctx.lineWidth = 3.0;
     ctx.strokeStyle = "#343434";
-    ctx.strokeText(" ↑  : Up", cvs.width/8,cvs.height/8);
+    ctx.strokeText(" ↑  : Up", cvs.width / 8, cvs.height / 8);
     ctx.fillStyle = "#FFFFFF";
-    ctx.fillText(" ↑  : Up", cvs.width/8,cvs.height/8);
+    ctx.fillText(" ↑  : Up", cvs.width / 8, cvs.height / 8);
     ctx.strokeStyle = "#343434";
-    ctx.strokeText(" ↓  : Down", cvs.width/8,cvs.height/8+30);
+    ctx.strokeText(" ↓  : Down", cvs.width / 8, cvs.height / 8 + 30);
     ctx.fillStyle = "#FFFFFF";
-    ctx.fillText(" ↓  : Down", cvs.width/8,cvs.height/8+30);
+    ctx.fillText(" ↓  : Down", cvs.width / 8, cvs.height / 8 + 30);
     ctx.strokeStyle = "#343434";
-    ctx.strokeText("← : Left", cvs.width/8,cvs.height/8+60);
+    ctx.strokeText("← : Left", cvs.width / 8, cvs.height / 8 + 60);
     ctx.fillStyle = "#FFFFFF";
-    ctx.fillText("← : Left", cvs.width/8,cvs.height/8+60);
+    ctx.fillText("← : Left", cvs.width / 8, cvs.height / 8 + 60);
     ctx.strokeStyle = "#343434";
-    ctx.strokeText("→ : Right", cvs.width/8,cvs.height/8+90);
+    ctx.strokeText("→ : Right", cvs.width / 8, cvs.height / 8 + 90);
     ctx.fillStyle = "#FFFFFF";
-    ctx.fillText("→ : Right", cvs.width/8,cvs.height/8+90);
+    ctx.fillText("→ : Right", cvs.width / 8, cvs.height / 8 + 90);
     ctx.strokeStyle = "#343434";
-    ctx.strokeText(" C : ScaleCalibration", cvs.width/8,cvs.height/8+120);
+    ctx.strokeText(" C : ScaleCalibration", cvs.width / 8, cvs.height / 8 + 120);
     ctx.fillStyle = "#FFFFFF";
-    ctx.fillText(" C : ScaleCalibration", cvs.width/8,cvs.height/8+120);
+    ctx.fillText(" C : ScaleCalibration", cvs.width / 8, cvs.height / 8 + 120);
   }
 
   function drawScaleInstruction(){
@@ -139,33 +139,33 @@ const MainView = function(){
     ctx.textBaseline = 'top';
     ctx.lineWidth = 3.0;
     ctx.strokeStyle = "#343434";
-    ctx.strokeText("CalibrateScale Mode", cvs.width/8,cvs.height/8-50);
+    ctx.strokeText("CalibrateScale Mode", cvs.width / 8, cvs.height / 8 - 50);
     ctx.fillStyle = "#FFFFFF";
-    ctx.fillText("CalibrateScale Mode", cvs.width/8,cvs.height/8-50);
+    ctx.fillText("CalibrateScale Mode", cvs.width / 8, cvs.height / 8 - 50);
 
     ctx.font = "20px NotoSans-Regular, sans-serif";
     ctx.textBaseline = 'top';
     ctx.lineWidth = 3.0;
     ctx.strokeStyle = "#343434";
-    ctx.strokeText(" ↑  : Zoom In", cvs.width/8,cvs.height/8);
+    ctx.strokeText(" ↑  : Zoom In", cvs.width / 8, cvs.height / 8);
     ctx.fillStyle = "#FFFFFF";
-    ctx.fillText(" ↑  : Zoom In", cvs.width/8,cvs.height/8);
+    ctx.fillText(" ↑  : Zoom In", cvs.width / 8, cvs.height / 8);
     ctx.strokeStyle = "#343434";
-    ctx.strokeText(" ↓  : Zoom Out", cvs.width/8,cvs.height/8+30);
+    ctx.strokeText(" ↓  : Zoom Out", cvs.width / 8, cvs.height / 8 + 30);
     ctx.fillStyle = "#FFFFFF";
-    ctx.fillText(" ↓  : Zoom Out", cvs.width/8,cvs.height/8+30);
+    ctx.fillText(" ↓  : Zoom Out", cvs.width / 8, cvs.height / 8 + 30);
     ctx.strokeStyle = "#343434";
-    ctx.strokeText(" C : Back to Play", cvs.width/8,cvs.height/8+60);
+    ctx.strokeText(" C : Back to Play", cvs.width / 8, cvs.height / 8 + 60);
     ctx.fillStyle = "#FFFFFF";
-    ctx.fillText(" C : Back to Play", cvs.width/8,cvs.height/8+60);
+    ctx.fillText(" C : Back to Play", cvs.width / 8, cvs.height / 8 + 60);
   }
 
   function drawShootingMessage(){
     ctx.fillStyle = "#343434";
-    ctx.font =  "100px NotoSans-Regular, sans-serif";
-    ctx.translate(-(cvs.width/2+300), -(cvs.height/2));
+    ctx.font = "100px NotoSans-Regular, sans-serif";
+    ctx.translate(-(cvs.width / 2 + 300), -(cvs.height / 2));
     ctx.fillText("Taking picture...", 0, 0);
-    ctx.translate(cvs.width/2+300, cvs.height/2);
+    ctx.translate(cvs.width / 2 + 300, cvs.height / 2);
   }
 
   function draw(image){
