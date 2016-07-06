@@ -5,7 +5,9 @@ if figure.attached?
     json.figure_id figure.id
     json.file do
       json.original figure.attachment.file.url
-      json.thumb figure.attachment.file.thumb.url
+      if figure.attachment.file.try(:thumb)
+        json.thumb figure.attachment.file.thumb.url
+      end
     end
   end
 end

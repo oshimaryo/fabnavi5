@@ -7,6 +7,6 @@ class User < ActiveRecord::Base
   mount_uploader :avatar, ImageUploader
 
   has_many :projects, dependent: :destroy
-  has_many :attachments, dependent: :destroy
+  has_many :attachments
   has_many :calibrations, dependent: :destroy
 end
