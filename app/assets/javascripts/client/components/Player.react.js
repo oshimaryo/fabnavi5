@@ -51,6 +51,7 @@ class Player extends React.Component{
     this.state = this.getStateFromStores();
     this.props = {};
     this.video = document.createElement("video");
+    this.renderingTimer = null;
   }
 
   reset(){
@@ -79,6 +80,7 @@ class Player extends React.Component{
       page : ProjectStore.getCurrentPage(),
       uploadQueue : ProjectStore.getUploadQueue(),
       shooting : ProjectStore.isShooting(),
+      playing : ProjectStore.isPlaying()
     };
   }
 
@@ -114,13 +116,21 @@ class Player extends React.Component{
     }
 
     if( this.state.project.type === "movie") {
-      this.video.width = window.screen.width;
-      this.video.height = window.screen.height;
-      this.video.src = this.state.project.content[0].figure.file.file.url
-      this.video.play();
-      setInterval(() => {
-        MainView.render(this.video);
-      }, 100);
+      if(this.video.src === ""){
+        this.video.width = window.screen.width;
+        this.video.height = window.screen.height;
+        this.video.src = this.state.project.content[0].figure.file.file.url;
+      }
+      if(this.state.playing){
+        this.renderingTimer = setInterval(() => {
+          MainView.render(this.video);
+        }, 30);
+        this.video.play();
+      } else {
+        clearInterval(this.renderingTimer);
+        this.video.pause();
+      }
+      console.log(this.video.currentTime);
       return;
     }
 
