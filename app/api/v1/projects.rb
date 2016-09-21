@@ -79,7 +79,7 @@ class V1::Projects < V1::Base
           end
           optional :sensor_infos_attributes, type: Array do
             optional :id, type: Integer
-            optional :data, type: String
+            optional :data, type: Rack::Multipart::UploadedFile
             optional :_destroy, type: Boolean
           end
         end
@@ -90,6 +90,15 @@ class V1::Projects < V1::Base
         if params[:project][:content_attributes]
           params[:project][:content_attributes][:id] = @project.content.id
         end
+
+        if params[:project][:sensor_infos_attributes]
+          unless @project.sensor_infos.find_by(id: params[:project][:sensor_infos_attributes][0][:id])
+            sensor_info = @project.sensor_infos.build
+            sensor_info.data = params[:project][:sensor_infos_attributes][0][:data]
+            params[:project][:sensor_infos_attributes] = nil 
+          end
+        end
+
         if @project.update project_params_for_update
           status 200
         else
