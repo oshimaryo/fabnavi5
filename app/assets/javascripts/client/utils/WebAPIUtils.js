@@ -355,9 +355,8 @@ const WebAPIUtils = {
   },
 
   signIn : function(){
-    const url = window.location.href;
-    const host = url.substring(0, url.indexOf("/#/manager"));
-    window.location.href = host + "/auth/github?auth_origin_url=" + host;
+    const host = window.location.origin;
+    window.location.href = `${host}/auth/github?auth_origin_url=${host}`;
   },
 
   signedIn : function(token, uid, client){
