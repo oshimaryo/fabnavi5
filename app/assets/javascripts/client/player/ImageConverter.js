@@ -30,9 +30,9 @@ const ImageConverter = function(){
 
     let sx = Number(conf.x) || 0,
         sy = Number(conf.y) || 0,
-        sw = Number(conf.w) || img.width,
-        sh = Number(conf.h) || img.height,
-
+        sw = Number(conf.w) || img.width || img.videoWidth,
+        sh = Number(conf.h) || img.height || img.videoHeight,
+      
         /* set project area */
         dx = 0,
         dy = 0,

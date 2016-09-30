@@ -21,7 +21,10 @@ const ProjectElement = React.createClass({
 
     let src = null;
     if(this.props.project.content.length >= 1){
-      src = this.props.project.content[this.props.project.content.length - 1].figure.file.file.thumb.url;
+      let lastFigure = this.props.project.content[this.props.project.content.length - 1];
+      if( lastFigure.figure.file.file.hasOwnProperty("thumb") ) {
+        src = lastFigure.figure.file.file.thumb.url;
+      }
     }
 /*
     if( this.props.project.hasOwnProperty("figure") ){

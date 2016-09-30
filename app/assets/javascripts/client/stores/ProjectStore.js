@@ -17,8 +17,10 @@ let
     _description = null,
     _delContent = [],
     _currentPage = 0,
-    _uploadQueue = [
-    ];
+    _uploadQueue = [],
+    _currentTime = 0,
+    _isPlaying = true
+    ;
 
 
 function setStep( s ){
@@ -69,6 +71,11 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
     ProjectStore.setPage(_currentPage - 1);
   },
 
+  togglePlayPause : function(){
+    _isPlaying = !_isPlaying;
+    ProjectStore.emitChange();   
+  },
+
   setPage : function(page){
     let _page = page;
     _currentPage = _page;
@@ -95,6 +102,11 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
 
   setProject : function( project ){
     _project = project;
+    if( _project.content.length > 0  && _project.content[0].type === "Figure::Frame" ){
+      _project["type"] = "movie";
+    } else {
+      _project["type"] = "photo";
+    }
     this.emitChange();
   },
 
@@ -266,6 +278,10 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
     return _shooting;
   },
 
+  isPlaying : function(){
+    return _isPlaying;
+  },
+
   addChangeListener: function(callback){
     this.on(EventTypes.PROJECT_CHANGE, callback);
   },
@@ -347,6 +363,9 @@ ProjectStore.dispatchToken = AppDispatcher.register(function( action ){
       break;
     case KeyActionTypes.PROJECT_PREV_PAGE:
       ProjectStore.prev();
+      break;
+    case KeyActionTypes.PROJECT_PLAY_PAUSE:
+      ProjectStore.togglePlayPause();
       break;
 
     case KeyActionTypes.CALIBRATE_ZOOMOUT:

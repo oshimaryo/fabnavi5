@@ -6,4 +6,5 @@ json.array! content.figures do |figure|
       json.extract! figure.attachment, :id, :file
     end
   end
+  json.type figure.type
 end

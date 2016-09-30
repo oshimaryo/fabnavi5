@@ -81,6 +81,7 @@ const playerStateMachine = new machina.Fsm({
         this.keyMap[27] = KeyAction.EXIT_PROJECT;
         this.keyMap[8] = KeyAction.TOGGLE_DELETE_FLAG;
         this.keyMap[83] = KeyAction.PROJECT_SAVE;
+        this.keyMap[32] = KeyAction.PROJECT_PLAY_PAUSE;
 
 
         this.keyMap[67] = function(){
