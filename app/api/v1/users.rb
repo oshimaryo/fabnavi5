@@ -28,6 +28,7 @@ class V1::Users < V1::Base
     resource ':id/projects' do
       desc 'Get all projects of a user'
       get jbuilder: 'v1/users/projects' do
+        authenticate_user!
         query = Project.where(user_id: params[:id])
         if signed_in?
           query = query.showable_for current_user
