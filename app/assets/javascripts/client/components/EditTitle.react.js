@@ -18,6 +18,7 @@ const EditTitle = React.createClass({
     return {
       name:this.props.id_name,
       description:this.props.id_description,
+      private: this.props.isPrivate
     };
   },
 
@@ -29,19 +30,21 @@ const EditTitle = React.createClass({
   onclick : function(){
     console.log("this is title changed fucntion :" + this.state.name);
     console.log(this.props.id_project);
-    ProjectActionCreator.editTitle(this.props.id_project, this.state.name, this.state.description);
+    console.log(this.state);
+    ProjectActionCreator.editTitle(this.props.id_project, this.state.name, this.state.description, this.state.private);
     return;
   },
 
   handleNameChange : function( e ){
     this.setState({ name : e.target.value });
-    //this.props.id_name = this.state.name;
-    console.log("oioi" + this.props.id_name);
   },
+
+  handlePublishStatusChange : function( e ){
+    this.setState({ private: e.target.checked });
+  },
+
   handleDescriptionChange : function( e ){
     this.setState({ description : e.target.value });
-    //this.props.id_description = this.state.description;
-
   },
 
   render : editTitle,

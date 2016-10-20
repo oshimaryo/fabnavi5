@@ -78,7 +78,7 @@ const WebAPIUtils = {
     });
   },
 
-  loadCurrentUserInfo : function(){
+  loadCurrentUserId : function(){
     let currentUser = localStorage.getItem("currentUserInfo");
     if( currentUser == null || !DEVELOPMENT){
       return null;
@@ -86,8 +86,7 @@ const WebAPIUtils = {
 
     try{
       currentUser = JSON.parse(currentUser);
-      const uid = currentUser.Id;
-      return uid;
+      return currentUser.Id;
     } catch(e){
       throw new Error("ERROR. JSON.parse failed");
     }
@@ -230,6 +229,7 @@ const WebAPIUtils = {
     fd.append("project[name]", project.name);
     fd.append("project[description]", project.description);
     fd.append("project[tag_list]", project.tag_list);
+    fd.append("project[private]", project.private);
 
     console.log(project.content);
     let i;
