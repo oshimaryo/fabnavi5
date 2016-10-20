@@ -4,6 +4,7 @@ import ProjectListStore from'../stores/ProjectListStore';
 import{ Route, RouteHandler, Link, DefaultRoute }from'react-router';
 import State from'../utils/FabnaviStateMachine';
 
+import ProjectActionCreator from'../actions/ProjectActionCreator';
 import projectDetail from'../templates/ProjectDetail.jade';
 
 const ProjectDetail = React.createClass({
@@ -74,6 +75,7 @@ const ProjectDetail = React.createClass({
   },
 
   componentDidMount : function (){
+    ProjectStore.addChangeListener(this._onChange);
     State.transition("pages");
   },
 
@@ -88,6 +90,7 @@ const ProjectDetail = React.createClass({
   },
 
   componentWillUnmount : function(){
+    ProjectStore.removeChangeListener(this._onChange);
   },
 });
 
