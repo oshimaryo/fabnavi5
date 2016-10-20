@@ -30,7 +30,7 @@ const routes = (
           <Route component={CreateProject} path="create"/>
           <Route component={transit} path="transit"/>
           <Route component={EditProject} path="edit/:projectId" />
-          <Route component={ProjectDetail} path="project/:projectId" />
+          <Route component={ProjectDetail} path="detail/:projectId" />
         </Route>
         <Route components={Player} path="project/play/:projectId" />
       </Route>

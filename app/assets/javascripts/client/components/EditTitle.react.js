@@ -1,11 +1,11 @@
 const
     ProjectActionCreator = require('../actions/ProjectActionCreator'),
     React = require('react'),
-    jade = require('react-jade'),
     Router = require('react-router'),
     Link = Router.Link,
-    Route = Router.Route,
-    editTitle = jade.compileFile(__dirname + '/../templates/EditTitle.jade');
+    Route = Router.Route;
+
+import editTitle from '../templates/EditTitle.jade';
 
 const EditTitle = React.createClass({
   propTypes : {
