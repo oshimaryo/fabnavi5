@@ -17,7 +17,7 @@ const ProjectActionCreator = {
   },
 
   getOwnProjects : function(){
-    const uid = WebAPIUtils.loadCurrentUserInfo();
+    const uid = WebAPIUtils.loadCurrentUserId();
 
     AppDispatcher.dispatch({
       type : ActionTypes.PROJECTS_FETCH,
@@ -94,12 +94,13 @@ const ProjectActionCreator = {
       content_array : content_array
     });
   },
-  editTitle : function( project, name, description ){
+  editTitle : function( project, name, description, isPrivate ){
     AppDispatcher.dispatch({
       type : ActionTypes.EDIT_TITLE,
       project : project,
       name : name,
-      description : description
+      description : description,
+      private: isPrivate
     });
   },
 
