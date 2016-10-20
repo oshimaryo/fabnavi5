@@ -4,6 +4,7 @@ import ProjectListStore from'../stores/ProjectListStore';
 import{ Route, RouteHandler, Link, DefaultRoute }from'react-router';
 import State from'../utils/FabnaviStateMachine';
 
+import ProjectActionCreator from'../actions/ProjectActionCreator';
 import projectDetail from'../templates/ProjectDetail.jade';
 
 const ProjectDetail = React.createClass({
