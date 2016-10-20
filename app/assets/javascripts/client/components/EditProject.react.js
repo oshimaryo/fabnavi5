@@ -89,6 +89,7 @@ class EditProject extends React.Component {
   }
 
   componentDidMount(){
+    ProjectStore.addChangeListener(this._onChange);
     State.transition("pages");
   }
 
@@ -103,6 +104,7 @@ class EditProject extends React.Component {
   }
 
   componentWillUnmount(){
+    ProjectStore.removeChangeListener(this._onChange);
   }
 }
 
