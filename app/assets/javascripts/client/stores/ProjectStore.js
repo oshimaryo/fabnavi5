@@ -15,6 +15,7 @@ let
     _project = null,
     _name = null,
     _description = null,
+    _private = null,
     _delContent = [],
     _currentPage = 0,
     _uploadQueue = [],
@@ -160,6 +161,7 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
   changeTitle:function(){
     _project.name = _name;
     _project.description = _description;
+    _project.private = _private;
     _project._edited = true;
     ProjectStore.emitChange();
   },
@@ -413,7 +415,6 @@ ProjectStore.dispatchToken = AppDispatcher.register(function( action ){
     case ActionTypes.EDIT_CONTENT:
       _project = action.project;
       _delContent = action.content_array;
-      console.log("action edit content:");
       console.log(_project);
       console.log(_delContent);
       ProjectStore.toggleDestroyContent();
@@ -430,6 +431,7 @@ ProjectStore.dispatchToken = AppDispatcher.register(function( action ){
       _project = action.project;
       _name = action.name;
       _description = action.description;
+      _private = action.private;
       console.log("ProjectStore: " + _name);
       ProjectStore.changeTitle();
       setTimeout(function(){
