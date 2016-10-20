@@ -75,6 +75,7 @@ const ProjectDetail = React.createClass({
   },
 
   componentDidMount : function (){
+    ProjectStore.addChangeListener(this._onChange);
     State.transition("pages");
   },
 
@@ -89,6 +90,7 @@ const ProjectDetail = React.createClass({
   },
 
   componentWillUnmount : function(){
+    ProjectStore.removeChangeListener(this._onChange);
   },
 });
 
