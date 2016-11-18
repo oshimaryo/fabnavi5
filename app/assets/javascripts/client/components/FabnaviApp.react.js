@@ -25,6 +25,7 @@ const routes = (
   <Router history={hashHistory}>
       <Route components={Frame} path="/">
         <IndexRoute component={ProjectManager} />
+        <Redirect from="/" to="manager" />
         <Route components={ProjectManager} path="manager" >
           <IndexRoute component={ProjectList} />
           <Route component={ProjectList} path="myprojects" />

@@ -8,6 +8,12 @@ form.form-box-edit
       type="text"
       ) 
   .field_edit
+    p.edit Private?
+    input(
+      onChange=this.handlePublishStatusChange
+      type="checkbox"
+    )
+  .field_edit
     p.edit Description
     textarea.form-edit(
      onChange=this.handleDescriptionChange 

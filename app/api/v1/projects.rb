@@ -66,6 +66,7 @@ class V1::Projects < V1::Base
           optional :figure_id, type: Integer
           optional :tag_list, type: String
           optional :lisence_id, type: Integer
+          optional :private, type: Boolean
           optional :content_attributes, type: Hash do
             optional :description, type: String
             optional :attachment_id, type: Integer

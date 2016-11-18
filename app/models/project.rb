@@ -36,7 +36,7 @@ class Project < ActiveRecord::Base
     end
 
     def acceptable_attributes_for_update
-      %i(tag_list name description figure_id lisence_id) + [
+      %i(tag_list name description figure_id private lisence_id) + [
         content_attributes: Content.acceptable_attributes_for_update,
         sensor_infos_attributes: SensorInfo.acceptable_attributes
       ]
