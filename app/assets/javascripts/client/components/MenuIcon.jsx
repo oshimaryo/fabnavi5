@@ -2,8 +2,9 @@
 import NavigationViewActionCreator from'../actions/NavigationViewActionCreator';
 import React from'react';
 
-console.log(React);
+import Debug from 'debug';
 
+const debug = Debug("fabnavi:jsx:MenuIcon");
 class MenuIcon extends React.Component {
 
   constructor(props) {

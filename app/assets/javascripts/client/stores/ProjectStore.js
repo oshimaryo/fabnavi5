@@ -1,4 +1,7 @@
-const
+import Debug from 'debug';
+
+const 
+    debug = Debug("fabnavi:store:project"),
     $ = require('jquery'),
     AppDispatcher = require('../dispatcher/AppDispatcher'),
     EventEmitter = require('events'),
@@ -28,7 +31,7 @@ function setStep( s ) {
   STEP = s;
 }
 function getStep( ) {
-  console.log(STEP);
+  debug(STEP);
 }
 
 const ProjectStore = Object.assign({}, EventEmitter.prototype, {
@@ -93,10 +96,10 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
     _currentPage = _page;
 
 
-    console.log("_page : ", _page);
+    debug("_page : ", _page);
     if(_project.content[_page].figure.hasOwnProperty("_destroy") &&
       _project.content[_page].figure._destroy) {
-      console.log("******DELETE FLAG*********");
+      debug("******DELETE FLAG*********");
     }
     ProjectStore.emitChange();
   },
@@ -143,15 +146,15 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
   },
 
   toggleDestroyContent:function() {
-    console.log("toggletoggle");
-    console.log(_project.content.length);
-    console.log(_delContent.length);
+    debug("toggletoggle");
+    debug(_project.content.length);
+    debug(_delContent.length);
     for(let i = 0; i < _project.content.length; i++) {
       for(let j = 0; j < _delContent.length; j++) {
         if(_project.content[i].figure.figure_id == _delContent[j]) {
-          console.log(_project.content[i].figure.file.file.thumb.url);
+          debug(_project.content[i].figure.file.file.thumb.url);
           _project.content[i].figure["_destroy"] = true;
-          console.log(_project.content[i].figure["_destroy"]);
+          debug(_project.content[i].figure["_destroy"]);
         }
       }
     }
@@ -406,7 +409,7 @@ ProjectStore.dispatchToken = AppDispatcher.register(function( action ) {
       ProjectStore.uploadFailed( action.result.sym );
       break;
     case ActionTypes.PROJECT_DETAIL:
-      console.log("PROJECT_DETAIL");
+      debug("PROJECT_DETAIL");
       location.hash = "#/manager/detail/" + action.id;
       break;
     case ActionTypes.PROJECT_EDIT:
@@ -415,8 +418,8 @@ ProjectStore.dispatchToken = AppDispatcher.register(function( action ) {
     case ActionTypes.EDIT_CONTENT:
       _project = action.project;
       _delContent = action.content_array;
-      console.log(_project);
-      console.log(_delContent);
+      debug(_project);
+      debug(_delContent);
       ProjectStore.toggleDestroyContent();
       setTimeout(function() {
         ProjectActionCreator.updateProject({
@@ -432,7 +435,7 @@ ProjectStore.dispatchToken = AppDispatcher.register(function( action ) {
       _name = action.name;
       _description = action.description;
       _private = action.private;
-      console.log("ProjectStore: " + _name);
+      debug("ProjectStore: " + _name);
       ProjectStore.changeTitle();
       setTimeout(function() {
         ProjectActionCreator.updateProject({

@@ -3,7 +3,9 @@ import React from"react";
 import{ Link, Route }from'react-router';
 
 import ProjectActionCreator from'../actions/ProjectActionCreator';
+import Debug from 'debug';
 
+const debug = Debug("fabnavi:jsx:EditTitle");
 export default class EditTitle extends React.Component {
 
   constructor(props) {

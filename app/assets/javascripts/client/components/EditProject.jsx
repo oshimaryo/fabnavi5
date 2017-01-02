@@ -5,7 +5,9 @@ import{ Route, RouteHandler, Link, DefaultRoute }from'react-router';
 import State from'../utils/FabnaviStateMachine';
 import EditContent from'./EditContent';
 import EditTitle from'./EditTitle';
+import Debug from 'debug';
 
+const debug = Debug("fabnavi:jsx:EditProject");
 class EditProject extends React.Component {
 
   constructor(props) {
@@ -15,7 +17,6 @@ class EditProject extends React.Component {
       id_array : []
     };
     this.state = this.getStateFromStores();
-
     this._onChange = this._onChange.bind(this);
   }
 
@@ -52,7 +53,7 @@ class EditProject extends React.Component {
 
   onclick() {
     let a = this.getImage();
-    console.log("button onclick: " + this.props.id_array);
+    debug("button onclick: " + this.props.id_array);
     ProjectActionCreator.editContent(a.project_id, this.props.id_array);
   }
 

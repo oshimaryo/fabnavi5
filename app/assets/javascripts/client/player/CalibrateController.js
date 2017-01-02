@@ -1,3 +1,6 @@
+import Debug from 'debug';
+
+const debug = Debug("fabnavi:player:CalibrateController");
 const ViewConfig = require('../player/ViewConfig');
 let getCurrentImage = null;
 
@@ -24,14 +27,14 @@ const CalibrateController = (function () {
   }
 
   function dbg() {
-    console.log("x: " + x);
-    console.log("y: " + y);
-    console.log("w: " + w);
-    console.log("h: " + h);
-    console.log("cx: " + cx);
-    console.log("cy: " + cy);
-    console.log("lx: " + lx);
-    console.log("ly: " + ly);
+    debug("x: " + x);
+    debug("y: " + y);
+    debug("w: " + w);
+    debug("h: " + h);
+    debug("cx: " + cx);
+    debug("cy: " + cy);
+    debug("lx: " + lx);
+    debug("ly: " + ly);
   }
 
   function zoomIn(_shift) {

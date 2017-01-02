@@ -5,7 +5,9 @@ import ProjectListStore from'../stores/ProjectListStore';
 import ProjectStore from'../stores/ProjectStore';
 import State from'../utils/FabnaviStateMachine';
 import ProjectActionCreator from'../actions/ProjectActionCreator';
+import Debug from 'debug';
 
+const debug = Debug("fabnavi:jsx:ProjectDetail");
 export default class ProjectDetail extends React.Component {
 
   constructor(props) {

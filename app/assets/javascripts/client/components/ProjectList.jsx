@@ -5,7 +5,9 @@ import ProjectSelectorStore from'../stores/ProjectSelectorStore';
 import ProjectElement from'../components/ProjectElement';
 import ProjectActionCreator from'../actions/ProjectActionCreator';
 import State from'../utils/FabnaviStateMachine';
+import Debug from 'debug';
 
+const debug = Debug("fabnavi:jsx:ProjectList");
 class ProjectList extends React.Component {
 
   constructor(props) {

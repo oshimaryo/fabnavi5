@@ -1,6 +1,8 @@
 // Fabnavi Hierarchical Key Handling State Machine js
 // this is KeyBind Controller
+import Debug from 'debug';
 
+const debug = Debug("fabnavi:fsm");
 const
     machina = require('machina'),
     KeyAction = require('../constants/KeyActionTypes'),
@@ -29,7 +31,7 @@ function transitionl2( ) {
 
 const pagesStateMachine = new machina.Fsm({
   initialize : function() {
-    console.log("FSM initialize");
+    debug("FSM initialize");
   },
   namespace : "pageKeyHandler",
   initialState : "page",
@@ -41,12 +43,12 @@ const pagesStateMachine = new machina.Fsm({
     },
     "page" : {
       _onEnter : function () {
-        console.log("enter play mode");
+        debug("enter play mode");
         this.keyMap = [];
         this.keyMap[27] = KeyAction.EXIT_PROJECT;
       },
       _onExit : function() {
-        console.log("exit play mode");
+        debug("exit play mode");
       },
 
       consume : function(e) {
@@ -59,7 +61,7 @@ const pagesStateMachine = new machina.Fsm({
 
 const playerStateMachine = new machina.Fsm({
   initialize : function() {
-    console.log("FSM initialize");
+    debug("FSM initialize");
   },
   namespace : "playerKeyHandler",
   initialState : "play",
@@ -73,7 +75,7 @@ const playerStateMachine = new machina.Fsm({
     "play" : {
       _onEnter : function () {
 
-        console.log("enter play mode");
+        debug("enter play mode");
         this.keyMap = [];
         // this.keyMap[13] = KeyAction.PROJECT_SHOOT;
         this.keyMap[39] = KeyAction.PROJECT_NEXT_PAGE;
@@ -96,7 +98,7 @@ const playerStateMachine = new machina.Fsm({
       },
 
       _onExit : function() {
-        console.log("exit play mode");
+        debug("exit play mode");
       },
 
       consume : function(e) {
@@ -108,12 +110,12 @@ const playerStateMachine = new machina.Fsm({
     "record" : {
 
       _onEnter : function () {
-        console.log("enter record mode");
+        debug("enter record mode");
         ProjectActionCreator.updateCanvas();
       },
 
       _onExit : function() {
-        console.log("exit record mode");
+        debug("exit record mode");
       },
 
       consume : function(e) {
@@ -124,12 +126,12 @@ const playerStateMachine = new machina.Fsm({
 
     "edit" : {
       _onEnter : function () {
-        console.log("enter edit mode");
+        debug("enter edit mode");
         ProjectActionCreator.updateCanvas();
       },
 
       _onExit : function() {
-        console.log("exit edit mode");
+        debug("exit edit mode");
       },
 
       consume : function(e) {
@@ -140,7 +142,7 @@ const playerStateMachine = new machina.Fsm({
 
     "calibrateCenter" : {
       _onEnter : function () {
-        console.log("enter calibrate center mode");
+        debug("enter calibrate center mode");
         this.keyMap = [];
         this.keyMap[37] = KeyAction.CALIBRATE_MOVE_RIGHT;
         this.keyMap[39] = KeyAction.CALIBRATE_MOVE_LEFT;
@@ -159,7 +161,7 @@ const playerStateMachine = new machina.Fsm({
       },
 
       _onExit : function() {
-        console.log("exit calibrate center mode");
+        debug("exit calibrate center mode");
       },
 
       consume : function(e) {
@@ -170,7 +172,7 @@ const playerStateMachine = new machina.Fsm({
 
     "calibrateScale" : {
       _onEnter : function () {
-        console.log("enter calibrate scale mode");
+        debug("enter calibrate scale mode");
         this.keyMap = [];
         this.keyMap[38] = KeyAction.CALIBRATE_ZOOMIN;
         this.keyMap[40] = KeyAction.CALIBRATE_ZOOMOUT;
@@ -191,7 +193,7 @@ const playerStateMachine = new machina.Fsm({
       },
 
       _onExit : function() {
-        console.log("exit calibrate scale mode");
+        debug("exit calibrate scale mode");
       },
     },
   },
@@ -200,7 +202,7 @@ const playerStateMachine = new machina.Fsm({
 });
 
 playerStateMachine.on("consume", function(payload) {
-  console.log("consume firered-----------");
+  debug("consume firered-----------");
 });
 
 const ProjectSelectorStateMachine = new machina.Fsm({
@@ -282,7 +284,7 @@ const managerStateMachine = new machina.Fsm({
   states : {
     "index" : {
       _onEnter : function() {
-        console.log("move to /");
+        debug("move to /");
       },
       transitionl2 : function() {
         transitionl2.call(this);
@@ -292,7 +294,7 @@ const managerStateMachine = new machina.Fsm({
 
     "create" : {
       _onEnter : function() {
-        console.log("move to /create");
+        debug("move to /create");
       },
       transitionl2 : function() {
         transitionl2.call(this);
@@ -301,7 +303,7 @@ const managerStateMachine = new machina.Fsm({
 
     "config" : {
       _onEnter : function() {
-        console.log("move to /config");
+        debug("move to /config");
       },
       transitionl2 : function() {
         transitionl2.call(this);
@@ -310,7 +312,7 @@ const managerStateMachine = new machina.Fsm({
 
     "edit" : {
       _onEnter : function() {
-        console.log("move to /edit");
+        debug("move to /edit");
       },
       transitionl2 : function() {
         transitionl2.call(this);
@@ -353,7 +355,7 @@ const FSM = new machina.Fsm({
 
   reload : function( loc ) {
     const url = location.hash.replace(/\?.*/, "").split("/");
-    console.log("Nested Transition: ", url);
+    debug("Nested Transition: ", url);
     this.transition(url[1]);
     this.handle("transitionl2");
   },

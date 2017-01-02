@@ -1,3 +1,6 @@
+import Debug from 'debug';
+
+const debug = Debug("fabnavi:store:list");
 const
     AppDispatcher = require('../dispatcher/AppDispatcher'),
     EventEmitter = require('events'),
@@ -49,7 +52,7 @@ const ProjectListStore = Object.assign({}, EventEmitter.prototype, {
 
   initProjects : function(projects) {
     initProjects = projects;
-    console.log("init : " + initProjects.length);
+    debug("init : " + initProjects.length);
   },
 
   setProjects : function( projects ) {

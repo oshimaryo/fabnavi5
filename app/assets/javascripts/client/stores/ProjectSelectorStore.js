@@ -1,5 +1,8 @@
-//Menuのデータとかはここにあるっぽい location.hash
+import Debug from 'debug';
+
+
 const
+    debug = Debug("fabnavi:store:selector"),
     EventEmitter = require('events'),
     machina = require('machina'),
     AppDispatcher = require('../dispatcher/AppDispatcher'),
@@ -10,8 +13,7 @@ const
     NavigationViewActionCreator = require('../actions/NavigationViewActionCreator'),
     ProjectActionCreator = require('../actions/ProjectActionCreator');
 
-let _selector = {
-};
+let _selector = {};
 let menuIndexSize = 1;
 
 
@@ -73,7 +75,7 @@ const ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
         _selector.menuIndex = 0;
         break;
       default:
-        console.log("do nothing");
+        debug("do nothing");
         break;
     };
   },
@@ -243,7 +245,7 @@ ProjectSelectorStore.dispatchToken = AppDispatcher.register(function( action ) {
       location.hash = "#/manager/create"
       break;
     default:
-      console.log("Action fired : ", action );
+      debug("Action fired : ", action );
       break;
   };
 });

@@ -3,7 +3,9 @@ import MenuIcon from'./MenuIcon';
 import AccountStore from'../stores/AccountStore';
 
 import{ Router, Link }from'react-router';
+import Debug from 'debug';
 
+const debug = Debug("fabnavi:jsx:Navigation");
 
 class Navigation extends React.Component {
 

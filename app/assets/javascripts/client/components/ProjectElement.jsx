@@ -1,7 +1,9 @@
 import React from'react';
 
 import ProjectActionCreator from'../actions/ProjectActionCreator';
+import Debug from 'debug';
 
+const debug = Debug("fabnavi:jsx:ProjectElement");
 export default class ProjectElement extends React.Component {
 
   getThumbnailSrc() {

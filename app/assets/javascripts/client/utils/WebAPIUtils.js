@@ -7,6 +7,9 @@ let _accessToken = null,
     _uid = null;
 
 const DEVELOPMENT = true;
+import Debug from 'debug';
+
+const debug = Debug("fabnavi:api");
 
 function setHeader() {
   localStorage.setItem("header", JSON.stringify({
@@ -58,7 +61,7 @@ function genHeader() {
 const WebAPIUtils = {
 
   getCurrentUserInfo : function() {
-    console.log("getCurrentUserInfo");
+    debug("getCurrentUserInfo");
 
     $.ajax({
       dataType : "json",
@@ -70,8 +73,8 @@ const WebAPIUtils = {
         }));
       },
       error : function(err) {
-        console.log("Error from getCurrentUserID");
-        console.log(err);
+        debug("Error from getCurrentUserID");
+        debug(err);
       },
       headers : genHeader(),
       url : "/api/v1/current_user.json"
@@ -93,7 +96,7 @@ const WebAPIUtils = {
   },
 
   getProject : function( id ) {
-    console.log("getProject : ", id);
+    debug("getProject : ", id);
 
     $.ajax({
       dataType : "json",
@@ -102,8 +105,8 @@ const WebAPIUtils = {
         ProjectServerActionCreator.receiveProject( res );
       },
       error : function(err) {
-        console.log("Error from getProject");
-        console.log(err);
+        debug("Error from getProject");
+        debug(err);
       },
       headers : genHeader(),
       url : "/api/v1/projects/" + id + ".json"
@@ -111,7 +114,7 @@ const WebAPIUtils = {
   },
 
   getOwnProjects : function( uid ) {
-    console.log("getOwnProjects : ", uid);
+    debug("getOwnProjects : ", uid);
 
     $.ajax({
       dataType : "json",
@@ -120,8 +123,8 @@ const WebAPIUtils = {
         ProjectServerActionCreator.receiveProjects( res );
       },
       error : function(err) {
-        console.log("Error from getOwnProjects");
-        console.log(err);
+        debug("Error from getOwnProjects");
+        debug(err);
       },
       headers : genHeader(),
       url : "/api/v1/users/" + uid + "/projects.json"
@@ -129,7 +132,7 @@ const WebAPIUtils = {
   },
 
   getAllProjects : function( page, perPage, offset ) {
-    console.log("getProjects");
+    debug("getProjects");
     const
         _page = page || 0,
         _perPage = perPage || 20,
@@ -147,8 +150,8 @@ const WebAPIUtils = {
         ProjectServerActionCreator.receiveProjects( res );
       },
       error : function(err) {
-        console.log("Error from getAllProjects");
-        console.log(err);
+        debug("Error from getAllProjects");
+        debug(err);
       },
       url : "/api/v1/projects.json"
 
@@ -168,7 +171,7 @@ const WebAPIUtils = {
   },
 
   createProject : function( name, contentAttributesType, description) {
-    console.log("createProject");
+    debug("createProject");
     $.ajax({
       dataType : "json",
       data : {
@@ -192,8 +195,8 @@ const WebAPIUtils = {
         });
       },
       error : function(err) {
-        console.log("Error from Create Project");
-        console.log(err);
+        debug("Error from Create Project");
+        debug(err);
       },
       url : "/api/v1/projects.json"
 
@@ -213,25 +216,25 @@ const WebAPIUtils = {
       contentType : false,
       processData : false,
       success : function(res) {
-        console.log("set thumbnail success: ", res);
+        debug("set thumbnail success: ", res);
       },
       error : function(err) {
-        console.log("Error from UpdateThumbnail");
-        console.log(err);
+        debug("Error from UpdateThumbnail");
+        debug(err);
       },
       url : "/api/v1/projects/" + project.id + ".json"
     });
   },
 
   updateProject : function( project ) {
-    console.log("updateProject");
+    debug("updateProject");
     const fd = new FormData();
     fd.append("project[name]", project.name);
     fd.append("project[description]", project.description);
     fd.append("project[tag_list]", project.tag_list);
     fd.append("project[private]", project.private);
 
-    console.log(project.content);
+    debug(project.content);
     let i;
     for(i = 0; i < project.content.length; i++) {
 
@@ -239,7 +242,7 @@ const WebAPIUtils = {
         project.content[i].figure._destroy == true &&
         project.content[i].figure.figure_id != null ) {
 
-        console.log("Delete photo", project.content[i]);
+        debug("Delete photo", project.content[i]);
         fd.append("project[content_attributes][figures_attributes][][type]", "Figure::Photo");
         fd.append("project[content_attributes][figures_attributes][][attachment_id]", project.content[i].figure.id);
         fd.append("project[content_attributes][figures_attributes][][id]", project.content[i].figure.figure_id);
@@ -261,20 +264,20 @@ const WebAPIUtils = {
       contentType : false,
       processData : false,
       success : function(res) {
-        console.log("upload success: ", res);
+        debug("upload success: ", res);
         ProjectServerActionCreator.updateProjectSucess({ project: res });
 
       },
       error : function(err) {
-        console.log("Error from UpdateProject");
-        console.log(err);
+        debug("Error from UpdateProject");
+        debug(err);
       },
       url : "/api/v1/projects/" + project.id + ".json"
     });
   },
 
   deleteProject : function( project ) {
-    console.log("deleteProject");
+    debug("deleteProject");
     $.ajax({
       dataType : "json",
       headers : genHeader(),
@@ -282,12 +285,12 @@ const WebAPIUtils = {
       contentType : false,
       processData : false,
       success : function(res) {
-        console.log("delete success: ", res);
+        debug("delete success: ", res);
         ProjectServerActionCreator.deleteProjectSucess( project );
       },
       error : function(err) {
-        console.log("Error from DeleteProject");
-        console.log(err);
+        debug("Error from DeleteProject");
+        debug(err);
       },
       url : "/api/v1/projects/" + project.id + ".json"
 
@@ -295,39 +298,39 @@ const WebAPIUtils = {
   },
 
   likeProject : function( id ) {
-    console.log("likeProject");
+    debug("likeProject");
   },
 
   unlikeProject : function( id ) {
-    console.log("unlikeProject");
+    debug("unlikeProject");
   },
 
   likeFigure : function( project_id, figure_id ) {
-    console.log("likeFigure");
+    debug("likeFigure");
   },
 
   unlikeFigure : function( project_id, figure_id ) {
-    console.log("unlikeFigure");
+    debug("unlikeFigure");
   },
 
   getCalibrations : function( page, perPage, offset ) {
-    console.log("getCalibrations");
+    debug("getCalibrations");
   },
 
   createCalibration : function( name, x, y, width, height ) {
-    console.log("createCalibrations");
+    debug("createCalibrations");
   },
 
   updateCalibration: function( name, x, y, width, height ) {
-    console.log("updateCalibrations");
+    debug("updateCalibrations");
   },
 
   deleteCalibration : function( id ) {
-    console.log("deleteCalibrations");
+    debug("deleteCalibrations");
   },
 
   uploadFile : function( file, name, sym ) {
-    console.log("uploadFile");
+    debug("uploadFile");
 
     const fd = new FormData();
     fd.append("attachment[file]", file, name);
@@ -340,14 +343,14 @@ const WebAPIUtils = {
       headers : genHeader(),
       type : "post",
       success : function(res) {
-        console.log("Uploaded file");
-        console.log( res );
+        debug("Uploaded file");
+        debug( res );
         res.sym = sym;
         ProjectServerActionCreator.uploadAttachmentSuccess( res );
       },
       error : function(xhr, status, err) {
-        console.log("Error from Upload File :sym", sym);
-        console.log(err);
+        debug("Error from Upload File :sym", sym);
+        debug(err);
         ProjectServerActionCreator.uploadAttachmentFailed({ xhr:xhr, status:status, err:err, sym:sym });
       },
       url : "/api/v1/attachments.json"

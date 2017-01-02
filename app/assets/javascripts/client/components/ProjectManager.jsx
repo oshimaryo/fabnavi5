@@ -6,7 +6,9 @@ import ProjectList from'./ProjectList';
 import Player from'./Player';
 import Frame from'./Frame';
 import Footer from'./Footer';
+import Debug from 'debug';
 
+const debug = Debug("fabnavi:jsx:ProjectManager");
 import{ Router, Route, DefaultRoute }from'react-router';
 import State from'../utils/FabnaviStateMachine';
 

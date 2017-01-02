@@ -1,3 +1,6 @@
+import Debug from 'debug';
+
+const debug = Debug("fabnavi:store:account");
 const
     _accountInfo = {},
     AppDispatcher = require('../dispatcher/AppDispatcher'),

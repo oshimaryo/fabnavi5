@@ -1,4 +1,5 @@
 import React from'react';
+import ReactDOM from'react-dom';
 
 import ProjectStore from'../stores/ProjectStore';
 import MainView from'../player/MainView';
@@ -10,7 +11,9 @@ import{ Route, RouteHandler, Link, DefaultRoute }from'react-router';
 import CalibrateController from'../player/CalibrateController';
 import WebAPIUtils from'../utils/WebAPIUtils';
 import State from'../utils/FabnaviStateMachine';
+import Debug from 'debug';
 
+const debug = Debug("fabnavi:jsx:Player");
 let
     currentFile = null,
     _currentImage = null,
@@ -29,12 +32,6 @@ class Player extends React.Component {
       </div>
     );
   }
-
-  /*
-  contextTypes: {
-    router: React.PropTypes.func
-  }
-  */
 
   constructor(props) {
     super(props);
@@ -130,7 +127,7 @@ class Player extends React.Component {
         clearInterval(this.renderingTimer);
         this.video.pause();
       }
-      console.log(this.video.currentTime);
+      debug(this.video.currentTime);
       return;
     }
 
@@ -189,7 +186,7 @@ class Player extends React.Component {
         }
       }
       img.onerror = function(err) {
-        console.log("Image load error : ", err, img);
+        debug("Image load error : ", err, img);
         throw new Error(err);
       }
     }
@@ -207,16 +204,15 @@ class Player extends React.Component {
   }
 
   componentWillMount() {
-    console.log(this.props);
+    debug(this.props);
     ProjectActionCreator.getProject({ id:this.props.params.projectId });
   }
 
   componentDidMount() {
-    MainView.init( React.findDOMNode(this.refs.mainCanvas));
+    MainView.init( ReactDOM.findDOMNode(this.refs.mainCanvas));
     ProjectStore.addChangeListener(this._onChange);
     ProjectStore.addCanvasRequestListener(this._onCanvasUpdate);
     ProjectStore.addCanvasClearListener(this._onCanvasClear);
-
     State.transition("player");
   }
 
