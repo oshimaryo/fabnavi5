@@ -1,7 +1,7 @@
 const ViewConfig = require('../player/ViewConfig');
 let getCurrentImage = null;
 
-const CalibrateController = (function (){
+const CalibrateController = (function () {
   let x = 0,
       y = 0,
       w = 1000,
@@ -19,11 +19,11 @@ const CalibrateController = (function (){
       isInitalized = false,
       _isCalibrateLocked = false;
 
-  function isCalibrationLocked(){
+  function isCalibrationLocked() {
     return _isCalibrateLocked;
   }
 
-  function dbg(){
+  function dbg() {
     console.log("x: " + x);
     console.log("y: " + y);
     console.log("w: " + w);
@@ -34,7 +34,7 @@ const CalibrateController = (function (){
     console.log("ly: " + ly);
   }
 
-  function zoomIn(_shift){
+  function zoomIn(_shift) {
     const shift = _shift | 10;
     w -= shift;
     h -= shift * as;
@@ -42,7 +42,7 @@ const CalibrateController = (function (){
     update();
   }
 
-  function zoomOut(_shift){
+  function zoomOut(_shift) {
     const shift = _shift | 10;
     w += shift;
     h += shift * as;
@@ -50,15 +50,15 @@ const CalibrateController = (function (){
     update();
   }
 
-  function changeAspectRatio(_shift){
+  function changeAspectRatio(_shift) {
     w += _shift;
     validateWH();
     update();
     updateXYFromWH();
   }
 
-  function changeRegionCB(_w, _h){
-    return function(){
+  function changeRegionCB(_w, _h) {
+    return function() {
       w += _w;
       h += _h;
       validateWH();
@@ -67,8 +67,8 @@ const CalibrateController = (function (){
     }
   }
 
-  function zoomIOCB(_w, _h){
-    return function(){
+  function zoomIOCB(_w, _h) {
+    return function() {
       w = w * _w;
       h = h * _h;
       validateWH();
@@ -78,24 +78,24 @@ const CalibrateController = (function (){
   }
 
 
-  function moveRegionCB(_dx, _dy){
-    return function(){
+  function moveRegionCB(_dx, _dy) {
+    return function() {
       moveRelatively(_dx, _dy);
     }
   }
 
-  function validateWH(){
+  function validateWH() {
     if(w < 2)w = 2;
     if(h < 2)h = 2;
   }
 
-  function moveRelatively(dx, dy){
+  function moveRelatively(dx, dy) {
     cx -= dx;
     cy += dy;
     update();
   }
 
-  function loadFromViewConfig(){
+  function loadFromViewConfig() {
     const conf = ViewConfig.conf();
     x = conf.x || 0;
     y = conf.y || 0;
@@ -104,11 +104,11 @@ const CalibrateController = (function (){
     validateWH();
   }
 
-  function init ( canvas, currentImageFn ){
+  function init ( canvas, currentImageFn ) {
     cvs = canvas;
     getCurrentImage = currentImageFn;
 
-    setInterval(function(){
+    setInterval(function() {
       if(zi)zoomIn();
       if(zo)zoomOut();
     }, 50);
@@ -119,28 +119,28 @@ const CalibrateController = (function (){
     update();
   }
 
-  function toggleAspectShiftMode(){
+  function toggleAspectShiftMode() {
     aspShift = !aspShift;
   }
 
-  function addMouseEvent(){
-    if(isCalibrationLocked()){
+  function addMouseEvent() {
+    if(isCalibrationLocked()) {
       removeMouseEvent();
       return -1;
     }
 
-    cvs.onmousedown = function(e){
+    cvs.onmousedown = function(e) {
       drag = true;
       lx = e.clientX;
       ly = e.clientY;
     };
-    cvs.onmouseup = function(e){
+    cvs.onmouseup = function(e) {
       drag = false;
     };
-    cvs.onmousemove = function(e){
-      if(drag){
+    cvs.onmousemove = function(e) {
+      if(drag) {
         const eX = e.clientX;
-        if(aspShift){
+        if(aspShift) {
           changeAspectRatio(lx - eX);
           lx = eX;
         } else {
@@ -153,27 +153,27 @@ const CalibrateController = (function (){
     };
   }
 
-  function removeMouseEvent(){
+  function removeMouseEvent() {
     cvs.onwheel = "";
     cvs.onmousedown = "";
     cvs.onmouseup = "";
     cvs.onmousemove = "";
   }
 
-  function updateXYFromWH(){
+  function updateXYFromWH() {
     as = h / w;
     cx = Math.floor(w / 2) + Number(x);
     cy = Math.floor(h / 2) + Number(y);
   }
 
-  function updateXYFromCenter (){
+  function updateXYFromCenter () {
     x = cx - Math.floor(w / 2);
     y = cy - Math.floor(h / 2);
   }
 
-  function update(){
+  function update() {
     updateXYFromCenter();
-    if(isInitalized ){
+    if(isInitalized ) {
       ViewConfig.setConf({ x:x, y:y, w:w, h:h });
       //XXX
       ViewConfig.save();
@@ -182,9 +182,9 @@ const CalibrateController = (function (){
     }
   }
 
-  function initConf(){
+  function initConf() {
     const cf = ViewConfig.conf();
-    if( cf.hasOwnProperty("w")){
+    if( cf.hasOwnProperty("w")) {
       w = cf.w;
       h = cf.h;
       x = cf.x;
@@ -196,7 +196,7 @@ const CalibrateController = (function (){
       return;
     }
 
-    if(getCurrentImage()){
+    if(getCurrentImage()) {
       const c = getCurrentImage();
       w = c.naturalWidth;
       h = c.naturalHeight;

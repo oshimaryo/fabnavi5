@@ -9,14 +9,14 @@ const
 
 const ProjectActionCreator = {
 
-  getAllProjects : function( ){
+  getAllProjects : function( ) {
     AppDispatcher.dispatch({
       type : ActionTypes.PROJECTS_FETCH,
     });
     WebAPIUtils.getAllProjects();
   },
 
-  getOwnProjects : function(){
+  getOwnProjects : function() {
     const uid = WebAPIUtils.loadCurrentUserId();
 
     AppDispatcher.dispatch({
@@ -25,7 +25,7 @@ const ProjectActionCreator = {
     WebAPIUtils.getOwnProjects(uid);
   },
 
-  createProject : function( payload ){
+  createProject : function( payload ) {
     AppDispatcher.dispatch({
       type : ActionTypes.PROJECT_CREATE,
       payload : payload
@@ -33,29 +33,29 @@ const ProjectActionCreator = {
     WebAPIUtils.createProject(payload.name, payload.contentAttributesType, payload.description);
   },
 
-  getProject : function( payload ){
+  getProject : function( payload ) {
     WebAPIUtils.getProject( payload.id );
   },
 
-  setThumbnailLast : function( payload ){
+  setThumbnailLast : function( payload ) {
     WebAPIUtils.setThumbnailLast(payload.project);
   },
 
-  playProject : function( payload ){
+  playProject : function( payload ) {
     AppDispatcher.dispatch({
       type : ActionTypes.PROJECT_PLAY,
       id   : payload.id
     });
   },
 
-  editProject : function( payload ){
+  editProject : function( payload ) {
     AppDispatcher.dispatch({
       type : ActionTypes.PROJECT_EDIT,
       id   : payload.id
     });
   },
 
-  updateProject : function( payload ){
+  updateProject : function( payload ) {
     AppDispatcher.dispatch({
       type : ActionTypes.PROJECT_UPDATE,
       project   : payload.project
@@ -63,7 +63,7 @@ const ProjectActionCreator = {
     WebAPIUtils.updateProject( payload.project );
   },
 
-  deleteProject : function( payload ){
+  deleteProject : function( payload ) {
     AppDispatcher.dispatch({
       type : ActionTypes.PROJECT_DELETE,
       project   : payload
@@ -71,7 +71,7 @@ const ProjectActionCreator = {
     WebAPIUtils.deleteProject( payload );
   },
 
-  uploadAttachment : function( payload ){
+  uploadAttachment : function( payload ) {
     AppDispatcher.dispatch({
       type : ActionTypes.UPLOAD_ATTACHMENT,
       file   : payload.file,
@@ -81,20 +81,20 @@ const ProjectActionCreator = {
     WebAPIUtils.uploadFile( payload.file, payload.name, payload.sym );
   },
 
-  updateCanvas : function( ){
+  updateCanvas : function( ) {
     AppDispatcher.dispatch({
       type : ActionTypes.UPDATE_CANVAS
     });
   },
 
-  editContent : function( project, content_array ){
+  editContent : function( project, content_array ) {
     AppDispatcher.dispatch({
       type : ActionTypes.EDIT_CONTENT,
       project : project,
       content_array : content_array
     });
   },
-  editTitle : function( project, name, description, isPrivate ){
+  editTitle : function( project, name, description, isPrivate ) {
     AppDispatcher.dispatch({
       type : ActionTypes.EDIT_TITLE,
       project : project,
@@ -104,7 +104,7 @@ const ProjectActionCreator = {
     });
   },
 
-  detailProject : function( payload ){
+  detailProject : function( payload ) {
     AppDispatcher.dispatch({
       type : ActionTypes.PROJECT_DETAIL,
       id   : payload.id

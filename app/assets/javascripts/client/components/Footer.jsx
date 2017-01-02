@@ -1,27 +1,22 @@
 import React from'react';
-import { Link } from'react-router';
+import{ Link }from'react-router';
 
-class Footer extends React.Component {
+export default class Footer extends React.Component {
   constructor(props) {
     super(props);
     this.props = {
       footerText: "fabnavi"
     };
   }
- 
 
   render() {
-      return(
+    return (
       <footer className="belt">
-  <hr />
-  <p>
-    {this.props.footerText}
-  </p>
-</footer>
-        );
+        <hr />
+        <p>
+          {this.props.footerText}
+        </p>
+      </footer>
+    );
   }
-
-
 }
-
-module.exports = Footer;

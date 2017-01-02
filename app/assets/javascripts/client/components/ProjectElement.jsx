@@ -1,37 +1,37 @@
 import React from'react';
+
 import ProjectActionCreator from'../actions/ProjectActionCreator';
 
-class ProjectElement extends React.Component {
+export default class ProjectElement extends React.Component {
 
   getThumbnailSrc() {
 
     let src = null;
     try{
-      if(this.props.project.content.length >= 1){
+      if(this.props.project.content.length >= 1) {
         src = this.props.project.content[this.props.project.content.length - 1].figure.file.file.thumb.url;
       }
-      if( src == null || src == "" ){
+      if( src == null || src == "" ) {
         src = "/images/kaffcop_icon/no_thumbnail.png";
       }
       return src;
-    }catch(e){
+    } catch(e) {
       return "/images/kaffcop_icon/no_thumbnail.png";
     }
   }
 
-  getUserIconSrc (){
+  getUserIconSrc () {
     let src = null;
-    if( src == null ){
+    if( src == null ) {
       src = this.props.project.user.image;
     }
     return src;
   }
 
   render() {
-
-    const actions = (this.props.isOpenMenu && (this.props.menuType == "allProjects")) ? (
+    const actions = this.props.isOpenMenu && this.props.menuType == "allProjects" ? (
       <ul className="actions">
-        <li 
+        <li
           className={`action-box ${this.props.menuIndex == 0 ? "selected-action" : "action"}`}
           style="border-radius: 5px 5px 0px 0px;" >
           <div className="menu2">
@@ -76,11 +76,10 @@ class ProjectElement extends React.Component {
             Delete
           </div>
         </li>
-      </ul>
-    );
+      </ul>);
 
     return (
-      <div className={`project-box ${this.props.isSelected  ? "selected-project" : ""}`}>
+      <div className={`project-box ${this.props.isSelected ? "selected-project" : ""}`}>
         <div className="thumbnail">
           <img src={this.getThumbnailSrc()}/>
         </div>
@@ -104,29 +103,26 @@ class ProjectElement extends React.Component {
     );
   }
 
-  handleChange( event ){
+  handleChange( event ) {
   }
 
-  handleClick ( event ){
+  handleClick ( event ) {
     ProjectActionCreator.playProject( this.props.project );
   }
 
-  getUploadDate(){
+  getUploadDate() {
     return this.props.project.created_at.replace(/T.*$/, "").replace(/-/g, " / ");
   }
 
-  getDescription(){
-
-    if( !this.props.project.description ){
-      return "";  
+  getDescription() {
+    if( !this.props.project.description ) {
+      return "";
     }
-    if( this.props.project.description.length >= 100 ){
+
+    if( this.props.project.description.length >= 100 ) {
       return this.props.project.description.substr(0, 100) + " . . .";
-    } else {
-      return this.props.project.description;
     }
+
+    return this.props.project.description;
   }
-
 }
-
-module.exports = ProjectElement;

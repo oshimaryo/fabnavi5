@@ -2,19 +2,19 @@ const ImageConverter = require('../player/ImageConverter');
 const ViewConfig = require('../player/ViewConfig');
 const CalibrateController = require('../player/CalibrateController');
 
-const MainView = function(){
+const MainView = function() {
   let cvs,
       ctx,
       currentImage = null;
 
-  function reset(){
+  function reset() {
     if(ctx != null)clear();
     currentImage = null;
     ctx = null;
     cvs = null;
   }
 
-  function init (canvasElement){
+  function init (canvasElement) {
     reset();
     initCanvas(canvasElement);
 
@@ -23,15 +23,15 @@ const MainView = function(){
     clear();
   }
 
-  function getCtx(){
+  function getCtx() {
     return ctx;
   }
 
-  function getCvs(){
+  function getCvs() {
     return cvs;
   }
 
-  function initCanvas(canvasElement){
+  function initCanvas(canvasElement) {
     cvs = canvasElement;
     ctx = cvs.getContext('2d');
     cvs.width = screen.width;
@@ -39,7 +39,7 @@ const MainView = function(){
     ctx.strokeStyle = "#00ff00";
   }
 
-  function drawCalibrateCenterLine(){
+  function drawCalibrateCenterLine() {
     redraw();
     ctx.strokeStyle = "#539ECD";
     ctx.beginPath();
@@ -51,7 +51,7 @@ const MainView = function(){
     ctx.stroke();
   }
 
-  function drawCalibrateScaleLine(){
+  function drawCalibrateScaleLine() {
     redraw();
     ctx.strokeStyle = "#DC5536";
     ctx.beginPath();
@@ -63,7 +63,7 @@ const MainView = function(){
     ctx.stroke();
   }
 
-  function drawWaitingMessage(){
+  function drawWaitingMessage() {
     ctx.font = "100px NotoSans-Regular, sans-serif";
     ctx.textBaseline = 'top';
     ctx.lineWidth = 5.0;
@@ -73,7 +73,7 @@ const MainView = function(){
     ctx.fillText("Now Loading...", cvs.width / 2 - 300, cvs.height / 2);
   }
 
-  function drawInstructionMessage(){
+  function drawInstructionMessage() {
     ctx.font = "20px NotoSans-Regular, sans-serif";
     ctx.textBaseline = 'top';
     ctx.lineWidth = 3.0;
@@ -100,7 +100,7 @@ const MainView = function(){
 
   }
 
-  function drawCenterInstruction(){
+  function drawCenterInstruction() {
     ctx.font = "30px NotoSans-Regular, sans-serif";
     ctx.textBaseline = 'top';
     ctx.lineWidth = 3.0;
@@ -134,7 +134,7 @@ const MainView = function(){
     ctx.fillText(" C : ScaleCalibration", cvs.width / 8, cvs.height / 8 + 120);
   }
 
-  function drawScaleInstruction(){
+  function drawScaleInstruction() {
     ctx.font = "30px NotoSans-Regular, sans-serif";
     ctx.textBaseline = 'top';
     ctx.lineWidth = 3.0;
@@ -160,7 +160,7 @@ const MainView = function(){
     ctx.fillText(" C : Back to Play", cvs.width / 8, cvs.height / 8 + 60);
   }
 
-  function drawShootingMessage(){
+  function drawShootingMessage() {
     ctx.fillStyle = "#343434";
     ctx.font = "100px NotoSans-Regular, sans-serif";
     ctx.translate(-(cvs.width / 2 + 300), -(cvs.height / 2));
@@ -168,33 +168,33 @@ const MainView = function(){
     ctx.translate(cvs.width / 2 + 300, cvs.height / 2);
   }
 
-  function draw(image){
+  function draw(image) {
     ImageConverter.drawImage(image, cvs, ViewConfig.conf());
     currentImage = image;
   }
 
-  function render(video){
+  function render(video) {
     ImageConverter.drawImage(video, cvs, ViewConfig.conf());
   }
 
-  function redraw(){
+  function redraw() {
     clear();
     if(currentImage)draw(currentImage);
   }
 
-  function clear(){
+  function clear() {
     ctx.clearRect(0, 0, cvs.width, cvs.height);
   }
 
-  function getCurrentImage(){
+  function getCurrentImage() {
     return currentImage || false;
   }
 
-  function toDataURL(){
+  function toDataURL() {
     return cvs.toDataURL();
   }
 
-  function drawMessage(mes, X, Y){
+  function drawMessage(mes, X, Y) {
     const
         x = X || 0,
         y = Y || 20;

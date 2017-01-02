@@ -1,11 +1,11 @@
-import React from 'react';
+import React from'react';
 
 class Frame extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
   }
 
-  render(){
+  render() {
     return (
       <div>
         {this.props.children}

@@ -1,17 +1,17 @@
 {
   "env": {
     "browser": true,
-    "node": true,
     "es6": true
   },
-  "globals": {},
-  "ecmaFeatures": {
-    "jsx": true
-  },
-  "parser": null,
   "parserOptions": {
-    "sourceType": "module"
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    },
   },
+  "plugins": [
+    "react"
+  ],
   "rules": {
     "keyword-spacing": [
       2,
@@ -111,7 +111,7 @@
     "quotes": [0, "single"],
     "semi-spacing": [2, {"before": false, "after":true}],
     "space-in-parens": [0, "never"],
-    "space-before-blocks": [1, "never"],
+    "space-before-blocks": [1, "always"],
     "camelcase": 1,
     "comma-style": [2, "last"],
     "no-self-compare": 2,

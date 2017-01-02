@@ -7,46 +7,46 @@ const
     WebAPIUtils = require('../utils/WebAPIUtils');
 
 const AccountStore = Object.assign({}, EventEmitter.prototype, {
-  init : function(){
+  init : function() {
     _accountInfo.uid = window.hasOwnProperty('CURRENT_USER') && window.CURRENT_USER || "";
   },
 
-  emitChange : function(){
+  emitChange : function() {
     this.emit(EventTypes.ACCOUNT_CHANGE);
   },
 
-  addChangeListener: function(callback){
+  addChangeListener: function(callback) {
     this.on(EventTypes.ACCOUNT_CHANGE, callback);
   },
 
-  removeChangeListener: function(callback){
+  removeChangeListener: function(callback) {
     this.removeListener(EventTypes.ACCOUNT_CHANGE, callback);
   },
 
-  getUserID : function(){
+  getUserID : function() {
     return _accountInfo.uid
   },
 
-  isSigningIn : function(){
+  isSigningIn : function() {
     return _accountInfo.uid != "";
   },
 
-  setUserID : function( uid ){
+  setUserID : function( uid ) {
     _accountInfo.uid = uid;
   },
 
-  getAccountInfo : function(){
+  getAccountInfo : function() {
     return _accountInfo;
   },
 
-  clearUserID : function(){
+  clearUserID : function() {
     _accountInfo.uid = "";
   },
 
 });
 
-AccountStore.dispatchToken = AppDispatcher.register(function( action ){
-  switch( action.type ){
+AccountStore.dispatchToken = AppDispatcher.register(function( action ) {
+  switch( action.type ) {
     case ActionTypes.SIGN_IN :
       WebAPIUtils.signIn();
       break;

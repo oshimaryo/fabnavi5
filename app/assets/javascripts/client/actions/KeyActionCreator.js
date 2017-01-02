@@ -5,7 +5,7 @@ const ActionTypes = require('../constants/ActionTypes');
 const FSM = require('../utils/FabnaviStateMachine');
 
 const KeyActionCreator = {
-  handleKeyDown : function ( event ){
+  handleKeyDown : function ( event ) {
     //if input element changed, 'handleKeyDown' does't handle keyEvent
     if( event.target.nodeName == "INPUT" || event.target.nodeName == "TEXTAREA") return;
     //if metakey pressed, Fabnavi won't handle this keyEvent
@@ -25,7 +25,7 @@ const KeyActionCreator = {
     FSM.consume( payload );
   },
 }
-FSM.on("actionFired", function( payload ){
+FSM.on("actionFired", function( payload ) {
   AppDispatcher.dispatch( payload );
 });
 

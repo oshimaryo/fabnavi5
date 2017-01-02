@@ -1,16 +1,16 @@
 const ViewConfig = require('../player/ViewConfig');
 const $ = require('jquery');
 let QUALITY = 0.7;
-function getQ (){
+function getQ () {
   return QUALITY;
 };
 
-function setQ( q ){
+function setQ( q ) {
   QUALITY = q;
 }
-const ImageConverter = function(){
+const ImageConverter = function() {
 
-  function toBlob(img){
+  function toBlob(img) {
     const
         d = $.Deferred(),
         cvs = document.createElement('canvas');
@@ -18,13 +18,13 @@ const ImageConverter = function(){
     cvs.width = img.naturalWidth;
     cvs.height = img.naturalHeight;
     ImageConverter.drawImage(img, cvs, ViewConfig.conf());
-    cvs.toBlob(function(blob){
+    cvs.toBlob(function(blob) {
       d.resolve(blob);
     }, "image/jpeg", QUALITY);
     return d.promise();
   }
 
-  function projectImgToCanvas(img, cvs, conf){
+  function projectImgToCanvas(img, cvs, conf) {
     const ctx = cvs.getContext('2d');
         /* set cropping area on image  */
 
@@ -32,7 +32,7 @@ const ImageConverter = function(){
         sy = Number(conf.y) || 0,
         sw = Number(conf.w) || img.width || img.videoWidth,
         sh = Number(conf.h) || img.height || img.videoHeight,
-      
+
         /* set project area */
         dx = 0,
         dy = 0,
@@ -41,7 +41,7 @@ const ImageConverter = function(){
 
     ctx.fillStyle = "black";
 
-    if(sy < 0){
+    if(sy < 0) {
       const StoDh = dh / sh;
       dy = sy * StoDh;
       dh += dy;
@@ -51,7 +51,7 @@ const ImageConverter = function(){
       ctx.fillRect(0, 0, cvs.width, dy);
     }
 
-    if(sx < 0){
+    if(sx < 0) {
       const StoDw = dw / sw;
       dx = sx * StoDw;
       dw += dx;
@@ -61,14 +61,14 @@ const ImageConverter = function(){
       ctx.fillRect(0, 0, dx, cvs.height);
     }
 
-    if(sx + sw > img.width){
+    if(sx + sw > img.width) {
       const StoDw = dw / sw;
       sw -= sx + sw - img.width;
       dw = sw * StoDw;
       ctx.fillRect(dx + dw, 0, cvs.width - dx - dw, cvs.height);
     }
 
-    if(sy + sh > img.height){
+    if(sy + sh > img.height) {
       const StoDh = dh / sh;
       sh -= sy + sh - img.height;
       dh = sh * StoDh;

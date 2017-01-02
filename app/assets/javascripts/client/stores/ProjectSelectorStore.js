@@ -16,7 +16,7 @@ let menuIndexSize = 1;
 
 
 const ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
-  init : function(){
+  init : function() {
     _selector = {
       index : 0,
       row   : 0,
@@ -27,46 +27,46 @@ const ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
     };
   },
 
-  setSelectorByIndex : function setSelectorByIndex(index){
+  setSelectorByIndex : function setSelectorByIndex(index) {
     //validates selector
     let _index = index;
     const projects = ProjectListStore.getProjectsAll();
-    if( index >= projects.length ){
+    if( index >= projects.length ) {
       _index = projects.length - 1;
-    } else if( index < 0 ){
+    } else if( index < 0 ) {
       _index = 0;
     };
     ProjectSelectorStore.setSelectorIndex(_index);
   },
 
-  explode : function(){
+  explode : function() {
     if(!_selector.openMenu)throw new Error("Ilegal Action");
     const projects = ProjectListStore.getProjectsAll();
     const project = projects[_selector.index];
-    switch(_selector.menuIndex){
+    switch(_selector.menuIndex) {
       case 0:
-        setTimeout(function(){
+        setTimeout(function() {
           ProjectActionCreator.playProject( project );
         }, 0);
         _selector.openMenu = false;
         _selector.menuIndex = 0;
         break;
       case 1:
-        setTimeout(function(){
+        setTimeout(function() {
           ProjectActionCreator.detailProject( project );
         }, 0);
         _selector.openMenu = false;
         _selector.menuIndex = 0;
         break;
       case 2:
-        setTimeout(function(){
+        setTimeout(function() {
           ProjectActionCreator.editProject( project );
         }, 0);
         _selector.openMenu = false;
         _selector.menuIndex = 0;
         break;
       case 3:
-        setTimeout(function(){
+        setTimeout(function() {
           ProjectActionCreator.deleteProject( project );
         }, 0);
         _selector.openMenu = false;
@@ -77,45 +77,45 @@ const ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
         break;
     };
   },
-  open : function (){
+  open : function () {
     _selector.openMenu = true;
     _selector.menuIndex = 0;
     ProjectSelectorStore.emitChange();
   },
 
-  close : function(){
+  close : function() {
     _selector.openMenu = false;
     ProjectSelectorStore.emitChange();
   },
 
-  up : function(){
+  up : function() {
     this.setSelectorByIndex( _selector.index - 4 );
     this.scrollUp();
   },
 
-  down : function(){
+  down : function() {
     this.setSelectorByIndex( _selector.index + 4 );
     this.scrollDown();
   },
 
-  left : function(){
+  left : function() {
     this.setSelectorByIndex( _selector.index - 1 );
-    if((_selector.index + 1) % 4 == 0){
+    if((_selector.index + 1) % 4 == 0) {
       this.scrollUp();
     }
   },
 
-  right : function(){
+  right : function() {
     this.setSelectorByIndex( _selector.index + 1 );
-    if(_selector.index % 4 == 0){
+    if(_selector.index % 4 == 0) {
       this.scrollDown();
     }
   },
 //when press key up button , scroll up 380 height
-  scrollUp : function(){
+  scrollUp : function() {
     let x = 0;
-    const animationTimer = setInterval(function(){
-      if(x >= 28){
+    const animationTimer = setInterval(function() {
+      if(x >= 28) {
         clearInterval(animationTimer);
       }
       window.scrollBy(0, -x);
@@ -124,10 +124,10 @@ const ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
     //window.scrollBy(0,-380);
   },
 //when press key down button, scroll down 380 height
-  scrollDown : function (){
+  scrollDown : function () {
     let x = 0;
-    const animationTimer = setInterval(function(){
-      if(x >= 28){
+    const animationTimer = setInterval(function() {
+      if(x >= 28) {
         clearInterval(animationTimer);
       }
       window.scrollBy(0, x);
@@ -135,41 +135,41 @@ const ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
     }, 5);
   },
 
-  nextAction : function(){
+  nextAction : function() {
     _selector.menuIndex++;
 
-    if(_selector.menuIndex > menuIndexSize){
+    if(_selector.menuIndex > menuIndexSize) {
       _selector.menuIndex = menuIndexSize;
 
     }
     this.emitChange();
   },
 
-  prevAction : function(){
+  prevAction : function() {
     _selector.menuIndex--;
-    if(_selector.menuIndex < 0){
+    if(_selector.menuIndex < 0) {
       _selector.menuIndex = 0;
     }
     this.emitChange();
   },
 
-  setSelectorIndex : function( index ){
+  setSelectorIndex : function( index ) {
     _selector.index = index;
     _selector.col = index % 4;
     _selector.row = Math.floor(index / 4);
     this.emitChange();
   },
 
-  changeProjectsType : function(projectsType){
+  changeProjectsType : function(projectsType) {
     _selector.menuType = projectsType;
-    if(projectsType == "allProjects"){
+    if(projectsType == "allProjects") {
       menuIndexSize = 1;
-      setTimeout(function(){
+      setTimeout(function() {
         ProjectActionCreator.getAllProjects();
       }, 0);
     } else {
       menuIndexSize = 3;
-      setTimeout(function(){
+      setTimeout(function() {
         ProjectActionCreator.getOwnProjects();
       }, 0);
     }
@@ -179,25 +179,25 @@ const ProjectSelectorStore = Object.assign({}, EventEmitter.prototype, {
     _selector.index = 0;
   },
 
-  getSelector : function(){
+  getSelector : function() {
     return _selector;
   },
 
-  emitChange : function(){
+  emitChange : function() {
     this.emit(EventTypes.PROJECT_SELECTOR_CHANGE);
   },
 
-  addChangeListener: function(callback){
+  addChangeListener: function(callback) {
     this.on(EventTypes.PROJECT_SELECTOR_CHANGE, callback);
   },
 
-  removeChangeListener: function(callback){
+  removeChangeListener: function(callback) {
     this.removeListener(EventTypes.PROJECT_SELECTOR_CHANGE, callback);
   },
 });
 
-ProjectSelectorStore.dispatchToken = AppDispatcher.register(function( action ){
-  switch( action.type ){
+ProjectSelectorStore.dispatchToken = AppDispatcher.register(function( action ) {
+  switch( action.type ) {
     case KeyActionTypes.SELECT_PROJECT_UP:
       ProjectSelectorStore.up();
       break;
@@ -235,7 +235,7 @@ ProjectSelectorStore.dispatchToken = AppDispatcher.register(function( action ){
       break;
     case ActionTypes.MOVE_CONFIG:
       location.hash = "#/manager/transit"
-      setTimeout(function(){
+      setTimeout(function() {
         location.hash = "#/manager/"
       }, 0);
       break;

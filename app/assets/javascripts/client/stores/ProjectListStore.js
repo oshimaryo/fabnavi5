@@ -12,56 +12,56 @@ let
     projectsType = "";
 
 const ProjectListStore = Object.assign({}, EventEmitter.prototype, {
-  init : function(){
+  init : function() {
     _projects = [];
     WebAPIUtils.getCurrentUserInfo();
     this.loadProjects();
     this.emitChange();
   },
 
-  loadProjects : function(){
-    if(location.hash == "#/manager/myprojects"){
+  loadProjects : function() {
+    if(location.hash == "#/manager/myprojects") {
       ProjectActionCreator.getOwnProjects();
     } else {
       ProjectActionCreator.getAllProjects();
     }
   },
 
-  setProjectsType : function(){
-    if(location.hash == "#/manager/myprojects"){
+  setProjectsType : function() {
+    if(location.hash == "#/manager/myprojects") {
       projectsType = "myProjects";
     } else {
       projectsType = "allProjects";
     }
   },
 
-  getProjectsType : function(){
+  getProjectsType : function() {
     return projectsType;
   },
 
-  getProjectsAll : function(){
+  getProjectsAll : function() {
     return _projects;
   },
 
-  emitChange : function(){
+  emitChange : function() {
     this.emit(EventTypes.PROJECT_LIST_CHANGE);
   },
 
-  initProjects : function(projects){
+  initProjects : function(projects) {
     initProjects = projects;
     console.log("init : " + initProjects.length);
   },
 
-  setProjects : function( projects ){
+  setProjects : function( projects ) {
     _projects = projects;
     this.emitChange();
     this.setProjectsType();
   },
 
-  removeProject : function( project ){
+  removeProject : function( project ) {
     let i;
-    for( i = 0; i < _projects.length; i++ ){
-      if( _projects[i].id == project.id ){
+    for( i = 0; i < _projects.length; i++ ) {
+      if( _projects[i].id == project.id ) {
         _projects.splice(i, 1);
         this.emitChange();
         return;
@@ -69,17 +69,17 @@ const ProjectListStore = Object.assign({}, EventEmitter.prototype, {
     }
   },
 
-  searchProject : function( searchText ){
+  searchProject : function( searchText ) {
     let _project = null;
     const re = new RegExp(searchText, 'i');
     searchProjects = [];
 
-    if(searchText === ""){
+    if(searchText === "") {
       _project = initProjects;
     } else {
       let i;
-      for(i = 0; i < initProjects.length; i++){
-        if(re.test(initProjects[i].name) == true){
+      for(i = 0; i < initProjects.length; i++) {
+        if(re.test(initProjects[i].name) == true) {
           searchProjects.push(initProjects[i]);
           _project = searchProjects;
         }
@@ -89,17 +89,17 @@ const ProjectListStore = Object.assign({}, EventEmitter.prototype, {
     return;
   },
 
-  addChangeListener: function(callback){
+  addChangeListener: function(callback) {
     this.on(EventTypes.PROJECT_LIST_CHANGE, callback);
   },
 
-  removeChangeListener: function(callback){
+  removeChangeListener: function(callback) {
     this.removeListener(EventTypes.PROJECT_LIST_CHANGE, callback);
   },
 });
 
-ProjectListStore.dispatchToken = AppDispatcher.register(function( action ){
-  switch(action.type){
+ProjectListStore.dispatchToken = AppDispatcher.register(function( action ) {
+  switch(action.type) {
     case ActionTypes.PROJECTS_RECEIVE:
       ProjectListStore.setProjects(action.projects);
       ProjectListStore.initProjects(action.projects);

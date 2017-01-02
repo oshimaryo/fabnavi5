@@ -5,9 +5,9 @@ import ProjectListStore from'../stores/ProjectListStore';
 import ProjectActionCreator from'../actions/ProjectActionCreator';
 import State from'../utils/FabnaviStateMachine';
 
-class CreateProject extends React.Component{
+class CreateProject extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.props = {};
     this.state = { name : "", description: "" };
@@ -16,15 +16,15 @@ class CreateProject extends React.Component{
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleNameChange(e){
+  handleNameChange(e) {
     this.setState({ name : e.target.value });
   }
 
-  handleDescriptionChange(e){
+  handleDescriptionChange(e) {
     this.setState({ description : e.target.value });
   }
 
-  handleSubmit(e){
+  handleSubmit(e) {
     ProjectActionCreator.createProject({
       name : this.state.name,
       description : this.state.description,
@@ -32,14 +32,14 @@ class CreateProject extends React.Component{
     });
   }
 
-  render(){
+  render() {
     return (
       <div>
         <h1> className="form-title"> CreateProject </h1>
         <form className="form-box">
           <div className="field">
             <label> Project Name</label>
-            <input className="form-text" 
+            <input className="form-text"
               onChange={this.handleNameChange}
               value={this.state.name}
               type="text" />
@@ -53,12 +53,12 @@ class CreateProject extends React.Component{
             center You need calibration sheet and Fixfox Addon !!
             Please print this PDF and install the Addon.
             <a className="pdf"
-              href="https://drive.google.com/folderview?id=0B9k4M70SGKlAQ0xtTTNnOWgwOXM&usp=sharing" 
+              href="https://drive.google.com/folderview?id=0B9k4M70SGKlAQ0xtTTNnOWgwOXM&usp=sharing"
               target="_blank">
               <img src="images/pdf.png" />
             </a>
             <a className="pdf"
-              href="http://crest-multimedia-web.s3.amazonaws.com/tsuka/fabnavi-preview/public/sonycameraremotecontroller.xpi" 
+              href="http://crest-multimedia-web.s3.amazonaws.com/tsuka/fabnavi-preview/public/sonycameraremotecontroller.xpi"
               target="_blank">
               <img src="images/firefox-extension.png" />
             </a>
@@ -76,25 +76,25 @@ class CreateProject extends React.Component{
       );
   }
 
-  componentWillMount(){
+  componentWillMount() {
 
   }
 
-  componentDidMount(){
+  componentDidMount() {
     State.reload();
   }
 
-  componentWillUpdate(){
+  componentWillUpdate() {
     return {
     };
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     return {
     };
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
   }
 
 }

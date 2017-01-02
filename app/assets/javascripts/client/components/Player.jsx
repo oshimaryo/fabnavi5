@@ -20,9 +20,9 @@ let
     _lastState = "",
     _currentState = "";
 
-class Player extends React.Component{
+class Player extends React.Component {
 
-  render(){
+  render() {
     return (
       <div>
         <canvas ref="mainCanvas" />
@@ -36,7 +36,7 @@ class Player extends React.Component{
   }
   */
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this._onChange = this._onChange.bind(this);
     this._onCanvasUpdate = this._onCanvasUpdate.bind(this);
@@ -54,7 +54,7 @@ class Player extends React.Component{
     this.renderingTimer = null;
   }
 
-  reset(){
+  reset() {
     currentFile = null;
     _currentImage = null;
     pageChanged = true;
@@ -64,9 +64,9 @@ class Player extends React.Component{
     MainView.reset();
   }
 
-  getStateFromStores(){
+  getStateFromStores() {
     const project = ProjectStore.getProject();
-    if( project == null || this.props.params.projectId != project.id ){
+    if( project == null || this.props.params.projectId != project.id ) {
       return {
         project : null,
         page : 0,
@@ -84,44 +84,44 @@ class Player extends React.Component{
     };
   }
 
-  _onChange(){
+  _onChange() {
     this.setState(this.getStateFromStores());
   }
 
-  _onCanvasUpdate(){
+  _onCanvasUpdate() {
     this.updateCanvas();
   }
 
-  _onCanvasClear(){
+  _onCanvasClear() {
     this.clearCanvas();
   }
 
-  handleSubmit( event ){
+  handleSubmit( event ) {
     if( currentFile == null ) return;
     WebAPIUtils.uploadFile( currentFile );
   }
 
-  handleFile( event ){
+  handleFile( event ) {
     currentFile = event.target.files[0];
   }
 
-  updateCanvas(){
+  updateCanvas() {
 
-    if(this.state.project == null){
+    if(this.state.project == null) {
       return 0;
     }
 
-    if( this.state.project.content.length == 0){
+    if( this.state.project.content.length == 0) {
       return 0;
     }
 
     if( this.state.project.type === "movie") {
-      if(this.video.src === ""){
+      if(this.video.src === "") {
         this.video.width = window.screen.width;
         this.video.height = window.screen.height;
         this.video.src = this.state.project.content[0].figure.file.file.url;
       }
-      if(this.state.playing){
+      if(this.state.playing) {
         this.renderingTimer = setInterval(() => {
           MainView.render(this.video);
         }, 30);
@@ -135,20 +135,20 @@ class Player extends React.Component{
     }
 
     _currentState = State.compositeState();
-    if( _currentState != _lastState ){
+    if( _currentState != _lastState ) {
       MainView.clear();
     }
     _lastState = _currentState;
 
-    if( lastPage == this.state.page && _currentImage != null ){
+    if( lastPage == this.state.page && _currentImage != null ) {
       MainView.draw(_currentImage);
-      if(lastPage <= 0){
+      if(lastPage <= 0) {
         MainView.showInstructionMessage();
       }
-      if( _currentState.includes("calibrateCenter") ){
+      if( _currentState.includes("calibrateCenter") ) {
         MainView.showCalibrateCenterLine();
         MainView.showCenterInstruction();
-      } else if(_currentState.includes("calibrateScale") ){
+      } else if(_currentState.includes("calibrateScale") ) {
         MainView.showCalibrateScaleLine();
         MainView.showScaleInstruction();
       }
@@ -157,8 +157,8 @@ class Player extends React.Component{
 
     const fig = this.state.project.content[this.state.page].figure;
     lastPage = this.state.page;
-    if(fig.hasOwnProperty("clientContent") && fig.clientContent.hasOwnProperty("dfdImage")){
-      fig.clientContent.dfdImage.then(function(img){
+    if(fig.hasOwnProperty("clientContent") && fig.clientContent.hasOwnProperty("dfdImage")) {
+      fig.clientContent.dfdImage.then(function(img) {
         ViewConfig.setCropped(true);
         MainView.clear();
         MainView.draw(img);
@@ -169,49 +169,49 @@ class Player extends React.Component{
       ViewConfig.setCropped(false);
       MainView.redraw();
       MainView.showWaitMessage();
-      if(lastPage <= 0){
+      if(lastPage <= 0) {
         MainView.showInstructionMessage();
       }
       img.src = fig.file.file.url;
-      img.onload = function(aImg){
+      img.onload = function(aImg) {
         MainView.clear();
         MainView.draw(img);
-        if(lastPage <= 0){
+        if(lastPage <= 0) {
           MainView.showInstructionMessage();
         }
         _currentImage = img;
-        if( _currentState.includes("calibrateCenter") ){
+        if( _currentState.includes("calibrateCenter") ) {
           MainView.showCalibrateCenterLine();
           MainView.showCenterInstruction();
-        } else if(_currentState.includes("calibrateScale") ){
+        } else if(_currentState.includes("calibrateScale") ) {
           MainView.showCalibrateScaleLine();
           MainView.showScaleInstruction();
         }
       }
-      img.onerror = function(err){
+      img.onerror = function(err) {
         console.log("Image load error : ", err, img);
         throw new Error(err);
       }
     }
-    if( _currentState.includes("calibrateCenter") ){
+    if( _currentState.includes("calibrateCenter") ) {
       MainView.showCalibrateCenterLine();
       MainView.showCenterInstruction();
-    } else if(_currentState.includes("calibrateScale") ){
+    } else if(_currentState.includes("calibrateScale") ) {
       MainView.showCalibrateScaleLine();
       MainView.showScaleInstruction();
     }
   }
 
-  clearCanvas(){
+  clearCanvas() {
     MainView.clear();
   }
 
-  componentWillMount(){
+  componentWillMount() {
     console.log(this.props);
     ProjectActionCreator.getProject({ id:this.props.params.projectId });
   }
 
-  componentDidMount(){
+  componentDidMount() {
     MainView.init( React.findDOMNode(this.refs.mainCanvas));
     ProjectStore.addChangeListener(this._onChange);
     ProjectStore.addCanvasRequestListener(this._onCanvasUpdate);
@@ -220,16 +220,16 @@ class Player extends React.Component{
     State.transition("player");
   }
 
-  componentWillUpdate(){
+  componentWillUpdate() {
     return {
     };
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     this.updateCanvas();
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     ProjectStore.init();
     ProjectStore.emitChange();
     this.reset();

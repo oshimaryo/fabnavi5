@@ -8,7 +8,7 @@ let _accessToken = null,
 
 const DEVELOPMENT = true;
 
-function setHeader(){
+function setHeader() {
   localStorage.setItem("header", JSON.stringify({
     "Client"        : _client,
     "Uid"           : _uid,
@@ -16,15 +16,15 @@ function setHeader(){
   }));
 }
 
-function clearHeader(){
+function clearHeader() {
   localStorage.removeItem('header');
   localStorage.removeItem("currentUserInfo");
 }
 
-function loadHeader(){
+function loadHeader() {
   let header = localStorage.getItem("header");
 
-  if( header == null || !DEVELOPMENT){
+  if( header == null || !DEVELOPMENT) {
     return null;
   }
 
@@ -33,18 +33,18 @@ function loadHeader(){
     _client = header.Client;
     _uid = header.Uid;
     _accessToken = header.AccessToken;
-    setTimeout(function(){
+    setTimeout(function() {
       ServerActionCreator.signIn(_uid);
     }, 0);
     return header;
-  } catch(e){
+  } catch(e) {
     throw new Error("ERROR. JSON.parse failed");
   }
 }
 
-function genHeader(){
+function genHeader() {
   loadHeader();
-  if( _client == null || _uid == null || _accessToken == null){
+  if( _client == null || _uid == null || _accessToken == null) {
     return {};
   }
 
@@ -57,19 +57,19 @@ function genHeader(){
 
 const WebAPIUtils = {
 
-  getCurrentUserInfo : function(){
+  getCurrentUserInfo : function() {
     console.log("getCurrentUserInfo");
 
     $.ajax({
       dataType : "json",
       type : "GET",
-      success : function(res){
+      success : function(res) {
         localStorage.setItem("currentUserInfo", JSON.stringify({
           "Id"        : res.id,
           "Uid"           : res.uid
         }));
       },
-      error : function(err){
+      error : function(err) {
         console.log("Error from getCurrentUserID");
         console.log(err);
       },
@@ -78,30 +78,30 @@ const WebAPIUtils = {
     });
   },
 
-  loadCurrentUserId : function(){
+  loadCurrentUserId : function() {
     let currentUser = localStorage.getItem("currentUserInfo");
-    if( currentUser == null || !DEVELOPMENT){
+    if( currentUser == null || !DEVELOPMENT) {
       return null;
     }
 
     try{
       currentUser = JSON.parse(currentUser);
       return currentUser.Id;
-    } catch(e){
+    } catch(e) {
       throw new Error("ERROR. JSON.parse failed");
     }
   },
 
-  getProject : function( id ){
+  getProject : function( id ) {
     console.log("getProject : ", id);
 
     $.ajax({
       dataType : "json",
       type : "GET",
-      success : function(res){
+      success : function(res) {
         ProjectServerActionCreator.receiveProject( res );
       },
-      error : function(err){
+      error : function(err) {
         console.log("Error from getProject");
         console.log(err);
       },
@@ -110,16 +110,16 @@ const WebAPIUtils = {
     });
   },
 
-  getOwnProjects : function( uid ){
+  getOwnProjects : function( uid ) {
     console.log("getOwnProjects : ", uid);
 
     $.ajax({
       dataType : "json",
       type : "GET",
-      success : function(res){
+      success : function(res) {
         ProjectServerActionCreator.receiveProjects( res );
       },
-      error : function(err){
+      error : function(err) {
         console.log("Error from getOwnProjects");
         console.log(err);
       },
@@ -128,7 +128,7 @@ const WebAPIUtils = {
     });
   },
 
-  getAllProjects : function( page, perPage, offset ){
+  getAllProjects : function( page, perPage, offset ) {
     console.log("getProjects");
     const
         _page = page || 0,
@@ -143,10 +143,10 @@ const WebAPIUtils = {
         offset : _offset
       },
       type : "GET",
-      success : function(res){
+      success : function(res) {
         ProjectServerActionCreator.receiveProjects( res );
       },
-      error : function(err){
+      error : function(err) {
         console.log("Error from getAllProjects");
         console.log(err);
       },
@@ -155,9 +155,9 @@ const WebAPIUtils = {
     });
   },
 
-  isSigningIn : function(){
+  isSigningIn : function() {
     const url = window.location.href;
-    if(url.includes("uid") && url.includes("client_id") && url.includes("auth_token")){
+    if(url.includes("uid") && url.includes("client_id") && url.includes("auth_token")) {
       const token = url.match(/auth_token=([a-zA-Z0-9\-]*)/)[1];
       const uid = url.match(/uid=([a-zA-Z0-9\-]*)/)[1];
       const client_id = url.match(/client_id=([a-zA-Z0-9\-]*)/)[1];
@@ -167,7 +167,7 @@ const WebAPIUtils = {
     return !!loadHeader();
   },
 
-  createProject : function( name, contentAttributesType, description){
+  createProject : function( name, contentAttributesType, description) {
     console.log("createProject");
     $.ajax({
       dataType : "json",
@@ -182,7 +182,7 @@ const WebAPIUtils = {
       },
       headers : genHeader(),
       type : "post",
-      success : function(res){
+      success : function(res) {
         ProjectServerActionCreator.createProjectSuccess( res );
         WebAPIUtils.updateProject({
           id: res.id,
@@ -191,7 +191,7 @@ const WebAPIUtils = {
           description : description,
         });
       },
-      error : function(err){
+      error : function(err) {
         console.log("Error from Create Project");
         console.log(err);
       },
@@ -200,7 +200,7 @@ const WebAPIUtils = {
     });
   },
 
-  setThumbnailLast : function( project ){
+  setThumbnailLast : function( project ) {
     if(project.content.length == 0) return;
     const fd = new FormData();
     fd.append("project[name]", project.name);
@@ -212,10 +212,10 @@ const WebAPIUtils = {
       data  : fd,
       contentType : false,
       processData : false,
-      success : function(res){
+      success : function(res) {
         console.log("set thumbnail success: ", res);
       },
-      error : function(err){
+      error : function(err) {
         console.log("Error from UpdateThumbnail");
         console.log(err);
       },
@@ -223,7 +223,7 @@ const WebAPIUtils = {
     });
   },
 
-  updateProject : function( project ){
+  updateProject : function( project ) {
     console.log("updateProject");
     const fd = new FormData();
     fd.append("project[name]", project.name);
@@ -233,11 +233,11 @@ const WebAPIUtils = {
 
     console.log(project.content);
     let i;
-    for(i = 0; i < project.content.length; i++){
+    for(i = 0; i < project.content.length; i++) {
 
       if( project.content[i].figure.hasOwnProperty("_destroy") &&
         project.content[i].figure._destroy == true &&
-        project.content[i].figure.figure_id != null ){
+        project.content[i].figure.figure_id != null ) {
 
         console.log("Delete photo", project.content[i]);
         fd.append("project[content_attributes][figures_attributes][][type]", "Figure::Photo");
@@ -260,12 +260,12 @@ const WebAPIUtils = {
       data  : fd,
       contentType : false,
       processData : false,
-      success : function(res){
+      success : function(res) {
         console.log("upload success: ", res);
         ProjectServerActionCreator.updateProjectSucess({ project: res });
 
       },
-      error : function(err){
+      error : function(err) {
         console.log("Error from UpdateProject");
         console.log(err);
       },
@@ -273,7 +273,7 @@ const WebAPIUtils = {
     });
   },
 
-  deleteProject : function( project ){
+  deleteProject : function( project ) {
     console.log("deleteProject");
     $.ajax({
       dataType : "json",
@@ -281,11 +281,11 @@ const WebAPIUtils = {
       type : "delete",
       contentType : false,
       processData : false,
-      success : function(res){
+      success : function(res) {
         console.log("delete success: ", res);
         ProjectServerActionCreator.deleteProjectSucess( project );
       },
-      error : function(err){
+      error : function(err) {
         console.log("Error from DeleteProject");
         console.log(err);
       },
@@ -294,39 +294,39 @@ const WebAPIUtils = {
     });
   },
 
-  likeProject : function( id ){
+  likeProject : function( id ) {
     console.log("likeProject");
   },
 
-  unlikeProject : function( id ){
+  unlikeProject : function( id ) {
     console.log("unlikeProject");
   },
 
-  likeFigure : function( project_id, figure_id ){
+  likeFigure : function( project_id, figure_id ) {
     console.log("likeFigure");
   },
 
-  unlikeFigure : function( project_id, figure_id ){
+  unlikeFigure : function( project_id, figure_id ) {
     console.log("unlikeFigure");
   },
 
-  getCalibrations : function( page, perPage, offset ){
+  getCalibrations : function( page, perPage, offset ) {
     console.log("getCalibrations");
   },
 
-  createCalibration : function( name, x, y, width, height ){
+  createCalibration : function( name, x, y, width, height ) {
     console.log("createCalibrations");
   },
 
-  updateCalibration: function( name, x, y, width, height ){
+  updateCalibration: function( name, x, y, width, height ) {
     console.log("updateCalibrations");
   },
 
-  deleteCalibration : function( id ){
+  deleteCalibration : function( id ) {
     console.log("deleteCalibrations");
   },
 
-  uploadFile : function( file, name, sym ){
+  uploadFile : function( file, name, sym ) {
     console.log("uploadFile");
 
     const fd = new FormData();
@@ -339,13 +339,13 @@ const WebAPIUtils = {
       contentType: false,
       headers : genHeader(),
       type : "post",
-      success : function(res){
+      success : function(res) {
         console.log("Uploaded file");
         console.log( res );
         res.sym = sym;
         ProjectServerActionCreator.uploadAttachmentSuccess( res );
       },
-      error : function(xhr, status, err){
+      error : function(xhr, status, err) {
         console.log("Error from Upload File :sym", sym);
         console.log(err);
         ProjectServerActionCreator.uploadAttachmentFailed({ xhr:xhr, status:status, err:err, sym:sym });
@@ -354,22 +354,22 @@ const WebAPIUtils = {
     });
   },
 
-  signIn : function(){
+  signIn : function() {
     const host = window.location.origin;
     window.location.href = `${host}/auth/github?auth_origin_url=${host}`;
   },
 
-  signedIn : function(token, uid, client){
+  signedIn : function(token, uid, client) {
     _accessToken = token;
     _uid = uid;
     _client = client;
     setHeader();
   },
 
-  signOut : function(){
+  signOut : function() {
     clearHeader();
     window.location.reload();
-    setTimeout(function(){
+    setTimeout(function() {
       ServerActionCreator.signOut();
     }, 0);
   }

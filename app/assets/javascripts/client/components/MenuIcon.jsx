@@ -1,21 +1,19 @@
-//親はNavigation.react
-//メニューアイコンのクリックの反応について書いてる
-//actionはProjectSelectorStoreに送ってる
+
 import NavigationViewActionCreator from'../actions/NavigationViewActionCreator';
 import React from'react';
 
 console.log(React);
 
-class MenuIcon extends React.Component{
+class MenuIcon extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.onclick = this.onclick.bind(this);
   }
 
-  render(){
+  render() {
     return (
-    <a className="menu-action nav-action" 
+    <a className="menu-action nav-action"
       onClick={this.onclick} >
       <img src={this.props.src} />
     </a>
@@ -23,30 +21,30 @@ class MenuIcon extends React.Component{
       )
   }
 
-  onclick(){
+  onclick() {
     NavigationViewActionCreator.menuSelect(this.props.act);
   }
 
-  componentWillMount(){
+  componentWillMount() {
     return {
     };
   }
 
-  componentDidMount(){
+  componentDidMount() {
 
   }
 
-  componentWillUpdate(){
+  componentWillUpdate() {
     return {
     };
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     return {
     };
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     return {
     };
   }

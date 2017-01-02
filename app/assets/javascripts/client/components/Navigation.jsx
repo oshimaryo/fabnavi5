@@ -5,19 +5,19 @@ import AccountStore from'../stores/AccountStore';
 import{ Router, Link }from'react-router';
 
 
-class Navigation extends React.Component{
+class Navigation extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = { account: AccountStore.getAccountInfo() };
     this._onChange = this._onChange.bind(this);
   }
 
-  _onChange(){
+  _onChange() {
     this.setState({ account: AccountStore.getAccountInfo() });
   }
 
-  render(){
+  render() {
     const menu = this.state.account.uid != "" ? (
   <div className="menu" >
 
@@ -42,24 +42,24 @@ class Navigation extends React.Component{
     );
   }
 
-  componentWillMount(){
+  componentWillMount() {
   }
 
-  componentDidMount(){
+  componentDidMount() {
     AccountStore.addChangeListener(this._onChange);
   }
 
-  componentWillUpdate(){
+  componentWillUpdate() {
     return {
     };
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     return {
     };
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     AccountStore.removeChangeListener(this._onChange);
   }
 }

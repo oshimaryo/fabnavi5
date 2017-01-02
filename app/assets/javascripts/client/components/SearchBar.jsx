@@ -1,9 +1,10 @@
 import NavigationViewActionCreator from'../actions/NavigationViewActionCreator';
 import React from'react';
 
-class SearchBar extends React.Component {
-
- 
+export default class SearchBar extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
   render () {
     return (
@@ -12,7 +13,7 @@ class SearchBar extends React.Component {
           <form>
             <input id="search-box"/>
             <span className="search-icon">
-              
+
             </span>
           </form>
         </div>
@@ -23,7 +24,4 @@ class SearchBar extends React.Component {
   handleChange( event ) {
     NavigationViewActionCreator.search( "", event.target.value );
   }
-
 }
-
-module.exports = SearchBar;

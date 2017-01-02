@@ -1,15 +1,14 @@
-
 import React from'react';
+
 import ProjectListStore from'../stores/ProjectListStore';
 import ProjectSelectorStore from'../stores/ProjectSelectorStore';
 import ProjectElement from'../components/ProjectElement';
 import ProjectActionCreator from'../actions/ProjectActionCreator';
-
 import State from'../utils/FabnaviStateMachine';
 
-class ProjectList extends React.Component{
+class ProjectList extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.getStateFromStores = this.getStateFromStores.bind(this);
     this.state = this.getStateFromStores();
@@ -17,7 +16,7 @@ class ProjectList extends React.Component{
     this._onChange = this._onChange.bind(this);
   }
 
-  getStateFromStores(){
+  getStateFromStores() {
     return {
       projects : ProjectListStore.getProjectsAll(),
       selected : ProjectSelectorStore.getSelector(),
@@ -25,22 +24,23 @@ class ProjectList extends React.Component{
     };
   }
 
-  _onChange(){
+  _onChange() {
     this.setState(this.getStateFromStores());
   }
 
-  render(){
+  render() {
     const projects = [];
-    for (let i in this.state.projects) {
+    let i;
+    for(i in this.state.projects) {
       projects.push(
         <ProjectElement
-          key={i} 
+          key={i}
           project={this.state.projects[i]}
           isSelected={this.state.selected.index == i}
           isOpenMenu={this.state.selected.index == i && this.state.selected.openMenu}
           menuIndex={this.state.selected.menuIndex}
           menuType={this.state.selected.menuType} />
-        )
+      );
     }
     return (
       <div className="projects">
@@ -49,27 +49,27 @@ class ProjectList extends React.Component{
     );
   }
 
-  componentWillMount(){
+  componentWillMount() {
     ProjectListStore.loadProjects();
   }
 
-  componentDidMount(){
+  componentDidMount() {
     ProjectListStore.addChangeListener(this._onChange);
     ProjectSelectorStore.addChangeListener(this._onChange);
     State.reload();
   }
 
-  componentWillUpdate(){
+  componentWillUpdate() {
   }
 
 
-  componentDidUpdate(){
+  componentDidUpdate() {
   }
 
-  componentWillReceiveProps(){
+  componentWillReceiveProps() {
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     ProjectListStore.removeChangeListener(this._onChange);
     ProjectSelectorStore.removeChangeListener(this._onChange);
   }

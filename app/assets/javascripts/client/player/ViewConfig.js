@@ -1,5 +1,5 @@
 const ProjectActionCreator = require('../actions/ProjectActionCreator');
-const ViewConfig = function(){
+const ViewConfig = function() {
   const
       playModeConfig = {},
       addModeConfig = {};
@@ -7,13 +7,13 @@ const ViewConfig = function(){
       _conf = {},
       isCropped = true;
 
-  function init(){
+  function init() {
     getLocalConfig();
   }
 
-  function setLocalData(key, jsonData){
+  function setLocalData(key, jsonData) {
     const data = {};
-    if(!isCropped){
+    if(!isCropped) {
       data["play"] = jsonData;
       const res = getLocalData(key);
       if(res && res.hasOwnProperty("add"))data["add"] = res.add;
@@ -26,62 +26,62 @@ const ViewConfig = function(){
     localStorage.setItem(key, d);
   }
 
-  function getLocalData(key){
+  function getLocalData(key) {
     const data = localStorage.getItem(key);
     return JSON.parse(data);
   }
 
-  function getLocalConfig(){
+  function getLocalConfig() {
     const id = "ProjectId";
     let res = getLocalData(id);
     res = res || "";
 
-    if(!isCropped){
+    if(!isCropped) {
       _conf = res.play || "";
     } else {
       _conf = res.add || "";
     }
   }
 
-  function setLocalConfig(id){
-    if(_conf == ""){
+  function setLocalConfig(id) {
+    if(_conf == "") {
       alert("there is no config");
       return false;
     }
     setLocalData(id, _conf);
   }
 
-  function getConfig(){
+  function getConfig() {
     getLocalConfig();
     return normalize(_conf);
   }
 
-  function saveConfig(){
+  function saveConfig() {
     setLocalConfig("ProjectId");
   }
 
-  function setConfig(conf){
+  function setConfig(conf) {
     _conf = normalize(conf);
-    setTimeout(function(){
+    setTimeout(function() {
       ProjectActionCreator.updateCanvas();
     }, 0);
   }
 
-  function normalize(conf){
+  function normalize(conf) {
     const res = {};
     let c;
-    for(c in conf){
+    for(c in conf) {
       if(isNaN(conf[c]))res[c] = 0;
       else res[c] = Number(conf[c]);
     }
     return res;
   }
 
-  function getCropped(){
+  function getCropped() {
     return isCropped;
   }
 
-  function setCropped(b){
+  function setCropped(b) {
     isCropped = b;
   }
 

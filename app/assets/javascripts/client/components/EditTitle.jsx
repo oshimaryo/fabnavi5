@@ -1,14 +1,16 @@
-const
-    ProjectActionCreator = require('../actions/ProjectActionCreator'),
-    React = require('react'),
-    Router = require('react-router'),
-    Link = Router.Link,
-    Route = Router.Route;
 
-class EditTitle extends React.Component {
+import React from"react";
+import{ Link, Route }from'react-router';
 
+import ProjectActionCreator from'../actions/ProjectActionCreator';
 
-  getInitialState(){
+export default class EditTitle extends React.Component {
+
+  constructor(props) {
+    super(props);
+  }
+
+  getInitialState() {
     return {
       name:this.props.id_name,
       description:this.props.id_description,
@@ -16,28 +18,20 @@ class EditTitle extends React.Component {
     };
   }
 
-  getDefaultProps(){
-    return {
-    };
-  }
-
-  onclick (){
-    console.log("this is title changed fucntion :" + this.state.name);
-    console.log(this.props.id_project);
-    console.log(this.state);
+  onclick () {
     ProjectActionCreator.editTitle(this.props.id_project, this.state.name, this.state.description, this.state.private);
     return;
   }
 
-  handleNameChange ( e ){
+  handleNameChange ( e ) {
     this.setState({ name : e.target.value });
   }
 
-  handlePublishStatusChange ( e ){
+  handlePublishStatusChange ( e ) {
     this.setState({ private: e.target.checked });
   }
 
-  handleDescriptionChange ( e ){
+  handleDescriptionChange ( e ) {
     this.setState({ description : e.target.value });
   }
 
@@ -52,10 +46,10 @@ class EditTitle extends React.Component {
     <p className="edit">
       Name
     </p>
-    <input 
-      className="form-edit" 
-      onChange={this.handleNameChange} 
-      value="this.state.name" 
+    <input
+      className="form-edit"
+      onChange={this.handleNameChange}
+      value="this.state.name"
       type="text"/>
   </div>
   <div className="field_edit">
@@ -64,12 +58,12 @@ class EditTitle extends React.Component {
   </div>
   <div className="field_edit">
     <p className="edit">Description</p>
-    <textarea 
-      className="form-edit" 
-      onChange="this.handleDescriptionChange" 
-      value="this.state.description" 
+    <textarea
+      className="form-edit"
+      onChange="this.handleDescriptionChange"
+      value="this.state.description"
       rows="10">
-        
+
     </textarea>
   </div>
 </form>
@@ -79,8 +73,4 @@ class EditTitle extends React.Component {
 </div>
       );
   }
-
- 
 }
-
-module.exports = EditTitle;

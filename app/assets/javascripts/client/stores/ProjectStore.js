@@ -24,70 +24,70 @@ let
     ;
 
 
-function setStep( s ){
+function setStep( s ) {
   STEP = s;
 }
-function getStep( ){
+function getStep( ) {
   console.log(STEP);
 }
 
 const ProjectStore = Object.assign({}, EventEmitter.prototype, {
-  init : function(){
+  init : function() {
     _project = null;
     _currentPage = 0;
     _uploadQueue = [];
     _shooting = false;
   },
 
-  pushUploadQueue : function( payload ){
+  pushUploadQueue : function( payload ) {
     _uploadQueue.push({ name:payload.name, sym:payload.sym, status: payload.status });
     ProjectStore.emitChange();
   },
 
-  uploadFinish : function( sym ){
+  uploadFinish : function( sym ) {
     let i;
-    for(i = 0; i < _uploadQueue.length; i++){
-      if(_uploadQueue[i].sym == sym){
+    for(i = 0; i < _uploadQueue.length; i++) {
+      if(_uploadQueue[i].sym == sym) {
         _uploadQueue.splice(i, 1);
         ProjectStore.emitChange();
       }
     }
   },
 
-  uploadFailed : function( sym ){
+  uploadFailed : function( sym ) {
     let i;
-    for(i = 0; i < _uploadQueue.length; i++){
-      if(_uploadQueue[i].sym == sym){
+    for(i = 0; i < _uploadQueue.length; i++) {
+      if(_uploadQueue[i].sym == sym) {
         _uploadQueue[i].status = "Error";
         ProjectStore.emitChange();
       }
     }
   },
 
-  next : function(){
+  next : function() {
     ProjectStore.setPage(_currentPage + 1);
   },
 
-  prev : function(){
+  prev : function() {
     ProjectStore.setPage(_currentPage - 1);
   },
 
-  togglePlayPause : function(){
+  togglePlayPause : function() {
     _isPlaying = !_isPlaying;
-    ProjectStore.emitChange();   
+    ProjectStore.emitChange();
   },
 
-  setPage : function(page){
+  setPage : function(page) {
     let _page = page;
     _currentPage = _page;
-    if( !_project.hasOwnProperty("content") ){
+    if( !_project.hasOwnProperty("content") ) {
       return;
     }
-    if( page >= _project.content.length ){
+    if( page >= _project.content.length ) {
       _page = _project.content.length - 1;
     }
 
-    if( _page < 0 ){
+    if( _page < 0 ) {
       _page = 0;
     }
     _currentPage = _page;
@@ -95,15 +95,15 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
 
     console.log("_page : ", _page);
     if(_project.content[_page].figure.hasOwnProperty("_destroy") &&
-      _project.content[_page].figure._destroy){
+      _project.content[_page].figure._destroy) {
       console.log("******DELETE FLAG*********");
     }
     ProjectStore.emitChange();
   },
 
-  setProject : function( project ){
+  setProject : function( project ) {
     _project = project;
-    if( _project.content.length > 0 && _project.content[0].type === "Figure::Frame" ){
+    if( _project.content.length > 0 && _project.content[0].type === "Figure::Frame" ) {
       _project["type"] = "movie";
     } else {
       _project["type"] = "photo";
@@ -111,12 +111,12 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
     this.emitChange();
   },
 
-  pushFigure : function( fig ){
+  pushFigure : function( fig ) {
     _project.content.push(fig);
     ProjectStore.emitChange();
   },
 
-  mergeUploadedFigure : function( fig ){
+  mergeUploadedFigure : function( fig ) {
     const dst = ProjectStore.findFigureBySymbol( fig.sym );
     dst.figure.id = fig.id;
     dst.figure.file = fig.file;
@@ -125,16 +125,16 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
     ProjectStore.emitChange();
   },
 
-  saveProject : function(){
-    setTimeout(function(){
+  saveProject : function() {
+    setTimeout(function() {
       ProjectActionCreator.updateProject({
         project :  ProjectStore.getProject()
       });
     }, 0);
   },
 
-  toggleDestroy : function(){
-    if( _project.content[_currentPage].figure.hasOwnProperty("_destroy") ){
+  toggleDestroy : function() {
+    if( _project.content[_currentPage].figure.hasOwnProperty("_destroy") ) {
       _project.content[_currentPage].figure._destroy = !_project.content[_currentPage].figure._destroy;
     } else {
       _project.content[_currentPage].figure["_destroy"] = true;
@@ -142,13 +142,13 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
     this.emitChange();
   },
 
-  toggleDestroyContent:function(){
+  toggleDestroyContent:function() {
     console.log("toggletoggle");
     console.log(_project.content.length);
     console.log(_delContent.length);
-    for(let i = 0; i < _project.content.length; i++){
-      for(let j = 0; j < _delContent.length; j++){
-        if(_project.content[i].figure.figure_id == _delContent[j]){
+    for(let i = 0; i < _project.content.length; i++) {
+      for(let j = 0; j < _delContent.length; j++) {
+        if(_project.content[i].figure.figure_id == _delContent[j]) {
           console.log(_project.content[i].figure.file.file.thumb.url);
           _project.content[i].figure["_destroy"] = true;
           console.log(_project.content[i].figure["_destroy"]);
@@ -158,7 +158,7 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
     ProjectStore.emitChange();
   },
 
-  changeTitle:function(){
+  changeTitle:function() {
     _project.name = _name;
     _project.description = _description;
     _project.private = _private;
@@ -166,10 +166,10 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
     ProjectStore.emitChange();
   },
 
-  backToHome:function(){
-    if(location.hash.includes("#/manager/detail")){
+  backToHome:function() {
+    if(location.hash.includes("#/manager/detail")) {
       location.hash = "#/manager";
-    } else if(location.hash.includes("#/manager/edit")){
+    } else if(location.hash.includes("#/manager/edit")) {
       location.hash = "#/mamager/myprojects";
     } else {
       location.hash = "#/manager";
@@ -177,7 +177,7 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
   },
 
 
-  newFigure : function( ){
+  newFigure : function( ) {
     return {
       figure : {
         sym           : gensym(),
@@ -204,12 +204,12 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
     };
   },
 
-  mergeFigureId : function( project ){
+  mergeFigureId : function( project ) {
     const res = project.project;
     let i, j;
-    for(i = 0; i < res.content.length; i++){
-      for(j = 0; j < _project.content.length; j++){
-        if(_project.content[j].figure.figure_id == null && _project.content[j].figure.id == res.content[i].figure.id ){
+    for(i = 0; i < res.content.length; i++) {
+      for(j = 0; j < _project.content.length; j++) {
+        if(_project.content[j].figure.figure_id == null && _project.content[j].figure.id == res.content[i].figure.id ) {
           _project.content[j].figure.figure_id = res.content[i].figure.figure_id;
         }
       }
@@ -217,12 +217,12 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
     ProjectActionCreator.setThumbnailLast({ project:_project });
   },
 
-  setImageToFigureFromCamera : function( fig, url ){
+  setImageToFigureFromCamera : function( fig, url ) {
     let src = null;
-    if( url ){
+    if( url ) {
       src = url;
       fig.figure.file.file.url = url;
-    } else if( fig.figure.file.file.url ){
+    } else if( fig.figure.file.file.url ) {
       src = fig.figure.file.file.url;
     } else {
       throw new Error("Figure url is not set");
@@ -232,95 +232,95 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
     const d = $.Deferred();
     img.src = src;
     img.crossOrigin = 'anonymous';
-    img.onload = function(){
+    img.onload = function() {
       d.resolve(img);
     }
     fig.figure.clientContent.dfdImage = d.promise();
   },
 
-  setImageToFigureFromServer : function( fig, url ){
+  setImageToFigureFromServer : function( fig, url ) {
 
   },
 
-  setThumbnailToFigureFromServer : function( fig, url ){
+  setThumbnailToFigureFromServer : function( fig, url ) {
 
   },
 
 
-  emitChange : function(){
+  emitChange : function() {
     _shooting = false;
     this.emit(EventTypes.PROJECT_CHANGE);
   },
 
-  emitUpdateCanvas : function(){
-    if( _project == null ){
+  emitUpdateCanvas : function() {
+    if( _project == null ) {
       return;
     }
     this.emit(EventTypes.UPDATE_CANVAS_REQUEST);
   },
 
-  emitClearCanvas : function(){
+  emitClearCanvas : function() {
     _shooting = true;
     this.emit(EventTypes.CLEAR_CANVAS_REQUEST);
   },
 
-  getProject : function(){
+  getProject : function() {
     return _project;
   },
 
-  getCurrentPage: function(){
+  getCurrentPage: function() {
     return _currentPage;
   },
 
-  getUploadQueue : function(){
+  getUploadQueue : function() {
     return _uploadQueue;
   },
 
-  isShooting : function(){
+  isShooting : function() {
     return _shooting;
   },
 
-  isPlaying : function(){
+  isPlaying : function() {
     return _isPlaying;
   },
 
-  addChangeListener: function(callback){
+  addChangeListener: function(callback) {
     this.on(EventTypes.PROJECT_CHANGE, callback);
   },
 
-  addCanvasRequestListener: function(callback){
+  addCanvasRequestListener: function(callback) {
     this.on(EventTypes.UPDATE_CANVAS_REQUEST, callback);
   },
 
-  addCanvasClearListener: function(callback){
+  addCanvasClearListener: function(callback) {
     this.addListener(EventTypes.CLEAR_CANVAS_REQUEST, callback);
   },
 
-  removeCanvasRequestListener: function(callback){
+  removeCanvasRequestListener: function(callback) {
     this.on(EventTypes.UPDATE_CANVAS_REQUEST, callback);
   },
 
-  removeChangeListener: function(callback){
+  removeChangeListener: function(callback) {
     this.removeListener(EventTypes.PROJECT_CHANGE, callback);
   },
 
-  removeCanvasClearListener: function(callback){
+  removeCanvasClearListener: function(callback) {
     this.removeListener(EventTypes.CLEAR_CANVAS_REQUEST, callback);
   },
 
-  findFigureBySymbol : function( sym ){
+  findFigureBySymbol : function( sym ) {
     const cts = ProjectStore.getProject().content;
     let fig = null;
     let i;
-    for(i = 0; i < cts.length; i++){
+    for(i = 0; i < cts.length; i++) {
       fig = cts[i];
       if( fig.figure.hasOwnProperty('sym') && fig.figure.sym == sym ) return fig;
     }
   },
 });
 
-ProjectStore.dispatchToken = AppDispatcher.register(function( action ){
-  switch(action.type){
+ProjectStore.dispatchToken = AppDispatcher.register(function( action ) {
+  switch(action.type) {
     case KeyActionTypes.CALIBRATE_LONGER_HORIZONTAL:
       CalibrateController.changeRegionCB(-STEP, 0)();
       break;
@@ -348,7 +348,7 @@ ProjectStore.dispatchToken = AppDispatcher.register(function( action ){
       break;
 
     case KeyActionTypes.PROJECT_SAVE:
-      setTimeout(function(){
+      setTimeout(function() {
         ProjectActionCreator.updateProject({
           project:ProjectStore.getProject()
         });
@@ -418,12 +418,12 @@ ProjectStore.dispatchToken = AppDispatcher.register(function( action ){
       console.log(_project);
       console.log(_delContent);
       ProjectStore.toggleDestroyContent();
-      setTimeout(function(){
+      setTimeout(function() {
         ProjectActionCreator.updateProject({
           project:ProjectStore.getProject()
         });
       }, 0);
-      setTimeout(function(){
+      setTimeout(function() {
         location.hash = "#/manager/myprojects";
       }, 0);
       break;
@@ -434,12 +434,12 @@ ProjectStore.dispatchToken = AppDispatcher.register(function( action ){
       _private = action.private;
       console.log("ProjectStore: " + _name);
       ProjectStore.changeTitle();
-      setTimeout(function(){
+      setTimeout(function() {
         ProjectActionCreator.updateProject({
           project:ProjectStore.getProject()
         });
       }, 0);
-      setTimeout(function(){
+      setTimeout(function() {
         location.hash = "#/manager/myprojects";
       }, 0);
 

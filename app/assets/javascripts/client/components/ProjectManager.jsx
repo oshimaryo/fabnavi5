@@ -7,18 +7,18 @@ import Player from'./Player';
 import Frame from'./Frame';
 import Footer from'./Footer';
 
-import{ Router, Route, DefaultRoute } from 'react-router';
+import{ Router, Route, DefaultRoute }from'react-router';
 import State from'../utils/FabnaviStateMachine';
 
 class ProjectManager extends React.Component {
 
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {};
   }
 
-  render(){
+  render() {
     return (
       <div className="body">
         <Navigation />
@@ -28,16 +28,16 @@ class ProjectManager extends React.Component {
       </div>
     );
   }
-  componentDidMount(){
+  componentDidMount() {
   }
 
-  componentWillUpdate(){
+  componentWillUpdate() {
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
   }
 }
 
