@@ -5,7 +5,6 @@ import{ Route, RouteHandler, Link, DefaultRoute }from'react-router';
 import State from'../utils/FabnaviStateMachine';
 
 import ProjectActionCreator from'../actions/ProjectActionCreator';
-import projectDetail from'../templates/ProjectDetail.jade';
 
 const ProjectDetail = React.createClass({
 
@@ -38,7 +37,6 @@ const ProjectDetail = React.createClass({
       if(this.state.projects[i].id == this.props.params.projectId){
         project.description = this.state.projects[i].description;
         project.name = this.state.projects[i].name
-        console.log(this.state.projects[i].user);
         project.username = this.state.projects[i].user.nickname;
         project.usericon = this.state.projects[i].user.image;
         project.date = this.state.projects[i].created_at.replace(/T.*$/, "").replace(/-/g, " / ");
@@ -67,7 +65,37 @@ const ProjectDetail = React.createClass({
     return src;
   },
 
-  render : projectDetail,
+  render : function() {
+    const project = this.getProjectDetail();
+      return (
+        <div className="detail-page">
+  <h1>ProjectDetail</h1>
+  <hr className="detail"/>
+  <div className="dtail-description">
+    <div className="project-detail-box">
+      <div className="thumbnail">
+        <img src={project.thumb}/>
+      </div>
+      <h2 className="project-name">
+        {this.props.project.name}
+      </h2>
+      <hr/>
+      <div className="box">
+        <img className="user-icon"/>
+        <div className="username">
+          {this.props.project.user.nickname}
+        </div>
+        <div className="date">
+          
+        </div>
+      </div>
+    </div>
+    <h1>Description</h1>
+    <p></p>
+  </div>
+</div>
+);
+  },
 
   componentWillMount : function(){
     console.log("load detail page");

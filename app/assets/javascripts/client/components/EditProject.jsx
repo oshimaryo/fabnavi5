@@ -3,9 +3,8 @@ import ProjectListStore from '../stores/ProjectListStore';
 import ProjectActionCreator from '../actions/ProjectActionCreator';
 import { Route, RouteHandler, Link, DefaultRoute } from 'react-router';
 import State from'../utils/FabnaviStateMachine';
-import editProject from '../templates/EditProject.jade';
-import EditContent from './EditContent.react.js';
-import EditTitle from './EditTitle.react.js';
+import EditContent from './EditContent';
+import EditTitle from './EditTitle';
 
 class EditProject extends React.Component {
 
@@ -72,16 +71,29 @@ class EditProject extends React.Component {
   }
 
   render() {
-    return editProject(Object.assign(
-      this,
-      this.state,
-      this.props,
-      { 
-        EditContent: React.createFactory(EditContent),
-        EditTitle: React.createFactory(EditTitle),
-        getImage: this.getImage.bind(this)
-      }
-    ));
+    const contents = this.getImage();
+    return (
+<div className="editproject">
+<h1>Edit Project</h1>
+<hr/>
+<EditTitle 
+  id_name={contents.project_id.name}
+  id_description={contents.project_id.description}
+  id_project={contents.project_id}
+  isPrivate={contents.project_id["private"] || false}>
+    
+  </EditTitle>
+  <hr/>
+  <h1 class="subtitle">Delete Project </h1>
+  <button class="btn" type="submit" onClick={this.onclick}>
+      D E L E T E
+  </button>
+  <div class="edit-pic">
+    
+  </div>
+</div>
+      );
+
   }
 
   componentWillMount(){
@@ -93,15 +105,6 @@ class EditProject extends React.Component {
     State.transition("pages");
   }
 
-  componentWillUpdate(){
-    return {
-    };
-  }
-
-  componentDidUpdate(){
-    return {
-    };
-  }
 
   componentWillUnmount(){
     ProjectStore.removeChangeListener(this._onChange);

@@ -2,21 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {render} from 'react-dom';
 
-import Navigation from './Navigation.react';
-import SearchBar  from './SearchBar.react';
-import ProjectList  from './ProjectList.react';
-import ProjectManager  from './ProjectManager.react';
-import Player  from './Player.react.js';
-import Footer  from './Footer.react.js';
-import Frame from './Frame.react.js';
-import CreateProject  from './CreateProject.react.js';
-import EditProject  from './EditProject.react.js';
-import ProjectDetail  from './ProjectDetail.react.js';
+import Navigation from './Navigation';
+import SearchBar  from './SearchBar';
+import ProjectList  from './ProjectList';
+import ProjectManager  from './ProjectManager';
+import Player  from './Player';
+import Footer  from './Footer';
+import Frame from './Frame';
+import CreateProject  from './CreateProject';
+import EditProject  from './EditProject';
+import ProjectDetail  from './ProjectDetail';
 import ProjectStore  from '../stores/ProjectStore';
 import WebAPIUtils  from '../utils/WebAPIUtils';
 import ServerActionCreator from '../actions/ServerActionCreator';
 import { Router, Route, IndexRoute, Redirect, hashHistory } from 'react-router';
-
 const transit = React.createClass({
   render : function(){return null}
 });
@@ -39,7 +38,6 @@ const routes = (
   </Router>
 );
 
-//ProjectStoreのinitと, 上で定義されたroutesを基に, Reactをdocument.body以下に展開する
 global.onload = function ( ){
   ProjectStore.init();
   render(routes, document.querySelector("#mount-point"));

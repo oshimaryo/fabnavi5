@@ -1,11 +1,9 @@
-//プロジェクトたちをリストにしている所？
-//最初のページとも言える
+
 import React from'react';
 import ProjectListStore from'../stores/ProjectListStore';
 import ProjectSelectorStore from'../stores/ProjectSelectorStore';
-import ProjectElement from'../components/ProjectElement.react';
+import ProjectElement from'../components/ProjectElement';
 import ProjectActionCreator from'../actions/ProjectActionCreator';
-import projectList from'../templates/ProjectList.jade';
 
 import State from'../utils/FabnaviStateMachine';
 
@@ -32,12 +30,23 @@ class ProjectList extends React.Component{
   }
 
   render(){
-    return projectList(Object.assign(
-      this,
-      this.state,
-      this.props,
-      { ProjectElement: React.createFactory(ProjectElement) }
-    ));
+    const projects = [];
+    for (let i in this.state.projects) {
+      projects.push(
+        <ProjectElement
+          key={i} 
+          project={this.state.projects[i]}
+          isSelected={this.state.selected.index == i}
+          isOpenMenu={this.state.selected.index == i && this.state.selected.openMenu}
+          menuIndex={this.state.selected.menuIndex}
+          menuType={this.state.selected.menuType} />
+        )
+    }
+    return (
+      <div className="projects">
+        {projects}
+      </div>
+    );
   }
 
   componentWillMount(){

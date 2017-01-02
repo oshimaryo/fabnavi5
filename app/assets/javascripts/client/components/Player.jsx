@@ -10,7 +10,6 @@ import{ Route, RouteHandler, Link, DefaultRoute }from'react-router';
 import CalibrateController from'../player/CalibrateController';
 import WebAPIUtils from'../utils/WebAPIUtils';
 import State from'../utils/FabnaviStateMachine';
-import player from'../templates/Player.jade';
 
 let
     currentFile = null,
@@ -24,10 +23,11 @@ let
 class Player extends React.Component{
 
   render(){
-    return player(Object.assign(
-      this,
-      this.state
-    ));
+    return (
+      <div>
+        <canvas ref="mainCanvas" />
+      </div>
+    );
   }
 
   /*
