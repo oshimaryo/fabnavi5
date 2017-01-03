@@ -2,8 +2,6 @@ global.$ = global.jQuery = require('jquery');
 require('jquery-ujs');
 require('./components/FabnaviApp');
 
-const KeyActionCreator = require('./actions/KeyActionCreator');
-global.onkeydown = KeyActionCreator.handleKeyDown;
 
 global.gensym = function(){
   let sym = "";

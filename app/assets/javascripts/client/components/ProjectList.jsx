@@ -1,64 +1,48 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import Debug from 'debug';
 
 import ProjectListStore from '../stores/ProjectListStore';
-import ProjectSelectorStore from '../stores/ProjectSelectorStore';
 import ProjectElement from '../components/ProjectElement';
 import ProjectActionCreator from '../actions/ProjectActionCreator';
 import State from '../utils/FabnaviStateMachine';
-import Debug from 'debug';
 
 const debug = Debug("fabnavi:jsx:ProjectList");
 class ProjectList extends React.Component {
 
   constructor(props) {
     super(props);
-    this.getStateFromStores = this.getStateFromStores.bind(this);
-    this.state = this.getStateFromStores();
-    this.props = {};
-    this._onChange = this._onChange.bind(this);
-  }
-
-  getStateFromStores() {
-    return {
-      projects : ProjectListStore.getProjectsAll(),
-      selected : ProjectSelectorStore.getSelector(),
-      projectsType : ProjectListStore.getProjectsType(),
-    };
-  }
-
-  _onChange() {
-    this.setState(this.getStateFromStores());
   }
 
   render() {
-    const projects = [];
+    const
+        projects = this.props.manager.projects,
+        selector = this.props.manager.selector,
+        projectElements = []
+        ;
     let i;
-    for(i in this.state.projects) {
-      projects.push(
+    for(i in projects) {
+      projectElements.push(
         <ProjectElement
           key={i}
-          project={this.state.projects[i]}
-          isSelected={this.state.selected.index == i}
-          isOpenMenu={this.state.selected.index == i && this.state.selected.openMenu}
-          menuIndex={this.state.selected.menuIndex}
-          menuType={this.state.selected.menuType} />
+          project={projects[i]}
+          isSelected={selector.index == i}
+          isOpenMenu={selector.index == i && selector.openMenu}
+          menuIndex={selector.menuIndex}
+          menuType={selector.menuType} />
       );
     }
     return (
       <div className="projects">
-        {projects}
+        {projectElements}
       </div>
     );
   }
 
   componentWillMount() {
-    ProjectListStore.loadProjects();
   }
 
   componentDidMount() {
-    ProjectListStore.addChangeListener(this._onChange);
-    ProjectSelectorStore.addChangeListener(this._onChange);
-    State.reload();
   }
 
   componentWillUpdate() {
@@ -72,10 +56,11 @@ class ProjectList extends React.Component {
   }
 
   componentWillUnmount() {
-    ProjectListStore.removeChangeListener(this._onChange);
-    ProjectSelectorStore.removeChangeListener(this._onChange);
   }
-
 }
 
-export default ProjectList;
+function mapStateToProps(state) {
+  return state;
+}
+
+export default connect(mapStateToProps)(ProjectList);

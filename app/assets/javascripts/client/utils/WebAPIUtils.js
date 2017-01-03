@@ -57,8 +57,11 @@ function genHeader() {
     "Access-Token"  : _accessToken
   };
 }
-
+let _dispatch = null;
 const WebAPIUtils = {
+  setDispatch: function(dispatch) {
+    _dispatch = dispatch;
+  },
 
   getCurrentUserInfo : function() {
     debug("getCurrentUserInfo");
@@ -146,8 +149,13 @@ const WebAPIUtils = {
         offset : _offset
       },
       type : "GET",
-      success : function(res) {
-        ProjectServerActionCreator.receiveProjects( res );
+      success : function(projects) {
+        ProjectServerActionCreator.receiveProjects( projects);
+        _dispatch({
+          type: "RECEIVE_PROJECTS",
+          projects: projects,
+          kind: "all"
+        });
       },
       error : function(err) {
         debug("Error from getAllProjects");

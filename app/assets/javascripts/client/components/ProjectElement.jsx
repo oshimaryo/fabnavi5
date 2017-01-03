@@ -31,7 +31,7 @@ export default class ProjectElement extends React.Component {
   }
 
   render() {
-    const actions = this.props.isOpenMenu && this.props.menuType == "allProjects" ? (
+    const actions = this.props.menuType == "allProjects" ? (
       <ul className="actions">
         <li
           className={`action-box ${this.props.menuIndex == 0 ? "selected-action" : "action"}`}
@@ -100,6 +100,7 @@ export default class ProjectElement extends React.Component {
           <div className="description">
             {this.getDescription()}
           </div>
+          {this.props.isOpenMenu ? actions : null}
         </div>
       </div>
     );

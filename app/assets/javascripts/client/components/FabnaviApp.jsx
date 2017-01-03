@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+import Debug from 'debug';
 
 import Navigation from './Navigation';
 import SearchBar from './SearchBar';
@@ -17,7 +18,7 @@ import ProjectStore from '../stores/ProjectStore';
 import WebAPIUtils from '../utils/WebAPIUtils';
 import ServerActionCreator from '../actions/ServerActionCreator';
 import reducer from '../reducers/index';
-import Debug from 'debug';
+import { handleKeyDown } from '../actions/KeyActionCreator';
 
 const debug = Debug("fabnavi:jsx:FabnaviApp");
 import { Router, Route, IndexRoute, Redirect, hashHistory } from 'react-router';
@@ -26,7 +27,6 @@ const transit = React.createClass({
 });
 
 const store = createStore(reducer);
-
 
 const routes = (
   <Provider store={store}>
@@ -51,8 +51,12 @@ const routes = (
 window.addEventListener("DOMContentLoaded", () => {
   ProjectStore.init();
   ReactDOM.render(routes, document.querySelector("#mount-point"));
+
   if(WebAPIUtils.isSigningIn()) {
     const uid = WebAPIUtils.isSigningIn.uid;
     ServerActionCreator.signIn(uid);
   }
+
+  api.setDispatch(store.dispatch);
+  window.addEventListener("keydown", handleKeyDown(store));
 });

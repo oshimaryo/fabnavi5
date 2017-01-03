@@ -6,9 +6,6 @@ const debug = Debug("fabnavi:jsx:Footer");
 export default class Footer extends React.Component {
   constructor(props) {
     super(props);
-    this.props = {
-      footerText: "fabnavi"
-    };
   }
 
   render() {
@@ -16,7 +13,7 @@ export default class Footer extends React.Component {
       <footer className="belt">
         <hr />
         <p>
-          {this.props.footerText}
+          fabnavi
         </p>
       </footer>
     );
