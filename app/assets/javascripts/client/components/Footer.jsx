@@ -1,5 +1,5 @@
-import React from'react';
-import{ Link }from'react-router';
+import React from 'react';
+import { Link } from 'react-router';
 import Debug from 'debug';
 
 const debug = Debug("fabnavi:jsx:Footer");

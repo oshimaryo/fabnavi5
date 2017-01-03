@@ -1,5 +1,5 @@
-import NavigationViewActionCreator from'../actions/NavigationViewActionCreator';
-import React from'react';
+import NavigationViewActionCreator from '../actions/NavigationViewActionCreator';
+import React from 'react';
 
 export default class SearchBar extends React.Component {
   constructor(props) {

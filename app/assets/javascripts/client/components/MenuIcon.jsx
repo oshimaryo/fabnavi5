@@ -1,6 +1,6 @@
 
-import NavigationViewActionCreator from'../actions/NavigationViewActionCreator';
-import React from'react';
+import NavigationViewActionCreator from '../actions/NavigationViewActionCreator';
+import React from 'react';
 
 import Debug from 'debug';
 

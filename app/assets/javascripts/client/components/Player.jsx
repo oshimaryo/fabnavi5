@@ -1,16 +1,16 @@
-import React from'react';
-import ReactDOM from'react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-import ProjectStore from'../stores/ProjectStore';
-import MainView from'../player/MainView';
-import ViewConfig from'../player/ViewConfig';
-import ProjectActionCreator from'../actions/ProjectActionCreator';
+import ProjectStore from '../stores/ProjectStore';
+import MainView from '../player/MainView';
+import ViewConfig from '../player/ViewConfig';
+import ProjectActionCreator from '../actions/ProjectActionCreator';
 
-import{ Route, RouteHandler, Link, DefaultRoute }from'react-router';
+import { Route, RouteHandler, Link, DefaultRoute } from 'react-router';
 
-import CalibrateController from'../player/CalibrateController';
-import WebAPIUtils from'../utils/WebAPIUtils';
-import State from'../utils/FabnaviStateMachine';
+import CalibrateController from '../player/CalibrateController';
+import WebAPIUtils from '../utils/WebAPIUtils';
+import State from '../utils/FabnaviStateMachine';
 import Debug from 'debug';
 
 const debug = Debug("fabnavi:jsx:Player");

@@ -1,10 +1,10 @@
-import React from'react';
-import ProjectListStore from'../stores/ProjectListStore';
-import ProjectActionCreator from'../actions/ProjectActionCreator';
-import{ Route, RouteHandler, Link, DefaultRoute }from'react-router';
-import State from'../utils/FabnaviStateMachine';
-import EditContent from'./EditContent';
-import EditTitle from'./EditTitle';
+import React from 'react';
+import ProjectListStore from '../stores/ProjectListStore';
+import ProjectActionCreator from '../actions/ProjectActionCreator';
+import { Route, RouteHandler, Link, DefaultRoute } from 'react-router';
+import State from '../utils/FabnaviStateMachine';
+import EditContent from './EditContent';
+import EditTitle from './EditTitle';
 import Debug from 'debug';
 
 const debug = Debug("fabnavi:jsx:EditProject");

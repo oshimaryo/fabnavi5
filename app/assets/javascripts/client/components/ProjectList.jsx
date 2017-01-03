@@ -1,10 +1,10 @@
-import React from'react';
+import React from 'react';
 
-import ProjectListStore from'../stores/ProjectListStore';
-import ProjectSelectorStore from'../stores/ProjectSelectorStore';
-import ProjectElement from'../components/ProjectElement';
-import ProjectActionCreator from'../actions/ProjectActionCreator';
-import State from'../utils/FabnaviStateMachine';
+import ProjectListStore from '../stores/ProjectListStore';
+import ProjectSelectorStore from '../stores/ProjectSelectorStore';
+import ProjectElement from '../components/ProjectElement';
+import ProjectActionCreator from '../actions/ProjectActionCreator';
+import State from '../utils/FabnaviStateMachine';
 import Debug from 'debug';
 
 const debug = Debug("fabnavi:jsx:ProjectList");

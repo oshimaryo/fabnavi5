@@ -1,10 +1,10 @@
-import React from'react';
-import{ Route, RouteHandler, Link, DefaultRoute }from'react-router';
+import React from 'react';
+import { Route, RouteHandler, Link, DefaultRoute } from 'react-router';
 
-import ProjectListStore from'../stores/ProjectListStore';
-import ProjectStore from'../stores/ProjectStore';
-import State from'../utils/FabnaviStateMachine';
-import ProjectActionCreator from'../actions/ProjectActionCreator';
+import ProjectListStore from '../stores/ProjectListStore';
+import ProjectStore from '../stores/ProjectStore';
+import State from '../utils/FabnaviStateMachine';
+import ProjectActionCreator from '../actions/ProjectActionCreator';
 import Debug from 'debug';
 
 const debug = Debug("fabnavi:jsx:ProjectDetail");

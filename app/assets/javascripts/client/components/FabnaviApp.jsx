@@ -1,21 +1,21 @@
-import React from'react';
-import ReactDOM from'react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
-import Navigation from'./Navigation';
-import SearchBar from'./SearchBar';
-import ProjectList from'./ProjectList';
-import ProjectManager from'./ProjectManager';
-import Player from'./Player';
-import Footer from'./Footer';
-import Frame from'./Frame';
-import CreateProject from'./CreateProject';
-import EditProject from'./EditProject';
-import ProjectDetail from'./ProjectDetail';
-import ProjectStore from'../stores/ProjectStore';
-import WebAPIUtils from'../utils/WebAPIUtils';
-import ServerActionCreator from'../actions/ServerActionCreator';
+import Navigation from './Navigation';
+import SearchBar from './SearchBar';
+import ProjectList from './ProjectList';
+import ProjectManager from './ProjectManager';
+import Player from './Player';
+import Footer from './Footer';
+import Frame from './Frame';
+import CreateProject from './CreateProject';
+import EditProject from './EditProject';
+import ProjectDetail from './ProjectDetail';
+import ProjectStore from '../stores/ProjectStore';
+import WebAPIUtils from '../utils/WebAPIUtils';
+import ServerActionCreator from '../actions/ServerActionCreator';
 import reducer from '../reducers/index';
 import Debug from 'debug';
 

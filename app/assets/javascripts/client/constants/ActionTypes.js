@@ -1,4 +1,4 @@
-import keyMirror from'keymirror';
+import keyMirror from 'keymirror';
 module.exports = keyMirror({
   SIGN_OUT  :null,
   SIGN_IN   :null,

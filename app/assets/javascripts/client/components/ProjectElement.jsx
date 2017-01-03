@@ -1,6 +1,6 @@
-import React from'react';
+import React from 'react';
 
-import ProjectActionCreator from'../actions/ProjectActionCreator';
+import ProjectActionCreator from '../actions/ProjectActionCreator';
 import Debug from 'debug';
 
 const debug = Debug("fabnavi:jsx:ProjectElement");

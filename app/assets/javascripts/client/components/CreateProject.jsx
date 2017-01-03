@@ -1,9 +1,9 @@
-import React from'react';
-import{ Route }from'react-router';
+import React from 'react';
+import { Route } from 'react-router';
 
-import ProjectListStore from'../stores/ProjectListStore';
-import ProjectActionCreator from'../actions/ProjectActionCreator';
-import State from'../utils/FabnaviStateMachine';
+import ProjectListStore from '../stores/ProjectListStore';
+import ProjectActionCreator from '../actions/ProjectActionCreator';
+import State from '../utils/FabnaviStateMachine';
 import Debug from 'debug';
 
 const debug = Debug("fabnavi:jsx:CreateProject");

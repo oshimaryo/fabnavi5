@@ -1,8 +1,8 @@
 
-import React from"react";
-import{ Link, Route }from'react-router';
+import React from "react";
+import { Link, Route } from 'react-router';
 
-import ProjectActionCreator from'../actions/ProjectActionCreator';
+import ProjectActionCreator from '../actions/ProjectActionCreator';
 import Debug from 'debug';
 
 const debug = Debug("fabnavi:jsx:EditTitle");

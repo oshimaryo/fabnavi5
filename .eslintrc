@@ -19,6 +19,8 @@
         "before": false, 
         "after": false, 
         "overrides": {
+          "import": {"after": true, "before": false},
+          "from": {"after": true, "before": true},
           "else": {"after": true, "before": true},
           "return": {"after": true, "before": true},
           "catch": {"after": false, "before": true},

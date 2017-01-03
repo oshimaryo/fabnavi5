@@ -1,6 +1,6 @@
 import Debug from 'debug';
 
-const 
+const
     debug = Debug("fabnavi:store:project"),
     $ = require('jquery'),
     AppDispatcher = require('../dispatcher/AppDispatcher'),
