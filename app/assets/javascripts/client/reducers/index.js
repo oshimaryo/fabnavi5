@@ -3,6 +3,14 @@ import Debug from 'debug';
 const debug = Debug("fabnavi:reducer");
 
 const initialState = {
+  user: {
+    uid: "",
+    isLoggedIn: false,
+    _secret: {
+      accessToken: "",
+      client: ""
+    }
+  }
 
 };
 
