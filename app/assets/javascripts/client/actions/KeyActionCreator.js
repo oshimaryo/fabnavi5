@@ -23,48 +23,41 @@ export function handleKeyDown(store) {
     const state = store.getState();
     if(state.frame === "manager") {
       const selector = state.manager.selector;
+      payload.selector = selector;
       switch(event.keyCode) {
         case 37:
           if(!selector.openMenu) {
-            payload.selector = moveSelector(selector, -1, 0);
-            payload.type = "SELECT_PROJECT";
-            store.dispatch(payload);
-          }
-          break;
-        case 38:
-          if(!selector.openMenu) {
-            payload.selector = moveSelector(selector, 0, -1);
-            payload.type = "SELECT_PROJECT";
-            store.dispatch(payload);
+            moveSelector(store, payload, -1, 0);
           }
           break;
         case 39:
           if(!selector.openMenu) {
-            payload.selector = moveSelector(selector, 1, 0);
-            payload.type = "SELECT_PROJECT";
-            store.dispatch(payload);
+            moveSelector(store, payload, 1, 0);
+          }
+          break;
+        case 38:
+          if(selector.openMenu) {
+            moveMenuSelector(store, payload, -1);
+          } else {
+            moveSelector(store, payload, 0, -1);
           }
           break;
         case 40:
-          if(!selector.openMenu) {
-            payload.selector = moveSelector(selector, 0, 1);
-            payload.type = "SELECT_PROJECT";
-            store.dispatch(payload);
+          if(selector.openMenu) {
+            moveMenuSelector(store, payload, 1);
+          } else {
+            moveSelector(store, payload, 0, 1);
           }
           break;
         case 27:
-          payload.selector = closeMenu(selector);
-          payload.type = "SELECT_PROJECT_MENU";
-          store.dispatch(payload);
+          closeMenu(store, payload);
           break;
         case 13:
           if(selector.openMenu) {
-            payload.selector = closeMenu(selector);
+            fireMenuAction(store, payload);
           } else {
-            payload.selector = openMenu(selector);
+            openMenu(store, payload);
           }
-          payload.type = "SELECT_PROJECT_MENU";
-          store.dispatch(payload);
           break;
         default:
           break;
@@ -74,27 +67,43 @@ export function handleKeyDown(store) {
   };
 }
 
-function openMenu(selector) {
-  return Object.assign({}, selector, {
-    openMenu: true,
-    menuIndex: 0
-  });
+function fireMenuAction(store, action) {
+  action.type = "FIRE_MENU_ACTION";
+  store.dispatch(action);
 }
 
-function closeMenu(selector) {
-  return Object.assign({}, selector, {
-    openMenu: false
-  });
+function openMenu(store, action) {
+  action.selector.openMenu = true;
+  action.selector.menuIndex = 0;
+  action.type = "SELECT_PROJECT_MENU";
+  store.dispatch(action);
 }
 
-function moveSelector(selector, x, y) {
+function closeMenu(store, action) {
+  action.selector.openMenu = false;
+  action.type = "SELECT_PROJECT_MENU";
+  store.dispatch(action);
+}
+
+function moveMenuSelector(store, action, index) {
+  // TODO: sanitize menu index.
+  action.selector.menuIndex = action.selector.menuIndex + index;
+  action.type = "SELECT_PROJECT_MENU";
+  store.dispatch(action);
+}
+
+function moveSelector(store, action, x, y) {
+  // TODO: sanitize col and row.
+  const selector = action.selector;
   let col = selector.col + x, row = selector.row + y;
   if( col < 0 ) col = 0;
   if( row < 0 ) row = 0;
-  return Object.assign({}, selector, {
+  action.selector = Object.assign({}, selector, {
     col,
     row,
     index: row * 4 + col
   });
+  action.type = "SELECT_PROJECT";
+  store.dispatch(action);
 }
 

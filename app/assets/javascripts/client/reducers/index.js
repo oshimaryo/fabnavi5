@@ -40,6 +40,9 @@ export default function reducer(state = initialState, action) {
       return Object.assign({}, state, {
         manager: Object.assign({}, state.manager, { selector: action.selector })
       });
+    case "FIRE_MENU_ACTION":
+      // TODO: change page
+      return state;
     case"RECEIVE_PROJECTS":
       return Object.assign({}, state, {
         manager: Object.assign({}, state.manager, { projects: action.projects })
