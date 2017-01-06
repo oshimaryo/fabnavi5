@@ -70,16 +70,28 @@ export function handleKeyDown(store) {
         case 39:
           changePage(store, payload, state, 1);
           break;
+        case 67:
+          changePlayerMode(store, payload);
+          break;
         case 27:
-          // TODO: need to cleanup project in state
-          debug('go back');
-          browserHistory.goBack();
+          browserHistory.push("/");
+          exitPlayer(store, payload);
           break;
         default:
           break;
       }
     }
   };
+}
+
+function exitPlayer(store, action) {
+  action.type = 'PLAYER_EXIT';
+  store.dispatch(action);
+}
+
+function changePlayerMode(store, action) {
+  action.type = 'PLAYER_CHANGE_MODE';
+  store.dispatch(action);
 }
 
 function changePage(store, action, state, step) {

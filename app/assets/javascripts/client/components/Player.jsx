@@ -76,7 +76,6 @@ class Player extends React.Component {
     const getCurrentImage = () => {
       return new Promise((resolve, reject) => {
         if( lastPage === this.props.page && _currentImage != null ) {
-          debug('there is no change.');
           resolve(_currentImage);
           return;
         }
@@ -84,7 +83,6 @@ class Player extends React.Component {
         const fig = this.props.project.content[this.props.page].figure;
         lastPage = this.props.page;
         if(fig.hasOwnProperty('clientContent') && fig.clientContent.hasOwnProperty('dfdImage')) {
-          debug('page changed.');
           fig.clientContent.dfdImage
           .then(img => {
             resolve(img, true);
@@ -92,8 +90,6 @@ class Player extends React.Component {
           .catch(reject);
           return;
         }
-
-        debug('page changed, but image is not loaded yet.')
 
         const img = new Image();
         MainView.redraw();
@@ -111,7 +107,6 @@ class Player extends React.Component {
 
     getCurrentImage()
     .then((img, crop) => {
-      debug('got current image');
       _currentImage = img;
       if(crop) {
         ViewConfig.setCropped(true);
@@ -161,7 +156,6 @@ class Player extends React.Component {
 }
 
 function mapStateToProps(state) {
-  debug('mapping: ', state.player);
   return state.player
 }
 

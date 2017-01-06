@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import Debug from 'debug';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 import Navigation from './Navigation';
 import SearchBar from './SearchBar';
@@ -18,27 +19,36 @@ import reducer from '../reducers/index';
 import { handleKeyDown } from '../actions/KeyActionCreator';
 
 const debug = Debug('fabnavi:jsx:FabnaviApp');
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 const store = createStore(reducer);
+const onEnterFrame = frame => {
+  return (nextState, replace, callback) => {
+    store.dispatch({
+      type: 'CHANGE_FRAME',
+      frame
+    });
+    callback();
+  };
+};
 
 const routes = (
   <Provider store={store}>
     <Router history={browserHistory}>
-        <Route components={ProjectManager} path="/" >
+        <Route components={ProjectManager} path="/" onEnter={onEnterFrame('manager')} >
           <IndexRoute component={ProjectList} />
           <Route component={ProjectList} path="myprojects" />
           <Route component={CreateProject} path="create"/>
           <Route component={EditProject} path="edit/:projectId" />
           <Route component={ProjectDetail} path="detail/:projectId" />
         </Route>
-        <Route components={Player} path="/play/:projectId" />
+        <Route components={Player} path="/play/:projectId" onEnter={onEnterFrame('player')}/>
     </Router>
   </Provider>
 );
 
 window.addEventListener('DOMContentLoaded', () => {
   const url = window.location.href;
+  window.store = store;
   if(isAuthWindow(url)) {
     window.opener.postMessage(JSON.stringify(parseAuthInfo(url)), window.location.origin);
     window.close();
