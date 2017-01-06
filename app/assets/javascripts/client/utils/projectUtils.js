@@ -30,11 +30,11 @@ function getThumbnailSrc(project) {
 }
 
 function getUploadDate(project) {
-  if (project.hasOwnProperty("created_at")) {
+  if(project.hasOwnProperty('created_at')) {
     return project.created_at.replace(/T.*$/, '').replace(/-/g, ' / ');
   }
-  debug("invalid project data: ", project);
-  return "";
+  debug('invalid project data: ', project);
+  return '';
 }
 
 
@@ -56,9 +56,9 @@ export function sanitizeProject(project) {
   if(!project) {
     return null;
   }
-  if(typeof project !== "object") {
+  if(typeof project !== 'object') {
     // TODO: cannot recover this, they should throw error
-    debug("invalid project data", project);
+    debug('invalid project data', project);
     return null;
   }
   return Object.assign({}, project, {

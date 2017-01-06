@@ -1,227 +1,217 @@
 import Debug from 'debug';
 
+import ViewConfig from '../player/ViewConfig';
+
 const debug = Debug('fabnavi:player:CalibrateController');
-const ViewConfig = require('../player/ViewConfig');
-let getCurrentImage = null;
 
-const CalibrateController = (function () {
-  let x = 0,
-      y = 0,
-      w = 1000,
-      h = 1000,
-      cx = 0,
-      cy = 0,
-      lx,
-      ly,
-      drag = false,
-      zi = false,
-      zo = false,
-      as = 1,
-      cvs,
-      aspShift = false,
-      isInitalized = false,
-      _isCalibrateLocked = false;
-
-  function isCalibrationLocked() {
-    return _isCalibrateLocked;
+export default class CalibrateController {
+  constructor() {
+    this.x = 0;
+    this.y = 0;
+    this.w = 1000;
+    this.h = 1000;
+    this.cx = 0;
+    this.cy = 0;
+    this.lx = 0;
+    this.ly = 0;
+    this.drag = false;
+    this.zi = false;
+    this.zo = false;
+    this.as = 1;
+    this.cvs = null;
+    this.aspShift = false;
+    this.isInitalized = false;
+    this._isCalibrateLocked = false;
+    this.getCurrentImage = null;
   }
 
-  function dbg() {
-    debug('x: ' + x);
-    debug('y: ' + y);
-    debug('w: ' + w);
-    debug('h: ' + h);
-    debug('cx: ' + cx);
-    debug('cy: ' + cy);
-    debug('lx: ' + lx);
-    debug('ly: ' + ly);
+
+  isCalibrationLocked() {
+    return this._isCalibrateLocked;
   }
 
-  function zoomIn(_shift) {
+  dbg() {
+    debug('x: ' + this.x);
+    debug('y: ' + this.y);
+    debug('w: ' + this.w);
+    debug('h: ' + this.h);
+    debug('cx: ' + this.cx);
+    debug('cy: ' + this.cy);
+    debug('lx: ' + this.lx);
+    debug('ly: ' + this.ly);
+  }
+
+  zoomIn(_shift) {
     const shift = _shift | 10;
-    w -= shift;
-    h -= shift * as;
-    validateWH();
-    update();
+    this.w -= shift;
+    this.h -= shift * this.as;
+    this.validateWH();
+    this.update();
   }
 
-  function zoomOut(_shift) {
+  zoomOut(_shift) {
     const shift = _shift | 10;
-    w += shift;
-    h += shift * as;
-    validateWH();
-    update();
+    this.w += shift;
+    this.h += shift * this.as;
+    this.validateWH();
+    this.update();
   }
 
-  function changeAspectRatio(_shift) {
-    w += _shift;
-    validateWH();
-    update();
-    updateXYFromWH();
+  changeAspectRatio(_shift) {
+    this.w += _shift;
+    this.validateWH();
+    this.update();
+    this.updateXYFromWH();
   }
 
-  function changeRegionCB(_w, _h) {
-    return function() {
-      w += _w;
-      h += _h;
-      validateWH();
-      update();
-      updateXYFromWH();
+  changeRegionCB(_w, _h) {
+    return () => {
+      this.w += _w;
+      this.h += _h;
+      this.validateWH();
+      this.update();
+      this.updateXYFromWH();
     }
   }
 
-  function zoomIOCB(_w, _h) {
-    return function() {
-      w = w * _w;
-      h = h * _h;
-      validateWH();
-      update();
-      updateXYFromWH();
+  zoomIOCB(_w, _h) {
+    return () => {
+      this.w = this.w * _w;
+      this.h = this.h * _h;
+      this.validateWH();
+      this.update();
+      this.updateXYFromWH();
     }
   }
 
 
-  function moveRegionCB(_dx, _dy) {
-    return function() {
-      moveRelatively(_dx, _dy);
+  moveRegionCB(_dx, _dy) {
+    return () => {
+      this.moveRelatively(_dx, _dy);
     }
   }
 
-  function validateWH() {
-    if(w < 2)w = 2;
-    if(h < 2)h = 2;
+  validateWH() {
+    if(this.w < 2)this.w = 2;
+    if(this.h < 2)this.h = 2;
   }
 
-  function moveRelatively(dx, dy) {
-    cx -= dx;
-    cy += dy;
-    update();
+  moveRelatively(dx, dy) {
+    this.cx -= dx;
+    this.cy += dy;
+    this.update();
   }
 
-  function loadFromViewConfig() {
+  loadFromViewConfig() {
     const conf = ViewConfig.conf();
-    x = conf.x || 0;
-    y = conf.y || 0;
-    w = conf.w || 1000;
-    h = conf.h || 1000;
-    validateWH();
+    this.x = conf.x || 0;
+    this.y = conf.y || 0;
+    this.w = conf.w || 1000;
+    this.h = conf.h || 1000;
+    this.validateWH();
   }
 
-  function init ( canvas, currentImageFn ) {
-    cvs = canvas;
-    getCurrentImage = currentImageFn;
+  init ( canvas, currentImageFn ) {
+    this.cvs = canvas;
+    this.getCurrentImage = currentImageFn;
 
-    setInterval(function() {
-      if(zi)zoomIn();
-      if(zo)zoomOut();
+    setInterval(() => {
+      if(this.zi)this.zoomIn();
+      if(this.zo)this.zoomOut();
     }, 50);
-    lx = cvs.clientWidth;
-    ly = cvs.clientHeight;
-    loadFromViewConfig();
-    updateXYFromWH();
-    update();
+    this.lx = this.cvs.clientWidth;
+    this.ly = this.cvs.clientHeight;
+    this.loadFromViewConfig();
+    this.updateXYFromWH();
+    this.update();
   }
 
-  function toggleAspectShiftMode() {
-    aspShift = !aspShift;
+  toggleAspectShiftMode() {
+    this.aspShift = !this.aspShift;
   }
 
-  function addMouseEvent() {
-    if(isCalibrationLocked()) {
-      removeMouseEvent();
+  addMouseEvent() {
+    if(this.isCalibrationLocked()) {
+      this.removeMouseEvent();
       return -1;
     }
 
-    cvs.onmousedown = function(e) {
-      drag = true;
-      lx = e.clientX;
-      ly = e.clientY;
+    this.cvs.onmousedown = (e) => {
+      this.drag = true;
+      this.lx = e.clientX;
+      this.ly = e.clientY;
     };
-    cvs.onmouseup = function(e) {
-      drag = false;
+    this.cvs.onmouseup = () => {
+      this.drag = false;
     };
-    cvs.onmousemove = function(e) {
-      if(drag) {
+    this.cvs.onmousemove = (e) => {
+      if(this.drag) {
         const eX = e.clientX;
-        if(aspShift) {
-          changeAspectRatio(lx - eX);
-          lx = eX;
+        if(this.aspShift) {
+          this.changeAspectRatio(this.lx - eX);
+          this.lx = eX;
         } else {
           const eY = e.clientY;
-          moveRelatively(lx - eX, eY - ly);
-          lx = eX;
-          ly = eY;
+          this.moveRelatively(this.lx - eX, eY - this.ly);
+          this.lx = eX;
+          this.ly = eY;
         }
       }
     };
   }
 
-  function removeMouseEvent() {
-    cvs.onwheel = '';
-    cvs.onmousedown = '';
-    cvs.onmouseup = '';
-    cvs.onmousemove = '';
+  removeMouseEvent() {
+    this.cvs.onwheel = '';
+    this.cvs.onmousedown = '';
+    this.cvs.onmouseup = '';
+    this.cvs.onmousemove = '';
   }
 
-  function updateXYFromWH() {
-    as = h / w;
-    cx = Math.floor(w / 2) + Number(x);
-    cy = Math.floor(h / 2) + Number(y);
+  updateXYFromWH() {
+    this.as = this.h / this.w;
+    this.cx = Math.floor(this.w / 2) + Number(this.x);
+    this.cy = Math.floor(this.h / 2) + Number(this.y);
   }
 
-  function updateXYFromCenter () {
-    x = cx - Math.floor(w / 2);
-    y = cy - Math.floor(h / 2);
+  updateXYFromCenter () {
+    this.x = this.cx - Math.floor(this.w / 2);
+    this.y = this.cy - Math.floor(this.h / 2);
   }
 
-  function update() {
-    updateXYFromCenter();
-    if(isInitalized ) {
-      ViewConfig.setConf({ x:x, y:y, w:w, h:h });
+  update() {
+    this.updateXYFromCenter();
+    if(this.isInitalized ) {
+      ViewConfig.setConf({ x:this.x, y:this.y, w:this.w, h:this.h });
       //XXX
       ViewConfig.save();
     } else {
-      initConf();
+      this.initConf();
     }
   }
 
-  function initConf() {
-    const cf = ViewConfig.conf();
-    if( cf.hasOwnProperty('w')) {
-      w = cf.w;
-      h = cf.h;
-      x = cf.x;
-      y = cf.y;
-      validateWH();
-      updateXYFromWH();
-      updateXYFromCenter();
-      isInitalized = true;
+  initConf() {
+    const conf = ViewConfig.conf();
+    if( conf.hasOwnProperty('w')) {
+      this.w = conf.w;
+      this.h = conf.h;
+      this.x = conf.x;
+      this.y = conf.y;
+      this.validateWH();
+      this.updateXYFromWH();
+      this.updateXYFromCenter();
+      this.isInitalized = true;
       return;
     }
 
-    if(getCurrentImage()) {
-      const c = getCurrentImage();
-      w = c.naturalWidth;
-      h = c.naturalHeight;
-      validateWH();
-      updateXYFromWH();
-      updateXYFromCenter();
-      isInitalized = true;
+    if(this.getCurrentImage()) {
+      const img = this.getCurrentImage();
+      this.w = img.naturalWidth;
+      this.h = img.naturalHeight;
+      this.validateWH();
+      this.updateXYFromWH();
+      this.updateXYFromCenter();
+      this.isInitalized = true;
     }
   }
 
-  return {
-    init:init,
-    addMouseEvent:addMouseEvent,
-    removeMouseEvent:removeMouseEvent,
-    toggleAspBtn:toggleAspectShiftMode,
-    changeRegionCB:changeRegionCB,
-    zoomIOCB:zoomIOCB,
-    moveRegionCB:moveRegionCB,
-    dbg:dbg,
-    update:update,
-  };
-})();
-
-global.CalibrateController = CalibrateController;
-module.exports = CalibrateController;
+}

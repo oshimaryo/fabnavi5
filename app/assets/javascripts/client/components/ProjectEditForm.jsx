@@ -1,11 +1,9 @@
 
 import React from 'react';
-import { Link, Route } from 'react-router';
-
-import ProjectActionCreator from '../actions/ProjectActionCreator';
 import Debug from 'debug';
 
 const debug = Debug('fabnavi:jsx:ProjectEditForm');
+
 export default class ProjectEditForm extends React.Component {
 
   constructor(props) {

@@ -1,8 +1,7 @@
 import React from 'react';
-import { Route } from 'react-router';
+import Debug from 'debug';
 
 import ProjectActionCreator from '../actions/ProjectActionCreator';
-import Debug from 'debug';
 
 const debug = Debug('fabnavi:jsx:CreateProject');
 class CreateProject extends React.Component {

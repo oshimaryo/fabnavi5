@@ -6,8 +6,6 @@ import MainView from '../player/MainView';
 import ViewConfig from '../player/ViewConfig';
 import Action from '../actions/ProjectActionCreator';
 
-import { Route, RouteHandler, Link, DefaultRoute } from 'react-router';
-
 import Debug from 'debug';
 
 const debug = Debug('fabnavi:jsx:Player');
@@ -23,6 +21,7 @@ class Player extends React.Component {
   render() {
     return (
       <div>
+        <h1> main canvas </h1>
         <canvas ref="mainCanvas" />
       </div>
     );
@@ -119,11 +118,11 @@ class Player extends React.Component {
       }
 
       switch(_currentState) {
-        case'calibrateCenter':
+        case 'calibrateCenter':
           MainView.showCalibrateCenterLine();
           MainView.showCenterInstruction();
           break;
-        case'calibrateScale':
+        case 'calibrateScale':
           MainView.showCalibrateScaleLine();
           MainView.showScaleInstruction();
           break;

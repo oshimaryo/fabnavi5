@@ -9,7 +9,8 @@ const debug = Debug('fabnavi:player:canvas');
 const MainView = function() {
   let cvs,
       ctx,
-      currentImage = null;
+      currentImage = null,
+      calibrator;
 
   function reset() {
     if(ctx != null)clear();
@@ -23,7 +24,7 @@ const MainView = function() {
     reset();
     initCanvas(canvasElement);
 
-    CalibrateController.init( canvasElement, getCurrentImage );
+    calibrator = new CalibrateController( canvasElement, getCurrentImage );
     ViewConfig.init();
     clear();
   }

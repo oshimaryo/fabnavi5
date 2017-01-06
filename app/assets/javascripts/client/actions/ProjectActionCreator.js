@@ -1,10 +1,8 @@
+import ActionTypes from '../constants/ActionTypes';
+import AppDispatcher from '../dispatcher/AppDispatcher';
+import WebAPIUtils from '../utils/WebAPIUtils';
 
-const
-    ActionTypes = require('../constants/ActionTypes'),
-    AppDispatcher = require('../dispatcher/AppDispatcher'),
-    WebAPIUtils = require('../utils/WebAPIUtils');
-
-const ProjectActionCreator = {
+export default {
 
   getAllProjects : function( ) {
     AppDispatcher.dispatch({
@@ -110,4 +108,3 @@ const ProjectActionCreator = {
 
 };
 
-module.exports = ProjectActionCreator;

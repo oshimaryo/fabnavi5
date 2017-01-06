@@ -12,6 +12,9 @@
   "plugins": [
     "react"
   ],
+  "globals": {
+    "api": false
+  },
   "rules": {
     "keyword-spacing": [
       2,
@@ -21,6 +24,7 @@
         "overrides": {
           "import": {"after": true, "before": false},
           "from": {"after": true, "before": true},
+          "case": {"after": true, "before": false},
           "else": {"after": true, "before": true},
           "return": {"after": true, "before": true},
           "catch": {"after": false, "before": true},
@@ -31,6 +35,7 @@
       2,
       { "before": false, "after": true } 
     ],
+    "react/jsx-uses-vars": 2,
     "no-irregular-whitespace": 2,
     "block-spacing": [
       2,
@@ -84,7 +89,10 @@
     "no-redeclare": 2,
     "no-return-assign": 2,
     "no-unused-expressions": 2,
-//    "no-unused-vars": 2,
+    "no-unused-vars": [
+      2,
+      {"varsIgnorePattern": "debug"}
+    ],
     "no-cond-assign": 2,
     "no-constant-condition": 2,
     "no-control-regex": 2,
@@ -95,7 +103,7 @@
     "no-empty-character-class": 2,
     "no-empty": 2,
     "no-ex-assign": 2,
-    "no-extra-parens": 2,
+//    "no-extra-parens": 2,
     "no-func-assign": 2,
     "no-inner-declarations": 2,
     "no-invalid-regexp": 2,

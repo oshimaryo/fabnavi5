@@ -1,7 +1,6 @@
 import React from 'react';
 import Debug from 'debug';
 
-import ProjectActionCreator from '../actions/ProjectActionCreator';
 import { sanitizeProject } from '../utils/projectUtils';
 
 const debug = Debug('fabnavi:jsx:ProjectElement');

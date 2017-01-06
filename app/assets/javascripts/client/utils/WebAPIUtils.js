@@ -1,15 +1,9 @@
-'use strict';
-
 import axios from 'axios';
 import Debug from 'debug';
 
 const debug = Debug('fabnavi:api');
 
 let _dispatch = null, _store = null;
-
-
-const ProjectServerActionCreator = require('../actions/ProjectServerActionCreator');
-const ServerActionCreator = require('../actions/ServerActionCreator');
 
 function clearHeader() {
   localStorage.removeItem('header');
@@ -20,7 +14,7 @@ function genHeader() {
   const user = _store.getState().user;
   if(user.isLoggedIn) {
     return user.credential;
-  } 
+  }
 
   // TODO: throw error action to reducer
   debug('this is credential needed request, but credential is not found');
@@ -33,17 +27,17 @@ const WebAPIUtils = {
     _store = store;
 
     const maybeCredential = this.loadCredential();
-    if (maybeCredential) {
+    if(maybeCredential) {
       this.getCurrentUserInfo(maybeCredential)
-      .catch(error => { debug("error to login ", error) });
+      .catch(error => { debug('error to login ', error) });
     }
   },
 
   loadCredential: function () {
-    try {
-      return JSON.parse(localStorage.getItem("credentail"));
+    try{
+      return JSON.parse(localStorage.getItem('credentail'));
     } catch(e) {
-      debug("Failed to load credential");
+      debug('Failed to load credential');
       return null;
     }
   },
@@ -57,11 +51,11 @@ const WebAPIUtils = {
       headers,
       url : '/api/v1/current_user.json'
     })
-    .then(res => { 
+    .then(res => {
       _dispatch({
         type: 'SIGNED_IN',
         credential: headers
-      });      
+      });
     });
   },
 
@@ -74,10 +68,10 @@ const WebAPIUtils = {
       url : '/api/v1/projects/' + id + '.json'
     })
     .then(({ data }) => {
-        _dispatch({
-          type: 'RECEIVE_PROJECT',
-          project: data
-        });
+      _dispatch({
+        type: 'RECEIVE_PROJECT',
+        project: data
+      });
     });
   },
 
@@ -127,7 +121,7 @@ const WebAPIUtils = {
         }
       },
       headers : genHeader(),
-      method : 'post',  
+      method : 'post',
       url : '/api/v1/projects.json'
     })
     .then(res => {

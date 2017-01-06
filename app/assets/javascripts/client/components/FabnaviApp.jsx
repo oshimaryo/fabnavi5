@@ -5,15 +5,12 @@ import { Provider } from 'react-redux';
 import Debug from 'debug';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
-import Navigation from './Navigation';
-import SearchBar from './SearchBar';
 import ProjectList from './ProjectList';
 import ProjectManager from './ProjectManager';
 import Player from './Player';
 import CreateProject from './CreateProject';
 import EditProject from './EditProject';
 import ProjectDetail from './ProjectDetail';
-import WebAPIUtils from '../utils/WebAPIUtils';
 
 import reducer from '../reducers/index';
 import { handleKeyDown } from '../actions/KeyActionCreator';

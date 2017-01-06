@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import Debug from 'debug';
 
 import Action from '../actions/ProjectActionCreator';
-import ProjectActionCreator from '../actions/ProjectActionCreator';
-import EditContent from './EditContent';
 import ProjectEditForm from './ProjectEditForm';
 import { sanitizeProject } from '../utils/projectUtils';
 

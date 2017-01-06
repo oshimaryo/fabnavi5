@@ -17,7 +17,7 @@ class MenuIcon extends React.Component {
       if(this.props.hasOwnProperty('act')) {
         const host = window.location.origin;
         const url = `${host}/auth/github?auth_origin_url=${host}`;
-        const win = window.open(url);
+        window.open(url);
         window.addEventListener('message', (e) => {
           if(e.origin === window.location.origin) {
             try{
@@ -70,6 +70,6 @@ function mapDispatchToProps(dispatch) {
   }
 }
 function saveCredential(cred) {
-  localStorage.setItem("credentail", JSON.stringify(cred));
+  localStorage.setItem('credentail', JSON.stringify(cred));
 }
 export default connect(mapStateToProps, mapDispatchToProps)(MenuIcon);

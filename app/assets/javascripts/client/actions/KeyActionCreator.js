@@ -1,7 +1,7 @@
 import Debug from 'debug';
+import { browserHistory } from 'react-router';
 
 const debug = Debug('fabnavi:actions:keys');
-import { browserHistory } from 'react-router';
 
 export function handleKeyDown(store) {
   return event => {
@@ -74,7 +74,7 @@ export function handleKeyDown(store) {
           changePlayerMode(store, payload);
           break;
         case 27:
-          browserHistory.push("/");
+          browserHistory.push('/');
           exitPlayer(store, payload);
           break;
         default:
