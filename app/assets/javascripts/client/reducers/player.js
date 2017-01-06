@@ -9,7 +9,13 @@ const initialState = {
   mode: 'play', // play, calibrateCenter, calibrateScale, etc...
   contentType: 'photo',
   page: 0,
-  project: null
+  project: null,
+  config: {
+    x: 0,
+    y: 0,
+    w: 1000,
+    h: 1000
+  }
 }
 
 export default function playerReducer(state = initialState, action) {
@@ -25,6 +31,10 @@ export default function playerReducer(state = initialState, action) {
       return Object.assign({}, state, {
         project: action.project,
       });
+    case 'UPDATE_CALIBRATION':
+      return Object.assign({}, state, {
+        config: action.config
+      });
     case 'PLAYER_EXIT':
       return initialState;
     case 'PLAYER_CHANGE_MODE':
@@ -39,7 +49,7 @@ export default function playerReducer(state = initialState, action) {
 
 
 function nextMode(state) {
-  let index = PlayerModes.indexOf(state.player.mode) + 1;
+  let index = PlayerModes.indexOf(state.mode) + 1;
   if(index >= PlayerModes.length) {
     index = 0;
   }

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import Debug from 'debug';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
@@ -13,11 +13,12 @@ import EditProject from './EditProject';
 import ProjectDetail from './ProjectDetail';
 
 import reducer from '../reducers/index';
+import adjustor from '../middleware/adjustor';
 import { handleKeyDown } from '../actions/KeyActionCreator';
 
 const debug = Debug('fabnavi:jsx:FabnaviApp');
 
-const store = createStore(reducer);
+const store = createStore(reducer, applyMiddleware(adjustor) );
 const onEnterFrame = frame => {
   return (nextState, replace, callback) => {
     store.dispatch({

@@ -3,38 +3,37 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 
 import MainView from '../player/MainView';
-import ViewConfig from '../player/ViewConfig';
 import Action from '../actions/ProjectActionCreator';
 
 import Debug from 'debug';
 
 const debug = Debug('fabnavi:jsx:Player');
 
-let
-    _currentImage = null,
-    lastPage = 0,
-    _lastState = '',
-    _currentState = '';
 
 class Player extends React.Component {
-
-  render() {
-    return (
-      <div>
-        <h1> main canvas </h1>
-        <canvas ref="mainCanvas" />
-      </div>
-    );
-  }
 
   constructor(props) {
     super(props);
     this.clearCanvas = () => {
-      MainView.clear();
+      this.canvas.clear();
     };
+    this.canvas = null;
+    this.currentImage = null,
+    this.lastPage = 0,
+    this.lastState = '',
+    this.currentState = '';
+
     this.updateCanvas = this.updateCanvas.bind(this);
     this.video = document.createElement('video');
     this.renderingTimer = null;
+  }
+
+  render() {
+    return (
+      <div>
+        <canvas ref="mainCanvas" />
+      </div>
+    );
   }
 
   updateCanvas() {
@@ -55,7 +54,7 @@ class Player extends React.Component {
       }
       if(this.props.playing) {
         this.renderingTimer = setInterval(() => {
-          MainView.render(this.video);
+          this.canvas.render(this.video);
         }, 30);
         this.video.play();
       } else {
@@ -66,21 +65,21 @@ class Player extends React.Component {
       return;
     }
 
-    _currentState = this.props.mode;
-    if( _currentState != _lastState ) {
-      MainView.clear();
+    this.currentState = this.props.mode;
+    if( this.currentState != this.lastState ) {
+      this.canvas.clear();
     }
-    _lastState = _currentState;
+    this.lastState = this.currentState;
 
     const getCurrentImage = () => {
       return new Promise((resolve, reject) => {
-        if( lastPage === this.props.page && _currentImage != null ) {
-          resolve(_currentImage);
+        if( this.lastPage === this.props.page && this.currentImage != null ) {
+          resolve(this.currentImage);
           return;
         }
 
         const fig = this.props.project.content[this.props.page].figure;
-        lastPage = this.props.page;
+        this.lastPage = this.props.page;
         if(fig.hasOwnProperty('clientContent') && fig.clientContent.hasOwnProperty('dfdImage')) {
           fig.clientContent.dfdImage
           .then(img => {
@@ -91,10 +90,10 @@ class Player extends React.Component {
         }
 
         const img = new Image();
-        MainView.redraw();
-        MainView.showWaitMessage();
-        if(lastPage === 0) {
-          MainView.showInstructionMessage();
+        this.canvas.redraw();
+        this.canvas.drawWaitingMessage();
+        if(this.lastPage === 0) {
+          this.canvas.drawInstructionMessage();
         }
         img.src = fig.file.file.url;
         img.onload = (event) => {
@@ -106,25 +105,21 @@ class Player extends React.Component {
 
     getCurrentImage()
     .then((img, crop) => {
-      _currentImage = img;
-      if(crop) {
-        ViewConfig.setCropped(true);
-        MainView.clear();
-      }
-      MainView.draw(_currentImage);
+      this.currentImage = img;
+      this.canvas.draw(this.currentImage, this.props.config);
 
-      if(lastPage === 0) {
-        MainView.showInstructionMessage();
+      if(this.lastPage === 0) {
+        this.canvas.drawInstructionMessage();
       }
 
-      switch(_currentState) {
+      switch(this.currentState) {
         case 'calibrateCenter':
-          MainView.showCalibrateCenterLine();
-          MainView.showCenterInstruction();
+          this.canvas.drawCalibrateCenterLine();
+          this.canvas.drawCenterInstruction();
           break;
         case 'calibrateScale':
-          MainView.showCalibrateScaleLine();
-          MainView.showScaleInstruction();
+          this.canvas.drawCalibrateScaleLine();
+          this.canvas.drawScaleInstruction();
           break;
         default:
           break;
@@ -146,7 +141,7 @@ class Player extends React.Component {
   }
 
   componentDidMount() {
-    MainView.init( ReactDOM.findDOMNode(this.refs.mainCanvas));
+    this.canvas = new MainView( ReactDOM.findDOMNode(this.refs.mainCanvas));
   }
 
   componentDidUpdate() {

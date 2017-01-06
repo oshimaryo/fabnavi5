@@ -63,30 +63,86 @@ export function handleKeyDown(store) {
           break;
       }
     } else if(state.frame === 'player') {
-      switch(event.keyCode) {
-        case 37:
-          changePage(store, payload, state, -1);
-          break;
-        case 39:
-          changePage(store, payload, state, 1);
-          break;
-        case 67:
-          changePlayerMode(store, payload);
-          break;
-        case 27:
-          browserHistory.push('/');
-          exitPlayer(store, payload);
-          break;
-        default:
-          break;
+      if(state.player.mode === 'play') {
+        switch(event.keyCode) {
+          case 37:
+            changePage(store, payload, state, -1);
+            break;
+          case 39:
+            changePage(store, payload, state, 1);
+            break;
+          case 67:
+            changePlayerMode(store, payload);
+            break;
+          case 27:
+            exitPlayer(store, payload);
+            break;
+          default:
+            break;
+        }
+      } else if(state.player.mode === 'calibrateCenter') {
+        switch(event.keyCode) {
+          case 37:
+            calibrate(store, payload, "MOVE_LEFT");
+            break;
+          case 38:
+            calibrate(store, payload, "MOVE_UP");
+            break;
+          case 39:
+            calibrate(store, payload, "MOVE_RIGHT");
+            break;
+          case 40:
+            calibrate(store, payload, "MOVE_DOWN");
+            break;
+          case 67:
+            changePlayerMode(store, payload);
+            break;
+          case 27:
+            exitPlayer(store, payload);
+            break;
+          default:
+            break;
+        }
+      } else if(state.player.mode === 'calibrateScale') {
+        switch(event.keyCode) {
+          case 37:
+            calibrate(store, payload, "LONGER_HORIZONTAL");
+            break;
+          case 39:
+            calibrate(store, payload, "SHORTER_HORIZONTAL");
+            break;
+          case 38:
+            calibrate(store, payload, "LONGER_VERTICAL");
+            break;
+          case 40:
+            calibrate(store, payload, "SHORTER_VERTICAL");
+            break;
+          case 67:
+            changePlayerMode(store, payload);
+            break;          case 27:
+            exitPlayer(store, payload);
+            break;
+          default:
+            break;
+        }
       }
+
     }
   };
+}
+
+function calibrate(store, action, command) {
+  action.type = "CALIBRATE";
+  action.command = command;
+  action.step = action.shift ? 10 : 1;
+  debug("Calibrate: ", command);
+  store.dispatch(action);
 }
 
 function exitPlayer(store, action) {
   action.type = 'PLAYER_EXIT';
   store.dispatch(action);
+  browserHistory.push('/');
 }
 
 function changePlayerMode(store, action) {

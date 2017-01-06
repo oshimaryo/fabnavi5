@@ -1,7 +1,5 @@
 import Debug from 'debug';
 
-import ViewConfig from '../player/ViewConfig';
-
 const debug = Debug('fabnavi:player:CalibrateController');
 
 export default class CalibrateController {
@@ -10,10 +8,10 @@ export default class CalibrateController {
     this.y = 0;
     this.w = 1000;
     this.h = 1000;
-    this.cx = 0;
-    this.cy = 0;
-    this.lx = 0;
-    this.ly = 0;
+    this.cx = window.screen.width / 2;
+    this.cy = window.screen.height / 2;
+    this.lx = window.screen.width;
+    this.ly = window.screen.height;
     this.drag = false;
     this.zi = false;
     this.zo = false;
@@ -23,8 +21,42 @@ export default class CalibrateController {
     this.isInitalized = false;
     this._isCalibrateLocked = false;
     this.getCurrentImage = null;
+    this.update();
   }
 
+  initWithConfig(conf) {
+    if( conf.hasOwnProperty('w')) {
+      this.w = conf.w;
+      this.h = conf.h;
+      this.x = conf.x;
+      this.y = conf.y;
+  
+      this.validateWH();
+      this.updateXYFromWH();
+      this.updateXYFromCenter();
+      this.isInitalized = true;
+    }
+  }
+
+  initWithImage(img) {
+    this.w = img.naturalWidth;
+    this.h = img.naturalHeight;
+    this.validateWH();
+    this.updateXYFromWH();
+    this.updateXYFromCenter();
+    this.isInitalized = true;
+  }
+
+  init ( canvas ) {
+    if (canvas) {
+     this.cvs = canvas;
+    }
+    this.lx = canvas.clientWidth;
+    this.ly = canvas.clientHeight;
+
+    this.updateXYFromWH();
+    this.update();
+  }
 
   isCalibrationLocked() {
     return this._isCalibrateLocked;
@@ -64,31 +96,28 @@ export default class CalibrateController {
     this.updateXYFromWH();
   }
 
-  changeRegionCB(_w, _h) {
-    return () => {
-      this.w += _w;
-      this.h += _h;
-      this.validateWH();
-      this.update();
-      this.updateXYFromWH();
-    }
+  changeRegion(_w, _h) {
+    this.w += _w;
+    this.h += _h;
+    this.validateWH();
+    this.update();
+    this.updateXYFromWH();
+    return this.getConfig();
   }
 
-  zoomIOCB(_w, _h) {
-    return () => {
-      this.w = this.w * _w;
-      this.h = this.h * _h;
-      this.validateWH();
-      this.update();
-      this.updateXYFromWH();
-    }
+  zoomIO(_w, _h) {
+    this.w = this.w * _w;
+    this.h = this.h * _h;
+    this.validateWH();
+    this.update();
+    this.updateXYFromWH();
+    return this.getConfig();
   }
 
 
-  moveRegionCB(_dx, _dy) {
-    return () => {
-      this.moveRelatively(_dx, _dy);
-    }
+  moveRegion(_dx, _dy) {
+    this.moveRelatively(_dx, _dy);
+    return this.getConfig();
   }
 
   validateWH() {
@@ -102,29 +131,6 @@ export default class CalibrateController {
     this.update();
   }
 
-  loadFromViewConfig() {
-    const conf = ViewConfig.conf();
-    this.x = conf.x || 0;
-    this.y = conf.y || 0;
-    this.w = conf.w || 1000;
-    this.h = conf.h || 1000;
-    this.validateWH();
-  }
-
-  init ( canvas, currentImageFn ) {
-    this.cvs = canvas;
-    this.getCurrentImage = currentImageFn;
-
-    setInterval(() => {
-      if(this.zi)this.zoomIn();
-      if(this.zo)this.zoomOut();
-    }, 50);
-    this.lx = this.cvs.clientWidth;
-    this.ly = this.cvs.clientHeight;
-    this.loadFromViewConfig();
-    this.updateXYFromWH();
-    this.update();
-  }
 
   toggleAspectShiftMode() {
     this.aspShift = !this.aspShift;
@@ -133,6 +139,11 @@ export default class CalibrateController {
   addMouseEvent() {
     if(this.isCalibrationLocked()) {
       this.removeMouseEvent();
+      return -1;
+    }
+
+    if (!this.cvs){ 
+      debug("target canvas not found")
       return -1;
     }
 
@@ -180,38 +191,17 @@ export default class CalibrateController {
 
   update() {
     this.updateXYFromCenter();
-    if(this.isInitalized ) {
-      ViewConfig.setConf({ x:this.x, y:this.y, w:this.w, h:this.h });
-      //XXX
-      ViewConfig.save();
-    } else {
-      this.initConf();
+    if(!this.isInitalized ) {
+      debug("Not Initialized");
     }
   }
 
-  initConf() {
-    const conf = ViewConfig.conf();
-    if( conf.hasOwnProperty('w')) {
-      this.w = conf.w;
-      this.h = conf.h;
-      this.x = conf.x;
-      this.y = conf.y;
-      this.validateWH();
-      this.updateXYFromWH();
-      this.updateXYFromCenter();
-      this.isInitalized = true;
-      return;
-    }
-
-    if(this.getCurrentImage()) {
-      const img = this.getCurrentImage();
-      this.w = img.naturalWidth;
-      this.h = img.naturalHeight;
-      this.validateWH();
-      this.updateXYFromWH();
-      this.updateXYFromCenter();
-      this.isInitalized = true;
-    }
+  getConfig() {
+    return {
+      x: this.x,
+      y: this.y,
+      w: this.w,
+      h: this.h
+    };
   }
-
 }
