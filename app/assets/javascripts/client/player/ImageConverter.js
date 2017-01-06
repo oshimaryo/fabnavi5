@@ -20,7 +20,7 @@ const ImageConverter = function() {
     ImageConverter.drawImage(img, cvs, ViewConfig.conf());
     cvs.toBlob(function(blob) {
       d.resolve(blob);
-    }, "image/jpeg", QUALITY);
+    }, 'image/jpeg', QUALITY);
     return d.promise();
   }
 
@@ -39,7 +39,7 @@ const ImageConverter = function() {
         dw = cvs.width,
         dh = cvs.height;
 
-    ctx.fillStyle = "black";
+    ctx.fillStyle = 'black';
 
     if(sy < 0) {
       const StoDh = dh / sh;

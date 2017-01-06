@@ -14,13 +14,13 @@ const ViewConfig = function() {
   function setLocalData(key, jsonData) {
     const data = {};
     if(!isCropped) {
-      data["play"] = jsonData;
+      data['play'] = jsonData;
       const res = getLocalData(key);
-      if(res && res.hasOwnProperty("add"))data["add"] = res.add;
+      if(res && res.hasOwnProperty('add'))data['add'] = res.add;
     } else {
-      data["add"] = jsonData;
+      data['add'] = jsonData;
       const res = getLocalData(key);
-      if(res && res.hasOwnProperty("play"))data["play"] = res.play;
+      if(res && res.hasOwnProperty('play'))data['play'] = res.play;
     }
     const d = JSON.stringify(data);
     localStorage.setItem(key, d);
@@ -32,20 +32,20 @@ const ViewConfig = function() {
   }
 
   function getLocalConfig() {
-    const id = "ProjectId";
+    const id = 'ProjectId';
     let res = getLocalData(id);
-    res = res || "";
+    res = res || '';
 
     if(!isCropped) {
-      _conf = res.play || "";
+      _conf = res.play || '';
     } else {
-      _conf = res.add || "";
+      _conf = res.add || '';
     }
   }
 
   function setLocalConfig(id) {
-    if(_conf == "") {
-      alert("there is no config");
+    if(_conf == '') {
+      alert('there is no config');
       return false;
     }
     setLocalData(id, _conf);

@@ -1,6 +1,6 @@
 import Debug from 'debug';
 
-const debug = Debug("fabnavi:player:CalibrateController");
+const debug = Debug('fabnavi:player:CalibrateController');
 const ViewConfig = require('../player/ViewConfig');
 let getCurrentImage = null;
 
@@ -27,14 +27,14 @@ const CalibrateController = (function () {
   }
 
   function dbg() {
-    debug("x: " + x);
-    debug("y: " + y);
-    debug("w: " + w);
-    debug("h: " + h);
-    debug("cx: " + cx);
-    debug("cy: " + cy);
-    debug("lx: " + lx);
-    debug("ly: " + ly);
+    debug('x: ' + x);
+    debug('y: ' + y);
+    debug('w: ' + w);
+    debug('h: ' + h);
+    debug('cx: ' + cx);
+    debug('cy: ' + cy);
+    debug('lx: ' + lx);
+    debug('ly: ' + ly);
   }
 
   function zoomIn(_shift) {
@@ -157,10 +157,10 @@ const CalibrateController = (function () {
   }
 
   function removeMouseEvent() {
-    cvs.onwheel = "";
-    cvs.onmousedown = "";
-    cvs.onmouseup = "";
-    cvs.onmousemove = "";
+    cvs.onwheel = '';
+    cvs.onmousedown = '';
+    cvs.onmouseup = '';
+    cvs.onmousemove = '';
   }
 
   function updateXYFromWH() {
@@ -187,7 +187,7 @@ const CalibrateController = (function () {
 
   function initConf() {
     const cf = ViewConfig.conf();
-    if( cf.hasOwnProperty("w")) {
+    if( cf.hasOwnProperty('w')) {
       w = cf.w;
       h = cf.h;
       x = cf.x;

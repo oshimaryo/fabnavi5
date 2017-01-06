@@ -13,7 +13,7 @@ const initialState = {
       uid: '',
     }
   },
-  frame: 'manager',
+  frame: location.pathname.split('/')[1] === 'play' ? 'player' : 'manager',
   manager: {
     projects: [],
     project: null,
@@ -29,7 +29,10 @@ const initialState = {
     }
   },
   player: {
-    mode: 'play'
+    mode: 'play', // play, calibrateCenter, calibrateScale, etc...
+    contentType: 'photo',
+    page: 0,
+    project: null
   },
   errors: []
 };
@@ -73,8 +76,14 @@ export default function reducer(state = initialState, action) {
       });
     case'RECEIVE_PROJECT':
       return Object.assign({}, state, {
-        manager: Object.assign({}, state.manager, {
+        [state.frame]: Object.assign({}, state[state.frame], {
           project: action.project,
+        })
+      });
+    case'PLAYER_CHANGE_PAGE':
+      return Object.assign({}, state, {
+        player: Object.assign({}, state.player, {
+          page: action.page,
         })
       });
     default:

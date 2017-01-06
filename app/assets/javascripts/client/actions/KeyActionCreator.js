@@ -62,8 +62,42 @@ export function handleKeyDown(store) {
         default:
           break;
       }
+    } else if(state.frame === 'player') {
+      switch(event.keyCode) {
+        case 37:
+          changePage(store, payload, state, -1);
+          break;
+        case 39:
+          changePage(store, payload, state, 1);
+          break;
+        case 27:
+          // TODO: need to cleanup project in state
+          debug('go back');
+          browserHistory.goBack();
+          break;
+        default:
+          break;
+      }
     }
   };
+}
+
+function changePage(store, action, state, step) {
+  let page = state.player.page + step;
+  const project = state.player.project;
+  if( !project.hasOwnProperty('content') ) {
+    return;
+  }
+  if( page >= project.content.length ) {
+    page = project.content.length - 1;
+  }
+
+  if( page < 0 ) {
+    page = 0;
+  }
+  action.type = 'PLAYER_CHANGE_PAGE';
+  action.page = page;
+  store.dispatch(action);
 }
 
 function fireMenuAction(store, action, state) {
