@@ -15,7 +15,7 @@ import ProjectDetail from './ProjectDetail';
 import reducer from '../reducers/index';
 import adjustor from '../middleware/adjustor';
 import { handleKeyDown } from '../actions/KeyActionCreator';
-
+import WebAPIUtils from '../utils/WebAPIUtils';
 const debug = Debug('fabnavi:jsx:FabnaviApp');
 
 const store = createStore(reducer, applyMiddleware(adjustor) );
@@ -43,6 +43,8 @@ const routes = (
     </Router>
   </Provider>
 );
+
+window.api = WebAPIUtils;
 
 window.addEventListener('DOMContentLoaded', () => {
   const url = window.location.href;

@@ -1,13 +1,9 @@
-
 import React from 'react';
-import { Route, Link } from 'react-router';
-
-import ProjectActionCreator from '../actions/ProjectActionCreator';
 import Debug from 'debug';
 
 const debug = Debug('fabnavi:jsx:EditContent');
 
-class EditContent extends React.Component {
+export default class EditContent extends React.Component {
 
   constructor(props) {
     super(props)
@@ -41,7 +37,8 @@ class EditContent extends React.Component {
   registId(id) {
     let flag = true;
     debug('click picture : ' + id);
-    for(var i = 0; i < this.props.id_array.length; i++) {
+    let i;
+    for(i = 0; i < this.props.id_array.length; i++) {
       if(this.props.id_array[i] == id) {
         this.props.id_array.splice(i, 1);
         flag = !flag;

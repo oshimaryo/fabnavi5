@@ -8,7 +8,7 @@ window.calibrator = calibrator;
 export default store => next => action => {
 
   // TODO: load localStorage.
-  if ( action.type === "CHANGE_FRAME" && action.frame === "player") {
+  if( action.type === 'CHANGE_FRAME' && action.frame === 'player') {
     action.type = 'UPDATE_CALIBRATION';
     action.config = calibrator.getConfig();
     next(action);

@@ -30,7 +30,7 @@ export default class CalibrateController {
       this.h = conf.h;
       this.x = conf.x;
       this.y = conf.y;
-  
+
       this.validateWH();
       this.updateXYFromWH();
       this.updateXYFromCenter();
@@ -48,8 +48,8 @@ export default class CalibrateController {
   }
 
   init ( canvas ) {
-    if (canvas) {
-     this.cvs = canvas;
+    if(canvas) {
+      this.cvs = canvas;
     }
     this.lx = canvas.clientWidth;
     this.ly = canvas.clientHeight;
@@ -142,8 +142,8 @@ export default class CalibrateController {
       return -1;
     }
 
-    if (!this.cvs){ 
-      debug("target canvas not found")
+    if(!this.cvs) {
+      debug('target canvas not found')
       return -1;
     }
 
@@ -192,7 +192,7 @@ export default class CalibrateController {
   update() {
     this.updateXYFromCenter();
     if(!this.isInitalized ) {
-      debug("Not Initialized");
+      debug('Not Initialized');
     }
   }
 

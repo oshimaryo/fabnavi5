@@ -5,11 +5,6 @@ const debug = Debug('fabnavi:api');
 
 let _dispatch = null, _store = null;
 
-function clearHeader() {
-  localStorage.removeItem('header');
-  localStorage.removeItem('currentUserInfo');
-}
-
 function genHeader() {
   const user = _store.getState().user;
   if(user.isLoggedIn) {
@@ -21,7 +16,7 @@ function genHeader() {
   return null;
 }
 
-const WebAPIUtils = {
+export default {
   init: function(store) {
     _dispatch = store.dispatch;
     _store = store;
@@ -29,7 +24,9 @@ const WebAPIUtils = {
     const maybeCredential = this.loadCredential();
     if(maybeCredential) {
       this.getCurrentUserInfo(maybeCredential)
-      .catch(error => { debug('error to login ', error) });
+      .catch(error => {
+        debug('error to login ', error)
+      });
     }
   },
 
@@ -51,7 +48,7 @@ const WebAPIUtils = {
       headers,
       url : '/api/v1/current_user.json'
     })
-    .then(res => {
+    .then(() => {
       _dispatch({
         type: 'SIGNED_IN',
         credential: headers
@@ -112,11 +109,11 @@ const WebAPIUtils = {
     return axios({
       responseType : 'json',
       data : {
-        project : {
-          name : name,
-          content_attributes : {
-            description : description,
-            type : 'Content::PhotoList'
+        'project' : {
+          'name' : name,
+          'content_attributes' : {
+            'description' : description,
+            'type' : 'Content::PhotoList'
           }
         }
       },
@@ -196,39 +193,7 @@ const WebAPIUtils = {
     });
   },
 
-  likeProject : function( id ) {
-    debug('likeProject');
-  },
-
-  unlikeProject : function( id ) {
-    debug('unlikeProject');
-  },
-
-  likeFigure : function( project_id, figure_id ) {
-    debug('likeFigure');
-  },
-
-  unlikeFigure : function( project_id, figure_id ) {
-    debug('unlikeFigure');
-  },
-
-  getCalibrations : function( page, perPage, offset ) {
-    debug('getCalibrations');
-  },
-
-  createCalibration : function( name, x, y, width, height ) {
-    debug('createCalibrations');
-  },
-
-  updateCalibration: function( name, x, y, width, height ) {
-    debug('updateCalibrations');
-  },
-
-  deleteCalibration : function( id ) {
-    debug('deleteCalibrations');
-  },
-
-  uploadFile : function( file, name, sym ) {
+  uploadFile : function( file, name ) {
     debug('uploadFile');
 
     const fd = new FormData();
@@ -247,7 +212,3 @@ const WebAPIUtils = {
     debug('Not Implemented yet');
   }
 };
-
-
-global.api = WebAPIUtils;
-module.exports = WebAPIUtils;

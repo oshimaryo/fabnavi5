@@ -1,7 +1,5 @@
 import Debug from 'debug';
 
-import CalibrateController from '../player/CalibrateController';
-
 const debug = Debug('fabnavi:player:canvas');
 
 export default class MainView {
@@ -235,11 +233,11 @@ export default class MainView {
   }
 
   toBlob(img, conf) {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const cvs = document.createElement('canvas');
       cvs.width = img.naturalWidth;
       cvs.height = img.naturalHeight;
-      this_draw(img, cvs.getContext('2d'), conf);
+      this._draw(img, cvs.getContext('2d'), conf);
       cvs.toBlob(blob => {
         resolve(blob);
       }, 'image/jpeg', this.convertQuality);

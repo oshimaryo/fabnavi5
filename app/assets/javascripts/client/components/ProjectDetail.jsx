@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Debug from 'debug';
 
-import Action from '../actions/ProjectActionCreator';
 import { sanitizeProject } from '../utils/projectUtils';
 const debug = Debug('fabnavi:jsx:ProjectDetail');
 
@@ -52,7 +51,7 @@ class ProjectDetail extends React.Component {
     debug(this.props);
     if(!this.props.manager.project) {
       debug('project not loaded!');
-      Action.getProject({ id: location.pathname.split('/')[2] });
+      api.getProject(location.pathname.split('/')[2]);
     }
   }
 }

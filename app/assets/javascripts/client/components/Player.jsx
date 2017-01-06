@@ -1,11 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
+import Debug from 'debug';
 
 import MainView from '../player/MainView';
-import Action from '../actions/ProjectActionCreator';
-
-import Debug from 'debug';
 
 const debug = Debug('fabnavi:jsx:Player');
 
@@ -104,7 +102,7 @@ class Player extends React.Component {
     };
 
     getCurrentImage()
-    .then((img, crop) => {
+    .then(img => {
       this.currentImage = img;
       this.canvas.draw(this.currentImage, this.props.config);
 
@@ -134,8 +132,9 @@ class Player extends React.Component {
   componentWillMount() {
     if(!this.props.project) {
       debug('project not loaded!');
+      // TODO: wait for credential
       setTimeout( () => {
-        Action.getProject({ id: location.pathname.split('/')[2] });
+        api.getProject(location.pathname.split('/')[2]);
       }, 1000);
     }
   }

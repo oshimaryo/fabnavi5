@@ -83,16 +83,16 @@ export function handleKeyDown(store) {
       } else if(state.player.mode === 'calibrateCenter') {
         switch(event.keyCode) {
           case 37:
-            calibrate(store, payload, "MOVE_LEFT");
+            calibrate(store, payload, 'MOVE_LEFT');
             break;
           case 38:
-            calibrate(store, payload, "MOVE_UP");
+            calibrate(store, payload, 'MOVE_UP');
             break;
           case 39:
-            calibrate(store, payload, "MOVE_RIGHT");
+            calibrate(store, payload, 'MOVE_RIGHT');
             break;
           case 40:
-            calibrate(store, payload, "MOVE_DOWN");
+            calibrate(store, payload, 'MOVE_DOWN');
             break;
           case 67:
             changePlayerMode(store, payload);
@@ -106,20 +106,20 @@ export function handleKeyDown(store) {
       } else if(state.player.mode === 'calibrateScale') {
         switch(event.keyCode) {
           case 37:
-            calibrate(store, payload, "LONGER_HORIZONTAL");
+            calibrate(store, payload, 'LONGER_HORIZONTAL');
             break;
           case 39:
-            calibrate(store, payload, "SHORTER_HORIZONTAL");
+            calibrate(store, payload, 'SHORTER_HORIZONTAL');
             break;
           case 38:
-            calibrate(store, payload, "LONGER_VERTICAL");
+            calibrate(store, payload, 'LONGER_VERTICAL');
             break;
           case 40:
-            calibrate(store, payload, "SHORTER_VERTICAL");
+            calibrate(store, payload, 'SHORTER_VERTICAL');
             break;
           case 67:
             changePlayerMode(store, payload);
-            break;          case 27:
+            break; case 27:
             exitPlayer(store, payload);
             break;
           default:
@@ -132,10 +132,10 @@ export function handleKeyDown(store) {
 }
 
 function calibrate(store, action, command) {
-  action.type = "CALIBRATE";
+  action.type = 'CALIBRATE';
   action.command = command;
   action.step = action.shift ? 10 : 1;
-  debug("Calibrate: ", command);
+  debug('Calibrate: ', command);
   store.dispatch(action);
 }
 

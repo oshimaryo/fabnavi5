@@ -4,7 +4,7 @@ module.exports = {
 
   cache: true,
 
-  entry: "./app/assets/javascripts/client/fabnavi.js",
+  entry: "./app/assets/javascripts/client/components/FabnaviApp.jsx",
   output: {
     path: __dirname + '/app/assets/javascripts/dist/client/',
     filename: "bundle.js"

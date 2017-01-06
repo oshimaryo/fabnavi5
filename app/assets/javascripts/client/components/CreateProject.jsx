@@ -1,10 +1,9 @@
 import React from 'react';
 import Debug from 'debug';
 
-import ProjectActionCreator from '../actions/ProjectActionCreator';
-
 const debug = Debug('fabnavi:jsx:CreateProject');
-class CreateProject extends React.Component {
+
+export default class CreateProject extends React.Component {
 
   constructor(props) {
     super(props);
@@ -23,12 +22,8 @@ class CreateProject extends React.Component {
     this.setState({ description : e.target.value });
   }
 
-  handleSubmit(e) {
-    ProjectActionCreator.createProject({
-      name : this.state.name,
-      description : this.state.description,
-      contentAttributesType : 'Content::PhotoList'
-    });
+  handleSubmit() {
+    api.createProject(this.state.name, 'Content::PhotoList', this.state.description);
   }
 
   render() {
@@ -74,5 +69,3 @@ class CreateProject extends React.Component {
       );
   }
 }
-
-export default CreateProject;

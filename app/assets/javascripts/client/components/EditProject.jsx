@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Debug from 'debug';
 
-import Action from '../actions/ProjectActionCreator';
 import ProjectEditForm from './ProjectEditForm';
 import { sanitizeProject } from '../utils/projectUtils';
 
@@ -46,7 +45,7 @@ class EditProject extends React.Component {
   componentWillMount() {
     if(!this.props.manager.project) {
       debug('project not loaded!');
-      Action.getProject({ id: location.pathname.split('/')[2] });
+      api.getProject(location.pathname.split('/')[2]);
     }
   }
 }
