@@ -1,9 +1,13 @@
-import NavigationViewActionCreator from '../actions/NavigationViewActionCreator';
 import React from 'react';
+
+import NavigationViewActionCreator from '../actions/NavigationViewActionCreator';
 
 export default class SearchBar extends React.Component {
   constructor(props) {
     super(props);
+    this.handleChange = (event) => {
+      NavigationViewActionCreator.search('', event.target.value);
+    };
   }
 
   render () {
@@ -19,9 +23,5 @@ export default class SearchBar extends React.Component {
         </div>
       </section>
       );
-  }
-
-  handleChange( event ) {
-    NavigationViewActionCreator.search( "", event.target.value );
   }
 }

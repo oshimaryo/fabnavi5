@@ -5,7 +5,7 @@ import { Route, Link } from 'react-router';
 import ProjectActionCreator from '../actions/ProjectActionCreator';
 import Debug from 'debug';
 
-const debug = Debug("fabnavi:jsx:EditContent");
+const debug = Debug('fabnavi:jsx:EditContent');
 
 class EditContent extends React.Component {
 
@@ -33,14 +33,14 @@ class EditContent extends React.Component {
     if(this.state.flag) {
       this.setState({ src:this.props.src });
     } else {
-      this.setState({ src:"/images/kaffcop_icon/delete_content.png" });
+      this.setState({ src:'/images/kaffcop_icon/delete_content.png' });
     }
     return;
   }
 
   registId(id) {
     let flag = true;
-    debug("click picture : " + id);
+    debug('click picture : ' + id);
     for(var i = 0; i < this.props.id_array.length; i++) {
       if(this.props.id_array[i] == id) {
         this.props.id_array.splice(i, 1);

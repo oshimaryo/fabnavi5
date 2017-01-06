@@ -13,15 +13,15 @@ import WebAPIUtils from '../utils/WebAPIUtils';
 import State from '../utils/FabnaviStateMachine';
 import Debug from 'debug';
 
-const debug = Debug("fabnavi:jsx:Player");
+const debug = Debug('fabnavi:jsx:Player');
 let
     currentFile = null,
     _currentImage = null,
     pageChanged = true,
     lastPage = 0,
     _lastPage = 0,
-    _lastState = "",
-    _currentState = "";
+    _lastState = '',
+    _currentState = '';
 
 class Player extends React.Component {
 
@@ -47,7 +47,7 @@ class Player extends React.Component {
     this.getStateFromStores = this.getStateFromStores.bind(this);
     this.state = this.getStateFromStores();
     this.props = {};
-    this.video = document.createElement("video");
+    this.video = document.createElement('video');
     this.renderingTimer = null;
   }
 
@@ -56,8 +56,8 @@ class Player extends React.Component {
     _currentImage = null;
     pageChanged = true;
     lastPage = 0;
-    _lastState = "";
-    _currentState = "";
+    _lastState = '';
+    _currentState = '';
     MainView.reset();
   }
 
@@ -112,8 +112,8 @@ class Player extends React.Component {
       return 0;
     }
 
-    if( this.state.project.type === "movie") {
-      if(this.video.src === "") {
+    if( this.state.project.type === 'movie') {
+      if(this.video.src === '') {
         this.video.width = window.screen.width;
         this.video.height = window.screen.height;
         this.video.src = this.state.project.content[0].figure.file.file.url;
@@ -142,10 +142,10 @@ class Player extends React.Component {
       if(lastPage <= 0) {
         MainView.showInstructionMessage();
       }
-      if( _currentState.includes("calibrateCenter") ) {
+      if( _currentState.includes('calibrateCenter') ) {
         MainView.showCalibrateCenterLine();
         MainView.showCenterInstruction();
-      } else if(_currentState.includes("calibrateScale") ) {
+      } else if(_currentState.includes('calibrateScale') ) {
         MainView.showCalibrateScaleLine();
         MainView.showScaleInstruction();
       }
@@ -154,7 +154,7 @@ class Player extends React.Component {
 
     const fig = this.state.project.content[this.state.page].figure;
     lastPage = this.state.page;
-    if(fig.hasOwnProperty("clientContent") && fig.clientContent.hasOwnProperty("dfdImage")) {
+    if(fig.hasOwnProperty('clientContent') && fig.clientContent.hasOwnProperty('dfdImage')) {
       fig.clientContent.dfdImage.then(function(img) {
         ViewConfig.setCropped(true);
         MainView.clear();
@@ -177,23 +177,23 @@ class Player extends React.Component {
           MainView.showInstructionMessage();
         }
         _currentImage = img;
-        if( _currentState.includes("calibrateCenter") ) {
+        if( _currentState.includes('calibrateCenter') ) {
           MainView.showCalibrateCenterLine();
           MainView.showCenterInstruction();
-        } else if(_currentState.includes("calibrateScale") ) {
+        } else if(_currentState.includes('calibrateScale') ) {
           MainView.showCalibrateScaleLine();
           MainView.showScaleInstruction();
         }
       }
       img.onerror = function(err) {
-        debug("Image load error : ", err, img);
+        debug('Image load error : ', err, img);
         throw new Error(err);
       }
     }
-    if( _currentState.includes("calibrateCenter") ) {
+    if( _currentState.includes('calibrateCenter') ) {
       MainView.showCalibrateCenterLine();
       MainView.showCenterInstruction();
-    } else if(_currentState.includes("calibrateScale") ) {
+    } else if(_currentState.includes('calibrateScale') ) {
       MainView.showCalibrateScaleLine();
       MainView.showScaleInstruction();
     }
@@ -213,7 +213,7 @@ class Player extends React.Component {
     ProjectStore.addChangeListener(this._onChange);
     ProjectStore.addCanvasRequestListener(this._onCanvasUpdate);
     ProjectStore.addCanvasClearListener(this._onCanvasClear);
-    State.transition("player");
+    State.transition('player');
   }
 
   componentWillUpdate() {

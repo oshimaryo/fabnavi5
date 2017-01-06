@@ -1,7 +1,4 @@
-//createProject.react.jsでつかわれている。
-//Player.react.js
-//ProjectElement.react.js
-//Projectの作成や編集など。
+
 const
     ActionTypes = require('../constants/ActionTypes'),
     AppDispatcher = require('../dispatcher/AppDispatcher'),

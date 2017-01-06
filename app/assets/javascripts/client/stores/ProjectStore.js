@@ -1,7 +1,7 @@
 import Debug from 'debug';
 
 const
-    debug = Debug("fabnavi:store:project"),
+    debug = Debug('fabnavi:store:project'),
     $ = require('jquery'),
     AppDispatcher = require('../dispatcher/AppDispatcher'),
     EventEmitter = require('events'),
@@ -61,7 +61,7 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
     let i;
     for(i = 0; i < _uploadQueue.length; i++) {
       if(_uploadQueue[i].sym == sym) {
-        _uploadQueue[i].status = "Error";
+        _uploadQueue[i].status = 'Error';
         ProjectStore.emitChange();
       }
     }
@@ -83,7 +83,7 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
   setPage : function(page) {
     let _page = page;
     _currentPage = _page;
-    if( !_project.hasOwnProperty("content") ) {
+    if( !_project.hasOwnProperty('content') ) {
       return;
     }
     if( page >= _project.content.length ) {
@@ -96,20 +96,20 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
     _currentPage = _page;
 
 
-    debug("_page : ", _page);
-    if(_project.content[_page].figure.hasOwnProperty("_destroy") &&
+    debug('_page : ', _page);
+    if(_project.content[_page].figure.hasOwnProperty('_destroy') &&
       _project.content[_page].figure._destroy) {
-      debug("******DELETE FLAG*********");
+      debug('******DELETE FLAG*********');
     }
     ProjectStore.emitChange();
   },
 
   setProject : function( project ) {
     _project = project;
-    if( _project.content.length > 0 && _project.content[0].type === "Figure::Frame" ) {
-      _project["type"] = "movie";
+    if( _project.content.length > 0 && _project.content[0].type === 'Figure::Frame' ) {
+      _project['type'] = 'movie';
     } else {
-      _project["type"] = "photo";
+      _project['type'] = 'photo';
     }
     this.emitChange();
   },
@@ -137,24 +137,24 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
   },
 
   toggleDestroy : function() {
-    if( _project.content[_currentPage].figure.hasOwnProperty("_destroy") ) {
+    if( _project.content[_currentPage].figure.hasOwnProperty('_destroy') ) {
       _project.content[_currentPage].figure._destroy = !_project.content[_currentPage].figure._destroy;
     } else {
-      _project.content[_currentPage].figure["_destroy"] = true;
+      _project.content[_currentPage].figure['_destroy'] = true;
     }
     this.emitChange();
   },
 
   toggleDestroyContent:function() {
-    debug("toggletoggle");
+    debug('toggletoggle');
     debug(_project.content.length);
     debug(_delContent.length);
     for(let i = 0; i < _project.content.length; i++) {
       for(let j = 0; j < _delContent.length; j++) {
         if(_project.content[i].figure.figure_id == _delContent[j]) {
           debug(_project.content[i].figure.file.file.thumb.url);
-          _project.content[i].figure["_destroy"] = true;
-          debug(_project.content[i].figure["_destroy"]);
+          _project.content[i].figure['_destroy'] = true;
+          debug(_project.content[i].figure['_destroy']);
         }
       }
     }
@@ -170,12 +170,12 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
   },
 
   backToHome:function() {
-    if(location.hash.includes("#/manager/detail")) {
-      location.hash = "#/manager";
-    } else if(location.hash.includes("#/manager/edit")) {
-      location.hash = "#/mamager/myprojects";
+    if(location.hash.includes('#/manager/detail')) {
+      location.hash = '#/manager';
+    } else if(location.hash.includes('#/manager/edit')) {
+      location.hash = '#/mamager/myprojects';
     } else {
-      location.hash = "#/manager";
+      location.hash = '#/manager';
     }
   },
 
@@ -228,7 +228,7 @@ const ProjectStore = Object.assign({}, EventEmitter.prototype, {
     } else if( fig.figure.file.file.url ) {
       src = fig.figure.file.file.url;
     } else {
-      throw new Error("Figure url is not set");
+      throw new Error('Figure url is not set');
     }
 
     const img = new Image();
@@ -381,7 +381,7 @@ ProjectStore.dispatchToken = AppDispatcher.register(function( action ) {
       break;
 
     case KeyActionTypes.EXIT_PROJECT:
-      location.hash = "#/manager";
+      location.hash = '#/manager';
       break;
 
     case ActionTypes.PROJECT_RECEIVE:
@@ -393,7 +393,7 @@ ProjectStore.dispatchToken = AppDispatcher.register(function( action ) {
 
     case ActionTypes.PROJECT_CREATE_SUCCESS:
     case ActionTypes.PROJECT_PLAY:
-      location.hash = "#/project/play/" + action.id;
+      location.hash = '#/project/play/' + action.id;
       ProjectStore.init();
       break;
     case ActionTypes.UPLOAD_ATTACHMENT_SUCCESS :
@@ -409,11 +409,11 @@ ProjectStore.dispatchToken = AppDispatcher.register(function( action ) {
       ProjectStore.uploadFailed( action.result.sym );
       break;
     case ActionTypes.PROJECT_DETAIL:
-      debug("PROJECT_DETAIL");
-      location.hash = "#/manager/detail/" + action.id;
+      debug('PROJECT_DETAIL');
+      location.hash = '#/manager/detail/' + action.id;
       break;
     case ActionTypes.PROJECT_EDIT:
-      location.hash = "#/manager/edit/" + action.id;
+      location.hash = '#/manager/edit/' + action.id;
       break;
     case ActionTypes.EDIT_CONTENT:
       _project = action.project;
@@ -427,7 +427,7 @@ ProjectStore.dispatchToken = AppDispatcher.register(function( action ) {
         });
       }, 0);
       setTimeout(function() {
-        location.hash = "#/manager/myprojects";
+        location.hash = '#/manager/myprojects';
       }, 0);
       break;
     case ActionTypes.EDIT_TITLE:
@@ -435,7 +435,7 @@ ProjectStore.dispatchToken = AppDispatcher.register(function( action ) {
       _name = action.name;
       _description = action.description;
       _private = action.private;
-      debug("ProjectStore: " + _name);
+      debug('ProjectStore: ' + _name);
       ProjectStore.changeTitle();
       setTimeout(function() {
         ProjectActionCreator.updateProject({
@@ -443,7 +443,7 @@ ProjectStore.dispatchToken = AppDispatcher.register(function( action ) {
         });
       }, 0);
       setTimeout(function() {
-        location.hash = "#/manager/myprojects";
+        location.hash = '#/manager/myprojects';
       }, 0);
 
       break;

@@ -1,6 +1,6 @@
 import Debug from 'debug';
 
-const debug = Debug("fabnavi:store:list");
+const debug = Debug('fabnavi:store:list');
 const
     AppDispatcher = require('../dispatcher/AppDispatcher'),
     EventEmitter = require('events'),
@@ -12,7 +12,7 @@ let
     _projects = [],
     initProjects = [],
     searchProjects = [],
-    projectsType = "";
+    projectsType = '';
 
 const ProjectListStore = Object.assign({}, EventEmitter.prototype, {
   init : function() {
@@ -23,7 +23,7 @@ const ProjectListStore = Object.assign({}, EventEmitter.prototype, {
   },
 
   loadProjects : function() {
-    if(location.hash == "#/manager/myprojects") {
+    if(location.hash == '#/manager/myprojects') {
       ProjectActionCreator.getOwnProjects();
     } else {
       ProjectActionCreator.getAllProjects();
@@ -31,10 +31,10 @@ const ProjectListStore = Object.assign({}, EventEmitter.prototype, {
   },
 
   setProjectsType : function() {
-    if(location.hash == "#/manager/myprojects") {
-      projectsType = "myProjects";
+    if(location.hash == '#/manager/myprojects') {
+      projectsType = 'myProjects';
     } else {
-      projectsType = "allProjects";
+      projectsType = 'allProjects';
     }
   },
 
@@ -52,7 +52,7 @@ const ProjectListStore = Object.assign({}, EventEmitter.prototype, {
 
   initProjects : function(projects) {
     initProjects = projects;
-    debug("init : " + initProjects.length);
+    debug('init : ' + initProjects.length);
   },
 
   setProjects : function( projects ) {
@@ -77,7 +77,7 @@ const ProjectListStore = Object.assign({}, EventEmitter.prototype, {
     const re = new RegExp(searchText, 'i');
     searchProjects = [];
 
-    if(searchText === "") {
+    if(searchText === '') {
       _project = initProjects;
     } else {
       let i;

@@ -1,18 +1,16 @@
 import React from 'react';
 import { Route } from 'react-router';
 
-import ProjectListStore from '../stores/ProjectListStore';
 import ProjectActionCreator from '../actions/ProjectActionCreator';
-import State from '../utils/FabnaviStateMachine';
 import Debug from 'debug';
 
-const debug = Debug("fabnavi:jsx:CreateProject");
+const debug = Debug('fabnavi:jsx:CreateProject');
 class CreateProject extends React.Component {
 
   constructor(props) {
     super(props);
     this.props = {};
-    this.state = { name : "", description: "" };
+    this.state = { name : '', description: '' };
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,7 +28,7 @@ class CreateProject extends React.Component {
     ProjectActionCreator.createProject({
       name : this.state.name,
       description : this.state.description,
-      contentAttributesType : "Content::PhotoList"
+      contentAttributesType : 'Content::PhotoList'
     });
   }
 
@@ -69,7 +67,6 @@ class CreateProject extends React.Component {
                 type="submit"
                 value="CreateProject"
                 onClick={this.handleSubmit} />
-
             </div>
           </div>
         </form>
@@ -77,28 +74,6 @@ class CreateProject extends React.Component {
 
       );
   }
-
-  componentWillMount() {
-
-  }
-
-  componentDidMount() {
-    State.reload();
-  }
-
-  componentWillUpdate() {
-    return {
-    };
-  }
-
-  componentDidUpdate() {
-    return {
-    };
-  }
-
-  componentWillUnmount() {
-  }
-
 }
 
 export default CreateProject;

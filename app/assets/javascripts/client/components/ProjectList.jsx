@@ -2,12 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Debug from 'debug';
 
-import ProjectListStore from '../stores/ProjectListStore';
 import ProjectElement from '../components/ProjectElement';
 import ProjectActionCreator from '../actions/ProjectActionCreator';
-import State from '../utils/FabnaviStateMachine';
 
-const debug = Debug("fabnavi:jsx:ProjectList");
+const debug = Debug('fabnavi:jsx:ProjectList');
 class ProjectList extends React.Component {
 
   constructor(props) {
@@ -20,6 +18,7 @@ class ProjectList extends React.Component {
         selector = this.props.manager.selector,
         projectElements = []
         ;
+
     let i;
     for(i in projects) {
       projectElements.push(
@@ -37,25 +36,6 @@ class ProjectList extends React.Component {
         {projectElements}
       </div>
     );
-  }
-
-  componentWillMount() {
-  }
-
-  componentDidMount() {
-  }
-
-  componentWillUpdate() {
-  }
-
-
-  componentDidUpdate() {
-  }
-
-  componentWillReceiveProps() {
-  }
-
-  componentWillUnmount() {
   }
 }
 

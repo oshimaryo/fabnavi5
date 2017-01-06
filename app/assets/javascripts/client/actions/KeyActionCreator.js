@@ -1,11 +1,11 @@
 import Debug from 'debug';
 
-const FSM = require('../utils/FabnaviStateMachine');
-const debug = Debug("fabnavi:actions:keys");
+const debug = Debug('fabnavi:actions:keys');
+import { browserHistory } from 'react-router';
 
 export function handleKeyDown(store) {
   return event => {
-    if( event.target.nodeName == "INPUT" || event.target.nodeName == "TEXTAREA") return;
+    if( event.target.nodeName == 'INPUT' || event.target.nodeName == 'TEXTAREA') return;
     if(event.metaKey) return 0;
     event.preventDefault();
     event.stopped = true;
@@ -17,11 +17,11 @@ export function handleKeyDown(store) {
       alt     : event.altKey,
       meta    : event.metaKey,
       shift   : event.shiftKey,
-      type    : "NOT_REGISTER",
+      type    : 'NOT_REGISTER',
     };
 
     const state = store.getState();
-    if(state.frame === "manager") {
+    if(state.frame === 'manager') {
       const selector = state.manager.selector;
       payload.selector = selector;
       switch(event.keyCode) {
@@ -54,7 +54,7 @@ export function handleKeyDown(store) {
           break;
         case 13:
           if(selector.openMenu) {
-            fireMenuAction(store, payload);
+            fireMenuAction(store, payload, state);
           } else {
             openMenu(store, payload);
           }
@@ -63,32 +63,33 @@ export function handleKeyDown(store) {
           break;
       }
     }
-    FSM.consume( payload );
   };
 }
 
-function fireMenuAction(store, action) {
-  action.type = "FIRE_MENU_ACTION";
+function fireMenuAction(store, action, state) {
+  action.type = 'FIRE_MENU_ACTION';
+  action.selector.openMenu = false;
   store.dispatch(action);
+  browserHistory.push(`/${state.manager.selector.action}/${state.manager.project.id}`);
 }
 
 function openMenu(store, action) {
   action.selector.openMenu = true;
   action.selector.menuIndex = 0;
-  action.type = "SELECT_PROJECT_MENU";
+  action.type = 'SELECT_PROJECT_MENU';
   store.dispatch(action);
 }
 
 function closeMenu(store, action) {
   action.selector.openMenu = false;
-  action.type = "SELECT_PROJECT_MENU";
+  action.type = 'SELECT_PROJECT_MENU';
   store.dispatch(action);
 }
 
 function moveMenuSelector(store, action, index) {
   // TODO: sanitize menu index.
   action.selector.menuIndex = action.selector.menuIndex + index;
-  action.type = "SELECT_PROJECT_MENU";
+  action.type = 'SELECT_PROJECT_MENU';
   store.dispatch(action);
 }
 
@@ -103,7 +104,7 @@ function moveSelector(store, action, x, y) {
     row,
     index: row * 4 + col
   });
-  action.type = "SELECT_PROJECT";
+  action.type = 'SELECT_PROJECT';
   store.dispatch(action);
 }
 

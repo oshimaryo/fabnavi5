@@ -10,7 +10,6 @@ import ProjectList from './ProjectList';
 import ProjectManager from './ProjectManager';
 import Player from './Player';
 import Footer from './Footer';
-import Frame from './Frame';
 import CreateProject from './CreateProject';
 import EditProject from './EditProject';
 import ProjectDetail from './ProjectDetail';
@@ -20,43 +19,38 @@ import ServerActionCreator from '../actions/ServerActionCreator';
 import reducer from '../reducers/index';
 import { handleKeyDown } from '../actions/KeyActionCreator';
 
-const debug = Debug("fabnavi:jsx:FabnaviApp");
-import { Router, Route, IndexRoute, Redirect, hashHistory } from 'react-router';
-const transit = React.createClass({
-  render : function() { return null }
-});
+const debug = Debug('fabnavi:jsx:FabnaviApp');
+import { Router, Route, IndexRedirect, IndexRoute, Redirect, browserHistory } from 'react-router';
 
 const store = createStore(reducer);
 
 const routes = (
   <Provider store={store}>
-    <Router history={hashHistory}>
-      <Route components={Frame} path="/">
-        <IndexRoute component={ProjectManager} />
-        <Redirect from="/" to="manager" />
-        <Route components={ProjectManager} path="manager" >
-        <IndexRoute component={ProjectList} />
+    <Router history={browserHistory}>
+        <Route components={ProjectManager} path="/" >
+          <IndexRoute component={ProjectList} />
           <Route component={ProjectList} path="myprojects" />
           <Route component={CreateProject} path="create"/>
-          <Route component={transit} path="transit"/>
           <Route component={EditProject} path="edit/:projectId" />
           <Route component={ProjectDetail} path="detail/:projectId" />
         </Route>
-        <Route components={Player} path="project/play/:projectId" />
-      </Route>
+        <Route components={Player} path="/play/:projectId" />
     </Router>
   </Provider>
 );
+window.browserHistory = browserHistory;
+window.addEventListener('DOMContentLoaded', () => {
 
-window.addEventListener("DOMContentLoaded", () => {
-  ProjectStore.init();
-  ReactDOM.render(routes, document.querySelector("#mount-point"));
+  // ProjectStore.init();
+  debug('init App', store);
+  api.setDispatch(store.dispatch);
+  api.getAllProjects();
+  ReactDOM.render(routes, document.querySelector('#mount-point'));
 
   if(WebAPIUtils.isSigningIn()) {
     const uid = WebAPIUtils.isSigningIn.uid;
     ServerActionCreator.signIn(uid);
   }
 
-  api.setDispatch(store.dispatch);
-  window.addEventListener("keydown", handleKeyDown(store));
+  window.addEventListener('keydown', handleKeyDown(store));
 });

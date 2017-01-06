@@ -110,7 +110,7 @@
     "one-var": [0, "always"],
     "operator-linebreak": [2, "after"],
     "operator-assignment": [2, "always"],
-    "quotes": [0, "single"],
+    "quotes": [2, "single"],
     "semi-spacing": [2, {"before": false, "after":true}],
     "space-in-parens": [0, "never"],
     "space-before-blocks": [1, "always"],
