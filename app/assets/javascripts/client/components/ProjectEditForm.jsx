@@ -12,12 +12,21 @@ export default class ProjectEditForm extends React.Component {
     super(props);
     const project = this.props.project;
 
-    this.onClick = () => {
+    this.onClick = (e) => {
+      e.preventDefault();
       api.updateProject(Object.assign({}, project, {
         name: this.state.name,
         description: this.state.description,
         private: this.state.private
-      }));
+      }))
+      .then(res => {
+        debug('upload success: ', res);
+        api.getAllProjects();
+      })
+      .catch(err => {
+        debug('Error from UpdateProject');
+        debug(err);
+      });
       return;
     };
 
@@ -36,7 +45,7 @@ export default class ProjectEditForm extends React.Component {
     this.state = {
       name:project.name,
       description:project.description,
-      private: project.isPrivate
+      private: project.private
     };
   }
 

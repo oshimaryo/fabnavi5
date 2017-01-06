@@ -6,11 +6,11 @@ const MenuActions = [
 ];
 const initialState = {
   user: {
-    uid: '',
     isLoggedIn: false,
-    _secret: {
+    credential: {
       accessToken: '',
-      client: ''
+      client: '',
+      uid: '',
     }
   },
   frame: 'manager',
@@ -30,12 +30,19 @@ const initialState = {
   },
   player: {
     mode: 'play'
-  }
+  },
+  errors: []
 };
 
 export default function reducer(state = initialState, action) {
-  debug(state, action);
   switch(action.type) {
+    case'SIGNED_IN':
+      return Object.assign({}, state, {
+        user: Object.assign({}, state.user, {
+          isLoggedIn: true,
+          credential: action.credential
+        })
+      });
     case'SELECT_PROJECT':
       return Object.assign({}, state, {
         manager: Object.assign({}, state.manager, {
@@ -71,6 +78,16 @@ export default function reducer(state = initialState, action) {
         })
       });
     default:
+      if(action.type.includes('FAILED')) {
+        debug(action);
+        return Object.assign({}, state, {
+          errors: state.errrors.concat({
+            message: action.message,
+            error: action.error,
+            time: action.time
+          })
+        });
+      }
       return state;
   }
 }

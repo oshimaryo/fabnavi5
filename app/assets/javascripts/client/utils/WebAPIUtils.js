@@ -1,138 +1,91 @@
 'use strict';
-const ProjectServerActionCreator = require('../actions/ProjectServerActionCreator');
-const ServerActionCreator = require('../actions/ServerActionCreator');
-const $ = require('jquery');
-let _accessToken = null,
-    _client = null,
-    _uid = null;
 
-const DEVELOPMENT = true;
+import axios from 'axios';
 import Debug from 'debug';
 
 const debug = Debug('fabnavi:api');
 
-function setHeader() {
-  localStorage.setItem('header', JSON.stringify({
-    'Client'        : _client,
-    'Uid'           : _uid,
-    'AccessToken'  : _accessToken
-  }));
-}
+let _dispatch = null, _store = null;
+
+
+const ProjectServerActionCreator = require('../actions/ProjectServerActionCreator');
+const ServerActionCreator = require('../actions/ServerActionCreator');
 
 function clearHeader() {
   localStorage.removeItem('header');
   localStorage.removeItem('currentUserInfo');
 }
 
-function loadHeader() {
-  let header = localStorage.getItem('header');
-
-  if( header == null || !DEVELOPMENT) {
-    return null;
-  }
-
-  try{
-    header = JSON.parse(header);
-    _client = header.Client;
-    _uid = header.Uid;
-    _accessToken = header.AccessToken;
-    setTimeout(function() {
-      ServerActionCreator.signIn(_uid);
-    }, 0);
-    return header;
-  } catch(e) {
-    throw new Error('ERROR. JSON.parse failed');
-  }
-}
-
 function genHeader() {
-  loadHeader();
-  if( _client == null || _uid == null || _accessToken == null) {
-    return {};
-  }
+  const user = _store.getState().user;
+  if(user.isLoggedIn) {
+    return user.credential;
+  } 
 
-  return {
-    'Client'        : _client,
-    'Uid'           : _uid,
-    'Access-Token'  : _accessToken
-  };
+  // TODO: throw error action to reducer
+  debug('this is credential needed request, but credential is not found');
+  return null;
 }
-let _dispatch = null;
+
 const WebAPIUtils = {
-  setDispatch: function(dispatch) {
-    debug('Dispatch function set');
-    _dispatch = dispatch;
+  init: function(store) {
+    _dispatch = store.dispatch;
+    _store = store;
+
+    const maybeCredential = this.loadCredential();
+    if (maybeCredential) {
+      this.getCurrentUserInfo(maybeCredential)
+      .catch(error => { debug("error to login ", error) });
+    }
   },
 
-  getCurrentUserInfo : function() {
-    debug('getCurrentUserInfo');
-
-    $.ajax({
-      dataType : 'json',
-      type : 'GET',
-      success : function(res) {
-        localStorage.setItem('currentUserInfo', JSON.stringify({
-          'Id'        : res.id,
-          'Uid'           : res.uid
-        }));
-      },
-      error : function(err) {
-        debug('Error from getCurrentUserID');
-        debug(err);
-      },
-      headers : genHeader(),
-      url : '/api/v1/current_user.json'
-    });
-  },
-
-  loadCurrentUserId : function() {
-    let currentUser = localStorage.getItem('currentUserInfo');
-    if( currentUser == null || !DEVELOPMENT) {
+  loadCredential: function () {
+    try {
+      return JSON.parse(localStorage.getItem("credentail"));
+    } catch(e) {
+      debug("Failed to load credential");
       return null;
     }
+  },
 
-    try{
-      currentUser = JSON.parse(currentUser);
-      return currentUser.Id;
-    } catch(e) {
-      throw new Error('ERROR. JSON.parse failed');
-    }
+  getCurrentUserInfo : function(headers) {
+    debug('getCurrentUserInfo');
+
+    return axios({
+      responseType : 'json',
+      type : 'GET',
+      headers,
+      url : '/api/v1/current_user.json'
+    })
+    .then(res => { 
+      _dispatch({
+        type: 'SIGNED_IN',
+        credential: headers
+      });      
+    });
   },
 
   getProject : function( id ) {
     debug('getProject : ', id);
-
-    $.ajax({
-      dataType : 'json',
+    return axios({
+      responseType : 'json',
       type : 'GET',
-      success : function(project) {
-        _dispatch({
-          type: 'RECEIVE_PROJECT',
-          project
-        });
-      },
-      error : function(err) {
-        debug('Error from getProject');
-        debug(err);
-      },
       headers : genHeader(),
       url : '/api/v1/projects/' + id + '.json'
+    })
+    .then(({ data }) => {
+        _dispatch({
+          type: 'RECEIVE_PROJECT',
+          project: data
+        });
     });
   },
 
   getOwnProjects : function( uid ) {
     debug('getOwnProjects : ', uid);
-
-    $.ajax({
-      dataType : 'json',
-      type : 'GET',
-      success : function(res) {
-        ProjectServerActionCreator.receiveProjects( res );
-      },
-      error : function(err) {
-        debug('Error from getOwnProjects');
-        debug(err);
-      },
+    return axios({
+      responseType : 'json',
+      method : 'GET',
       headers : genHeader(),
       url : '/api/v1/users/' + uid + '/projects.json'
     });
@@ -140,51 +93,30 @@ const WebAPIUtils = {
 
   getAllProjects : function( page, perPage, offset ) {
     debug('getAllProjects');
-    const
-        _page = page || 0,
-        _perPage = perPage || 20,
-        _offset = offset || 0;
-
-    $.ajax({
-      dataType : 'json',
+    return axios({
+      responseType : 'json',
       data : {
-        page : _page,
-        perPage : _perPage,
-        offset : _offset
+        page : page || 0,
+        perPage : perPage || 20,
+        offset : offset || 0
       },
-      type : 'GET',
-      success : function(projects) {
-        _dispatch({
-          type: 'RECEIVE_PROJECTS',
-          projects: projects,
-          kind: 'all'
-        });
-      },
-      error : function(err) {
-        debug('Error from getAllProjects');
-        debug(err);
-      },
+      method : 'GET',
       url : '/api/v1/projects.json'
-
+    })
+    .then(({ data }) => {
+      _dispatch({
+        type: 'RECEIVE_PROJECTS',
+        projects: data,
+        kind: 'all'
+      });
     });
   },
 
-  isSigningIn : function() {
-    const url = window.location.href;
-    if(url.includes('uid') && url.includes('client_id') && url.includes('auth_token')) {
-      const token = url.match(/auth_token=([a-zA-Z0-9\-]*)/)[1];
-      const uid = url.match(/uid=([a-zA-Z0-9\-]*)/)[1];
-      const client_id = url.match(/client_id=([a-zA-Z0-9\-]*)/)[1];
-      WebAPIUtils.signedIn(token, uid, client_id);
-      window.location.href = window.location.href.split('/')[0] + '/#manager';
-    }
-    return !!loadHeader();
-  },
 
   createProject : function( name, contentAttributesType, description) {
     debug('createProject');
-    $.ajax({
-      dataType : 'json',
+    return axios({
+      responseType : 'json',
       data : {
         project : {
           name : name,
@@ -195,22 +127,16 @@ const WebAPIUtils = {
         }
       },
       headers : genHeader(),
-      type : 'post',
-      success : function(res) {
-        ProjectServerActionCreator.createProjectSuccess( res );
-        WebAPIUtils.updateProject({
-          id: res.id,
-          name: res.name,
-          content : [],
-          description : description,
-        });
-      },
-      error : function(err) {
-        debug('Error from Create Project');
-        debug(err);
-      },
+      method : 'post',  
       url : '/api/v1/projects.json'
-
+    })
+    .then(res => {
+      this.updateProject({
+        id: res.id,
+        name: res.name,
+        content : [],
+        description : description,
+      });
     });
   },
 
@@ -219,33 +145,23 @@ const WebAPIUtils = {
     const fd = new FormData();
     fd.append('project[name]', project.name);
     fd.append('project[figure_id]', project.content[project.content.length - 1].figure.figure_id);
-    $.ajax({
-      dataType : 'json',
+    return axios({
+      responseType : 'json',
       headers : genHeader(),
-      type : 'patch',
+      method : 'patch',
       data  : fd,
-      contentType : false,
-      processData : false,
-      success : function(res) {
-        debug('set thumbnail success: ', res);
-      },
-      error : function(err) {
-        debug('Error from UpdateThumbnail');
-        debug(err);
-      },
-      url : '/api/v1/projects/' + project.id + '.json'
+      url : `/api/v1/projects/${project.id}.json`
     });
   },
 
   updateProject : function( project ) {
-    debug('updateProject');
+    debug('updateProject', project);
     const fd = new FormData();
     fd.append('project[name]', project.name);
     fd.append('project[description]', project.description);
     fd.append('project[tag_list]', project.tag_list);
     fd.append('project[private]', project.private);
 
-    debug(project.content);
     let i;
     for(i = 0; i < project.content.length; i++) {
 
@@ -267,44 +183,22 @@ const WebAPIUtils = {
       }
     }
 
-    $.ajax({
-      dataType : 'json',
+    return axios({
+      responseType : 'json',
       headers : genHeader(),
-      type : 'patch',
+      method : 'patch',
       data  : fd,
-      contentType : false,
-      processData : false,
-      success : function(res) {
-        debug('upload success: ', res);
-        ProjectServerActionCreator.updateProjectSucess({ project: res });
-
-      },
-      error : function(err) {
-        debug('Error from UpdateProject');
-        debug(err);
-      },
-      url : '/api/v1/projects/' + project.id + '.json'
+      url : `/api/v1/projects/${project.id}.json`
     });
   },
 
   deleteProject : function( project ) {
-    debug('deleteProject');
-    $.ajax({
-      dataType : 'json',
+    debug('deleteProject', project);
+    return axios({
+      responseType : 'json',
       headers : genHeader(),
-      type : 'delete',
-      contentType : false,
-      processData : false,
-      success : function(res) {
-        debug('delete success: ', res);
-        ProjectServerActionCreator.deleteProjectSucess( project );
-      },
-      error : function(err) {
-        debug('Error from DeleteProject');
-        debug(err);
-      },
-      url : '/api/v1/projects/' + project.id + '.json'
-
+      method : 'delete',
+      url : `/api/v1/projects/${project.id}.json`
     });
   },
 
@@ -346,46 +240,17 @@ const WebAPIUtils = {
     const fd = new FormData();
     fd.append('attachment[file]', file, name);
 
-    $.ajax({
-      dataType : 'json',
+    return axios({
+      responseType : 'json',
       data : fd,
-      processData: false,
-      contentType: false,
       headers : genHeader(),
-      type : 'post',
-      success : function(res) {
-        debug('Uploaded file');
-        debug( res );
-        res.sym = sym;
-        ProjectServerActionCreator.uploadAttachmentSuccess( res );
-      },
-      error : function(xhr, status, err) {
-        debug('Error from Upload File :sym', sym);
-        debug(err);
-        ProjectServerActionCreator.uploadAttachmentFailed({ xhr:xhr, status:status, err:err, sym:sym });
-      },
+      method : 'post',
       url : '/api/v1/attachments.json'
     });
   },
 
-  signIn : function() {
-    const host = window.location.origin;
-    window.location.href = `${host}/auth/github?auth_origin_url=${host}`;
-  },
-
-  signedIn : function(token, uid, client) {
-    _accessToken = token;
-    _uid = uid;
-    _client = client;
-    setHeader();
-  },
-
   signOut : function() {
-    clearHeader();
-    window.location.reload();
-    setTimeout(function() {
-      ServerActionCreator.signOut();
-    }, 0);
+    debug('Not Implemented yet');
   }
 };
 

@@ -16,14 +16,14 @@ class Navigation extends React.Component {
   render() {
     const menu = this.props.user.isLoggedIn ? (
       <div className="menu" >
-        <MenuIcon act="MOVE_TOP" src="/images/kaffcop_icon/fab_home.png" />
-        <MenuIcon act="MOVE_MY_PROJECTS" src="/images/kaffcop_icon/fab_mypro.png"/>
-        <MenuIcon act="SIGN_OUT" src="/images/kaffcop_icon/fab_out.png" />
+        <MenuIcon to="/" src="/images/kaffcop_icon/fab_home.png" />
+        <MenuIcon to="myprojects" src="/images/kaffcop_icon/fab_mypro.png"/>
+        <MenuIcon act="sign_out" src="/images/kaffcop_icon/fab_out.png" />
       </div>
     ) : (
       <div className="menu" >
-        <MenuIcon act="MOVE_TOP" src="/images/kaffcop_icon/fab_home.png" />
-        <MenuIcon act="SIGN_IN" src="/images/kaffcop_icon/fab_in.png" />
+        <MenuIcon to="/" src="/images/kaffcop_icon/fab_home.png" />
+        <MenuIcon act="sign_in" src="/images/kaffcop_icon/fab_in.png" />
       </div>
     );
 

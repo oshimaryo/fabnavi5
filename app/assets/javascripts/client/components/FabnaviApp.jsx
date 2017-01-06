@@ -9,18 +9,16 @@ import SearchBar from './SearchBar';
 import ProjectList from './ProjectList';
 import ProjectManager from './ProjectManager';
 import Player from './Player';
-import Footer from './Footer';
 import CreateProject from './CreateProject';
 import EditProject from './EditProject';
 import ProjectDetail from './ProjectDetail';
-import ProjectStore from '../stores/ProjectStore';
 import WebAPIUtils from '../utils/WebAPIUtils';
-import ServerActionCreator from '../actions/ServerActionCreator';
+
 import reducer from '../reducers/index';
 import { handleKeyDown } from '../actions/KeyActionCreator';
 
 const debug = Debug('fabnavi:jsx:FabnaviApp');
-import { Router, Route, IndexRedirect, IndexRoute, Redirect, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 const store = createStore(reducer);
 
@@ -38,19 +36,28 @@ const routes = (
     </Router>
   </Provider>
 );
-window.browserHistory = browserHistory;
-window.addEventListener('DOMContentLoaded', () => {
 
-  // ProjectStore.init();
-  debug('init App', store);
-  api.setDispatch(store.dispatch);
+window.addEventListener('DOMContentLoaded', () => {
+  const url = window.location.href;
+  if(isAuthWindow(url)) {
+    window.opener.postMessage(JSON.stringify(parseAuthInfo(url)), window.location.origin);
+    window.close();
+    return;
+  }
+  api.init(store);
   api.getAllProjects();
   ReactDOM.render(routes, document.querySelector('#mount-point'));
-
-  if(WebAPIUtils.isSigningIn()) {
-    const uid = WebAPIUtils.isSigningIn.uid;
-    ServerActionCreator.signIn(uid);
-  }
-
   window.addEventListener('keydown', handleKeyDown(store));
 });
+
+function isAuthWindow(url) {
+  return url.includes('uid') && url.includes('client_id') && url.includes('auth_token');
+}
+
+function parseAuthInfo(url) {
+  return {
+    'Access-Token': url.match(/auth_token=([a-zA-Z0-9\-]*)/)[1],
+    'Uid': url.match(/uid=([a-zA-Z0-9\-]*)/)[1],
+    'Client': url.match(/client_id=([a-zA-Z0-9\-]*)/)[1]
+  };
+}

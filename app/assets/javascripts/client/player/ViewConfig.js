@@ -57,7 +57,7 @@ const ViewConfig = function() {
   }
 
   function saveConfig() {
-    setLocalConfig("ProjectId");
+    setLocalConfig('ProjectId');
   }
 
   function setConfig(conf) {
