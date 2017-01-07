@@ -50,7 +50,7 @@ class Player extends React.Component {
         this.video.height = window.screen.height;
         this.video.src = project.content[0].figure.file.file.url;
       }
-      if(this.props.playing) {
+      if(this.props.isPlaying) {
         this.renderingTimer = setInterval(() => {
           this.canvas.render(this.video);
         }, 30);
@@ -59,7 +59,6 @@ class Player extends React.Component {
         clearInterval(this.renderingTimer);
         this.video.pause();
       }
-      debug(this.video.currentTime);
       return;
     }
 

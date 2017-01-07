@@ -71,6 +71,8 @@ export function handleKeyDown(store) {
           case 39:
             changePage(store, payload, state, 1);
             break;
+          case 32:
+            togglePlaying(store, payload);
           case 67:
             changePlayerMode(store, payload);
             break;
@@ -129,6 +131,11 @@ export function handleKeyDown(store) {
 
     }
   };
+}
+
+function togglePlaying(store, action) {
+  action.type = 'TOGGLE_PLAYING'
+  store.dispatch(action);
 }
 
 function calibrate(store, action, command) {

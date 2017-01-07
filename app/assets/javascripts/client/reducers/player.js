@@ -6,10 +6,12 @@ const PlayerModes = [
   'play', 'calibrateCenter', 'calibrateScale'
 ];
 const initialState = {
-  mode: 'play', // play, calibrateCenter, calibrateScale, etc...
+  mode: 'play',
   contentType: 'photo',
   page: 0,
   project: null,
+  currentTime: 0,
+  isPlaying: false,
   config: {
     x: 0,
     y: 0,
@@ -38,10 +40,16 @@ export default function playerReducer(state = initialState, action) {
     case 'PLAYER_EXIT':
       return initialState;
     case 'PLAYER_CHANGE_MODE':
-      debug('change mode');
       return Object.assign({}, state, {
         mode: nextMode(state)
       });
+    case 'TOGGLE_PLAYING':
+      if(state.contentType === 'movie') {
+        return Object.assign({}, state, {
+          isPlaying: !state.isPlaying
+        });
+      }
+      return state;
     default:
       return state;
   }
