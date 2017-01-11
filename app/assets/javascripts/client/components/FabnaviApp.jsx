@@ -18,19 +18,29 @@ import { handleKeyDown } from '../actions/KeyActionCreator';
 import WebAPIUtils from '../utils/WebAPIUtils';
 const debug = Debug('fabnavi:jsx:FabnaviApp');
 
-const store = createStore(reducer, applyMiddleware(adjustor) );
-const onEnterFrame = frame => {
-  return (nextState, replace, callback) => {
-    store.dispatch({
-      type: 'CHANGE_FRAME',
-      frame
-    });
-    callback();
-  };
+const onEnterFrame = frame => (nextState, replace, callback) => {
+  store.dispatch({
+    type: 'CHANGE_FRAME',
+    frame
+  });
+  callback();
 };
 
-const routes = (
-  <Provider store={store}>
+window.api = WebAPIUtils;
+window.addEventListener('DOMContentLoaded', () => {
+  debug('======> Mount App');
+  const url = window.location.href;
+  const store = createStore(reducer, applyMiddleware(adjustor) );
+
+  window.store = store;
+  if(isAuthWindow(url)) {
+    window.opener.postMessage(JSON.stringify(parseAuthInfo(url)), window.location.origin);
+    window.close();
+    return;
+  }
+  api.init(store);
+  ReactDOM.render(
+    <Provider store={store}>
     <Router history={browserHistory}>
         <Route components={ProjectManager} path="/" onEnter={onEnterFrame('manager')} >
           <IndexRoute component={ProjectList} />
@@ -41,22 +51,7 @@ const routes = (
         </Route>
         <Route components={Player} path="/play/:projectId" onEnter={onEnterFrame('player')}/>
     </Router>
-  </Provider>
-);
-
-window.api = WebAPIUtils;
-
-window.addEventListener('DOMContentLoaded', () => {
-  const url = window.location.href;
-  window.store = store;
-  if(isAuthWindow(url)) {
-    window.opener.postMessage(JSON.stringify(parseAuthInfo(url)), window.location.origin);
-    window.close();
-    return;
-  }
-  api.init(store);
-  api.getAllProjects();
-  ReactDOM.render(routes, document.querySelector('#mount-point'));
+    </Provider>, document.querySelector('#mount-point'));
   window.addEventListener('keydown', handleKeyDown(store));
 });
 
@@ -66,8 +61,8 @@ function isAuthWindow(url) {
 
 function parseAuthInfo(url) {
   return {
-    'Access-Token': url.match(/auth_token=([a-zA-Z0-9\-]*)/)[1],
-    'Uid': url.match(/uid=([a-zA-Z0-9\-]*)/)[1],
-    'Client': url.match(/client_id=([a-zA-Z0-9\-]*)/)[1]
+    'Access-Token': url.match(/auth_token=([a-zA-Z0-9\-\_]*)/)[1],
+    'Uid': url.match(/uid=([a-zA-Z0-9\-\_]*)/)[1],
+    'Client': url.match(/client_id=([a-zA-Z0-9\-\_]*)/)[1]
   };
 }

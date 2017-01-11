@@ -21,7 +21,6 @@ const initialState = {
 }
 
 export default function playerReducer(state = initialState, action) {
-  debug(state, action);
 
   switch(action.type) {
     case 'PLAYER_CHANGE_PAGE':

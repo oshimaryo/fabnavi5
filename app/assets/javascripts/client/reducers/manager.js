@@ -9,6 +9,7 @@ const MenuActions = [
 const initialState = {
   projects: [],
   project: null,
+  isFetching: false,
   mode: 'allProjects',
   selector: {
     page: 0,
@@ -24,6 +25,10 @@ const initialState = {
 export default function managerReducer(state = initialState, action) {
 
   switch(action.type) {
+    case 'FETCHING_PROJECTS':
+      return Object.assign({}, state, {
+        isFetching: true
+      });
     case 'SELECT_PROJECT':
       return Object.assign({}, state, {
         project: state.projects[action.selector.index],
@@ -42,7 +47,8 @@ export default function managerReducer(state = initialState, action) {
     case 'RECEIVE_PROJECTS':
       return Object.assign({}, state, {
         projects: action.projects,
-        project: action.projects[state.selector.index]
+        project: action.projects[state.selector.index],
+        isFetching: false
       });
     case 'RECEIVE_PROJECT':
       debug('Receive project: ', action);

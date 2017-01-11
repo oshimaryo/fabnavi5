@@ -8,7 +8,8 @@ const initialState = {
     accessToken: '',
     client: '',
     uid: '',
-  }
+  },
+  id: ''
 };
 
 export default function userReducer(state = initialState, action) {
@@ -16,7 +17,8 @@ export default function userReducer(state = initialState, action) {
     case 'SIGNED_IN':
       return Object.assign({}, state, {
         isLoggedIn: true,
-        credential: action.credential
+        credential: action.credential,
+        id: action['id'] ? action.id : ''
       });
     default:
       return state;

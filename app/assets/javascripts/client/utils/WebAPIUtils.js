@@ -1,89 +1,159 @@
 import axios from 'axios';
 import Debug from 'debug';
+import 'babel-polyfill';
 
 const debug = Debug('fabnavi:api');
 
-let _dispatch = null, _store = null;
-
-function genHeader() {
-  const user = _store.getState().user;
-  if(user.isLoggedIn) {
-    return user.credential;
+class Server {
+  constructor() {
+    this.dispatch = null;
+    this.store = null;
   }
 
-  // TODO: throw error action to reducer
-  debug('this is credential needed request, but credential is not found');
-  return null;
-}
+  init (store) {
+    this.dispatch = store.dispatch;
+    this.store = store;
+    this.prepareHeaders();
+  }
 
-export default {
-  init: function(store) {
-    _dispatch = store.dispatch;
-    _store = store;
+  prepareHeaders() {
+    return new Promise((resolve, reject) => {
+      const user = this.store.getState().user;
+      if(user.isLoggedIn) {
+        resolve(user.credential);
+      }
+      const maybeCredential = this.loadCredential();
+      if(maybeCredential) {
+        this.getCurrentUserInfo(maybeCredential)
+        .then(({headers}) => { resolve(headers); })
+        .catch(error => {
+          debug('error to login ', error)
+          reject(error);
+        });
+      }
+      // TODO: throw error action to reducer
+    });
+  }
 
-    const maybeCredential = this.loadCredential();
-    if(maybeCredential) {
-      this.getCurrentUserInfo(maybeCredential)
-      .catch(error => {
-        debug('error to login ', error)
-      });
-    }
-  },
+  prepareUserId() {
+    return new Promise((resolve, reject) => {
+      const userId = this.store.getState().user.id;
+      if(userId) {
+        resolve(userId);
+      }
+      const maybeUserId = this.loadUserId();
+      if(maybeUserId) {
+        this.getCurrentUserInfo()
+        .then(({ id }) => { resolve(id); })
+        .catch(error => {
+          debug('error to login ', error)
+          reject(error);
+        });
+      }
+    });
+  }
 
-  loadCredential: function () {
+  loadCredential () {
     try{
-      return JSON.parse(localStorage.getItem('credentail'));
+      return JSON.parse(localStorage.getItem('credential'));
     } catch(e) {
       debug('Failed to load credential');
       return null;
     }
-  },
+  }
+  
+  saveCredential(cred) {
+    localStorage.setItem('credential', JSON.stringify(cred));
+  }
 
-  getCurrentUserInfo : function(headers) {
-    debug('getCurrentUserInfo');
+  loadUserId() {
+    try{
+      return JSON.parse(localStorage.getItem('userId'));
+    } catch(e) {
+      debug('Failed to load credential');
+      return null;
+    }
+  }
 
+  saveUserId(id) {
+    localStorage.setItem('userId', id);
+  }
+
+  getCurrentUserInfo(headers) {
+    debug('get current user', headers);
+    if(headers == null) {
+      debug(headers);
+      return Promise.reject('header is invalid');
+    }
     return axios({
       responseType : 'json',
       type : 'GET',
       headers,
       url : '/api/v1/current_user.json'
     })
-    .then(() => {
-      _dispatch({
+    .then(response => {
+      const id = response.data.id;
+      this.saveUserId(id);
+      this.saveCredential(headers);
+      this.dispatch({
         type: 'SIGNED_IN',
-        credential: headers
+        credential: headers,
+        id
       });
+      return {
+        headers,
+        id
+      };
     });
-  },
+  }
 
-  getProject : function( id ) {
-    debug('getProject : ', id);
+  async getProject( id ) {
+    debug(`getProject id:${id}`);
+    const headers = await this.prepareHeaders();
     return axios({
       responseType : 'json',
       type : 'GET',
-      headers : genHeader(),
-      url : '/api/v1/projects/' + id + '.json'
+      headers: headers,
+      url : `/api/v1/projects/${id}.json`
     })
     .then(({ data }) => {
-      _dispatch({
+      this.dispatch({
         type: 'RECEIVE_PROJECT',
         project: data
       });
     });
-  },
+  }
 
-  getOwnProjects : function( uid ) {
-    debug('getOwnProjects : ', uid);
+  async getOwnProjects() {
+    debug('getOwnProjects');
+    const headers = await this.prepareHeaders();
+    const url = `/api/v1/users/${this.store.getState().user.id}/projects.json`;
+    this.dispatch({
+      type: 'FETCHING_PROJECTS',
+      url
+    });
     return axios({
       responseType : 'json',
       method : 'GET',
-      headers : genHeader(),
-      url : '/api/v1/users/' + uid + '/projects.json'
+      headers,
+      url
+    })
+    .then(({ data }) => {
+      this.dispatch({
+        type: 'RECEIVE_PROJECTS',
+        projects: data,
+        kind: 'owned'
+      });
     });
-  },
+  }
 
-  getAllProjects : function( page, perPage, offset ) {
+  async getAllProjects( page, perPage, offset ) {
     debug('getAllProjects');
+    const url = '/api/v1/projects.json';
+    this.dispatch({
+      type: 'FETCHING_PROJECTS',
+      url
+    });
     return axios({
       responseType : 'json',
       data : {
@@ -92,19 +162,19 @@ export default {
         offset : offset || 0
       },
       method : 'GET',
-      url : '/api/v1/projects.json'
+      url
     })
     .then(({ data }) => {
-      _dispatch({
+      this.dispatch({
         type: 'RECEIVE_PROJECTS',
         projects: data,
         kind: 'all'
       });
     });
-  },
+  }
 
 
-  createProject : function( name, contentAttributesType, description) {
+  async createProject( name, contentAttributesType, description) {
     debug('createProject');
     return axios({
       responseType : 'json',
@@ -117,7 +187,7 @@ export default {
           }
         }
       },
-      headers : genHeader(),
+      headers : await this.prepareHeaders(),
       method : 'post',
       url : '/api/v1/projects.json'
     })
@@ -129,23 +199,23 @@ export default {
         description : description,
       });
     });
-  },
+  }
 
-  setThumbnailLast : function( project ) {
+  async setThumbnailLast( project ) {
     if(project.content.length == 0) return;
     const fd = new FormData();
     fd.append('project[name]', project.name);
     fd.append('project[figure_id]', project.content[project.content.length - 1].figure.figure_id);
     return axios({
       responseType : 'json',
-      headers : genHeader(),
+      headers : await this.prepareHeaders(),
       method : 'patch',
       data  : fd,
       url : `/api/v1/projects/${project.id}.json`
     });
-  },
+  }
 
-  updateProject : function( project ) {
+  async updateProject( project ) {
     debug('updateProject', project);
     const fd = new FormData();
     fd.append('project[name]', project.name);
@@ -176,24 +246,24 @@ export default {
 
     return axios({
       responseType : 'json',
-      headers : genHeader(),
+      headers : await this.prepareHeaders(),
       method : 'patch',
       data  : fd,
       url : `/api/v1/projects/${project.id}.json`
     });
-  },
+  }
 
-  deleteProject : function( project ) {
+  async deleteProject( project ) {
     debug('deleteProject', project);
     return axios({
       responseType : 'json',
-      headers : genHeader(),
+      headers : await this.prepareHeaders(),
       method : 'delete',
       url : `/api/v1/projects/${project.id}.json`
     });
-  },
+  }
 
-  uploadFile : function( file, name ) {
+  async uploadFile( file, name ) {
     debug('uploadFile');
 
     const fd = new FormData();
@@ -202,13 +272,17 @@ export default {
     return axios({
       responseType : 'json',
       data : fd,
-      headers : genHeader(),
+      headers : await this.prepareHeaders(),
       method : 'post',
       url : '/api/v1/attachments.json'
     });
-  },
+  }
 
-  signOut : function() {
+  signOut() {
     debug('Not Implemented yet');
   }
-};
+}
+
+const api = new Server();
+window.api = api;
+export default api;

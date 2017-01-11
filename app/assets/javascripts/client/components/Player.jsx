@@ -127,14 +127,10 @@ class Player extends React.Component {
     });
   }
 
-
   componentWillMount() {
     if(!this.props.project) {
       debug('project not loaded!');
-      // TODO: wait for credential
-      setTimeout( () => {
-        api.getProject(location.pathname.split('/')[2]);
-      }, 1000);
+      api.getProject(location.pathname.split('/')[2]);
     }
   }
 
