@@ -66,6 +66,10 @@ class Server {
     localStorage.setItem('credential', JSON.stringify(cred));
   }
 
+  clearCredential() {
+    localStorage.removeItem('credential');
+  }
+
   loadUserId() {
     try{
       return JSON.parse(localStorage.getItem('userId'));
@@ -77,6 +81,10 @@ class Server {
 
   saveUserId(id) {
     localStorage.setItem('userId', id);
+  }
+
+  clearUserId() {
+    localStorage.removeItem('userId');
   }
 
   getCurrentUserInfo(headers) {
@@ -278,8 +286,14 @@ class Server {
     });
   }
 
-  signOut() {
-    debug('Not Implemented yet');
+  async signOut() {
+    debug('Sign out');
+    return axios({
+      url: '/auth/sign_out',
+      method: 'delete',
+      responseType: 'json',
+      headers: await this.prepareHeaders()
+    });
   }
 }
 

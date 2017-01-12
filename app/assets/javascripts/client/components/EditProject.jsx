@@ -44,7 +44,6 @@ class EditProject extends React.Component {
 
   componentWillMount() {
     if(!this.props.manager.project) {
-      debug('project not loaded!');
       api.getProject(location.pathname.split('/')[2]);
     }
   }

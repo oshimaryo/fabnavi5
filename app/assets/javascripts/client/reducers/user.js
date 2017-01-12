@@ -20,6 +20,8 @@ export default function userReducer(state = initialState, action) {
         credential: action.credential,
         id: action['id'] ? action.id : ''
       });
+    case 'SIGNED_OUT':
+      return initialState;
     default:
       return state;
   }
