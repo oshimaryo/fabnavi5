@@ -179,7 +179,14 @@ function fireMenuAction(store, action, state) {
   action.type = 'FIRE_MENU_ACTION';
   action.selector.openMenu = false;
   store.dispatch(action);
-  browserHistory.push(`/${state.manager.selector.action}/${state.manager.project.id}`);
+  if(state.manager.selector.action === 'delete') {
+    api.deleteProject(state.manager.project.id)
+    .then(() => {
+      api.getOwnProjects();
+    });
+  } else {
+    browserHistory.push(`/${state.manager.selector.action}/${state.manager.project.id}`);
+  }
 }
 
 function openMenu(store, action) {

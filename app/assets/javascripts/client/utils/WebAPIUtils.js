@@ -261,13 +261,13 @@ class Server {
     });
   }
 
-  async deleteProject( project ) {
-    debug('deleteProject', project);
+  async deleteProject( id ) {
+    debug('deleteProject', id);
     return axios({
       responseType : 'json',
       headers : await this.prepareHeaders(),
       method : 'delete',
-      url : `/api/v1/projects/${project.id}.json`
+      url : `/api/v1/projects/${id}.json`
     });
   }
 
