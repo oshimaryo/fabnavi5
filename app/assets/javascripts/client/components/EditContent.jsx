@@ -62,5 +62,3 @@ export default class EditContent extends React.Component {
     );
   }
 }
-
-module.exports = EditContent;

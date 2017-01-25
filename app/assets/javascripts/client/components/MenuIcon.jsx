@@ -77,7 +77,7 @@ function mapDispatchToProps(dispatch) {
     signingOut: () => {
       dispatch({
         type: 'SIGNING_OUT'
-      });    },
+      }); },
     signedOut: () => {
       api.clearCredential();
       api.clearUserId();

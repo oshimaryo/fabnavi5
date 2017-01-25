@@ -1,4 +1,5 @@
 var webpack = require("webpack");
+var DashboardPlugin = require('webpack-dashboard/plugin');
 
 module.exports = {
 
@@ -38,6 +39,9 @@ module.exports = {
   devtools: {
     
   },
+  plugins: [
+    new DashboardPlugin()
+  ],
   watchOptions: {
    aggregateTimeout: 300,
    poll: 300

@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, applyMiddleware } from 'redux';
+import 'rxjs';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
+import { createEpicMiddleware } from 'redux-observable';
 import Debug from 'debug';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
@@ -14,23 +16,28 @@ import ProjectDetail from './ProjectDetail';
 
 import reducer from '../reducers/index';
 import adjustor from '../middleware/adjustor';
+import rootEpics from '../middleware/epics/index';
 import { handleKeyDown } from '../actions/KeyActionCreator';
 import WebAPIUtils from '../utils/WebAPIUtils';
 const debug = Debug('fabnavi:jsx:FabnaviApp');
 
-const onEnterFrame = frame => (nextState, replace, callback) => {
-  store.dispatch({
-    type: 'CHANGE_FRAME',
-    frame
-  });
-  callback();
-};
 
 window.api = WebAPIUtils;
 window.addEventListener('DOMContentLoaded', () => {
   debug('======> Mount App');
   const url = window.location.href;
-  const store = createStore(reducer, applyMiddleware(adjustor) );
+  const store = createStore(reducer,
+    compose(applyMiddleware(
+      rootEpics,
+      adjustor)));
+
+  const onEnterFrame = frame => (nextState, replace, callback) => {
+    store.dispatch({
+      type: 'CHANGE_FRAME',
+      frame
+    });
+    callback();
+  };
 
   window.store = store;
   if(isAuthWindow(url)) {
