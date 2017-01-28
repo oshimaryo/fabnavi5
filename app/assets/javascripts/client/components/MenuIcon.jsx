@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import Debug from 'debug';
 import { browserHistory } from 'react-router';
 
+import { signInFailed, signedIn, signedOut, signingOut } from "../actions/users";
+
 const debug = Debug('fabnavi:jsx:MenuIcon');
 
 class MenuIcon extends React.Component {
@@ -27,15 +29,19 @@ class MenuIcon extends React.Component {
       const host = window.location.origin;
       const url = `${host}/auth/github?auth_origin_url=${host}`;
       window.open(url);
-      window.addEventListener('message', (e) => {
+      const onMessage = (e) => {
+        window.removeEventListener("message", onMessage, false);
+
         if(e.origin === window.location.origin) {
           try{
+            debug(">> ", e.data);
             this.props.signedIn(JSON.parse(e.data));
           } catch(error) {
             this.props.signInFailed(error, e);
           }
         }
-      });
+      };
+      window.addEventListener('message', onMessage);
     };
 
     this.signOut = () => {
@@ -65,35 +71,28 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     signedIn: (credential) => {
-      api.saveCredential(credential)
-      dispatch({
-        type: 'SIGNED_IN',
-        credential
-      });
+      api.saveCredential(credential);
+      dispatch(signedIn(credential));
     },
     signingIn: () => {
       // TODO: (implement) signingIn
     },
     signingOut: () => {
-      dispatch({
-        type: 'SIGNING_OUT'
-      }); },
+      dispatch(signingOut()); 
+    },
     signedOut: () => {
       api.clearCredential();
       api.clearUserId();
-      dispatch({
-        type: 'SIGNED_OUT'
-      });
+      dispatch(signedOut());
     },
     signInFailed: (error, info) => {
       const now = new Date();
-      dispatch({
-        type: 'SIGN_IN_FAILED',
+      dispatch(signInFailed({
         message: 'sign in failed. see console',
         error,
         info,
         time: now.toTimeString()
-      });
+      }));
     }
   }
 }

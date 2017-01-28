@@ -1,5 +1,7 @@
 import Debug from 'debug';
 
+import Act from "../actions/Types";
+
 const debug = Debug('fabnavi:reducer:manager');
 
 const MenuActions = [
@@ -25,32 +27,32 @@ const initialState = {
 export default function managerReducer(state = initialState, action) {
 
   switch(action.type) {
-    case 'FETCHING_PROJECTS':
+    case Act.FETCHING_PROJECTS:
       return Object.assign({}, state, {
         isFetching: true
       });
-    case 'SELECT_PROJECT':
+    case Act.SELECT_PROJECT:
       return Object.assign({}, state, {
         project: state.projects[action.selector.index],
         selector: action.selector
       });
-    case 'SELECT_PROJECT_MENU':
+    case Act.SELECT_PROJECT_MENU:
       return Object.assign({}, state, {
         selector: Object.assign({}, action.selector, {
           action: MenuActions[state.selector.menuIndex]
         })
       });
-    case 'FIRE_MENU_ACTION':
+    case Act.FIRE_MENU_ACTION:
       return Object.assign({}, state, {
         selector: action.selector
       });
-    case 'RECEIVE_PROJECTS':
+    case Act.RECEIVE_PROJECTS:
       return Object.assign({}, state, {
         projects: action.projects,
         project: action.projects[state.selector.index],
         isFetching: false
       });
-    case 'RECEIVE_PROJECT':
+    case Act.RECEIVE_PROJECT:
       debug('Receive project: ', action);
       return Object.assign({}, state, {
         project: action.project,

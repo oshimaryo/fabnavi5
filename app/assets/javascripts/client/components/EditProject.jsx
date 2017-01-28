@@ -32,7 +32,7 @@ class EditProject extends React.Component {
           </button>
 
           <div className="edit-pic">
-
+            // TODO: edit contet
           </div>
         </div>
         ) : (

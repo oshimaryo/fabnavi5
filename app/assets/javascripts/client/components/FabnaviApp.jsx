@@ -19,6 +19,8 @@ import adjustor from '../middleware/adjustor';
 import rootEpics from '../middleware/epics/index';
 import { handleKeyDown } from '../actions/KeyActionCreator';
 import WebAPIUtils from '../utils/WebAPIUtils';
+import { changeFrame } from "../actions/frame";
+
 const debug = Debug('fabnavi:jsx:FabnaviApp');
 
 
@@ -26,16 +28,14 @@ window.api = WebAPIUtils;
 window.addEventListener('DOMContentLoaded', () => {
   debug('======> Mount App');
   const url = window.location.href;
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   const store = createStore(reducer,
-    compose(applyMiddleware(
+    composeEnhancers(applyMiddleware(
       rootEpics,
       adjustor)));
 
   const onEnterFrame = frame => (nextState, replace, callback) => {
-    store.dispatch({
-      type: 'CHANGE_FRAME',
-      frame
-    });
+    store.dispatch(changeFrame(frame));
     callback();
   };
 

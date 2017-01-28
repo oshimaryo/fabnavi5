@@ -1,10 +1,13 @@
 import Debug from 'debug';
 
+import Act from "../actions/Types";
+
 const debug = Debug('fabnavi:reducer:player');
 
 const PlayerModes = [
   'play', 'calibrateCenter', 'calibrateScale'
 ];
+
 const initialState = {
   mode: 'play',
   contentType: 'photo',
@@ -23,26 +26,27 @@ const initialState = {
 export default function playerReducer(state = initialState, action) {
 
   switch(action.type) {
-    case 'PLAYER_CHANGE_PAGE':
+    case Act.PLAYER_CHANGE_PAGE:
       return Object.assign({}, state, {
         page: action.page,
       });
-    case 'RECEIVE_PROJECT':
+    case Act.RECEIVE_PROJECT:
       debug('Receive project: ', action);
       return Object.assign({}, state, {
         project: action.project,
       });
-    case 'UPDATE_CALIBRATION':
+    case Act.UPDATE_CALIBRATION:
       return Object.assign({}, state, {
         config: action.config
       });
-    case 'PLAYER_EXIT':
+    case Act.PLAYER_EXIT:
+      debug("player exit, nothing to do");
       return initialState;
-    case 'PLAYER_CHANGE_MODE':
+    case Act.PLAYER_CHANGE_MODE:
       return Object.assign({}, state, {
         mode: nextMode(state)
       });
-    case 'TOGGLE_PLAYING':
+    case Act.TOGGLE_PLAYING:
       if(state.contentType === 'movie') {
         return Object.assign({}, state, {
           isPlaying: !state.isPlaying

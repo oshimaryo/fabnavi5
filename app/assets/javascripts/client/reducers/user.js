@@ -1,5 +1,7 @@
 import Debug from 'debug';
 
+import Act from "../actions/Types";
+
 const debug = Debug('fabnavi:reducer:user');
 
 const initialState = {
@@ -14,13 +16,14 @@ const initialState = {
 
 export default function userReducer(state = initialState, action) {
   switch(action.type) {
-    case 'SIGNED_IN':
+    case Act.SIGNED_IN:
+      debug(action);
       return Object.assign({}, state, {
         isLoggedIn: true,
-        credential: action.credential,
-        id: action['id'] ? action.id : ''
+        credential: action.payload.credential,
+        id: action.payload['id'] ? action.payload.id : ''
       });
-    case 'SIGNED_OUT':
+    case Act.SIGNED_OUT:
       return initialState;
     default:
       return state;

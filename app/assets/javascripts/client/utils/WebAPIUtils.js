@@ -2,6 +2,9 @@ import axios from 'axios';
 import Debug from 'debug';
 import 'babel-polyfill';
 
+import Act from "../actions/Types";
+import { signedIn } from "../actions/users";
+
 const debug = Debug('fabnavi:api');
 
 class Server {
@@ -103,11 +106,10 @@ class Server {
       const id = response.data.id;
       this.saveUserId(id);
       this.saveCredential(headers);
-      this.dispatch({
-        type: 'SIGNED_IN',
+      this.dispatch(signedIn({
         credential: headers,
         id
-      });
+      }));
       return {
         headers,
         id
@@ -118,6 +120,7 @@ class Server {
   async getProject( id ) {
     debug(`getProject id:${id}`);
     const headers = await this.prepareHeaders();
+
     return axios({
       responseType : 'json',
       type : 'GET',
@@ -135,6 +138,7 @@ class Server {
   async getOwnProjects() {
     debug('getOwnProjects');
     const headers = await this.prepareHeaders();
+    debug(this.store.getState().user);
     const url = `/api/v1/users/${this.store.getState().user.id}/projects.json`;
     this.dispatch({
       type: 'FETCHING_PROJECTS',

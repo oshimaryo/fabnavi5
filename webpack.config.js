@@ -36,9 +36,7 @@ module.exports = {
   node: {
     fs: "empty"
   },
-  devtools: {
-    
-  },
+  devtool: "source-map",
   plugins: [
     new DashboardPlugin()
   ],
