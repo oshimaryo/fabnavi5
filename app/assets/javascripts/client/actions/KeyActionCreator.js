@@ -37,14 +37,14 @@ export function handleKeyDown(store) {
           break;
         case 38:
           if(selector.openMenu) {
-            moveMenuSelector(store, payload, -1);
+            // moveMenuSelector(store, payload, -1);
           } else {
             moveSelector(store, payload, 0, -1);
           }
           break;
         case 40:
           if(selector.openMenu) {
-            moveMenuSelector(store, payload, 1);
+            // moveMenuSelector(store, payload, 1);
           } else {
             moveSelector(store, payload, 0, 1);
           }
@@ -202,12 +202,12 @@ function closeMenu(store, action) {
   store.dispatch(action);
 }
 
-function moveMenuSelector(store, action, index) {
-  // TODO: sanitize menu index.
-  action.selector.menuIndex = action.selector.menuIndex + index;
-  action.type = 'SELECT_PROJECT_MENU';
-  store.dispatch(action);
-}
+// function moveMenuSelector(store, action, index) {
+//   // TODO: sanitize menu index.
+//   // action.selector.menuIndex = action.selector.menuIndex + index;
+//   action.type = 'SELECT_PROJECT_MENU';
+//   store.dispatch(action);
+// }
 
 function moveSelector(store, action, x, y) {
   // TODO: sanitize col and row.
@@ -223,4 +223,3 @@ function moveSelector(store, action, x, y) {
   action.type = 'SELECT_PROJECT';
   store.dispatch(action);
 }
-
