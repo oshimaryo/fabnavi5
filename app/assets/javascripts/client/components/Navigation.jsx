@@ -1,3 +1,5 @@
+// Navigation ??
+// ログインしている場合のホーム画面とそうではないホーム画面の違い
 import React from 'react';
 import { Link } from 'react-router';
 import Debug from 'debug';
@@ -43,4 +45,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(Navigation);
-

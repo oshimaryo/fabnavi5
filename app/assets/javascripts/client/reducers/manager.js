@@ -24,6 +24,8 @@ const initialState = {
   }
 }
 
+// stateの更新は `Object.assign` を使う
+// stateそのものを変更させないため
 export default function managerReducer(state = initialState, action) {
 
   switch(action.type) {

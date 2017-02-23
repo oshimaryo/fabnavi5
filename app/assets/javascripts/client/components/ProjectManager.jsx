@@ -15,10 +15,10 @@ export default class ProjectManager extends React.Component {
   render() {
     return (
       <div className="body">
-        <Navigation />
-        <SearchBar />
-          {this.props.children}
-        <Footer />
+        <Navigation />// 上
+        <SearchBar />// 右斜上
+          {this.props.children}// これ何
+        <Footer />// 一番下
       </div>
     );
   }

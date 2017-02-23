@@ -1,3 +1,4 @@
+// SearchBarの部分の描画
 import React from 'react';
 
 export default class SearchBar extends React.Component {
@@ -19,6 +20,6 @@ export default class SearchBar extends React.Component {
           </form>
         </div>
       </section>
-      );
+  );
   }
 }

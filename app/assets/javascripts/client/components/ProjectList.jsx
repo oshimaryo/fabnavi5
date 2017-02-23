@@ -1,3 +1,4 @@
+// defaultで表示するcomponent
 import React from 'react';
 import { connect } from 'react-redux';
 import Debug from 'debug';

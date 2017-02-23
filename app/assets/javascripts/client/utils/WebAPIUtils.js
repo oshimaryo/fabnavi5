@@ -3,32 +3,36 @@ import Debug from 'debug';
 import 'babel-polyfill';
 
 import Act from "../actions/Types";
-import { signedIn } from "../actions/users";
+import { signedIn } from "../actions/users";// createAction(Act.signedIN)
 
 const debug = Debug('fabnavi:api');
 
 class Server {
+    // コンストラクタ
   constructor() {
     this.dispatch = null;
     this.store = null;
   }
 
+  // init function
   init (store) {
     this.dispatch = store.dispatch;
     this.store = store;
     this.prepareHeaders();
   }
 
+  // prepareHeaders function
+  // promiseでreturn
   prepareHeaders() {
     return new Promise((resolve, reject) => {
-      const user = this.store.getState().user;
-      if(user.isLoggedIn) {
-        resolve(user.credential);
+      const user = this.store.getState().user;// stateのuser取得
+      if(user.isLoggedIn) {// userがログイン状態の場合：GitHub
+        resolve(user.credential);// credentialをreturn
       }
       const maybeCredential = this.loadCredential();
-      if(maybeCredential) {
-        this.getCurrentUserInfo(maybeCredential)
-        .then(({headers}) => { resolve(headers); })
+      if(maybeCredential) {// trueなら
+        this.getCurrentUserInfo(maybeCredential)// 実行
+        .then(({headers}) => { resolve(headers); })// headerをreturn
         .catch(error => {
           debug('error to login ', error)
           reject(error);
@@ -38,9 +42,10 @@ class Server {
     });
   }
 
+  // prepareUserId function
   prepareUserId() {
     return new Promise((resolve, reject) => {
-      const userId = this.store.getState().user.id;
+      const userId = this.store.getState().user.id;// stateにあるuseridを取得
       if(userId) {
         resolve(userId);
       }
@@ -56,15 +61,16 @@ class Server {
     });
   }
 
+  //
   loadCredential () {
     try{
-      return JSON.parse(localStorage.getItem('credential'));
+      return JSON.parse(localStorage.getItem('credential'));// localStorageのcredentialを取得
     } catch(e) {
       debug('Failed to load credential');
       return null;
     }
   }
-  
+
   saveCredential(cred) {
     localStorage.setItem('credential', JSON.stringify(cred));
   }
@@ -96,6 +102,8 @@ class Server {
       debug(headers);
       return Promise.reject('header is invalid');
     }
+    // TODO：ここでcurrent_user.jsonがないと言われる
+    // fsかなにかで生成？
     return axios({
       responseType : 'json',
       type : 'GET',
@@ -117,6 +125,7 @@ class Server {
     });
   }
 
+  // async
   async getProject( id ) {
     debug(`getProject id:${id}`);
     const headers = await this.prepareHeaders();
@@ -135,6 +144,7 @@ class Server {
     });
   }
 
+  //
   async getOwnProjects() {
     debug('getOwnProjects');
     const headers = await this.prepareHeaders();
