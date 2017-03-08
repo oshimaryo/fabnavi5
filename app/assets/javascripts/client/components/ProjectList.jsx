@@ -1,12 +1,16 @@
 // defaultで表示するcomponent
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
+import ReactPaginate from 'react-paginate'
 import Debug from 'debug';
 
 import ProjectElement from '../components/ProjectElement';
+import Pagination from '../components/Pagination.jsx';
 
 const debug = Debug('fabnavi:jsx:ProjectList');
-class ProjectList extends React.Component {
+// component
+// 3回読み込まれている（なんで？）
+class ProjectList extends Component {
 
   constructor(props) {
     super(props);
@@ -14,8 +18,15 @@ class ProjectList extends React.Component {
 
   render() {
     const selector = this.props.selector;
+    console.log('--- projectList is generated ---' );
+    console.dir(this.props);
+    console.log('props.selector');
+    console.log(this.props.selector);
+
     return (
-      <div className="projects">
+      <div>
+
+        <div className="projects">
         {this.props.projects.map((project, index) =>
           <ProjectElement
             key={index}
@@ -23,8 +34,13 @@ class ProjectList extends React.Component {
             isSelected={selector.index == index}
             isOpenMenu={selector.index == index && selector.openMenu}
             menuIndex={selector.menuIndex}
-            menuType={selector.menuType} /> )
+            menuType={selector.menuType} /> 
+            )
         }
+        </div>
+        <div className="hogefuga">
+         <Pagination />
+        </div>
       </div>
     );
   }
