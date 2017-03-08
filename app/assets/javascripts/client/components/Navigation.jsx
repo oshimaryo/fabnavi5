@@ -32,7 +32,7 @@ class Navigation extends React.Component {
       <div className="header">
         <ul className="glonav">
           <Link className="logo" to="/" >
-            <img src="/images/fav_logo_3.png" />
+            <img src="/images/kaffcop_icon/logo.png" />
           </Link>
         <li>
           {menu}

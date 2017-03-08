@@ -25,7 +25,6 @@ class ProjectList extends Component {
 
     return (
       <div>
-
         <div className="projects">
         {this.props.projects.map((project, index) =>
           <ProjectElement
@@ -34,12 +33,12 @@ class ProjectList extends Component {
             isSelected={selector.index == index}
             isOpenMenu={selector.index == index && selector.openMenu}
             menuIndex={selector.menuIndex}
-            menuType={selector.menuType} /> 
+            menuType={selector.menuType} />
             )
         }
         </div>
-        <div className="hogefuga">
-         <Pagination />
+        <div className="pagination">
+          <Pagination />
         </div>
       </div>
     );

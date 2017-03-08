@@ -4,6 +4,7 @@
 
 body {
   width: 100%;
+  min-width: 1280px;
   background-color: $black;
   color: $white;
   z-index: 0;
@@ -24,19 +25,19 @@ a:hover {
 }*/
 header {
   width: 100%;
-  height: 60px;
+  height: 50px;
   background-color: white;
  //margin-top:-10px;
  //background-color:#231815;
 }
 .header ul{
   width: 100%;
-  height: 60px;
+  height: 50px;
   //margin-left: 20px;
 }
 .header li{
   float: left;
-  width: 60px;
+  width: 50px;
   height: auto;
   list-style: none;
 }
@@ -46,8 +47,11 @@ header {
 }
 .logo{
   float: left;
-  width: 200px;
-  height: 60px;
+  width: 180px;
+  height: 50px;
+}
+.logo img{
+  padding-top: 5px;
 }
 .header {
   //@include outer-container;
@@ -55,7 +59,7 @@ header {
   //margin-top: 30px;
   //width:$solid-width;
   width: 100%;
-  height: 60px;
+  height: 50px;
   //background-color: #c4c4c4;
   position: fixed;
   z-index: 100;
@@ -65,10 +69,11 @@ header {
   //width: 100%;
   //height: 60px;
   margin: 0;
+  box-shadow: 3px 3px 2px #C4C4C4;
 }
 .menu {
   width: 400px;
-  height: 60px;
+  height: 50px;
   margin-left: 40px;
    //margin-top:20px;
   //@include span-columns(8);
@@ -81,11 +86,12 @@ header {
     //height: 100%;
     background-color:#ffffff;
   }
-  border-radius: 20px;
+  //border-radius: 20px;
 }
 .current-page {
   img {
     background-color:$selected-color;
+    background-color:gray;
   }
 }
 .nav-action {
@@ -114,7 +120,7 @@ header {
  .notice {
   position:relative;
   .pin {
-    margin:0 auto;
+    //margin:0 auto;
     position:absolute;
     width:80%;
     bottom:45pt;
@@ -148,7 +154,7 @@ header {
 .search-bar {
   width: 100%;
   //width: $solid-width;
-  height: 60px;
+  height: 50px;
   position: fixed;
   //margin-top: 100px;
   //margin-left: auto;
@@ -169,7 +175,7 @@ header {
     color:#CECECE;
     input {
       box-shadow: none;
-      line-height:40px;
+      line-height:38px;
       background: none;
       border: none;
       width: 80%;
@@ -188,4 +194,25 @@ header {
       background: url("/images/search_icon.png") no-repeat scroll 0 0;;
     }
   }
+}
+div .pagination{
+  width: 100%;
+  height: 30px;
+  float: center;
+  margin-left: 50px;
+  margin-right: 50px;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+.pagination ul{
+  list-style: none;
+  width: 100%;
+  height: 30px;
+}
+.pagination li{
+  float: left;
+  width: 20px;
+  height: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
