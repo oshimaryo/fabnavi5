@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM, {render} from 'react-dom';
 import 'rxjs';
 import {createStore, applyMiddleware, compose} from 'redux';
 import {Provider} from 'react-redux';
@@ -47,11 +47,12 @@ window.addEventListener('DOMContentLoaded', () => {
     api.init(store);
     ReactDOM.render(
         // providerで囲む
+        // react router でpage遷移
+        // `IndexRoute` の指定先がdefault page
         <Provider store={store}>
-            // react-routerでpage遷移をする
         <Router history={browserHistory}>
-            <Route components={ProjectManager} path="/" onEnter={onEnterFrame('manager')}>// ここで3つ読み込む
-                <IndexRoute component={ProjectList}/>// defaultで表示するcomponent
+            <Route components={ProjectManager} path="/" onEnter={onEnterFrame('manager')}>
+                <IndexRoute component={ProjectList}/>
                 <Route component={ProjectList} path="myprojects"/>
                 <Route component={CreateProject} path="create"/>
                 <Route component={EditProject} path="edit/:projectId"/>
