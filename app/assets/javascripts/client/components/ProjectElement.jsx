@@ -1,13 +1,17 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 import Debug from 'debug';
 
 import { sanitizeProject } from '../utils/projectUtils';
 
 const debug = Debug('fabnavi:jsx:ProjectElement');
 
-export default class ProjectElement extends React.Component {
-
+// project element Component
+export default class ProjectElement extends Component {
   render() {
+    // debugs
+    console.log('--- project element is generated ---');
+    console.log('props is below');
+    console.dir(this.props);
     const actions = this.props.menuType == 'allProjects' ? (
       <ul className="actions">
         <li
