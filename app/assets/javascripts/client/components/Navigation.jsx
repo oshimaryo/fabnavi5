@@ -17,24 +17,27 @@ class Navigation extends React.Component {
 
   render() {
     const menu = this.props.user.isLoggedIn ? (
-      <div className="menu" >
-        <MenuIcon to="/" src="/images/kaffcop_icon/fab_home.png" />
-        <MenuIcon to="myprojects" src="/images/kaffcop_icon/fab_mypro.png"/>
-        <MenuIcon act="sign_out" src="/images/kaffcop_icon/fab_out.png" />
-      </div>
+        <div className="menu" >
+          <li><MenuIcon to="/" src="/images/kaffcop_icon/home.png" width="200px" height="60px"/></li>
+          <li><MenuIcon to="myprojects" src="/images/kaffcop_icon/myproject.png"/></li>
+          <li><MenuIcon act="sign_out" src="/images/kaffcop_icon/signout.png" /></li>
+        </div>
     ) : (
-      <div className="menu" >
-        <MenuIcon to="/" src="/images/kaffcop_icon/fab_home.png" />
-        <MenuIcon act="sign_in" src="/images/kaffcop_icon/fab_in.png" />
-      </div>
+        <div className="menu" >
+          <li><MenuIcon to="/" src="/images/kaffcop_icon/home.png" /></li>
+          <li><MenuIcon act="sign_in" src="/images/kaffcop_icon/signin.png" /></li>
+        </div>
     );
-
     return (
       <div className="header">
-        <Link className="logo" to="/" >
-          <img src="/images/fav_logo_3.png" />
-        </Link>
-        {menu}
+        <ul className="glonav">
+          <Link className="logo" to="/" >
+            <img src="/images/fav_logo_3.png" />
+          </Link>
+        <li>
+          {menu}
+        </li>
+        </ul>
       </div>
     );
   }
