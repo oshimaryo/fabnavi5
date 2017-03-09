@@ -1,9 +1,9 @@
 var webpack = require("webpack");
-var DashboardPlugin = require('webpack-dashboard/plugin');
+var isProduction = process.env["NODE_ENV"] === "production"; 
 
 module.exports = {
 
-  cache: true,
+  cache: !isProduction,
 
   entry: "./app/assets/javascripts/client/components/FabnaviApp.jsx",
   output: {
@@ -37,9 +37,7 @@ module.exports = {
     fs: "empty"
   },
   devtool: "source-map",
-  plugins: [
-    new DashboardPlugin()
-  ],
+  plugins: [],
   watchOptions: {
    aggregateTimeout: 300,
    poll: 300
