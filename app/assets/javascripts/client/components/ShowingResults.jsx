@@ -17,7 +17,7 @@ export default class ShowingResults extends Component {
                             isSelected={selector.index == index}
                             isOpenMenu={selector.index == index && selector.openMenu}
                             menuIndex={selector.menuIndex}
-                            menuType={selector.menuType} /> 
+                            menuType={selector.menuType} />
                     )
                 })}
             </div>

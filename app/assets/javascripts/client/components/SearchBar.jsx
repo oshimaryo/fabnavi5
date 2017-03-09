@@ -15,7 +15,6 @@ export default class SearchBar extends React.Component {
           <form>
             <input id="search-box"/>
             <span className="search-icon">
-
             </span>
           </form>
         </div>

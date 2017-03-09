@@ -16,7 +16,6 @@ body {
  background-color:rgba(0,0,0,0.7);
  top:0px;
  left:0px;
-
  .box {
     @include outer-container;
     padding-top:130px;
@@ -25,19 +24,16 @@ body {
       @include shift(3);
       font-size: 35pt;
    }
-/*
    .box-close {
       @include span-columns(2);
       font-size: 25pt;
       cursor:pointer;
    }
-
    .box-desc {
       @include span-columns(6);
       @include shift(3);
       font-size: 15pt;
    }
-
    .box-img{
       transform:rotateZ(180deg);
       @include span-columns(6);
@@ -45,23 +41,18 @@ body {
       margin-top:20px;
       margin-bottom:40px;
    }
-   */
  }
 }
-
-
 .thumbnail {
   width: $thumb-width;
   height: $thumb-height;
   margin: 0px auto;
-
-
 }
-
 .thumbnail img {
   width: $thumb-width;
   height:$thumb-height;
   border-radius: 7px 7px 0px 0px;
+  border-color: black;
 }
 #status-icon {
     width:20%;
@@ -69,7 +60,6 @@ body {
     top:0;
     right:0;
 }
-
 .projects {
  @include outer-container;
   margin:20px auto;
@@ -79,40 +69,45 @@ body {
     font-size: 18px;
   }
 }
-.selected-project {
-  width:252px;
-  height:382px;
-  border-color: $hover-color;
-  box-shadow: 0 0 0 3px #FF8F8F
-}
 .project {
   background-color: white;
-  box-shadow: 0 0 0 1px #c8c8c8
+  box-shadow: 0 0 0 1px #c8c8c8;
 }
 .project-box {
-
-
   @include span-columns(3);
   @include omega(4n);
-
-  border-radius: 8px;
+  margin-top: 10px;
   margin-bottom: 20px;
   padding-bottom:20px;
   position:relative;
   //固定幅
   width:250px;
   height:400px;
+  border-radius: 0px 0px 7px 7px;
+  box-shadow: 6px 6px 2px #DDD;
   //animation
   transition: 0.1s ease-in-out;
   hr{
     border: 0;
-    border-bottom: 1px dashed #ccc;
+    border-bottom: 2px dashed black;
     background: #fff;
     width:90%;
   }
 }
 .project-box:hover {
-  box-shadow: 0 0 0 3px #FF8F8F
+  //box-shadow: 0 0 0 3px #FF8F8F;
+  box-shadow: 0 0 0 3px #FF0000;
+  border-radius: 7px 7px 7px 7px;
+  //box-shadow: 6px 6px 4px #B3B3B3;
+}
+.selected-project {
+  width:250px;
+  height:400px;
+  //border-color: $hover-color;
+  //box-shadow: 0 0 0 3px #FF8F8F;
+  box-shadow: 0 0 0 3px #FF0000;
+  border-radius: 7px 7px 7px 7px;
+  //box-shadow: 6px 6px 2px #B3B3B3;
 }
 .project-name {
   font-size:17pt;
@@ -120,6 +115,7 @@ body {
   margin-bottom:5px;
   margin-top: 20px;
   height:54px;
+  text-align: center;
 }
 .date {
   width: 50%;
@@ -168,19 +164,22 @@ a:link {
   color: $white;
   text-decoration: none;
 }
+active{
+  color: black;
+
+}
 a:hover {
   color: $brown;
   text-decoration: none;
 }
-
 .signIn {
  cursor:pointer;
 }
 .user {
-  text-align: right;
+  text-align: center;
 }
 ul.actions {
-  border-radius: 0px 0px 5px 5px;
+  //border-radius: 5px 5px 5px 5px;
   position:absolute;
   top: 0px;
   left:0px;
@@ -190,19 +189,19 @@ ul.actions {
   height:0px;
 
   .selected-action {
-    color: $selected-color ;
+    //color: $selected-color ;
+    color: red ;
   }
-
   .action {
       color:$white;
+
   }
   .action-box {
-
     background-color: $tp-black;
+    //background-color: black;
     list-style: none;
-
-    margin-bottom: 0px;
-    padding-top: 8px;
+    //margin-bottom: 20px;
+    padding-top: 5px;
     .menu2 {
       height: $thumb-height/2;
     }
@@ -215,13 +214,16 @@ ul.actions {
     .menu5 {
       height: $thumb-height/5;
     }
-
+    p{
+      margin-top: -7px;
+    }
     img {
       width:$action-height * 0.8;
       margin:  $action-height * 0.1;
+      margin-bottom: -4px;
     }
     span {
-      position:absolute;
+      //position:absolute;
       margin-top:2px;
     }
   }
@@ -234,8 +236,8 @@ ul.actions {
 .hide {
   display: none;
 }
-
 .logo{
-  padding-top: 90px;
-  padding-left:38px;
+  padding: 0;
+  //padding-top: 90px;
+  //padding-left:38px;
 }
