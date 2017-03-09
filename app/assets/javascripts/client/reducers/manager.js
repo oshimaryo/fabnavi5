@@ -57,7 +57,7 @@ export default function managerReducer(state = initialState, action) {
     case Act.RECEIVE_PROJECT:
       debug('Receive project: ', action);
       return Object.assign({}, state, {
-        project: action.project,
+        project: action.project
       });
     default:
       return state;

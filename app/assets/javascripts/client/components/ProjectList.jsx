@@ -1,11 +1,12 @@
 // defaultで表示するcomponent
-import React, {Component, PropTypes} from 'react';
+import React, {Component, PropTypes, cloneElement} from 'react';
 import { connect } from 'react-redux';
 import ReactPaginate from 'react-paginate'
 import Debug from 'debug';
 
 import ProjectElement from '../components/ProjectElement';
 import Pagination from '../components/Pagination.jsx';
+import ShowingResults from '../components/ShowingResults.jsx';
 
 const debug = Debug('fabnavi:jsx:ProjectList');
 // component
@@ -18,40 +19,31 @@ class ProjectList extends Component {
 
   render() {
     const selector = this.props.selector;
-    console.log('--- projectList is generated ---' );
-    console.dir(this.props);
+    // console.log('--- projectList is generated ---' );
+    // console.dir(this.props);
     console.log('props.selector');
-    console.log(this.props.selector);
+    console.dir(this.props);
 
     return (
-      <div>
+
         <div className="projects">
-        {this.props.projects.map((project, index) =>
-          <ProjectElement
-            key={index}
-            project={project}
-            isSelected={selector.index == index}
-            isOpenMenu={selector.index == index && selector.openMenu}
-            menuIndex={selector.menuIndex}
-            menuType={selector.menuType} />
-            )
-        }
-        </div>
-        <div className="pagination">
-          <Pagination />
-        </div>
+            <Pagination data={this.props.projects} selector={selector}>
+              <ShowingResults />
+            </Pagination>
       </div>
     );
   }
 
   componentWillReceiveProps(nextProps) {
+    // console.log('----- componentWillReceiveProps in ProjectLis.jsx -----');
+    // console.dir(nextProps);
     if(nextProps.isFetching) {
       return;
     }
     if(this.props.route['path'] !== nextProps.route['path']) {
-      if(nextProps.route['path'] === 'myprojects') {
+      if(nextProps.route['path'] === 'myprojects') {// myProjectの場合，自分が作成したprojectのみを引っ張ってくる
         api.getOwnProjects();
-      } else {
+      } else {// そうじゃない場合，全部引っ張ってくる
         api.getAllProjects();
       }
     }
@@ -80,4 +72,5 @@ function mapStateToProps(state) {
   };
 }
 
+// mapStateToPropsでstateを渡す
 export default connect(mapStateToProps)(ProjectList);

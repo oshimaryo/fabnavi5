@@ -195,24 +195,24 @@ header {
     }
   }
 }
-div .pagination{
-  width: 100%;
-  height: 30px;
-  float: center;
-  margin-left: 50px;
-  margin-right: 50px;
-  padding-left: 100px;
-  padding-right: 100px;
+/*.procon{
+  margin-top: 600px;
+  position: relative;
 }
-.pagination ul{
-  list-style: none;
-  width: 100%;
-  height: 30px;
-}
-.pagination li{
+.proconcon{
+  top: 60px;
+  position: absolute;
+}*/
+div .pagination-controls__button{
   float: left;
   width: 20px;
   height: 20px;
+  //float: center;
   margin-left: 20px;
   margin-right: 20px;
+  //margin-top: 400px;
+  //margin-bottom: 20px;
+  //padding-left: 20px;
+  //padding-right: 20px;
+  text-align: center;
 }

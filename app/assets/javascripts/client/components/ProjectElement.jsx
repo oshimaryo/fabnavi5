@@ -7,11 +7,8 @@ const debug = Debug('fabnavi:jsx:ProjectElement');
 
 // project element Component
 export default class ProjectElement extends Component {
+
   render() {
-    // debugs
-    console.log('--- project element is generated ---');
-    console.log('props is below');
-    console.dir(this.props);
     const actions = this.props.menuType == 'allProjects' ? (
       <ul className="actions">
         <li
