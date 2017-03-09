@@ -1,380 +1,316 @@
-'use strict';
-const ProjectServerActionCreator = require('../actions/ProjectServerActionCreator');
-const ServerActionCreator = require('../actions/ServerActionCreator');
-const $ = require('jquery');
-let _accessToken = null,
-    _client = null,
-    _uid = null;
+import axios from 'axios';
+import Debug from 'debug';
+import 'babel-polyfill';
 
-const DEVELOPMENT = true;
+import Act from "../actions/Types";
+import { signedIn } from "../actions/users";// createAction(Act.signedIN)
 
-function setHeader(){
-  localStorage.setItem("header", JSON.stringify({
-    "Client"        : _client,
-    "Uid"           : _uid,
-    "AccessToken"  : _accessToken
-  }));
-}
+const debug = Debug('fabnavi:api');
 
-function clearHeader(){
-  localStorage.removeItem('header');
-  localStorage.removeItem("currentUserInfo");
-}
-
-function loadHeader(){
-  let header = localStorage.getItem("header");
-
-  if( header == null || !DEVELOPMENT){
-    return null;
+class Server {
+    // コンストラクタ
+  constructor() {
+    this.dispatch = null;
+    this.store = null;
   }
 
-  try{
-    header = JSON.parse(header);
-    _client = header.Client;
-    _uid = header.Uid;
-    _accessToken = header.AccessToken;
-    setTimeout(function(){
-      ServerActionCreator.signIn(_uid);
-    }, 0);
-    return header;
-  } catch(e){
-    throw new Error("ERROR. JSON.parse failed");
-  }
-}
-
-function genHeader(){
-  loadHeader();
-  if( _client == null || _uid == null || _accessToken == null){
-    return {};
+  // init function
+  init (store) {
+    this.dispatch = store.dispatch;
+    this.store = store;
+    this.prepareHeaders();
   }
 
-  return {
-    "Client"        : _client,
-    "Uid"           : _uid,
-    "Access-Token"  : _accessToken
-  };
-}
-
-const WebAPIUtils = {
-
-  getCurrentUserInfo : function(){
-    console.log("getCurrentUserInfo");
-
-    $.ajax({
-      dataType : "json",
-      type : "GET",
-      success : function(res){
-        localStorage.setItem("currentUserInfo", JSON.stringify({
-          "Id"        : res.id,
-          "Uid"           : res.uid
-        }));
-      },
-      error : function(err){
-        console.log("Error from getCurrentUserID");
-        console.log(err);
-      },
-      headers : genHeader(),
-      url : "/api/v1/current_user.json"
+  // prepareHeaders function
+  // promiseでreturn
+  prepareHeaders() {
+    return new Promise((resolve, reject) => {
+      const user = this.store.getState().user;// stateのuser取得
+      if(user.isLoggedIn) {// userがログイン状態の場合：GitHub
+        resolve(user.credential);// credentialをreturn
+      }
+      const maybeCredential = this.loadCredential();
+      if(maybeCredential) {// trueなら
+        this.getCurrentUserInfo(maybeCredential)// 実行
+        .then(({headers}) => { resolve(headers); })// headerをreturn
+        .catch(error => {
+          debug('error to login ', error)
+          reject(error);
+        });
+      }
+      // TODO: throw error action to reducer
     });
-  },
+  }
 
-  loadCurrentUserId : function(){
-    let currentUser = localStorage.getItem("currentUserInfo");
-    if( currentUser == null || !DEVELOPMENT){
+  // prepareUserId function
+  prepareUserId() {
+    return new Promise((resolve, reject) => {
+      const userId = this.store.getState().user.id;// stateにあるuseridを取得
+      if(userId) {
+        resolve(userId);
+      }
+      const maybeUserId = this.loadUserId();
+      if(maybeUserId) {
+        this.getCurrentUserInfo()
+        .then(({ id }) => { resolve(id); })
+        .catch(error => {
+          debug('error to login ', error)
+          reject(error);
+        });
+      }
+    });
+  }
+
+  //
+  loadCredential () {
+    try{
+      return JSON.parse(localStorage.getItem('credential'));// localStorageのcredentialを取得
+    } catch(e) {
+      debug('Failed to load credential');
       return null;
     }
+  }
 
+  saveCredential(cred) {
+    localStorage.setItem('credential', JSON.stringify(cred));
+  }
+
+  clearCredential() {
+    localStorage.removeItem('credential');
+  }
+
+  loadUserId() {
     try{
-      currentUser = JSON.parse(currentUser);
-      return currentUser.Id;
-    } catch(e){
-      throw new Error("ERROR. JSON.parse failed");
+      return JSON.parse(localStorage.getItem('userId'));
+    } catch(e) {
+      debug('Failed to load credential');
+      return null;
     }
-  },
+  }
 
-  getProject : function( id ){
-    console.log("getProject : ", id);
+  saveUserId(id) {
+    localStorage.setItem('userId', id);
+  }
 
-    $.ajax({
-      dataType : "json",
-      type : "GET",
-      success : function(res){
-        ProjectServerActionCreator.receiveProject( res );
-      },
-      error : function(err){
-        console.log("Error from getProject");
-        console.log(err);
-      },
-      headers : genHeader(),
-      url : "/api/v1/projects/" + id + ".json"
-    });
-  },
+  clearUserId() {
+    localStorage.removeItem('userId');
+  }
 
-  getOwnProjects : function( uid ){
-    console.log("getOwnProjects : ", uid);
-
-    $.ajax({
-      dataType : "json",
-      type : "GET",
-      success : function(res){
-        ProjectServerActionCreator.receiveProjects( res );
-      },
-      error : function(err){
-        console.log("Error from getOwnProjects");
-        console.log(err);
-      },
-      headers : genHeader(),
-      url : "/api/v1/users/" + uid + "/projects.json"
-    });
-  },
-
-  getAllProjects : function( page, perPage, offset ){
-    console.log("getProjects");
-    const
-        _page = page || 0,
-        _perPage = perPage || 20,
-        _offset = offset || 0;
-
-    $.ajax({
-      dataType : "json",
-      data : {
-        page : _page,
-        perPage : _perPage,
-        offset : _offset
-      },
-      type : "GET",
-      success : function(res){
-        ProjectServerActionCreator.receiveProjects( res );
-      },
-      error : function(err){
-        console.log("Error from getAllProjects");
-        console.log(err);
-      },
-      url : "/api/v1/projects.json"
-
-    });
-  },
-
-  isSigningIn : function(){
-    const url = window.location.href;
-    if(url.includes("uid") && url.includes("client_id") && url.includes("auth_token")){
-      const token = url.match(/auth_token=([a-zA-Z0-9\-]*)/)[1];
-      const uid = url.match(/uid=([a-zA-Z0-9\-]*)/)[1];
-      const client_id = url.match(/client_id=([a-zA-Z0-9\-]*)/)[1];
-      WebAPIUtils.signedIn(token, uid, client_id);
-      window.location.href = window.location.href.split("/")[0] + "/#manager";
+  getCurrentUserInfo(headers) {
+    debug('get current user', headers);
+    if(headers == null) {
+      debug(headers);
+      return Promise.reject('header is invalid');
     }
-    return !!loadHeader();
-  },
+    // TODO：ここでcurrent_user.jsonがないと言われる
+    // fsかなにかで生成？
+    return axios({
+      responseType : 'json',
+      type : 'GET',
+      headers,
+      url : '/api/v1/current_user.json'
+    })
+    .then(response => {
+      const id = response.data.id;
+      this.saveUserId(id);
+      this.saveCredential(headers);
+      this.dispatch(signedIn({
+        credential: headers,
+        id
+      }));
+      return {
+        headers,
+        id
+      };
+    });
+  }
 
-  createProject : function( name, contentAttributesType, description){
-    console.log("createProject");
-    $.ajax({
-      dataType : "json",
+  // async
+  async getProject( id ) {
+    debug(`getProject id:${id}`);
+    const headers = await this.prepareHeaders();
+
+    return axios({
+      responseType : 'json',
+      type : 'GET',
+      headers: headers,
+      url : `/api/v1/projects/${id}.json`
+    })
+    .then(({ data }) => {
+      this.dispatch({
+        type: 'RECEIVE_PROJECT',
+        project: data
+      });
+    });
+  }
+
+  //
+  async getOwnProjects() {
+    debug('getOwnProjects');
+    const headers = await this.prepareHeaders();
+    debug(this.store.getState().user);
+    const url = `/api/v1/users/${this.store.getState().user.id}/projects.json`;
+    this.dispatch({
+      type: 'FETCHING_PROJECTS',
+      url
+    });
+    return axios({
+      responseType : 'json',
+      method : 'GET',
+      headers,
+      url
+    })
+    .then(({ data }) => {
+      this.dispatch({
+        type: 'RECEIVE_PROJECTS',
+        projects: data,
+        kind: 'owned'
+      });
+    });
+  }
+
+  async getAllProjects( page, perPage, offset ) {
+    debug('getAllProjects');
+    const url = '/api/v1/projects.json';
+    this.dispatch({
+      type: 'FETCHING_PROJECTS',
+      url
+    });
+    return axios({
+      responseType : 'json',
       data : {
-        project : {
-          name : name,
-          content_attributes : {
-            description : description,
-            type : "Content::PhotoList"
+        page : page || 0,
+        perPage : perPage || 20,
+        offset : offset || 0
+      },
+      method : 'GET',
+      url
+    })
+    .then(({ data }) => {
+      this.dispatch({
+        type: 'RECEIVE_PROJECTS',
+        projects: data,
+        kind: 'all'
+      });
+    });
+  }
+
+
+  async createProject( name, contentAttributesType, description) {
+    debug('createProject');
+    return axios({
+      responseType : 'json',
+      data : {
+        'project' : {
+          'name' : name,
+          'content_attributes' : {
+            'description' : description,
+            'type' : 'Content::PhotoList'
           }
         }
       },
-      headers : genHeader(),
-      type : "post",
-      success : function(res){
-        ProjectServerActionCreator.createProjectSuccess( res );
-        WebAPIUtils.updateProject({
-          id: res.id,
-          name: res.name,
-          content : [],
-          description : description,
-        });
-      },
-      error : function(err){
-        console.log("Error from Create Project");
-        console.log(err);
-      },
-      url : "/api/v1/projects.json"
-
+      headers : await this.prepareHeaders(),
+      method : 'post',
+      url : '/api/v1/projects.json'
+    })
+    .then(res => {
+      this.updateProject({
+        id: res.id,
+        name: res.name,
+        content : [],
+        description : description,
+      });
     });
-  },
+  }
 
-  setThumbnailLast : function( project ){
+  async setThumbnailLast( project ) {
     if(project.content.length == 0) return;
     const fd = new FormData();
-    fd.append("project[name]", project.name);
-    fd.append("project[figure_id]", project.content[project.content.length - 1].figure.figure_id);
-    $.ajax({
-      dataType : "json",
-      headers : genHeader(),
-      type : "patch",
+    fd.append('project[name]', project.name);
+    fd.append('project[figure_id]', project.content[project.content.length - 1].figure.figure_id);
+    return axios({
+      responseType : 'json',
+      headers : await this.prepareHeaders(),
+      method : 'patch',
       data  : fd,
-      contentType : false,
-      processData : false,
-      success : function(res){
-        console.log("set thumbnail success: ", res);
-      },
-      error : function(err){
-        console.log("Error from UpdateThumbnail");
-        console.log(err);
-      },
-      url : "/api/v1/projects/" + project.id + ".json"
+      url : `/api/v1/projects/${project.id}.json`
     });
-  },
+  }
 
-  updateProject : function( project ){
-    console.log("updateProject");
+  async updateProject( project ) {
+    debug('updateProject', project);
     const fd = new FormData();
-    fd.append("project[name]", project.name);
-    fd.append("project[description]", project.description);
-    fd.append("project[tag_list]", project.tag_list);
-    fd.append("project[private]", project.private);
+    fd.append('project[name]', project.name);
+    fd.append('project[description]', project.description);
+    fd.append('project[tag_list]', project.tag_list);
+    fd.append('project[private]', project.private);
 
-    console.log(project.content);
     let i;
-    for(i = 0; i < project.content.length; i++){
+    for(i = 0; i < project.content.length; i++) {
 
-      if( project.content[i].figure.hasOwnProperty("_destroy") &&
+      if( project.content[i].figure.hasOwnProperty('_destroy') &&
         project.content[i].figure._destroy == true &&
-        project.content[i].figure.figure_id != null ){
+        project.content[i].figure.figure_id != null ) {
 
-        console.log("Delete photo", project.content[i]);
-        fd.append("project[content_attributes][figures_attributes][][type]", "Figure::Photo");
-        fd.append("project[content_attributes][figures_attributes][][attachment_id]", project.content[i].figure.id);
-        fd.append("project[content_attributes][figures_attributes][][id]", project.content[i].figure.figure_id);
-        fd.append("project[content_attributes][figures_attributes][][position]", i);
-        fd.append("project[content_attributes][figures_attributes][][_destroy]", "true");
+        debug('Delete photo', project.content[i]);
+        fd.append('project[content_attributes][figures_attributes][][type]', 'Figure::Photo');
+        fd.append('project[content_attributes][figures_attributes][][attachment_id]', project.content[i].figure.id);
+        fd.append('project[content_attributes][figures_attributes][][id]', project.content[i].figure.figure_id);
+        fd.append('project[content_attributes][figures_attributes][][position]', i);
+        fd.append('project[content_attributes][figures_attributes][][_destroy]', 'true');
       } else {
-        fd.append("project[content_attributes][figures_attributes][][type]", "Figure::Photo");
-        fd.append("project[content_attributes][figures_attributes][][attachment_id]", project.content[i].figure.id);
-        fd.append("project[content_attributes][figures_attributes][][position]", i);
-        fd.append("project[content_attributes][figures_attributes][][_destroy]", "false");
+        fd.append('project[content_attributes][figures_attributes][][type]', 'Figure::Photo');
+        fd.append('project[content_attributes][figures_attributes][][attachment_id]', project.content[i].figure.id);
+        fd.append('project[content_attributes][figures_attributes][][position]', i);
+        fd.append('project[content_attributes][figures_attributes][][_destroy]', 'false');
       }
     }
 
-    $.ajax({
-      dataType : "json",
-      headers : genHeader(),
-      type : "patch",
+    return axios({
+      responseType : 'json',
+      headers : await this.prepareHeaders(),
+      method : 'patch',
       data  : fd,
-      contentType : false,
-      processData : false,
-      success : function(res){
-        console.log("upload success: ", res);
-        ProjectServerActionCreator.updateProjectSucess({ project: res });
-
-      },
-      error : function(err){
-        console.log("Error from UpdateProject");
-        console.log(err);
-      },
-      url : "/api/v1/projects/" + project.id + ".json"
+      url : `/api/v1/projects/${project.id}.json`
     });
-  },
+  }
 
-  deleteProject : function( project ){
-    console.log("deleteProject");
-    $.ajax({
-      dataType : "json",
-      headers : genHeader(),
-      type : "delete",
-      contentType : false,
-      processData : false,
-      success : function(res){
-        console.log("delete success: ", res);
-        ProjectServerActionCreator.deleteProjectSucess( project );
-      },
-      error : function(err){
-        console.log("Error from DeleteProject");
-        console.log(err);
-      },
-      url : "/api/v1/projects/" + project.id + ".json"
-
+  async deleteProject( id ) {
+    debug('deleteProject', id);
+    return axios({
+      responseType : 'json',
+      headers : await this.prepareHeaders(),
+      method : 'delete',
+      url : `/api/v1/projects/${id}.json`
     });
-  },
+  }
 
-  likeProject : function( id ){
-    console.log("likeProject");
-  },
-
-  unlikeProject : function( id ){
-    console.log("unlikeProject");
-  },
-
-  likeFigure : function( project_id, figure_id ){
-    console.log("likeFigure");
-  },
-
-  unlikeFigure : function( project_id, figure_id ){
-    console.log("unlikeFigure");
-  },
-
-  getCalibrations : function( page, perPage, offset ){
-    console.log("getCalibrations");
-  },
-
-  createCalibration : function( name, x, y, width, height ){
-    console.log("createCalibrations");
-  },
-
-  updateCalibration: function( name, x, y, width, height ){
-    console.log("updateCalibrations");
-  },
-
-  deleteCalibration : function( id ){
-    console.log("deleteCalibrations");
-  },
-
-  uploadFile : function( file, name, sym ){
-    console.log("uploadFile");
+  async uploadFile( file, name ) {
+    debug('uploadFile');
 
     const fd = new FormData();
-    fd.append("attachment[file]", file, name);
+    fd.append('attachment[file]', file, name);
 
-    $.ajax({
-      dataType : "json",
+    return axios({
+      responseType : 'json',
       data : fd,
-      processData: false,
-      contentType: false,
-      headers : genHeader(),
-      type : "post",
-      success : function(res){
-        console.log("Uploaded file");
-        console.log( res );
-        res.sym = sym;
-        ProjectServerActionCreator.uploadAttachmentSuccess( res );
-      },
-      error : function(xhr, status, err){
-        console.log("Error from Upload File :sym", sym);
-        console.log(err);
-        ProjectServerActionCreator.uploadAttachmentFailed({ xhr:xhr, status:status, err:err, sym:sym });
-      },
-      url : "/api/v1/attachments.json"
+      headers : await this.prepareHeaders(),
+      method : 'post',
+      url : '/api/v1/attachments.json'
     });
-  },
-
-  signIn : function(){
-    const host = window.location.origin;
-    window.location.href = `${host}/auth/github?auth_origin_url=${host}`;
-  },
-
-  signedIn : function(token, uid, client){
-    _accessToken = token;
-    _uid = uid;
-    _client = client;
-    setHeader();
-  },
-
-  signOut : function(){
-    clearHeader();
-    window.location.reload();
-    setTimeout(function(){
-      ServerActionCreator.signOut();
-    }, 0);
   }
-};
 
+  async signOut() {
+    debug('Sign out');
+    return axios({
+      url: '/auth/sign_out',
+      method: 'delete',
+      responseType: 'json',
+      headers: await this.prepareHeaders()
+    });
+  }
+}
 
-global.api = WebAPIUtils;
-module.exports = WebAPIUtils;
+const api = new Server();
+window.api = api;
+export default api;
