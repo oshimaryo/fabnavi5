@@ -6,7 +6,7 @@ machine:
   node:
     version: 0.12.18
   post:
-    - npm install -g npm@4
+    - npm install -g npm@3
 
 dependencies:
   post:
