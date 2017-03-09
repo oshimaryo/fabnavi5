@@ -75,15 +75,16 @@ export default class Pagination extends Component {
         } else {
             return(
             <div>
-                <div>
+                <div className="procon">
                     {this.createControls()}
                 </div>
-                <div>
+                <div className="proconcon">
                     {cloneElement(this.props.children, {data: this.createPaginateData(), selector: this.props.selector})}
                 </div>
             </div>
         )
         }
+
     }
 }
 
@@ -91,3 +92,14 @@ Pagination.defaultProps = {
     pageSize: 8,// 要素数
     startingPage: 1
 };
+
+// function mapStateToProps(state) {
+//   return {
+//     isFetching: state.manager.isFetching,
+//     projects: state.manager.projects,
+//     selector: state.manager.selector
+//   };
+// }
+
+// // 上記三種が渡される
+// export default connect(mapStateToProps)(UpdatePagination);
