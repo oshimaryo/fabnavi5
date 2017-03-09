@@ -9,9 +9,6 @@ const debug = Debug('fabnavi:jsx:ProjectManager');
 
 export default class ProjectManager extends Component {
   constructor(props) {
-    console.log('--- project manager is generated');
-    console.log('props is below');
-    console.dir(props);
     super(props);
   }
 
