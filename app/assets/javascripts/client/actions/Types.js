@@ -1,7 +1,5 @@
 import keyMirror from "keymirror";
 
-// keyの値を呼び出しているだけ(なんでnull ?)
-// ダブってた値を削除
 export default keyMirror({
 
   FETCHING_PROJECTS: null,
@@ -21,5 +19,5 @@ export default keyMirror({
   SIGNED_IN: null,
   SIGN_IN_FAILED: null,
 
-  CHANGE_FRAME: null,
+  CHANGE_FRAME: null
 });

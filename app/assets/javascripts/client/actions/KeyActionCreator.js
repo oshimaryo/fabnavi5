@@ -17,32 +17,40 @@ export function handleKeyDown(store) {
       alt     : event.altKey,
       meta    : event.metaKey,
       shift   : event.shiftKey,
-      type    : 'NOT_REGISTER',
+      type    : 'NOT_REGISTER'
     };
 
     const state = store.getState();
+    /* -------------------------- */
+    // 矢印ボタンを動かすたびに呼び出される
+    // 中身は大体同じ -> initialStateから代入されたもの？
+    // console.log('state is below');
+    // console.dir(state);
+    /* -------------------------- */
+
     if(state.frame === 'manager') {
+      console.log('--- now frame is manager ---');
       const selector = state.manager.selector;
       payload.selector = selector;
       switch(event.keyCode) {
-        case 37:
+        case 37:// 左
           if(!selector.openMenu) {
             moveSelector(store, payload, -1, 0);
           }
           break;
-        case 39:
+        case 39:// 右
           if(!selector.openMenu) {
             moveSelector(store, payload, 1, 0);
           }
           break;
-        case 38:
+        case 38:// 上
           if(selector.openMenu) {
             // moveMenuSelector(store, payload, -1);
           } else {
             moveSelector(store, payload, 0, -1);
           }
           break;
-        case 40:
+        case 40:// 下
           if(selector.openMenu) {
             // moveMenuSelector(store, payload, 1);
           } else {
@@ -63,7 +71,9 @@ export function handleKeyDown(store) {
           break;
       }
     } else if(state.frame === 'player') {
+      console.log('--- now frame is player ---');
       if(state.player.mode === 'play') {
+        console.log('- playmode play -');
         switch(event.keyCode) {
           case 37:
             changePage(store, payload, state, -1);
@@ -73,6 +83,7 @@ export function handleKeyDown(store) {
             break;
           case 32:
             togglePlaying(store, payload);
+            break;
           case 67:
             changePlayerMode(store, payload);
             break;
@@ -83,6 +94,7 @@ export function handleKeyDown(store) {
             break;
         }
       } else if(state.player.mode === 'calibrateCenter') {
+        console.log('- playmode calibrateCenter -');
         switch(event.keyCode) {
           case 37:
             calibrate(store, payload, 'MOVE_LEFT');
@@ -106,6 +118,7 @@ export function handleKeyDown(store) {
             break;
         }
       } else if(state.player.mode === 'calibrateScale') {
+        console.log('- playmode calibrateScale -');
         switch(event.keyCode) {
           case 37:
             calibrate(store, payload, 'LONGER_HORIZONTAL');
@@ -134,11 +147,13 @@ export function handleKeyDown(store) {
 }
 
 function togglePlaying(store, action) {
+  console.log('--- togglePlaying function is actioned ---');
   action.type = 'TOGGLE_PLAYING'
   store.dispatch(action);
 }
 
 function calibrate(store, action, command) {
+  console.log('--- calibrate function is actioned ---');
   action.type = 'CALIBRATE';
   action.command = command;
   action.step = action.shift ? 10 : 1;
@@ -147,17 +162,20 @@ function calibrate(store, action, command) {
 }
 
 function exitPlayer(store, action) {
+  console.log('--- exitPlayer function is actioned ---');
   action.type = 'PLAYER_EXIT';
   store.dispatch(action);
   browserHistory.push('/');
 }
 
 function changePlayerMode(store, action) {
+  console.log('--- changePlayMode function is actioned ---');
   action.type = 'PLAYER_CHANGE_MODE';
   store.dispatch(action);
 }
 
 function changePage(store, action, state, step) {
+  console.log('--- changePage function is actioned ---');
   let page = state.player.page + step;
   const project = state.player.project;
   if( !project.hasOwnProperty('content') ) {
@@ -176,6 +194,7 @@ function changePage(store, action, state, step) {
 }
 
 function fireMenuAction(store, action, state) {
+  console.log('--- fireMenuAction function is actioned ---');
   action.type = 'FIRE_MENU_ACTION';
   action.selector.openMenu = false;
   store.dispatch(action);
@@ -190,6 +209,7 @@ function fireMenuAction(store, action, state) {
 }
 
 function openMenu(store, action) {
+  console.log('--- openMenu function is actioned ---');
   action.selector.openMenu = true;
   action.selector.menuIndex = 0;
   action.type = 'SELECT_PROJECT_MENU';
@@ -197,6 +217,7 @@ function openMenu(store, action) {
 }
 
 function closeMenu(store, action) {
+  console.log('--- closeMenu function is actioned ---');
   action.selector.openMenu = false;
   action.type = 'SELECT_PROJECT_MENU';
   store.dispatch(action);
@@ -211,8 +232,11 @@ function closeMenu(store, action) {
 
 function moveSelector(store, action, x, y) {
   // TODO: sanitize col and row.
+  console.log('--- moveSelector function is actioned ---');
   const selector = action.selector;
+  // console.log(selector);
   let col = selector.col + x, row = selector.row + y;
+  console.log('col is ' + col + ', row is ' + row);
   if( col < 0 ) col = 0;
   if( row < 0 ) row = 0;
   action.selector = Object.assign({}, selector, {

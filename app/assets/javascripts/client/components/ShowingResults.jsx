@@ -6,8 +6,6 @@ import ProjectElement from '../components/ProjectElement';
 export default class ShowingResults extends Component {
     render(){
         const data = this.props.data;
-        console.log('--- props in ShowingResults.jsx ---');
-        console.dir(this.props);
         const selector = this.props.selector;
         return (
             <div>
@@ -26,16 +24,3 @@ export default class ShowingResults extends Component {
         )
     }
 }
-
-/*
-<div className="middleware">
-                {data.map((projects, i) => {
-                    console.dir(projects);
-                    return (
-                        <div key={i} className="example_item">
-                            yey
-                        </div>
-                    );
-                })}
-            </div>
-*/
