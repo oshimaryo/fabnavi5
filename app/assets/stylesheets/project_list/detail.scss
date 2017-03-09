@@ -1,12 +1,12 @@
 @import "../var";
 @import "bourbon";
 @import "neat";
+
 .detail-page{
   @include outer-container;
   width:$solid-width;
   margin-right: auto;
-  margin-left: atuo;
-
+  margin-left: auto;
   h1{
      font-size: 24px;
      color: #323232;
@@ -17,7 +17,6 @@
   }
 
 }
-
 hr.detail{
   border: 0;
   border-bottom: 1px dashed #ccc;
@@ -25,9 +24,7 @@ hr.detail{
   width: 100%;
   margin: 30px 0px 30px 0px;
 }
-
 .dtail-description{
-
 }
 
 .project-detail-box {
@@ -35,7 +32,6 @@ hr.detail{
   box-shadow: 0 0 0 1px #c8c8c8;
   @include span-columns(3);
   @include omega(4n);
-
   border-radius: 8px;
   margin-bottom: 20px;
   padding-bottom:20px;

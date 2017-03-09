@@ -189,18 +189,19 @@ ul.actions {
   height:0px;
 
   .selected-action {
-    color: $selected-color ;
+    //color: $selected-color ;
+    color: red ;
   }
   .action {
       color:$white;
+
   }
   .action-box {
-    //background-color: $tp-black;
-    background-color: black;
+    background-color: $tp-black;
+    //background-color: black;
     list-style: none;
-    margin-bottom: 0px;
+    //margin-bottom: 20px;
     padding-top: 5px;
-    //border-radius: 7px 7px 7px 7px;
     .menu2 {
       height: $thumb-height/2;
     }
@@ -213,12 +214,16 @@ ul.actions {
     .menu5 {
       height: $thumb-height/5;
     }
+    p{
+      margin-top: -7px;
+    }
     img {
       width:$action-height * 0.8;
       margin:  $action-height * 0.1;
+      margin-bottom: -4px;
     }
     span {
-      position:absolute;
+      //position:absolute;
       margin-top:2px;
     }
   }
