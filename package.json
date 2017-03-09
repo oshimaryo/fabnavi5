@@ -55,7 +55,7 @@
   "scripts": {
     "start": "webpack --progress --colors --watch",
     "dash": "webpack-dashboard -- webpack -d --watch",
-    "build": "webpack",
+    "build": "NODE_ENV=production webpack",
     "lint": "eslint -c ./.eslintrc --fix `git ls-files ./app/assets/javascripts/client`",
     "lint:watch": "esw -c ./.eslintrc --watch --cache --color `git ls-files ./app/assets/javascripts/client`",
     "doc": "esdoc -c esdoc.json"
