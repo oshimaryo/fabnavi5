@@ -32,15 +32,16 @@ class Navigation extends React.Component {
           </ul>
         </div>
       );
+
     return (
       <div className="header">
         <ul className="glonav">
           <Link className="logo" to="/" >
             <img src="/images/kaffcop_icon/logo.png" />
           </Link>
-          <li>
-            {menu}
-          </li>
+        <li>
+          {menu}
+        </li>
         </ul>
       </div>
     );

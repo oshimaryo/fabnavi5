@@ -3,6 +3,10 @@ machine:
     Japan
   ruby:
     version: 2.2.3
+  node:
+    version: 0.12.18
+  post:
+    - npm install -g npm@3
 
 dependencies:
   post:
