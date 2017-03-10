@@ -12,8 +12,6 @@ class Player extends Component {
 
   constructor(props) {
     super(props);
-    // console.log('---- Constructor of Player.jsx is called ----');
-    // console.dir(this.props);
     this.clearCanvas = () => {
       this.canvas.clear();
     };
@@ -29,7 +27,6 @@ class Player extends Component {
   }
 
   render() {
-    // console.log('---- Player Component render function is called ----');
     return (
       <div>
         <canvas ref="mainCanvas" />
@@ -38,29 +35,18 @@ class Player extends Component {
   }
   
   updateCanvas() {
-    // console.log('---- updateCanvas function is called ----');
-    // console.log('--- props data is below ---');
-    // console.dir(this.props);
     const project = this.props.project;
-    // console.log('-- project contents is below --');
-    // console.dir('project ' + project);
     
     const isValidProject = () => {
-      // console.log('--- isValidProjectn() is called ---');
-      // console.dir(project.data);
       // TODO:  Cannot read property 'content' of null
-      // content propertyがない => projectが読み込まれていない
       return typeof project === 'object' && project.data.content.length !== 0;
     };
 
-    // もしfalseの場合 => 画像がない場合
     if (!isValidProject()) {
       debug('invalid project data', project);
-      // console.error('this project is no Images. So this function is stopped');
       return;
     }
 
-    // content typeがmovieの場合 => 今回はないので無視
     if (this.props.contentType === 'movie') {
       if (this.video.src === '') {
         this.video.width = window.screen.width;
@@ -79,41 +65,24 @@ class Player extends Component {
       return;
     }
 
-    // console.log('-- prev this.currentState --');
     this.currentState = this.props.mode;
-    // this.currentState = 'play';
-    // console.log('this.currentState is ' + this.currentState);
-    // console.log('-- after this.currentState --');
 
     if (this.currentState !== this.lastState) {
-      // console.log('- canvas clear -');
-      this.canvas.clear();// canvasをクリア
+      this.canvas.clear();
     }
 
-    // console.log('-- prev this.lastState --');
     this.lastState = this.currentState;
-    // console.log('this.lastState is ' + this.lastState);
-    // console.log('-- after this.lastState --');
 
-    // console.log('define getCurrentImage function');
     const getCurrentImage = () => {
       return new Promise((resolve, reject) => {
         if (this.lastPage === this.props.page && this.currentImage != null) {
-          // console.log('--- resolve in Promise is called ---');
           resolve(this.currentImage);
           // return;
         }
 
         const fig = this.props.project.data.content[this.props.page].figure;
-        // console.log('--- fig in getCurrentImage function is ---');
-        // console.log('-- tmp props --');
-        // console.dir(this.props);
-        // console.dir(fig);
-
-        // console.log('--- prev this.lastPage ---');
+        
         this.lastPage = this.props.page;
-        // console.log(this.lastPage);
-        // console.log('--- after this.lastPate ---');
 
         if (fig.hasOwnProperty('clientContent') && fig.clientContent.hasOwnProperty('dfdImage')) {
           fig.clientContent.dfdImage
@@ -124,14 +93,10 @@ class Player extends Component {
           return;
         }
 
-        // imgを生成する
         const img = new Image();
-        // canvasをredraw
         this.canvas.redraw();
-        // MainViewの中にある関数の描画
         this.canvas.drawWaitingMessage();
 
-        // lastPageが0，つまりない場合
         if (this.lastPage === 0) {
           this.canvas.drawInstructionMessage();
         }
@@ -145,7 +110,6 @@ class Player extends Component {
 
     getCurrentImage()
       .then(img => {
-        // console.log('--- getCurrentImage was called ---');
         this.currentImage = img;
         this.canvas.draw(this.currentImage, this.props.config);
 

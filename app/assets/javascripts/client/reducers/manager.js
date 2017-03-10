@@ -27,8 +27,6 @@ const initialState = {
 // stateの更新は `Object.assign` を使う
 // stateそのものを変更させないため
 export default function managerReducer(state = initialState, action) {
-  // console.log('action');
-  // console.dir(action);
   switch(action.type) {
     case Act.FETCHING_PROJECTS:
       return Object.assign({}, state, {

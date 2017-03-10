@@ -32,8 +32,6 @@ window.addEventListener('DOMContentLoaded', () => {
     // reducerで状態管理
     // reducerは現在の状態stateと受け取ったActionを引数にとり，新しい状態を返す関数
     const store = createStore(reducer, composeEnhancers(applyMiddleware(rootEpics, adjustor)));
-    // console.log('--- createStore in FabnaviApp.jsx ---');
-    // console.dir(store);
 
     const onEnterFrame = frame => (nextState, replace, callback) => {
         store.dispatch(changeFrame(frame));

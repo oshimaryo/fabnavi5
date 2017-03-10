@@ -17,19 +17,13 @@ export default class Pagination extends Component {
         if (nextProps.data.length === 0) {
             return;
         }
-        // console.log('called');
         const data = nextProps.data;
-        // console.dir(nextProps);
-        // const startingPage = this.props.startingPage
-        //     ? this.props.startingPage
-        //     : 1;
         const pageSize = this.props.pageSize;
         let pageCount = parseInt(data.length / pageSize);
         if (data.length % pageSize > 0) {
             pageCount++;
         }
         this.setState({
-            // currentPage: startingPage,
             pageCount: pageCount
         });
     }

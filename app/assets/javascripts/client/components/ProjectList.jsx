@@ -18,11 +18,6 @@ class ProjectList extends Component {
 
   render() {
     const selector = this.props.selector;
-    // console.log('--- projectList is generated ---' );
-    // console.dir(this.props);
-    // console.log('props.selector');
-    // console.dir(this.props);
-    // console.dir(this.props);
     return (
       <div className="projects">
         <Pagination data={this.props.projects} selector={selector}>
@@ -39,7 +34,7 @@ class ProjectList extends Component {
     if (this.props.route['path'] !== nextProps.route['path']) {
       if (nextProps.route['path'] === 'myprojects') {// myProjectの場合，自分が作成したprojectのみを引っ張ってくる
         api.getOwnProjects();
-      } else {// そうじゃない場合，全部引っ張ってくる
+      } else {
         api.getAllProjects();
       }
     }
@@ -68,5 +63,4 @@ function mapStateToProps(state) {
   };
 }
 
-// mapStateToPropsでstateを渡す
 export default connect(mapStateToProps)(ProjectList);

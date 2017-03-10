@@ -10,8 +10,6 @@ export default class ShowingResults extends Component {
         return (
             <div>
                 {data.map((project, index) => {
-                    /*console.log('showingresults');
-                    console.log(index);*/
                     return (
                         <ProjectElement
                             key={index}

@@ -9,9 +9,6 @@ import errors from './errors';
 
 const debug = Debug('fabnavi:reducer');
 
-// 状態遷移を管理するもの一覧
-// createStoreではReducerを一個しか登録出来ないから，combineReducersで複数登録するようにする
-// それぞれのInitialStateを渡す
 export default combineReducers({
   player,
   user,
