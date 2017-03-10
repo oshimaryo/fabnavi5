@@ -136,7 +136,7 @@ class Server {
       headers: headers,
       url : `/api/v1/projects/${id}.json`
     })
-    .then(({ data }) => {
+    .then((data) => {
       this.dispatch({
         type: 'RECEIVE_PROJECT',
         project: data

@@ -1,5 +1,5 @@
 // defaultで表示するcomponent
-import React, {Component, PropTypes, cloneElement} from 'react';
+import React, { Component, PropTypes, cloneElement } from 'react';
 import { connect } from 'react-redux';
 import ReactPaginate from 'react-paginate'
 import Debug from 'debug';
@@ -24,7 +24,6 @@ class ProjectList extends Component {
     console.dir(this.props);
 
     return (
-
         <div className="projects">
             <Pagination data={this.props.projects} selector={selector}>
               <ShowingResults />
@@ -34,23 +33,23 @@ class ProjectList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.isFetching) {
+    if (nextProps.isFetching) {
       return;
     }
-    if(this.props.route['path'] !== nextProps.route['path']) {
-      if(nextProps.route['path'] === 'myprojects') {// myProjectの場合，自分が作成したprojectのみを引っ張ってくる
+    if (this.props.route['path'] !== nextProps.route['path']) {
+      if (nextProps.route['path'] === 'myprojects') {// myProjectの場合，自分が作成したprojectのみを引っ張ってくる
         api.getOwnProjects();
-      } else {// そうじゃない場合，全部引っ張ってくる
+      } else {
         api.getAllProjects();
       }
     }
   }
 
   componentWillMount() {
-    if(this.props.projects.length !== 0) {
+    if (this.props.projects.length !== 0) {
       return;
     }
-    if(this.props.route['path'] === 'myprojects') {
+    if (this.props.route['path'] === 'myprojects') {
       api.getOwnProjects();
     } else {
       api.getAllProjects();
@@ -69,5 +68,4 @@ function mapStateToProps(state) {
   };
 }
 
-// mapStateToPropsでstateを渡す
 export default connect(mapStateToProps)(ProjectList);

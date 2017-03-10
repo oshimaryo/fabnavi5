@@ -35,7 +35,7 @@ class Pagination extends Component {
     }
     
     onHandlePageClick(data){
-        console.log('yay');
+        // console.log('yay');
     }
 
     render(){

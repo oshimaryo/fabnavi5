@@ -1,11 +1,10 @@
-import Debug from 'debug';
+import Debug from'debug';
 
 const debug = Debug('fabnavi:player:canvas');
 
-export default class MainView {
+export default class MainView{
 
-  constructor(canvasElement) {
-
+  constructor(canvasElement){
     this.currentImage = null;
     this.convertQuality = 0.7;
     this.reset();
@@ -18,14 +17,14 @@ export default class MainView {
     this.clear();
   }
 
-  reset() {
+  reset(){
     if(this.ctx != null)this.clear();
     this.currentImage = null;
     this.ctx = null;
     this.cvs = null;
   }
 
-  drawCalibrateCenterLine() {
+  drawCalibrateCenterLine(){
     this.redraw();
     this.ctx.strokeStyle = '#539ECD';
     this.ctx.beginPath();
@@ -37,7 +36,7 @@ export default class MainView {
     this.ctx.stroke();
   }
 
-  drawCalibrateScaleLine() {
+  drawCalibrateScaleLine(){
     this.redraw();
     this.ctx.strokeStyle = '#DC5536';
     this.ctx.beginPath();
@@ -49,7 +48,7 @@ export default class MainView {
     this.ctx.stroke();
   }
 
-  drawWaitingMessage() {
+  drawWaitingMessage(){
     this.ctx.font = '100px NotoSans-Regular, sans-serif';
     this.ctx.textBaseline = 'top';
     this.ctx.lineWidth = 5.0;
@@ -59,7 +58,7 @@ export default class MainView {
     this.ctx.fillText('Now Loading...', this.width / 2 - 300, this.height / 2);
   }
 
-  drawInstructionMessage() {
+  drawInstructionMessage(){
     this.ctx.font = '20px NotoSans-Regular, sans-serif';
     this.ctx.textBaseline = 'top';
     this.ctx.lineWidth = 3.0;
@@ -86,7 +85,7 @@ export default class MainView {
 
   }
 
-  drawCenterInstruction() {
+  drawCenterInstruction(){
     this.ctx.font = '30px NotoSans-Regular, sans-serif';
     this.ctx.textBaseline = 'top';
     this.ctx.lineWidth = 3.0;
@@ -120,7 +119,7 @@ export default class MainView {
     this.ctx.fillText(' C : ScaleCalibration', this.width / 8, this.height / 8 + 120);
   }
 
-  drawScaleInstruction() {
+  drawScaleInstruction(){
     this.ctx.font = '30px NotoSans-Regular, sans-serif';
     this.ctx.textBaseline = 'top';
     this.ctx.lineWidth = 3.0;
@@ -146,7 +145,7 @@ export default class MainView {
     this.ctx.fillText(' C : Back to Play', this.width / 8, this.height / 8 + 60);
   }
 
-  drawShootingMessage() {
+  drawShootingMessage(){
     this.ctx.fillStyle = '#343434';
     this.ctx.font = '100px NotoSans-Regular, sans-serif';
     this.ctx.translate(-(this.width / 2 + 300), -(this.height / 2));
@@ -154,11 +153,11 @@ export default class MainView {
     this.ctx.translate(this.width / 2 + 300, this.height / 2);
   }
 
-  draw(img, conf, cvs, ctx) {
-    if(!cvs) {
+  draw(img, conf, cvs, ctx){
+    if(!cvs){
       cvs = this.cvs;
     }
-    if(!ctx) {
+    if(!ctx){
       ctx = cvs.getContext('2d');
     }
     this._draw(img, conf, cvs, ctx);
@@ -166,9 +165,9 @@ export default class MainView {
     this.conf = conf;
   }
 
-  _draw(img, conf, cvs, ctx) {
+  _draw(img, conf, cvs, ctx){
 
-    if(!conf && this.conf) {
+    if(!conf && this.conf){
       conf = this.conf;
     }
     /* set cropping area on image  */
@@ -186,7 +185,7 @@ export default class MainView {
 
     ctx.fillStyle = 'black';
 
-    if(sy < 0) {
+    if(sy < 0){
       const StoDh = dh / sh;
       dy = sy * StoDh;
       dh += dy;
@@ -196,7 +195,7 @@ export default class MainView {
       ctx.fillRect(0, 0, cvs.width, dy);
     }
 
-    if(sx < 0) {
+    if(sx < 0){
       const StoDw = dw / sw;
       dx = sx * StoDw;
       dw += dx;
@@ -206,14 +205,14 @@ export default class MainView {
       ctx.fillRect(0, 0, dx, cvs.height);
     }
 
-    if(sx + sw > img.width) {
+    if(sx + sw > img.width){
       const StoDw = dw / sw;
       sw -= sx + sw - img.width;
       dw = sw * StoDw;
       ctx.fillRect(dx + dw, 0, cvs.width - dx - dw, cvs.height);
     }
 
-    if(sy + sh > img.height) {
+    if(sy + sh > img.height){
       const StoDh = dh / sh;
       sh -= sy + sh - img.height;
       dh = sh * StoDh;
@@ -222,17 +221,17 @@ export default class MainView {
     ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh);
   }
 
-  render(video, conf) {
+  render(video, conf){
     this._draw(video, this.ctx, conf);
   }
 
-  redraw() {
+  redraw(){
     debug('redraw');
     this.clear();
     if(this.currentImage)this.draw(this.currentImage);
   }
 
-  toBlob(img, conf) {
+  toBlob(img, conf){
     return new Promise(resolve => {
       const cvs = document.createElement('canvas');
       cvs.width = img.naturalWidth;
@@ -244,20 +243,20 @@ export default class MainView {
     });
   }
 
-  clear() {
+  clear(){
     debug('clear');
     this.ctx.clearRect(0, 0, this.width, this.height);
   }
 
-  getCurrentImage() {
+  getCurrentImage(){
     return this.currentImage || false;
   }
 
-  toDataURL() {
+  toDataURL(){
     return this.cvs.toDataURL();
   }
 
-  drawMessage(message, x, y) {
+  drawMessage(message, x, y){
     this.ctx.fillStyle = 'green';
     this.ctx.font = '100px ArialRoundedMTBoldBold, serif';
     this.ctx.rotate(Math.PI);
