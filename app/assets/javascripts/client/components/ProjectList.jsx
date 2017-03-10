@@ -25,7 +25,7 @@ class ProjectList extends Component {
     // console.dir(this.props);
     return (
       <div className="projects">
-        <Pagination data={this.props.projects} selector={selector} selectPage={this.props.selectPage}>
+        <Pagination data={this.props.projects} selector={selector}>
           <ShowingResults />
         </Pagination>
       </div>

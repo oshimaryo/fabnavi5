@@ -81,9 +81,9 @@ export function handleKeyDown(store) {
           break;
       }
     } else if (state.frame === 'player') {
-      console.log('--- now frame is player ---');
+      // console.log('--- now frame is player ---');
       if (state.player.mode === 'play') {
-        console.log('- playmode play -');
+        // console.log('- playmode play -');
         switch (event.keyCode) {
           case 37:
             changePage(store, payload, state, -1);
@@ -104,7 +104,7 @@ export function handleKeyDown(store) {
             break;
         }
       } else if (state.player.mode === 'calibrateCenter') {
-        console.log('- playmode calibrateCenter -');
+        // console.log('- playmode calibrateCenter -');
         switch (event.keyCode) {
           case 37:
             calibrate(store, payload, 'MOVE_LEFT');
@@ -128,7 +128,7 @@ export function handleKeyDown(store) {
             break;
         }
       } else if (state.player.mode === 'calibrateScale') {
-        console.log('- playmode calibrateScale -');
+        // console.log('- playmode calibrateScale -');
         switch (event.keyCode) {
           case 37:
             calibrate(store, payload, 'LONGER_HORIZONTAL');
@@ -158,13 +158,13 @@ export function handleKeyDown(store) {
 }
 
 function togglePlaying(store, action) {
-  console.log('--- togglePlaying function is actioned ---');
+  // console.log('--- togglePlaying function is actioned ---');
   action.type = 'TOGGLE_PLAYING'
   store.dispatch(action);
 }
 
 function calibrate(store, action, command) {
-  console.log('--- calibrate function is actioned ---');
+  // console.log('--- calibrate function is actioned ---');
   action.type = 'CALIBRATE';
   action.command = command;
   action.step = action.shift ? 10 : 1;
@@ -173,20 +173,21 @@ function calibrate(store, action, command) {
 }
 
 function exitPlayer(store, action) {
-  console.log('--- exitPlayer function is actioned ---');
+  console.log('------- exitPlayer function is actioned -------');
   action.type = 'PLAYER_EXIT';
   store.dispatch(action);
+  console.dir(store.getState());
   browserHistory.push('/');
 }
 
 function changePlayerMode(store, action) {
-  console.log('--- changePlayMode function is actioned ---');
+  // console.log('--- changePlayMode function is actioned ---');
   action.type = 'PLAYER_CHANGE_MODE';
   store.dispatch(action);
 }
 
 function changePage(store, action, state, step) {
-  console.log('--- changePage function is actioned ---');
+  // console.log('--- changePage function is actioned ---');
   let page = state.player.page + step;
   const project = state.player.project;
   if (!project.hasOwnProperty('content')) {
@@ -205,11 +206,11 @@ function changePage(store, action, state, step) {
 }
 
 function fireMenuAction(store, action, state) {
-  console.log('--- fireMenuAction function is actioned ---');
-  console.dir(store.getState());
-  console.dir(action);
-  console.dir(state);// ここにproject入ってる
-  console.log(state.manager.project.id);
+  // console.log('--- fireMenuAction function is actioned ---');
+  // console.dir(store.getState());
+  // console.dir(action);
+  // console.dir(state);// ここにproject入ってる
+  // console.log(state.manager.project.id);
   action.type = 'FIRE_MENU_ACTION';
   action.selector.openMenu = false;
   store.dispatch(action);
@@ -219,12 +220,13 @@ function fireMenuAction(store, action, state) {
         api.getOwnProjects();
       });
   } else {
+    console.log('id is ' + state.manager.project.id);
     browserHistory.push(`/${state.manager.selector.action}/${state.manager.project.id}`);
   }
 }
 
 function openMenu(store, action) {
-  console.log('--- openMenu function is actioned ---');
+  // console.log('--- openMenu function is actioned ---');
   action.selector.openMenu = true;
   action.selector.menuIndex = 0;
   action.type = 'SELECT_PROJECT_MENU';
@@ -232,7 +234,7 @@ function openMenu(store, action) {
 }
 
 function closeMenu(store, action) {
-  console.log('--- closeMenu function is actioned ---');
+  // console.log('--- closeMenu function is actioned ---');
   action.selector.openMenu = false;
   action.type = 'SELECT_PROJECT_MENU';
   store.dispatch(action);
@@ -248,14 +250,14 @@ function closeMenu(store, action) {
 // ここで移動が制御される
 function moveSelector(store, action, x, y) {
   // TODO: sanitize col and row.
-  // console.log('--- moveSelector function is actioned ---');
+  console.log('--- moveSelector function is actioned ---');
   const selector = action.selector;
   const state = store.getState();// 全体のstate取得
   const manager = state.manager;
   const projects = manager.projects;
   const data = projects.length;// 読み込んであるproject全体の長さ
-  // console.log('- projects contents in moveSelector -');
-  // console.dir(state);
+  console.log('- projects contents in moveSelector -');
+  console.dir(state);
 
   let col = selector.col + x,
       row = selector.row + y;

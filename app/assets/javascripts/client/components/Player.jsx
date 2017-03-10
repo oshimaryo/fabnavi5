@@ -12,10 +12,8 @@ class Player extends Component {
 
   constructor(props) {
     super(props);
-
-    console.log('Player.jsx');
-    console.dir(this.props);
-
+    // console.log('---- Constructor of Player.jsx is called ----');
+    // console.dir(this.props);
     this.clearCanvas = () => {
       this.canvas.clear();
     };
@@ -25,17 +23,13 @@ class Player extends Component {
       this.lastState = '',
       this.currentState = '';
 
-    this.updateCanvas = this.updateCanvas.bind(this);// これをやらないとundefinedになる
-    this.video = document.createElement('video');// 
-    this.renderingTimer = null;// 
+    this.updateCanvas = this.updateCanvas.bind(this);
+    this.video = document.createElement('video');
+    this.renderingTimer = null;
   }
 
-  // Player Componentがrenderingするもの
   render() {
-    // refはコンポーネントを識別するための属性
-    // 同一Component内（Player内）のrefは全てrefsというのにまとめられる
-    // this.ref.mainCanvas：これでPlayer Componentにアクセスできるようになる
-    // このPlayerのDOM要素を角六する場合に，ReactDOM.findDOMNodeを使用
+    // console.log('---- Player Component render function is called ----');
     return (
       <div>
         <canvas ref="mainCanvas" />
@@ -43,35 +37,30 @@ class Player extends Component {
     );
   }
   
-  // updateCanvas function
   updateCanvas() {
-    // console.log('--- Props in Player.jsx ---');
+    // console.log('---- updateCanvas function is called ----');
+    // console.log('--- props data is below ---');
     // console.dir(this.props);
     const project = this.props.project;
-    console.log('update canvas function type is ' + typeof project);
-    console.dir(this.props);
-    // console.log('--- updateCanvas function project ---');
-    // console.dir(project);
-    // console.log('content length is ' + project.content.length);// 長さ確認
-    // return true ro false, isValidProject
+    // console.log('-- project contents is below --');
+    // console.dir('project ' + project);
+    
     const isValidProject = () => {
-      // console.log('- isValidProject is actioned -');
+      // console.log('--- isValidProjectn() is called ---');
+      // console.dir(project.data);
       // TODO:  Cannot read property 'content' of null
       // content propertyがない => projectが読み込まれていない
-      // console.log('return object : ' + (typeof project === 'object' && project.data.content.length !== 0));
       return typeof project === 'object' && project.data.content.length !== 0;
     };
 
     // もしfalseの場合 => 画像がない場合
     if (!isValidProject()) {
       debug('invalid project data', project);
-      // console.log('this project is no Images. So this function is stopped');
-      // return null;これじゃまずい気がする
+      // console.error('this project is no Images. So this function is stopped');
       return;
     }
 
     // content typeがmovieの場合 => 今回はないので無視
-    console.log(this.props.contentType);
     if (this.props.contentType === 'movie') {
       if (this.video.src === '') {
         this.video.width = window.screen.width;
@@ -90,50 +79,43 @@ class Player extends Component {
       return;
     }
 
-    // currentStateをprops内のmodeにする（多分 mode: play）
-    // this.currentState = this.props.mode;
-    console.log('prev currentState');
-    this.currentState = 'play';
-    console.log('after currentState');
-    // currentStateがlastStateじゃなければ
-    // つまり初回は 'play' と ''なので，trueとなる
-    // != を !== に変更した
-    // 現在の状態と，最後の状態を比較？
+    // console.log('-- prev this.currentState --');
+    this.currentState = this.props.mode;
+    // this.currentState = 'play';
+    // console.log('this.currentState is ' + this.currentState);
+    // console.log('-- after this.currentState --');
+
     if (this.currentState !== this.lastState) {
+      // console.log('- canvas clear -');
       this.canvas.clear();// canvasをクリア
     }
 
-    // lastStateをcurrentStateにする
-    // play?
+    // console.log('-- prev this.lastState --');
     this.lastState = this.currentState;
+    // console.log('this.lastState is ' + this.lastState);
+    // console.log('-- after this.lastState --');
 
-    // getCurrentImage function 
-    // promise形式だからチェーンメソッド
-    console.log('define getCurrentImage function');
+    // console.log('define getCurrentImage function');
     const getCurrentImage = () => {
       return new Promise((resolve, reject) => {
-        // lastPage（最初は0）がpropsで渡されたpageかつ，currentImageが存在する場合
-        // 
         if (this.lastPage === this.props.page && this.currentImage != null) {
-          // resolveなので，処理が成功した状態
-          // this.currentImageをreturn 
+          // console.log('--- resolve in Promise is called ---');
           resolve(this.currentImage);
-          // 成功処理なのにnullを返すの ... ? 
-          // 一回消す
           // return;
         }
 
-        // figは，props.projectの中のcontent配列のpage番目のfigureが入る
         const fig = this.props.project.data.content[this.props.page].figure;
-        console.log('fig in getCurrentImage function is ');
-        console.dir(fig);
+        // console.log('--- fig in getCurrentImage function is ---');
+        // console.log('-- tmp props --');
+        // console.dir(this.props);
+        // console.dir(fig);
 
-        // 最後のページをpropsのpageに指定する．多分総合ページ数？
+        // console.log('--- prev this.lastPage ---');
         this.lastPage = this.props.page;
+        // console.log(this.lastPage);
+        // console.log('--- after this.lastPate ---');
 
-        // figの中にclientContentがあるかつ，clientContentの中に，dfdImageがある場合
         if (fig.hasOwnProperty('clientContent') && fig.clientContent.hasOwnProperty('dfdImage')) {
-          // わからん
           fig.clientContent.dfdImage
             .then(img => {
               resolve(img, true);
@@ -163,7 +145,7 @@ class Player extends Component {
 
     getCurrentImage()
       .then(img => {
-        console.log('getCurrentImage was called');
+        // console.log('--- getCurrentImage was called ---');
         this.currentImage = img;
         this.canvas.draw(this.currentImage, this.props.config);
 
