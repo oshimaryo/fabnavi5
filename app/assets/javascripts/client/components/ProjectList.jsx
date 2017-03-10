@@ -1,5 +1,5 @@
 // defaultで表示するcomponent
-import React, {Component, PropTypes, cloneElement} from 'react';
+import React, { Component, PropTypes, cloneElement } from 'react';
 import { connect } from 'react-redux';
 import ReactPaginate from 'react-paginate'
 import Debug from 'debug';
@@ -20,25 +20,24 @@ class ProjectList extends Component {
     const selector = this.props.selector;
     // console.log('--- projectList is generated ---' );
     // console.dir(this.props);
-    console.log('props.selector');
-    console.dir(this.props);
-
+    // console.log('props.selector');
+    // console.dir(this.props);
+    // console.dir(this.props);
     return (
-
-        <div className="projects">
-            <Pagination data={this.props.projects} selector={selector}>
-              <ShowingResults />
-            </Pagination>
+      <div className="projects">
+        <Pagination data={this.props.projects} selector={selector} selectPage={this.props.selectPage}>
+          <ShowingResults />
+        </Pagination>
       </div>
     );
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.isFetching) {
+    if (nextProps.isFetching) {
       return;
     }
-    if(this.props.route['path'] !== nextProps.route['path']) {
-      if(nextProps.route['path'] === 'myprojects') {// myProjectの場合，自分が作成したprojectのみを引っ張ってくる
+    if (this.props.route['path'] !== nextProps.route['path']) {
+      if (nextProps.route['path'] === 'myprojects') {// myProjectの場合，自分が作成したprojectのみを引っ張ってくる
         api.getOwnProjects();
       } else {// そうじゃない場合，全部引っ張ってくる
         api.getAllProjects();
@@ -47,10 +46,10 @@ class ProjectList extends Component {
   }
 
   componentWillMount() {
-    if(this.props.projects.length !== 0) {
+    if (this.props.projects.length !== 0) {
       return;
     }
-    if(this.props.route['path'] === 'myprojects') {
+    if (this.props.route['path'] === 'myprojects') {
       api.getOwnProjects();
     } else {
       api.getAllProjects();

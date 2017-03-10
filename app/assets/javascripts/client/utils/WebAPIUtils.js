@@ -127,6 +127,9 @@ class Server {
 
   // async
   async getProject( id ) {
+
+    console.log('hogehogehoge');
+
     debug(`getProject id:${id}`);
     const headers = await this.prepareHeaders();
 
@@ -136,7 +139,8 @@ class Server {
       headers: headers,
       url : `/api/v1/projects/${id}.json`
     })
-    .then(({ data }) => {
+    .then((data) => {
+      console.log(data);
       this.dispatch({
         type: 'RECEIVE_PROJECT',
         project: data

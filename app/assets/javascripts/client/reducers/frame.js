@@ -6,10 +6,10 @@ const debug = Debug('fabnavi:reducer:frame');
 const initialState = location.pathname.split('/')[1] === 'play' ? 'player' : 'manager';
 
 export default function frameReducer(state = initialState, action) {
-  switch(action.type) {
-    case Act.CHANGE_FRAME:// null
-      return action.payload;//
+  switch (action.type) {
+    case Act.CHANGE_FRAME: // null
+      return action.payload; //
     default:
-      return state;// stateをそのまま帰す
+      return state; // stateをそのまま帰す
   }
 }

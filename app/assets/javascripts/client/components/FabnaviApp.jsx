@@ -1,11 +1,11 @@
 import React from 'react';
-import ReactDOM, {render} from 'react-dom';
+import ReactDOM, { render } from 'react-dom';
 import 'rxjs';
-import {createStore, applyMiddleware, compose} from 'redux';
-import {Provider} from 'react-redux';
-import {createEpicMiddleware} from 'redux-observable';
+import { createStore, applyMiddleware, compose } from 'redux';
+import { Provider } from 'react-redux';
+import { createEpicMiddleware } from 'redux-observable';
 import Debug from 'debug';
-import {Router, Route, IndexRoute, browserHistory} from 'react-router';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 import ProjectList from './ProjectList';
 import ProjectManager from './ProjectManager';
@@ -17,9 +17,9 @@ import ProjectDetail from './ProjectDetail';
 import reducer from '../reducers/index';
 import adjustor from '../middleware/adjustor';
 import rootEpics from '../middleware/epics/index';
-import {handleKeyDown} from '../actions/KeyActionCreator';
+import { handleKeyDown } from '../actions/KeyActionCreator';// ここでkey操作を呼び出し
 import WebAPIUtils from '../utils/WebAPIUtils';
-import {changeFrame} from "../actions/frame";
+import { changeFrame } from "../actions/frame";
 
 const debug = Debug('fabnavi:jsx:FabnaviApp');
 
@@ -32,6 +32,8 @@ window.addEventListener('DOMContentLoaded', () => {
     // reducerで状態管理
     // reducerは現在の状態stateと受け取ったActionを引数にとり，新しい状態を返す関数
     const store = createStore(reducer, composeEnhancers(applyMiddleware(rootEpics, adjustor)));
+    // console.log('--- createStore in FabnaviApp.jsx ---');
+    // console.dir(store);
 
     const onEnterFrame = frame => (nextState, replace, callback) => {
         store.dispatch(changeFrame(frame));
@@ -45,22 +47,19 @@ window.addEventListener('DOMContentLoaded', () => {
         return;
     }
     api.init(store);
-    ReactDOM.render(
-        // providerで囲む
-        // react router でpage遷移
-        // `IndexRoute` の指定先がdefault page
+    render(
         <Provider store={store}>
-        <Router history={browserHistory}>
-            <Route components={ProjectManager} path="/" onEnter={onEnterFrame('manager')}>
-                <IndexRoute component={ProjectList}/>
-                <Route component={ProjectList} path="myprojects"/>
-                <Route component={CreateProject} path="create"/>
-                <Route component={EditProject} path="edit/:projectId"/>
-                <Route component={ProjectDetail} path="detail/:projectId"/>
-            </Route>
-            <Route components={Player} path="/play/:projectId" onEnter={onEnterFrame('player')}/>
-        </Router>
-    </Provider>, document.querySelector('#mount-point'));
+            <Router history={browserHistory}>
+                <Route components={ProjectManager} path="/" onEnter={onEnterFrame('manager')}>
+                    <IndexRoute component={ProjectList} />
+                    <Route component={ProjectList} path="myprojects" />
+                    <Route component={CreateProject} path="create" />
+                    <Route component={EditProject} path="edit/:projectId" />
+                    <Route component={ProjectDetail} path="detail/:projectId" />
+                </Route>
+                <Route components={Player} path="/play/:projectId" onEnter={onEnterFrame('player')} />
+            </Router>
+        </Provider>, document.querySelector('#mount-point'));
     window.addEventListener('keydown', handleKeyDown(store));
 });
 
