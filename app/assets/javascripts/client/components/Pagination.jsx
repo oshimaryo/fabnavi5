@@ -83,6 +83,5 @@ export default class Pagination extends Component {
 }
 
 Pagination.defaultProps = {
-    pageSize: 8,// 要素数
-    startingPage: 1
+    pageSize: 8
 };
