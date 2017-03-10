@@ -68,12 +68,13 @@ export default class Pagination extends Component {
             )
         } else {
             return(
-            <div>
-                <div className="procon">
-                    {this.createControls()}
-                </div>
-                <div className="proconcon">
-                    {cloneElement(this.props.children, {data: this.createPaginateData(), selector: this.props.selector})}
+                <div>
+                    <div className="procon">
+                        {this.createControls()}
+                    </div>
+                    <div className="proconcon">
+                        {cloneElement(this.props.children, {data: this.createPaginateData(), selector: this.props.selector})}
+                    </div>
                 </div>
             )
         }
