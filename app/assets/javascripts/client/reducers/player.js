@@ -1,6 +1,6 @@
-import Debug from 'debug';
+import Debug from'debug';
 
-import Act from "../actions/Types";
+import Act from"../actions/Types";
 
 const debug = Debug('fabnavi:reducer:player');
 
@@ -23,8 +23,8 @@ const initialState = {
   }
 }
 
-export default function playerReducer(state = initialState, action) {
-  switch (action.type) {
+export default function playerReducer(state = initialState, action){
+  switch(action.type){
     case Act.PLAYER_CHANGE_PAGE:
       return Object.assign({}, state, {
         page: action.page,
@@ -46,7 +46,7 @@ export default function playerReducer(state = initialState, action) {
         mode: nextMode(state)
       });
     case Act.TOGGLE_PLAYING:
-      if (state.contentType === 'movie') {
+      if(state.contentType === 'movie'){
         return Object.assign({}, state, {
           isPlaying: !state.isPlaying
         });
@@ -58,9 +58,9 @@ export default function playerReducer(state = initialState, action) {
 }
 
 
-function nextMode(state) {
+function nextMode(state){
   let index = PlayerModes.indexOf(state.mode) + 1;
-  if (index >= PlayerModes.length) {
+  if(index >= PlayerModes.length){
     index = 0;
   }
   return PlayerModes[index];

@@ -1,9 +1,9 @@
-import Debug from 'debug';
+import Debug from'debug';
 
 const debug = Debug('fabnavi:player:CalibrateController');
 
-export default class CalibrateController {
-  constructor() {
+export default class CalibrateController{
+  constructor(){
     this.x = 0;
     this.y = 0;
     this.w = 1000;
@@ -24,8 +24,8 @@ export default class CalibrateController {
     this.update();
   }
 
-  initWithConfig(conf) {
-    if( conf.hasOwnProperty('w')) {
+  initWithConfig(conf){
+    if( conf.hasOwnProperty('w')){
       this.w = conf.w;
       this.h = conf.h;
       this.x = conf.x;
@@ -38,7 +38,7 @@ export default class CalibrateController {
     }
   }
 
-  initWithImage(img) {
+  initWithImage(img){
     this.w = img.naturalWidth;
     this.h = img.naturalHeight;
     this.validateWH();
@@ -47,8 +47,8 @@ export default class CalibrateController {
     this.isInitalized = true;
   }
 
-  init ( canvas ) {
-    if(canvas) {
+  init ( canvas ){
+    if(canvas){
       this.cvs = canvas;
     }
     this.lx = canvas.clientWidth;
@@ -58,11 +58,11 @@ export default class CalibrateController {
     this.update();
   }
 
-  isCalibrationLocked() {
+  isCalibrationLocked(){
     return this._isCalibrateLocked;
   }
 
-  dbg() {
+  dbg(){
     debug('x: ' + this.x);
     debug('y: ' + this.y);
     debug('w: ' + this.w);
@@ -73,7 +73,7 @@ export default class CalibrateController {
     debug('ly: ' + this.ly);
   }
 
-  zoomIn(_shift) {
+  zoomIn(_shift){
     const shift = _shift | 10;
     this.w -= shift;
     this.h -= shift * this.as;
@@ -81,7 +81,7 @@ export default class CalibrateController {
     this.update();
   }
 
-  zoomOut(_shift) {
+  zoomOut(_shift){
     const shift = _shift | 10;
     this.w += shift;
     this.h += shift * this.as;
@@ -89,14 +89,14 @@ export default class CalibrateController {
     this.update();
   }
 
-  changeAspectRatio(_shift) {
+  changeAspectRatio(_shift){
     this.w += _shift;
     this.validateWH();
     this.update();
     this.updateXYFromWH();
   }
 
-  changeRegion(_w, _h) {
+  changeRegion(_w, _h){
     this.w += _w;
     this.h += _h;
     this.validateWH();
@@ -105,7 +105,7 @@ export default class CalibrateController {
     return this.getConfig();
   }
 
-  zoomIO(_w, _h) {
+  zoomIO(_w, _h){
     this.w = this.w * _w;
     this.h = this.h * _h;
     this.validateWH();
@@ -115,34 +115,34 @@ export default class CalibrateController {
   }
 
 
-  moveRegion(_dx, _dy) {
+  moveRegion(_dx, _dy){
     this.moveRelatively(_dx, _dy);
     return this.getConfig();
   }
 
-  validateWH() {
+  validateWH(){
     if(this.w < 2)this.w = 2;
     if(this.h < 2)this.h = 2;
   }
 
-  moveRelatively(dx, dy) {
+  moveRelatively(dx, dy){
     this.cx -= dx;
     this.cy += dy;
     this.update();
   }
 
 
-  toggleAspectShiftMode() {
+  toggleAspectShiftMode(){
     this.aspShift = !this.aspShift;
   }
 
-  addMouseEvent() {
-    if(this.isCalibrationLocked()) {
+  addMouseEvent(){
+    if(this.isCalibrationLocked()){
       this.removeMouseEvent();
       return -1;
     }
 
-    if(!this.cvs) {
+    if(!this.cvs){
       debug('target canvas not found')
       return -1;
     }
@@ -156,9 +156,9 @@ export default class CalibrateController {
       this.drag = false;
     };
     this.cvs.onmousemove = (e) => {
-      if(this.drag) {
+      if(this.drag){
         const eX = e.clientX;
-        if(this.aspShift) {
+        if(this.aspShift){
           this.changeAspectRatio(this.lx - eX);
           this.lx = eX;
         } else {
@@ -171,32 +171,32 @@ export default class CalibrateController {
     };
   }
 
-  removeMouseEvent() {
+  removeMouseEvent(){
     this.cvs.onwheel = '';
     this.cvs.onmousedown = '';
     this.cvs.onmouseup = '';
     this.cvs.onmousemove = '';
   }
 
-  updateXYFromWH() {
+  updateXYFromWH(){
     this.as = this.h / this.w;
     this.cx = Math.floor(this.w / 2) + Number(this.x);
     this.cy = Math.floor(this.h / 2) + Number(this.y);
   }
 
-  updateXYFromCenter () {
+  updateXYFromCenter (){
     this.x = this.cx - Math.floor(this.w / 2);
     this.y = this.cy - Math.floor(this.h / 2);
   }
 
-  update() {
+  update(){
     this.updateXYFromCenter();
-    if(!this.isInitalized ) {
+    if(!this.isInitalized ){
       debug('Not Initialized');
     }
   }
 
-  getConfig() {
+  getConfig(){
     return {
       x: this.x,
       y: this.y,

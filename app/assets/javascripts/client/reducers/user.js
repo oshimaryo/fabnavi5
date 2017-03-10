@@ -1,6 +1,6 @@
-import Debug from 'debug';
+import Debug from'debug';
 
-import Act from "../actions/Types";
+import Act from"../actions/Types";
 
 const debug = Debug('fabnavi:reducer:user');
 
@@ -14,8 +14,8 @@ const initialState = {
   id: ''
 };
 
-export default function userReducer(state = initialState, action) {
-  switch(action.type) {
+export default function userReducer(state = initialState, action){
+  switch(action.type){
     case Act.SIGNED_IN:
       debug(action);
       return Object.assign({}, state, {
