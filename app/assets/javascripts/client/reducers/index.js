@@ -5,6 +5,7 @@ import player from'./player';
 import user from'./user';
 import manager from'./manager';
 import frame from'./frame';
+import detail from './detail';
 import errors from'./errors';
 
 const debug = Debug('fabnavi:reducer');
@@ -14,5 +15,6 @@ export default combineReducers({
   user,
   manager,
   frame,
+  detail,
   errors
 });
