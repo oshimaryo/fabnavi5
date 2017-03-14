@@ -20,8 +20,8 @@ class ProjectList extends Component {
     const selector = this.props.selector;
     // console.log('--- projectList is generated ---' );
     // console.dir(this.props);
-    console.log('props.selector');
-    console.dir(this.props);
+    // console.log('props.selector');
+    // console.dir(this.props);
 
     return (
         <div className="projects">
