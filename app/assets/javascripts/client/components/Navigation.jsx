@@ -1,5 +1,3 @@
-// Navigation ??
-// ログインしている場合のホーム画面とそうではないホーム画面の違い
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import Debug from 'debug';
