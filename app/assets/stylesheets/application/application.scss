@@ -202,7 +202,6 @@ div .pagination-controls__button{
   background-color: #FEFEFE;
   width: 50px;
   height: 20px;
-  //float: center;
   margin-left: 10px;
   margin-right: 10px;
   //margin-top: 400px;
@@ -210,16 +209,21 @@ div .pagination-controls__button{
   //padding-left: 20px;
   //padding-right: 20px;
   text-align: center;
+  background-color: #F2F2F2;
 }
-
+.pagination-controls__button--active{
+  color: red;
+  font-size: 18px;
+}
 div .pagination-controls__button:hover{
   background-color: #C4C4C4;
 }
+
 .paginationbox{
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 20px;
-  width: 580px;
+  width: 680px;
   height: 20px;
 }
 .prev{
@@ -231,7 +235,7 @@ div .pagination-controls__button:hover{
 .number{
   float: left;
   overflow: hidden;
-  width: 300px;
+  width: 500px;
   height: 20px;
   margin-left: auto;
   margin-right: auto;

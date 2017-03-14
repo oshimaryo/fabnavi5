@@ -135,14 +135,13 @@ export default class Pagination extends Component {
                     {cloneElement(this.props.children, {data: this.createPaginateData(), selector: this.props.selector})}
                 </div>
               </div>
-
           )
         }
     }
 }
 
 Pagination.defaultProps = {
-    pageSize: 8,// 要素数
+    pageSize: 1,// 要素数
     startingPage: 1
 };
 
