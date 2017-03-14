@@ -39,24 +39,43 @@ export default class Pagination extends Component {
 
     createControls(){
         let controls = [];
+        const pageMove = this.state.currentPage;
         const pageCount = this.state.pageCount;
-        for(let i = 1; i <= pageCount; i++){
-          const baseClassName = 'pagination-controls__button';
-          const activeClassName = i === this.state.currentPage ? `${baseClassName}--active` : '';
-            controls.push(
-              <div>
-                <div key={i}
-                    className={`${baseClassName} ${activeClassName}`}
-                    onClick={() => this.setCurrentPage(i)}
-                >
-                  {i}
-                </div>
-              </div>
-            );
-        }
-        return controls;
-    }
 
+        if(pageCount >= 7){
+          for(let i = pageMove; i <= pageCount; i++){
+            const baseClassName = 'pagination-controls__button';
+            const activeClassName = i === this.state.currentPage ? `${baseClassName}--active` : '';
+              controls.push(
+                <div>
+                  <div key={i}
+                      className={`${baseClassName} ${activeClassName}`}
+                      onClick={() => this.setCurrentPage(i)}
+                  >
+                    {i}
+                  </div>
+                </div>
+              );
+            }
+          return controls;
+        } else {
+          for(let i = 1; i <= pageCount; i++){
+            const baseClassName = 'pagination-controls__button';
+            const activeClassName = i === this.state.currentPage ? `${baseClassName}--active` : '';
+              controls.push(
+                <div>
+                  <div key={i}
+                      className={`${baseClassName} ${activeClassName}`}
+                      onClick={() => this.setCurrentPage(i)}
+                  >
+                    {i}
+                  </div>
+                </div>
+              );
+            }
+          return controls;
+        }
+    }
     createControlsfirst(){
         let controls = [];
         const pageCount = this.state.pageCount;
@@ -83,7 +102,6 @@ export default class Pagination extends Component {
         const pageCount = this.state.pageCount;
         const baseClassName = 'pagination-controls__button';
         const currentpage = this.state.currentPage;
-
         if(pageCount == currentpage){
             return;
         }else{
@@ -141,7 +159,7 @@ export default class Pagination extends Component {
 }
 
 Pagination.defaultProps = {
-    pageSize: 1,// 要素数
+    pageSize: 8,// 要素数
     startingPage: 1
 };
 
