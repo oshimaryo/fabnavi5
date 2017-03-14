@@ -54,6 +54,7 @@ export function trimDescription(desc){
 
 export function sanitizeProject(project){
   if(!project){
+    console.log('return null');
     return null;
   }
   if(typeof project !== 'object'){
