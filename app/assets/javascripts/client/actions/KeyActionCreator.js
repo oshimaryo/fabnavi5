@@ -26,8 +26,6 @@ export function handleKeyDown(store){
 
     if(state.frame === 'manager'){
       const selector = state.manager.selector;
-      // selector.openMenu === trueは内部メニューを開いている時
-      // Enter keyを押下
       payload.selector = selector;
       switch(event.keyCode){
         case 37: // 左
@@ -225,8 +223,8 @@ function closeMenu(store, action){
 function moveMenuSelector(store, action, index){
   // TODO: sanitize menu index.
   action.selector.menuIndex = action.selector.menuIndex + index;
-  action.type = 'SELECT_PROJECT_MENU';// payloadのtypeを'SELECT_PROJECT_MENU'にする
-  store.dispatch(action);// storeを更新
+  action.type = 'SELECT_PROJECT_MENU';
+  store.dispatch(action);
 }
 
 function moveSelector(store, action, x, y){
@@ -236,8 +234,6 @@ function moveSelector(store, action, x, y){
   const manager = state.manager;
   const projects = manager.projects;
   const data = projects.length; // 読み込んであるproject全体の長さ
-  // console.dir(state);
-  // console.dir(action.selector);
   const contents = data % 8;
   let col = selector.col + x,
       row = selector.row + y;
