@@ -82,7 +82,7 @@ body {
   position:relative;
   //固定幅
   width:250px;
-  height:400px;
+  height:300px;
   border-radius: 0px 0px 7px 7px;
   box-shadow: 6px 6px 2px #DDD;
   //animation
@@ -102,7 +102,7 @@ body {
 }
 .selected-project {
   width:250px;
-  height:400px;
+  height:300px;
   //border-color: $hover-color;
   //box-shadow: 0 0 0 3px #FF8F8F;
   box-shadow: 0 0 0 3px #FF0000;
@@ -111,10 +111,10 @@ body {
 }
 .project-name {
   font-size:17pt;
-  margin-left:$thumb-pad;
+  //margin-left:$thumb-pad;
   margin-bottom:5px;
-  margin-top: 20px;
-  height:54px;
+  margin-top: 5px;
+  height:30px;
   text-align: center;
 }
 .date {
@@ -148,6 +148,10 @@ body {
   width: 50%;
 }
 .description{
+  overflow: scroll  ;
+  background-color: #EDEDED;
+  height: 45px;
+  border-radius: 7px 7px 7px 7px;
   //@include thin-font;
   font-size:14px;
   float: left;

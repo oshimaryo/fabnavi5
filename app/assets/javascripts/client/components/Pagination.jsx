@@ -40,18 +40,50 @@ export default class Pagination extends Component {
     createControls(){
         let controls = [];
         const pageCount = this.state.pageCount;
-        for(let i = 1; i <= pageCount; i++){
-            const baseClassName = 'pagination-controls__button';
-            const activeClassName = i === this.state.currentPage ? `${baseClassName}--active` : '';
+        for(let i = 2; i <= pageCount -1; i++){
+          const baseClassName = 'pagination-controls__button';
+          const activeClassName = i === this.state.currentPage ? `${baseClassName}--active` : '';
             controls.push(
+              <div>
                 <div key={i}
                     className={`${baseClassName} ${activeClassName}`}
                     onClick={() => this.setCurrentPage(i)}
                 >
-                {i}
+                  {i}
                 </div>
+              </div>
             );
         }
+        return controls;
+    }
+
+    createControlsfirst(){
+        let controls = [];
+        const pageCount = this.state.pageCount;
+        const baseClassName = 'pagination-controls__button';
+        controls.push(
+          <div key={1}
+              className={`${baseClassName}`}
+              onClick={() => this.setCurrentPage(1)}
+          >
+            {1}{"..."}
+          </div>
+        )
+        return controls;
+    }
+
+    createControlslast(){
+        let controls = [];
+        const pageCount = this.state.pageCount;
+        const baseClassName = 'pagination-controls__button';
+        controls.push(
+          <div key={pageCount}
+              className={`${baseClassName}`}
+              onClick={() => this.setCurrentPage(pageCount)}
+          >
+              {"..."}{pageCount}
+          </div>
+        )
         return controls;
     }
 
@@ -74,17 +106,22 @@ export default class Pagination extends Component {
             )
         } else {
             return(
-            <div>
-                <div className="procon">
-                    {this.createControls()}
-                </div>
-                <div className="proconcon">
-                    {cloneElement(this.props.children, {data: this.createPaginateData(), selector: this.props.selector})}
-                </div>
+            <div className="projectbox">
+              <div className="procon">
+                  {this.createControlsfirst()}
+              </div>
+              <div className="procon">
+                  {this.createControls()}
+              </div>
+              <div className="procon">
+                  {this.createControlslast()}
+              </div>
+              <div className="proconcon">
+                  {cloneElement(this.props.children, {data: this.createPaginateData(), selector: this.props.selector})}
+              </div>
             </div>
-        )
+          )
         }
-
     }
 }
 
