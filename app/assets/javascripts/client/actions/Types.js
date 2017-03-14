@@ -1,5 +1,6 @@
 import keyMirror from"keymirror";
 
+// actionのtype propertyの定義
 export default keyMirror({
 
   FETCHING_PROJECTS: null,
@@ -9,6 +10,8 @@ export default keyMirror({
   RECEIVE_PROJECTS: null,
   RECEIVE_PROJECT: null,
 
+  DETAIL_EXIT: null,
+  
   PLAYER_CHANGE_PAGE: null,
   UPDATE_CALIBRATION: null,
   PLAYER_EXIT: null,
