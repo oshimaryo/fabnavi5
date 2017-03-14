@@ -31,7 +31,7 @@
     ],
     "no-irregular-whitespace": 2,
     "block-spacing": [
-      2,
+      4,
       "always"
     ],
     "no-spaced-func": 2,
