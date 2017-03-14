@@ -17,7 +17,7 @@ import ProjectDetail from './ProjectDetail';
 import reducer from '../reducers/index';
 import adjustor from '../middleware/adjustor';
 import rootEpics from '../middleware/epics/index';
-import { handleKeyDown } from '../actions/KeyActionCreator';// ここでkey操作を呼び出し
+import { handleKeyDown } from '../actions/KeyActionCreator';
 import WebAPIUtils from '../utils/WebAPIUtils';
 import { changeFrame } from "../actions/frame";
 
@@ -29,8 +29,7 @@ window.addEventListener('DOMContentLoaded', () => {
     debug('======> Mount App');
     const url = window.location.href; // 自身のURL
     const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-    // reducerで状態管理
-    // reducerは現在の状態stateと受け取ったActionを引数にとり，新しい状態を返す関数
+    
     const store = createStore(reducer, composeEnhancers(applyMiddleware(rootEpics, adjustor)));
 
     const onEnterFrame = frame => (nextState, replace, callback) => {
@@ -44,7 +43,9 @@ window.addEventListener('DOMContentLoaded', () => {
         window.close();
         return;
     }
+
     api.init(store);
+    
     render(
         <Provider store={store}>
             <Router history={browserHistory}>
@@ -52,8 +53,8 @@ window.addEventListener('DOMContentLoaded', () => {
                     <IndexRoute component={ProjectList} />
                     <Route component={ProjectList} path="myprojects" />
                     <Route component={CreateProject} path="create" />
-                    <Route component={EditProject} path="edit/:projectId" />
-                    <Route component={ProjectDetail} path="detail/:projectId" />
+                    <Route component={EditProject} path="edit/:projectId" onEnter={onEnterFrame('edit')}/>
+                    <Route component={ProjectDetail} path="detail/:projectId" onEnter={onEnterFrame('detail')}/>
                 </Route>
                 <Route components={Player} path="/play/:projectId" onEnter={onEnterFrame('player')} />
             </Router>
