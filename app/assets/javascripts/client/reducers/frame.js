@@ -4,17 +4,10 @@ import Act from "../actions/Types";
 
 const debug = Debug('fabnavi:reducer:frame');
 
-// const initialState = location.pathname.split('/')[1] === 'play' ? 'player' : 'manager';
-const initialState;
-const pathName = location.pathname.split('/'[1]);
-if(pathName === 'play'){
-  initialState = 'player';
-} else if(pathName === 'detail'){
-  initialState = 'detail';
-} else {
-  initialState = 'manager;'
-}
-
+const initialState = 
+    (location.pathname.split('/')[1] === 'play') ? 'player' 
+  : (location.pathname.split('/')[1] === 'detail') ? 'detail'
+  : 'manager' ;
 
 export default function frameReducer(state = initialState, action){
   switch(action.type){
