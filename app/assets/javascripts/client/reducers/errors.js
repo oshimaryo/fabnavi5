@@ -9,9 +9,9 @@ export default function userReducer(state = initialState, action){
     debug(state, action);
 
     return state.concat({
-      message: action.message, // message内容
+      message: action.message, 
       error: action.error,
-      time: action.time// 時間
+      time: action.time
     });
 
   }
