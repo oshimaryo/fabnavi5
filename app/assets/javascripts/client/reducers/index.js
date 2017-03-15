@@ -15,6 +15,5 @@ export default combineReducers({
   user,
   manager,
   frame,
-  detail,
   errors
 });
