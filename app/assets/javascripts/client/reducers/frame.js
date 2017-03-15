@@ -11,7 +11,6 @@ export default function frameReducer(state = initialState, action){
     case Act.CHANGE_FRAME:
       return action.payload;
     case Act.DETAIL_EXIT:
-    console.log(action);
       return action.payload;
     default:
       return state;

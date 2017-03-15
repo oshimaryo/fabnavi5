@@ -36,7 +36,6 @@ class Player extends Component {
   
   updateCanvas() {
     const project = this.props.project;
-    console.log(project);
     
     const isValidProject = () => {
       // TODO:  Cannot read property 'content' of null
@@ -51,7 +50,6 @@ class Player extends Component {
 
     if (!isValidProject()) {
       debug('invalid project data', project);
-      console.log('nullで〜〜〜〜〜〜〜〜す');
       return;
     }
 
