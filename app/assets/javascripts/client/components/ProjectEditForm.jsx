@@ -54,24 +54,30 @@ export default class ProjectEditForm extends React.Component {
             Project Name
           </p>
           <input
-            className="form-edit"
+            className="form-nameedit"
             onChange={this.handleNameChange}
             value={this.state.name}
-            type="text"/>
+            type="text"/
+          >
         </div>
-        <div className="field_edit">
-          <p className="edit">Private?</p>
-          <input onChange={this.handlePublishStatusChange} type="checkbox"/>
-        </div>
-        <div className="field_edit">
-          <p className="edit">Description</p>
+        <div className="field_descriptionedit">
+          <p className="edit">
+            Description
+          </p>
           <textarea
-            className="form-edit"
+            className="form-descriptionedit"
             onChange={this.handleDescriptionChange}
             value={this.state.description}
-            rows="10" />
+            rows="10"/
+          >
         </div>
-        <button className="btn" type="submit" onClick={this.onClick}>
+        <div className="field_edit">
+          <p className="edit">
+            Private?
+          </p>
+          <input onChange={this.handlePublishStatusChange} type="checkbox"/>
+        </div>
+        <button className="btnsave" type="submit" onClick={this.onClick}>
           S A V E
         </button>
       </form>
