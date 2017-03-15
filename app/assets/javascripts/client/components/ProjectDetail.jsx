@@ -15,7 +15,7 @@ class ProjectDetail extends React.Component {
     const project = sanitizeProject(this.props.manager.project);
     return (
       <div className="detail-page">
-        <h1>ProjectDetail</h1>
+        <h1>Project Detail</h1>
         <hr className="detail"/>
         {project ? (
         <div className="dtail-description">
@@ -37,8 +37,8 @@ class ProjectDetail extends React.Component {
               </div>
             </div>
           </div>
-          <h1>Description</h1>
-          <p>{project.description}</p>
+          <h2>{project.name} Description</h2>
+          <p>{project.description}aaaaaaaaaa.bbbbb.</p>
         </div>
         ) : (
           <div> loading project... </div>

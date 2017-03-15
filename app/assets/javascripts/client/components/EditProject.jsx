@@ -24,10 +24,11 @@ class EditProject extends React.Component {
         {project ? (
         <div>
           <ProjectEditForm project={project} />
-          <h1 className="subtitle">
+          <h3 className="subtitle">
             Delete Project
-          </h1>
-          <button className="btn" type="submit" onClick={this.onClick}>
+          </h3>
+          <hr/>
+          <button className="btndelete" type="submit" onClick={this.onClick}>
             D E L E T E
           </button>
 
