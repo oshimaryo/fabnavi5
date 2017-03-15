@@ -38,7 +38,7 @@ class ProjectDetail extends React.Component {
             </div>
           </div>
           <h2>{project.name} Description</h2>
-          <p>{project.description}aaaaaaaaaa.bbbbb.</p>
+          <p>{project.description}</p>
         </div>
         ) : (
           <div> loading project... </div>
