@@ -9,7 +9,7 @@ const initialState = location.pathname.split('/')[1] = 'play' ? 'player' : 'mana
 export default function frameReducer(state = initialState, action){
   switch(action.type){
     case Act.CHANGE_FRAME:
-      return action.payload; 
+      return action.payload;
     default:
       return state;
   }
