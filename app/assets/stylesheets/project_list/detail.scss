@@ -19,10 +19,11 @@
 }
 hr.detail{
   border: 0;
-  border-bottom: 1px dashed #ccc;
+  border-bottom: 2px dashed black;
   background: #fff;
-  width: 100%;
-  margin: 30px 0px 30px 0px;
+  width:100%;
+  //margin: 30px 0px 30px 0px;
+  margin-bottom: 40px;
 }
 .dtail-description{
 }
@@ -41,10 +42,13 @@ hr.detail{
   height:300px;
   //animation
   transition: 0.1s ease-in-out;
+  box-shadow: 6px 6px 2px #DDD;
   hr{
     border: 0;
-    border-bottom: 1px dashed #ccc;
+    border-bottom: 2px dashed black;
     background: #fff;
     width:90%;
+    margin-top: 20px;
+    margin-bottom: 10px;
   }
 }
