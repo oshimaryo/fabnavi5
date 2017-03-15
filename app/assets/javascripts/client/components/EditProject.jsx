@@ -28,10 +28,9 @@ class EditProject extends React.Component {
             Delete Project
           </h3>
           <hr/>
-          <button className="btndelete" type="submit" onClick={this.onClick}>
-            D E L E T E
-          </button>
-
+            <button className="btndelete" type="submit" onClick={this.onClick}>
+              D E L E T E
+            </button>
           <div className="edit-pic">
             // TODO: edit contet
           </div>
