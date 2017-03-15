@@ -147,6 +147,7 @@ export function handleKeyDown(store){
 
 function exitDetail(store, action){
   action.type = 'DETAIL_EXIT';
+  action.payload  = 'manager';
   store.dispatch(action);
   browserHistory.push('/');
 }
