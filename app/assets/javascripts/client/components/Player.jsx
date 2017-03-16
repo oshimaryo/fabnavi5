@@ -39,8 +39,14 @@ class Player extends Component {
     
     const isValidProject = () => {
       // TODO:  Cannot read property 'content' of null
-      return typeof project === 'object' && project.data.content.length !== 0;
+      if(project === null){
+        return false;
+      } else {
+        return typeof project === 'object' && project.data.content.length !== 0;
+      }
     };
+
+    
 
     if (!isValidProject()) {
       debug('invalid project data', project);

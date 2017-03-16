@@ -1,7 +1,7 @@
 import Debug from'debug';
 import{
   browserHistory
-}from'react-router';
+}from'react-router';// pushしたURLに遷移する
 
 const debug = Debug('fabnavi:actions:keys');
 
@@ -40,22 +40,22 @@ export function handleKeyDown(store){
           break;
         case 38: // 上
           if(selector.openMenu){
-            // moveMenuSelector(store, payload, -1);
+            moveMenuSelector(store, payload, -1);
           } else {
             moveSelector(store, payload, 0, -1);
           }
           break;
         case 40: // 下
           if(selector.openMenu){
-            // moveMenuSelector(store, payload, 1);
+            moveMenuSelector(store, payload, 1);
           } else {
             moveSelector(store, payload, 0, 1);
           }
           break;
-        case 27:
+        case 27:// esc
           closeMenu(store, payload);
           break;
-        case 13:
+        case 13:// enter
           if(selector.openMenu){
             fireMenuAction(store, payload, state);
           } else {
@@ -100,7 +100,7 @@ export function handleKeyDown(store){
           case 40:
             calibrate(store, payload, 'MOVE_DOWN');
             break;
-          case 67:
+          case 67:// Shift + c
             changePlayerMode(store, payload);
             break;
           case 27:
@@ -133,9 +133,23 @@ export function handleKeyDown(store){
             break;
         }
       }
-
+    } else if(state.frame === 'detail'){
+      switch(event.keyCode){
+        case 27: 
+          exitDetail(store, payload);
+          break;
+        default:
+          break;
+      }
     }
   };
+}
+
+function exitDetail(store, action){
+  action.type = 'DETAIL_EXIT';
+  action.payload  = 'manager';
+  store.dispatch(action);
+  browserHistory.push('/');
 }
 
 function togglePlaying(store, action){
@@ -184,12 +198,12 @@ function fireMenuAction(store, action, state){
   action.type = 'FIRE_MENU_ACTION';
   action.selector.openMenu = false;
   store.dispatch(action);
-  if(state.manager.selector.action === 'delete'){
+  if(state.manager.selector.action === 'delete'){// deleteを選んだ場合
     api.deleteProject(state.manager.project.id)
       .then(() => {
         api.getOwnProjects();
       });
-  } else {
+  } else {// delete以外の場合
     browserHistory.push(`/${state.manager.selector.action}/${state.manager.project.id}`);
   }
 }
@@ -209,7 +223,7 @@ function closeMenu(store, action){
 
 function moveMenuSelector(store, action, index){
   // TODO: sanitize menu index.
-  // action.selector.menuIndex = action.selector.menuIndex + index;
+  action.selector.menuIndex = action.selector.menuIndex + index;
   action.type = 'SELECT_PROJECT_MENU';
   store.dispatch(action);
 }
@@ -221,8 +235,6 @@ function moveSelector(store, action, x, y){
   const manager = state.manager;
   const projects = manager.projects;
   const data = projects.length; // 読み込んであるproject全体の長さ
-  console.dir(state);
-  console.dir(action.selector);
   const contents = data % 8;
   let col = selector.col + x,
       row = selector.row + y;
