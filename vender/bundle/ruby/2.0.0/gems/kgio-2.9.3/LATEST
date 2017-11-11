@@ -1,0 +1,39 @@
+=== kgio 2.9.3 - minor cleanups and fixes / 2015-01-12 08:46 UTC
+
+  Most notably there's a new RB_GC_GUARD to fix an occasional segfault at
+  load time for Ruby 1.8 users thanks to Petr Novodvorskiy for reporting
+  the issue.
+
+  There's been a new mailing list for a few months now at:
+
+      kgio-public@bogomips.org
+
+  No subscription is required, but if you wish to subscribe
+  (existing librelist subscribers must resubscribe)
+
+      kgio-public+subscribe@bogomips.org
+
+  There's also a bunch of code cleanups and packaging
+  cleanups.  Our website is faster now thanks to olddoc:
+
+      http://bogomips.org/kgio/
+
+  shortlog:
+
+        test/lib_read_write: fix trywritev blocking test
+        new mailing list info: kgio-public@bogomips.org
+        relax license to allow LGPLv2.1 or later
+        gemspec: modernize for more recent rubygems
+        doc: switch to olddoc
+        remove references to rubyforge and ancient Rubies
+        TODO: updates for the future of kgio
+        tryopen: add RB_GC_GUARD for Ruby 1.8
+        LICENSE: prefer URL to FSF address
+        cleanup packaging harder
+        fixup -Wshorten-64-to-32 warnings
+        cleanup: avoid shadowing rb_str_subseq
+        cleanup: avoid shadowing rb_ary_subseq
+        pkg.mk: synchronize with my other projects
+        gemspec: remove invalid rdoc_options
+        gemspec: use SPDX license abbreviation
+
