@@ -32,7 +32,7 @@ header {
   width:100%;
 }
 .header {
-  @include outer-container;
+  @include grid-container;
   margin-top: 30px;
   width:$solid-width;
 
@@ -40,14 +40,14 @@ header {
 
 .menu {
    margin-top:20px;
-  @include span-columns(8);
+  @include grid-column(8);
   float:right;
 }
 
 
 
 .menu-action {
-  @include span-columns(1.5 of 8);
+  @include grid-column(1.5 of 8);
   img {
     width:100%;
     background-color:#ffffff;
@@ -80,7 +80,7 @@ header {
 }
 
 .logo {
-  @include span-columns(2);
+  @include grid-column(2);
 }
 
 
@@ -91,7 +91,7 @@ header {
 
 .nav {
   margin-top:30px;
-  @include outer-container;
+  @include grid-container;
  .notice {
   position:relative;
   .pin {
@@ -114,7 +114,7 @@ header {
 }
 
 .belt {
-  @include outer-container;
+  @include grid-container;
   background-color: white;
   padding-bottom: 30px;
   padding-top: 5px;

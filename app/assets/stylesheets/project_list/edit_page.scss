@@ -3,7 +3,7 @@
 @import "neat";
 
 .editproject{
-  @include outer-container;
+  @include grid-container;
   margin-right: auto;
   margin-left: auto;
   width:$solid-width;
