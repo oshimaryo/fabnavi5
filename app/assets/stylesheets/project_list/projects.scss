@@ -17,26 +17,26 @@ body {
  top:0px;
  left:0px;
  .box {
-    @include outer-container;
+    @include grid-container;
     padding-top:130px;
    .box-title {
-      @include span-columns(6);
-      @include shift(3);
+      @include grid-column(6);
+      @include grid-push(-3);
       font-size: 35pt;
    }
    .box-close {
-      @include span-columns(2);
+      @include grid-column(2);
       font-size: 25pt;
       cursor:pointer;
    }
    .box-desc {
-      @include span-columns(6);
+      @include grid-column(6);
       @include shift(3);
       font-size: 15pt;
    }
    .box-img{
       transform:rotateZ(180deg);
-      @include span-columns(6);
+      @include grid-column(6);
       @include shift(3);
       margin-top:20px;
       margin-bottom:40px;
@@ -61,7 +61,7 @@ body {
     right:0;
 }
 .projects {
- @include outer-container;
+ @include grid-container;
   margin:20px auto;
   width:$solid-width;
   color: #323232;
@@ -74,9 +74,12 @@ body {
   box-shadow: 0 0 0 1px #c8c8c8;
 }
 .project-box {
-  @include span-columns(3);
-  @include omega(4n);
-  margin-top: 10px;
+
+
+  @include grid-column(3);
+  @include grid-push(4);
+
+  border-radius: 8px;
   margin-bottom: 20px;
   padding-bottom:20px;
   position:relative;

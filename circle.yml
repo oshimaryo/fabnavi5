@@ -2,11 +2,9 @@ machine:
   timezone:
     Japan
   ruby:
-    version: 2.2.3
+    version: 2.4.2
   node:
-    version: 0.12.18
-  post:
-    - npm install -g npm@3
+    version: stable
 
 dependencies:
   post:
