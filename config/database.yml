@@ -4,7 +4,7 @@ default: &default
   pool: 5
   username: root
   password: password
-  host: <%= ENV.fetch('DATABASE_HOST') %>
+  host: db
 
 development:
   <<: *default
