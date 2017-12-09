@@ -22,3 +22,5 @@ json.sensor_infos do
     json.partial! 'v1/projects/sensor_info', sensor_info: si
   end
 end
+
+json.tags tags: project.tags.select(:id, :name)

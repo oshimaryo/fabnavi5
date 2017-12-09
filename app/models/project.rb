@@ -11,11 +11,11 @@ class Project < ActiveRecord::Base
   validates :name, presence: true, length: {maximum: 64}, uniqueness: {scope: :user_id}
   validates :description, length: {maximum: 512}
 
-  accepts_nested_attributes_for :content, :sensor_infos, allow_destroy: true
+  accepts_nested_attributes_for :content, :sensor_infos, :tags, allow_destroy: true
 
   after_commit :link_attachments!, on: :update
 
-  scope :public_projects, ->{ includes( content: {figures: :attachment}).where( private: false)}
+  scope :public_projects, ->{ includes( content: {figures: :attachment}, tags: {:taggings => :tag}).where( private: false)}
   scope :showable_for, ->user{where "projects.private = 0 or projects.user_id = ?", user.id}
 
   def link_attachments!
