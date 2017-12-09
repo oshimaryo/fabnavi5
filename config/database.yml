@@ -4,7 +4,7 @@ default: &default
   pool: 5
   username: root
   password: password
-  socket: /run/mysql-fabnavi/mysqld.sock
+  host: 127.0.0.1
 
 development:
   <<: *default

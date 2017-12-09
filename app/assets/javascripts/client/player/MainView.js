@@ -1,233 +1,269 @@
-const ImageConverter = require('../player/ImageConverter');
-const ViewConfig = require('../player/ViewConfig');
-const CalibrateController = require('../player/CalibrateController');
+import Debug from'debug';
 
-const MainView = function(){
-  let cvs,
-      ctx,
-      currentImage = null;
+const debug = Debug('fabnavi:player:canvas');
 
-  function reset(){
-    if(ctx != null)clear();
-    currentImage = null;
-    ctx = null;
-    cvs = null;
+export default class MainView{
+
+  constructor(canvasElement){
+    this.currentImage = null;
+    this.convertQuality = 0.7;
+    this.reset();
+    this.cvs = canvasElement;
+    this.ctx = this.cvs.getContext('2d');
+    this.cvs.width = this.width = screen.width;
+    this.cvs.height = this.height = screen.height;
+    this.conf = null;
+    this.ctx.strokeStyle = '#00ff00';
+    this.clear();
   }
 
-  function init (canvasElement){
-    reset();
-    initCanvas(canvasElement);
-
-    CalibrateController.init( canvasElement, getCurrentImage );
-    ViewConfig.init();
-    clear();
+  reset(){
+    if(this.ctx != null)this.clear();
+    this.currentImage = null;
+    this.ctx = null;
+    this.cvs = null;
   }
 
-  function getCtx(){
-    return ctx;
+  drawCalibrateCenterLine(){
+    this.redraw();
+    this.ctx.strokeStyle = '#539ECD';
+    this.ctx.beginPath();
+    this.ctx.lineWidth = 3.0;
+    this.ctx.moveTo(0, this.height / 2);
+    this.ctx.lineTo(this.width, this.height / 2);
+    this.ctx.moveTo(this.width / 2, 0);
+    this.ctx.lineTo(this.width / 2, this.height);
+    this.ctx.stroke();
   }
 
-  function getCvs(){
-    return cvs;
+  drawCalibrateScaleLine(){
+    this.redraw();
+    this.ctx.strokeStyle = '#DC5536';
+    this.ctx.beginPath();
+    this.ctx.lineWidth = 3.0;
+    this.ctx.moveTo(0, this.height / 2);
+    this.ctx.lineTo(this.width, this.height / 2);
+    this.ctx.moveTo(this.width / 2, 0);
+    this.ctx.lineTo(this.width / 2, this.height);
+    this.ctx.stroke();
   }
 
-  function initCanvas(canvasElement){
-    cvs = canvasElement;
-    ctx = cvs.getContext('2d');
-    cvs.width = screen.width;
-    cvs.height = screen.height;
-    ctx.strokeStyle = "#00ff00";
+  drawWaitingMessage(){
+    this.ctx.font = '100px NotoSans-Regular, sans-serif';
+    this.ctx.textBaseline = 'top';
+    this.ctx.lineWidth = 5.0;
+    this.ctx.strokeStyle = '#343434';
+    this.ctx.strokeText('Now Loading...', this.width / 2 - 300, this.height / 2);
+    this.ctx.fillStyle = '#FFFFFF';
+    this.ctx.fillText('Now Loading...', this.width / 2 - 300, this.height / 2);
   }
 
-  function drawCalibrateCenterLine(){
-    redraw();
-    ctx.strokeStyle = "#539ECD";
-    ctx.beginPath();
-    ctx.lineWidth = 3.0;
-    ctx.moveTo(0, cvs.height / 2);
-    ctx.lineTo(cvs.width, cvs.height / 2);
-    ctx.moveTo(cvs.width / 2, 0);
-    ctx.lineTo(cvs.width / 2, cvs.height);
-    ctx.stroke();
-  }
-
-  function drawCalibrateScaleLine(){
-    redraw();
-    ctx.strokeStyle = "#DC5536";
-    ctx.beginPath();
-    ctx.lineWidth = 3.0;
-    ctx.moveTo(0, cvs.height / 2);
-    ctx.lineTo(cvs.width, cvs.height / 2);
-    ctx.moveTo(cvs.width / 2, 0);
-    ctx.lineTo(cvs.width / 2, cvs.height);
-    ctx.stroke();
-  }
-
-  function drawWaitingMessage(){
-    ctx.font = "100px NotoSans-Regular, sans-serif";
-    ctx.textBaseline = 'top';
-    ctx.lineWidth = 5.0;
-    ctx.strokeStyle = "#343434";
-    ctx.strokeText("Now Loading...", cvs.width / 2 - 300, cvs.height / 2);
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillText("Now Loading...", cvs.width / 2 - 300, cvs.height / 2);
-  }
-
-  function drawInstructionMessage(){
-    ctx.font = "20px NotoSans-Regular, sans-serif";
-    ctx.textBaseline = 'top';
-    ctx.lineWidth = 3.0;
-    ctx.strokeStyle = "#343434";
-    ctx.strokeText(" C : Calibration Mode", cvs.width / 8, cvs.height / 8);
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillText(" C : Calibration Mode", cvs.width / 8, cvs.height / 8);
-    ctx.strokeStyle = "#343434";
-    ctx.strokeText("← : To Privious Page", cvs.width / 8, cvs.height / 8 + 30);
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillText("← : To Privious Page", cvs.width / 8, cvs.height / 8 + 30);
-    ctx.strokeStyle = "#343434";
-    ctx.strokeText("→ : To Next Page", cvs.width / 8, cvs.height / 8 + 60);
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillText("→ : To Next Page", cvs.width / 8, cvs.height / 8 + 60);
-    ctx.strokeStyle = "#343434";
-    ctx.strokeText("→ : To Next Page", cvs.width / 8, cvs.height / 8 + 90);
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillText("→ : To Next Page", cvs.width / 8, cvs.height / 8 + 90);
-    ctx.strokeStyle = "#343434";
-    ctx.strokeText("esc : Back To Home", cvs.width / 8, cvs.height / 8 + 120);
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillText("esc : Back To Home", cvs.width / 8, cvs.height / 8 + 120);
+  drawInstructionMessage(){
+    this.ctx.font = '20px NotoSans-Regular, sans-serif';
+    this.ctx.textBaseline = 'top';
+    this.ctx.lineWidth = 3.0;
+    this.ctx.strokeStyle = '#343434';
+    this.ctx.strokeText(' C : Calibration Mode', this.width / 8, this.height / 8);
+    this.ctx.fillStyle = '#FFFFFF';
+    this.ctx.fillText(' C : Calibration Mode', this.width / 8, this.height / 8);
+    this.ctx.strokeStyle = '#343434';
+    this.ctx.strokeText('← : To Privious Page', this.width / 8, this.height / 8 + 30);
+    this.ctx.fillStyle = '#FFFFFF';
+    this.ctx.fillText('← : To Privious Page', this.width / 8, this.height / 8 + 30);
+    this.ctx.strokeStyle = '#343434';
+    this.ctx.strokeText('→ : To Next Page', this.width / 8, this.height / 8 + 60);
+    this.ctx.fillStyle = '#FFFFFF';
+    this.ctx.fillText('→ : To Next Page', this.width / 8, this.height / 8 + 60);
+    this.ctx.strokeStyle = '#343434';
+    this.ctx.strokeText('→ : To Next Page', this.width / 8, this.height / 8 + 90);
+    this.ctx.fillStyle = '#FFFFFF';
+    this.ctx.fillText('→ : To Next Page', this.width / 8, this.height / 8 + 90);
+    this.ctx.strokeStyle = '#343434';
+    this.ctx.strokeText('esc : Back To Home', this.width / 8, this.height / 8 + 120);
+    this.ctx.fillStyle = '#FFFFFF';
+    this.ctx.fillText('esc : Back To Home', this.width / 8, this.height / 8 + 120);
 
   }
 
-  function drawCenterInstruction(){
-    ctx.font = "30px NotoSans-Regular, sans-serif";
-    ctx.textBaseline = 'top';
-    ctx.lineWidth = 3.0;
-    ctx.strokeStyle = "#343434";
-    ctx.strokeText("CalibrateCenter Mode", cvs.width / 8, cvs.height / 8 - 50);
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillText("CalibrateCenter Mode", cvs.width / 8, cvs.height / 8 - 50);
+  drawCenterInstruction(){
+    this.ctx.font = '30px NotoSans-Regular, sans-serif';
+    this.ctx.textBaseline = 'top';
+    this.ctx.lineWidth = 3.0;
+    this.ctx.strokeStyle = '#343434';
+    this.ctx.strokeText('CalibrateCenter Mode', this.width / 8, this.height / 8 - 50);
+    this.ctx.fillStyle = '#FFFFFF';
+    this.ctx.fillText('CalibrateCenter Mode', this.width / 8, this.height / 8 - 50);
 
-    ctx.font = "20px NotoSans-Regular, sans-serif";
-    ctx.textBaseline = 'top';
-    ctx.lineWidth = 3.0;
-    ctx.strokeStyle = "#343434";
-    ctx.strokeText(" ↑  : Up", cvs.width / 8, cvs.height / 8);
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillText(" ↑  : Up", cvs.width / 8, cvs.height / 8);
-    ctx.strokeStyle = "#343434";
-    ctx.strokeText(" ↓  : Down", cvs.width / 8, cvs.height / 8 + 30);
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillText(" ↓  : Down", cvs.width / 8, cvs.height / 8 + 30);
-    ctx.strokeStyle = "#343434";
-    ctx.strokeText("← : Left", cvs.width / 8, cvs.height / 8 + 60);
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillText("← : Left", cvs.width / 8, cvs.height / 8 + 60);
-    ctx.strokeStyle = "#343434";
-    ctx.strokeText("→ : Right", cvs.width / 8, cvs.height / 8 + 90);
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillText("→ : Right", cvs.width / 8, cvs.height / 8 + 90);
-    ctx.strokeStyle = "#343434";
-    ctx.strokeText(" C : ScaleCalibration", cvs.width / 8, cvs.height / 8 + 120);
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillText(" C : ScaleCalibration", cvs.width / 8, cvs.height / 8 + 120);
+    this.ctx.font = '20px NotoSans-Regular, sans-serif';
+    this.ctx.textBaseline = 'top';
+    this.ctx.lineWidth = 3.0;
+    this.ctx.strokeStyle = '#343434';
+    this.ctx.strokeText(' ↑  : Up', this.width / 8, this.height / 8);
+    this.ctx.fillStyle = '#FFFFFF';
+    this.ctx.fillText(' ↑  : Up', this.width / 8, this.height / 8);
+    this.ctx.strokeStyle = '#343434';
+    this.ctx.strokeText(' ↓  : Down', this.width / 8, this.height / 8 + 30);
+    this.ctx.fillStyle = '#FFFFFF';
+    this.ctx.fillText(' ↓  : Down', this.width / 8, this.height / 8 + 30);
+    this.ctx.strokeStyle = '#343434';
+    this.ctx.strokeText('← : Left', this.width / 8, this.height / 8 + 60);
+    this.ctx.fillStyle = '#FFFFFF';
+    this.ctx.fillText('← : Left', this.width / 8, this.height / 8 + 60);
+    this.ctx.strokeStyle = '#343434';
+    this.ctx.strokeText('→ : Right', this.width / 8, this.height / 8 + 90);
+    this.ctx.fillStyle = '#FFFFFF';
+    this.ctx.fillText('→ : Right', this.width / 8, this.height / 8 + 90);
+    this.ctx.strokeStyle = '#343434';
+    this.ctx.strokeText(' C : ScaleCalibration', this.width / 8, this.height / 8 + 120);
+    this.ctx.fillStyle = '#FFFFFF';
+    this.ctx.fillText(' C : ScaleCalibration', this.width / 8, this.height / 8 + 120);
   }
 
-  function drawScaleInstruction(){
-    ctx.font = "30px NotoSans-Regular, sans-serif";
-    ctx.textBaseline = 'top';
-    ctx.lineWidth = 3.0;
-    ctx.strokeStyle = "#343434";
-    ctx.strokeText("CalibrateScale Mode", cvs.width / 8, cvs.height / 8 - 50);
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillText("CalibrateScale Mode", cvs.width / 8, cvs.height / 8 - 50);
+  drawScaleInstruction(){
+    this.ctx.font = '30px NotoSans-Regular, sans-serif';
+    this.ctx.textBaseline = 'top';
+    this.ctx.lineWidth = 3.0;
+    this.ctx.strokeStyle = '#343434';
+    this.ctx.strokeText('CalibrateScale Mode', this.width / 8, this.height / 8 - 50);
+    this.ctx.fillStyle = '#FFFFFF';
+    this.ctx.fillText('CalibrateScale Mode', this.width / 8, this.height / 8 - 50);
 
-    ctx.font = "20px NotoSans-Regular, sans-serif";
-    ctx.textBaseline = 'top';
-    ctx.lineWidth = 3.0;
-    ctx.strokeStyle = "#343434";
-    ctx.strokeText(" ↑  : Zoom In", cvs.width / 8, cvs.height / 8);
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillText(" ↑  : Zoom In", cvs.width / 8, cvs.height / 8);
-    ctx.strokeStyle = "#343434";
-    ctx.strokeText(" ↓  : Zoom Out", cvs.width / 8, cvs.height / 8 + 30);
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillText(" ↓  : Zoom Out", cvs.width / 8, cvs.height / 8 + 30);
-    ctx.strokeStyle = "#343434";
-    ctx.strokeText(" C : Back to Play", cvs.width / 8, cvs.height / 8 + 60);
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillText(" C : Back to Play", cvs.width / 8, cvs.height / 8 + 60);
+    this.ctx.font = '20px NotoSans-Regular, sans-serif';
+    this.ctx.textBaseline = 'top';
+    this.ctx.lineWidth = 3.0;
+    this.ctx.strokeStyle = '#343434';
+    this.ctx.strokeText(' ↑  : Zoom In', this.width / 8, this.height / 8);
+    this.ctx.fillStyle = '#FFFFFF';
+    this.ctx.fillText(' ↑  : Zoom In', this.width / 8, this.height / 8);
+    this.ctx.strokeStyle = '#343434';
+    this.ctx.strokeText(' ↓  : Zoom Out', this.width / 8, this.height / 8 + 30);
+    this.ctx.fillStyle = '#FFFFFF';
+    this.ctx.fillText(' ↓  : Zoom Out', this.width / 8, this.height / 8 + 30);
+    this.ctx.strokeStyle = '#343434';
+    this.ctx.strokeText(' C : Back to Play', this.width / 8, this.height / 8 + 60);
+    this.ctx.fillStyle = '#FFFFFF';
+    this.ctx.fillText(' C : Back to Play', this.width / 8, this.height / 8 + 60);
   }
 
-  function drawShootingMessage(){
-    ctx.fillStyle = "#343434";
-    ctx.font = "100px NotoSans-Regular, sans-serif";
-    ctx.translate(-(cvs.width / 2 + 300), -(cvs.height / 2));
-    ctx.fillText("Taking picture...", 0, 0);
-    ctx.translate(cvs.width / 2 + 300, cvs.height / 2);
+  drawShootingMessage(){
+    this.ctx.fillStyle = '#343434';
+    this.ctx.font = '100px NotoSans-Regular, sans-serif';
+    this.ctx.translate(-(this.width / 2 + 300), -(this.height / 2));
+    this.ctx.fillText('Taking picture...', 0, 0);
+    this.ctx.translate(this.width / 2 + 300, this.height / 2);
   }
 
-  function draw(image){
-    ImageConverter.drawImage(image, cvs, ViewConfig.conf());
-    currentImage = image;
+  draw(img, conf, cvs, ctx){
+    if(!cvs){
+      cvs = this.cvs;
+    }
+    if(!ctx){
+      ctx = cvs.getContext('2d');
+    }
+    this._draw(img, conf, cvs, ctx);
+    this.currentImage = img;
+    this.conf = conf;
   }
 
-  function render(video){
-    ImageConverter.drawImage(video, cvs, ViewConfig.conf());
+  _draw(img, conf, cvs, ctx){
+
+    if(!conf && this.conf){
+      conf = this.conf;
+    }
+    /* set cropping area on image  */
+
+    let sx = Number(conf.x) || 0,
+        sy = Number(conf.y) || 0,
+        sw = Number(conf.w) || img.width || img.videoWidth,
+        sh = Number(conf.h) || img.height || img.videoHeight,
+
+        /* set project area */
+        dx = 0,
+        dy = 0,
+        dw = cvs.width,
+        dh = cvs.height;
+
+    ctx.fillStyle = 'black';
+
+    if(sy < 0){
+      const StoDh = dh / sh;
+      dy = sy * StoDh;
+      dh += dy;
+      sh += sy;
+      sy = 0;
+      dy *= -1;
+      ctx.fillRect(0, 0, cvs.width, dy);
+    }
+
+    if(sx < 0){
+      const StoDw = dw / sw;
+      dx = sx * StoDw;
+      dw += dx;
+      sw += sx;
+      sx = 0;
+      dx *= -1;
+      ctx.fillRect(0, 0, dx, cvs.height);
+    }
+
+    if(sx + sw > img.width){
+      const StoDw = dw / sw;
+      sw -= sx + sw - img.width;
+      dw = sw * StoDw;
+      ctx.fillRect(dx + dw, 0, cvs.width - dx - dw, cvs.height);
+    }
+
+    if(sy + sh > img.height){
+      const StoDh = dh / sh;
+      sh -= sy + sh - img.height;
+      dh = sh * StoDh;
+      ctx.fillRect(0, dy + dh, cvs.width, 100);
+    }
+    ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh);
   }
 
-  function redraw(){
-    clear();
-    if(currentImage)draw(currentImage);
+  render(video, conf){
+    this._draw(video, this.ctx, conf);
   }
 
-  function clear(){
-    ctx.clearRect(0, 0, cvs.width, cvs.height);
+  redraw(){
+    debug('redraw');
+    this.clear();
+    if(this.currentImage)this.draw(this.currentImage);
   }
 
-  function getCurrentImage(){
-    return currentImage || false;
+  toBlob(img, conf){
+    return new Promise(resolve => {
+      const cvs = document.createElement('canvas');
+      cvs.width = img.naturalWidth;
+      cvs.height = img.naturalHeight;
+      this._draw(img, cvs.getContext('2d'), conf);
+      cvs.toBlob(blob => {
+        resolve(blob);
+      }, 'image/jpeg', this.convertQuality);
+    });
   }
 
-  function toDataURL(){
-    return cvs.toDataURL();
+  clear(){
+    debug('clear');
+    this.ctx.clearRect(0, 0, this.width, this.height);
   }
 
-  function drawMessage(mes, X, Y){
-    const
-        x = X || 0,
-        y = Y || 20;
-
-    ctx.fillStyle = "green";
-    ctx.font = "100px ArialRoundedMTBoldBold, serif";
-    ctx.rotate(Math.PI);
-    ctx.translate(-1500, -800);
-    ctx.fillText(mes, x, y);
-    ctx.translate(1500, 800);
-    ctx.rotate(-Math.PI);
+  getCurrentImage(){
+    return this.currentImage || false;
   }
 
-  return {
-    init:init,
-    draw:draw,
-    render:render,
-    showWaitMessage:drawWaitingMessage,
-    showInstructionMessage:drawInstructionMessage,
-    showCalibrateCenterLine:drawCalibrateCenterLine,
-    showCalibrateScaleLine:drawCalibrateScaleLine,
-    showCenterInstruction:drawCenterInstruction,
-    showScaleInstruction:drawScaleInstruction,
-    clear:clear,
-    redraw:redraw,
-    showShootingMessage:drawShootingMessage,
-    reset : reset,
-    getCtx:getCtx,
-    getCvs:getCvs,
-    getCurrentImage:getCurrentImage,
-    drawMessage:drawMessage,
-    toDataURL : toDataURL,
-  };
-}();
+  toDataURL(){
+    return this.cvs.toDataURL();
+  }
 
-module.exports = MainView;
+  drawMessage(message, x, y){
+    this.ctx.fillStyle = 'green';
+    this.ctx.font = '100px ArialRoundedMTBoldBold, serif';
+    this.ctx.rotate(Math.PI);
+    this.ctx.translate(-1500, -800);
+    this.ctx.fillText(message, x || 0, y || 20);
+    this.ctx.translate(1500, 800);
+    this.ctx.rotate(-Math.PI);
+  }
+
+}

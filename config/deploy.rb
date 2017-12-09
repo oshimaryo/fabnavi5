@@ -1,9 +1,9 @@
 # config valid only for current version of Capistrano
-lock '3.4.0'
+lock '3.10.0'
 
 set :application, 'fabnavi5'
 set :repo_url, 'git@github.com:fabnavi/fabnavi5.git'
-set :rbenv_ruby, '2.2.3'
+set :rbenv_ruby, '2.4.2'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
