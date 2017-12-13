@@ -6,10 +6,6 @@ machine:
   node:
     version: stable
 
-dependencies:
-  post:
-    - npm run build
-
 test:
   post:
 
