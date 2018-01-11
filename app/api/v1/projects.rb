@@ -23,8 +23,8 @@ class V1::Projects < V1::Base
       query = Project.public_projects
       if params[:q].present?
         q = "%#{params[:q]}%"
-        query = paginate query.joins(:user, {:taggings => :tag})
-          .where("projects.name like ? or projects.description like ? or tags.name like ?" , q, q, q)
+        query = paginate query.eager_load(:user, {:taggings => :tag})
+          .where("projects.name like ? or projects.description like ? or tags.name like ? or users.name like ? or users.nickname like ?" , q, q, q, q, q)
       end
       @projects = paginate query.order(id: :desc)
     end

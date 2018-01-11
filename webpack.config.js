@@ -1,30 +1,27 @@
 var webpack = require("webpack");
-var BowerWebpackPlugin = require('bower-webpack-plugin');
+var isProduction = process.env["NODE_ENV"] === "production"; 
 
 module.exports = {
 
-  cache: true,
+  cache: !isProduction,
 
-  entry: "./app/assets/javascripts/client/fabnavi.js",
+  entry: "./app/assets/javascripts/client/components/FabnaviApp.jsx",
   output: {
     path: __dirname + '/app/assets/javascripts/dist/client/',
     filename: "bundle.js"
   },
   module: {
     loaders: [{
-      test: /\.js$/,
-      loader: "babel",
-      exclude: /(node_modules|bower_components)/,
+      test: /\.jsx?$/,
+      loader: "babel-loader",
+      exclude: /node_modules/,
       query: {
         cacheDirectory: true,
-        presets: ["es2015", "react"]
+        presets: ["react", "es2015", "stage-3"]
       }
     },{ 
      test: /\.css$/, 
      loader: "style-loader!css-loader" 
-    },{ 
-      test: /\.jade$/, 
-      loader: "react-jade-loader?split=true" 
     },{
       test: /\.json$/,
       loader: "json-loader" 
@@ -32,18 +29,17 @@ module.exports = {
   },
 
   resolve: {
-    root:[ __dirname + "/bower_components"],
-    alias: {
-      "react": __dirname + "/node_modules/react/react.js",
-      "react-dom": __dirname + "/node_modules/react/lib/ReactDOM.js"
-    }
+    extensions: ["", ".js", ".jsx"],
+    root:[ __dirname + "/node__modules"],
   },
-
-  plugins: [
-    new BowerWebpackPlugin()
-  ],
 
   node: {
     fs: "empty"
+  },
+  devtool: "source-map",
+  plugins: [],
+  watchOptions: {
+   aggregateTimeout: 300,
+   poll: 300
   }
 };

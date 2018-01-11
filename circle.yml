@@ -2,7 +2,9 @@ machine:
   timezone:
     Japan
   ruby:
-    version: 2.2.3
+    version: 2.4.2
+  node:
+    version: stable
 
 dependencies:
   post:

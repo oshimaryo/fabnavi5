@@ -21,7 +21,7 @@
         "overrides": {
           "else": {"after": true, "before": true},
           "return": {"after": true, "before": true},
-          "catch": {"after": false, "before": true},
+          "catch": {"after": false, "before": true}
         }
       }
     ],
@@ -31,7 +31,7 @@
     ],
     "no-irregular-whitespace": 2,
     "block-spacing": [
-      2,
+      4,
       "always"
     ],
     "no-spaced-func": 2,

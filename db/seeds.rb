@@ -33,6 +33,7 @@ tokens.each_with_index do |tok, i|
   u = User.create!(
     provider: "persona",
     email: "user#{i}@example.com",
+    uid: "user#{i}@example.com",
     password: "password",
     tokens: tok,
     avatar: File.open(File.join(Rails.root, "app/assets/images/cloud.jpg")),
