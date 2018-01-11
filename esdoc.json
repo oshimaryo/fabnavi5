@@ -1,4 +1,0 @@
-{
-  "source": "./app/assets/javascripts/client",
-  "destination": "./esdoc"
-}
