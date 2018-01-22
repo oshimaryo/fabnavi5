@@ -41,6 +41,7 @@ group :development, :test do
   gem 'guard-rspec', require: false
   gem 'guard-livereload', '~> 2.4', require: false
   gem 'database_cleaner'
+  gem 'factory_bot_rails'
 end
 
 group :development do
