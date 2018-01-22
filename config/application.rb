@@ -34,5 +34,9 @@ module Fabnavi5
 
     config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
     config.autoload_paths += Dir[Rails.root.join('app', 'api', 'lib', '*')]
+
+    config.middleware.use(Rack::Config) do |env|
+      env['api.tilt.root'] = 'app/views/api/'
+    end
   end
 end

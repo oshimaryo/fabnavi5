@@ -4,6 +4,6 @@ require ::File.expand_path('../config/environment', __FILE__)
 require 'grape/jbuilder'
 
 use Rack::Config do |env|
-    env['api.tilt.root'] = 'app/views/api/'
+  env['api.tilt.root'] = 'app/views/api/'
 end
 run Rails.application
