@@ -41,7 +41,7 @@ guard :rspec, cmd: "bundle exec rspec" do
   dsl.watch_spec_files_for(ruby.lib_files)
 
   # Rails files
-  rails = dsl.rails(view_extensions: %w(erb haml slim))
+  rails = dsl.rails(view_extensions: %w(erb haml))
   dsl.watch_spec_files_for(rails.app_files)
   dsl.watch_spec_files_for(rails.views)
 
@@ -70,7 +70,7 @@ guard :rspec, cmd: "bundle exec rspec" do
 end
 
 guard 'livereload' do
-  watch(%r{app/views/.+\.(erb|haml|slim)})
+  watch(%r{app/views/.+\.(erb|haml)})
   watch(%r{app/helpers/.+\.rb})
   watch(%r{public/.+\.(css|js|html)})
   watch(%r{config/locales/.+\.yml})

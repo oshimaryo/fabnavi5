@@ -11,9 +11,6 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'config'
-gem 'bourbon'
-gem 'neat'
-gem 'slim-rails'
 gem 'mini_magick'
 gem 'carrierwave'
 gem 'grape'
